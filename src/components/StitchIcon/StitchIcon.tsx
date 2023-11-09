@@ -10,7 +10,7 @@ export const StitchIcon: FC<StitchIconProps> = ({ stitchName, color }) => {
 	const stitchBackgroundColor = "#ABABAB"; // todo: util func?
 	// const stitchForegroundColor = "" // if needed?
 
-	if (stitchName === "knit") {
+	if (stitchName === "k") {
 		return (
 			<svg width="44" height="40" viewBox="0 0 44 40" fill="none">
 				<ellipse
@@ -33,7 +33,7 @@ export const StitchIcon: FC<StitchIconProps> = ({ stitchName, color }) => {
 		);
 	}
 
-	if (stitchName === "purl") {
+	if (stitchName === "p") {
 		return (
 			<svg width="35" height="21" viewBox="0 0 35 21" fill="none" data-testId="purl">
 				<ellipse

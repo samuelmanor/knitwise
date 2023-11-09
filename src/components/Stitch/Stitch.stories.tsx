@@ -4,7 +4,6 @@ import { expect } from "@storybook/jest";
 import { within } from "@storybook/testing-library";
 
 import { Stitch } from "./Stitch";
-import { StitchIcon } from "../StitchIcon/StitchIcon";
 
 import stitches from "../../../stitches";
 
@@ -24,13 +23,6 @@ const meta: Meta<typeof Stitch> = {
 	},
 };
 
-{
-	/* <svg width="53" height="40" viewBox="0 0 53 40" fill="none">
-  <ellipse cx="18.9254" cy="20.2344" rx="9.93357" ry="17.1914" transform="rotate(-37.075 18.9254 20.2344)" fill="#D9D9D9"/>
-  <ellipse cx="9.93357" cy="17.1914" rx="9.93357" ry="17.1914" transform="matrix(-0.797847 -0.60286 -0.60286 0.797847 52.2149 12.5068)" fill="#D9D9D9"/>
-</svg> */
-}
-
 export default meta;
 type Story = StoryObj<typeof Stitch>;
 
@@ -42,20 +34,12 @@ export const Knit: Story = {
 		expect(element).toBeTruthy();
 	},
 	args: {
-		name: stitches.knit.name,
-		abbreviation: stitches.knit.abbreviation,
-		description: stitches.knit.description,
-		icon: <StitchIcon stitchName="knit" />,
-		width: stitches.knit.width,
+		name: stitches.k.abbreviation,
 	},
 };
 
 export const Purl: Story = {
 	args: {
-		name: stitches.purl.name,
-		abbreviation: stitches.purl.abbreviation,
-		description: stitches.purl.description,
-		icon: <StitchIcon stitchName="purl" />,
-		width: stitches.purl.width,
+		name: stitches.p.abbreviation,
 	},
 };

@@ -32,7 +32,7 @@ export const Knit: Story = {
 		expect(element).toBeTruthy();
 	},
 	args: {
-		stitchName: "knit",
+		stitchName: "k",
 		color: "red",
 	},
 };
@@ -44,7 +44,7 @@ export const Purl: Story = {
 		expect(element).toBeTruthy();
 	},
 	args: {
-		stitchName: "purl",
+		stitchName: "p",
 		color: "blue",
 	},
 };

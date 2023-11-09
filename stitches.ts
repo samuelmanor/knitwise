@@ -1,11 +1,11 @@
 const stitches = {
-	knit: {
+	k: {
 		name: "knit",
 		abbreviation: "k",
 		description: "knit one",
 		width: 1,
 	},
-	purl: {
+	p: {
 		name: "purl",
 		abbreviation: "p",
 		description: "purl one",
