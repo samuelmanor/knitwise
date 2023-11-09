@@ -6,26 +6,28 @@ export interface StitchIconProps {
 }
 
 export const StitchIcon: FC<StitchIconProps> = ({ stitchName, color }) => {
-	const stitchColor = color ?? "#D9D9D9";
+	const stitchMainColor = color ?? "#D9D9D9";
+	const stitchBackgroundColor = "#ABABAB"; // todo: util func?
+	// const stitchForegroundColor = "" // if needed?
 
 	if (stitchName === "knit") {
 		return (
-			<svg width="53" height="40" viewBox="0 0 53 40" fill="none" data-testid="knit">
-				<ellipse
-					cx="18.9254"
-					cy="20.2344"
-					rx="9.93357"
-					ry="17.1914"
-					transform="rotate(-37.075 18.9254 20.2344)"
-					fill={stitchColor}
-				/>
+			<svg width="44" height="40" viewBox="0 0 44 40" fill="none">
 				<ellipse
 					cx="9.93357"
 					cy="17.1914"
 					rx="9.93357"
 					ry="17.1914"
-					transform="matrix(-0.797847 -0.60286 -0.60286 0.797847 52.2149 12.5068)"
-					fill={stitchColor}
+					transform="matrix(-0.912991 -0.407979 -0.407979 0.912991 44.0085 8.59143)"
+					fill={stitchMainColor}
+				/>
+				<ellipse
+					cx="16.9254"
+					cy="20.2344"
+					rx="9.93357"
+					ry="17.1914"
+					transform="rotate(-24.078 16.9254 20.2344)"
+					fill={stitchMainColor}
 				/>
 			</svg>
 		);
@@ -40,9 +42,30 @@ export const StitchIcon: FC<StitchIconProps> = ({ stitchName, color }) => {
 					rx="9.93357"
 					ry="17.1914"
 					transform="rotate(90 17.2895 10.7047)"
-					fill={stitchColor}
+					fill={stitchMainColor}
 				/>
 			</svg>
 		);
+	}
+
+	if (stitchName === "c2f") {
+		<svg xmlns="http://www.w3.org/2000/svg" width="41" height="41" viewBox="0 0 41 41" fill="none">
+			<ellipse
+				cx="12.0809"
+				cy="18.3353"
+				rx="9.93357"
+				ry="17.1914"
+				transform="rotate(-7.45771 12.0809 18.3353)"
+				fill={stitchBackgroundColor}
+			/>
+			<ellipse
+				cx="9.93357"
+				cy="17.1914"
+				rx="9.93357"
+				ry="17.1914"
+				transform="matrix(-0.635439 -0.772151 -0.772151 0.635439 40.876 18.4508)"
+				fill={stitchMainColor}
+			/>
+		</svg>;
 	}
 };

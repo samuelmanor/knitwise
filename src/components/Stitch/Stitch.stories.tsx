@@ -3,7 +3,10 @@ import { Meta, StoryObj } from "@storybook/react";
 import { expect } from "@storybook/jest";
 import { within } from "@storybook/testing-library";
 
-import { Stitch, StitchProps } from "./Stitch";
+import { Stitch } from "./Stitch";
+import { StitchIcon } from "../StitchIcon/StitchIcon";
+
+import stitches from "../../../stitches";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof Stitch> = {
@@ -32,13 +35,27 @@ export default meta;
 type Story = StoryObj<typeof Stitch>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const Primary: Story = {
+export const Knit: Story = {
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
 		const element = canvas.getByText(/Stitch/i);
 		expect(element).toBeTruthy();
 	},
 	args: {
-		// label: 'Stitch',
+		name: stitches.knit.name,
+		abbreviation: stitches.knit.abbreviation,
+		description: stitches.knit.description,
+		icon: <StitchIcon stitchName="knit" />,
+		width: stitches.knit.width,
+	},
+};
+
+export const Purl: Story = {
+	args: {
+		name: stitches.purl.name,
+		abbreviation: stitches.purl.abbreviation,
+		description: stitches.purl.description,
+		icon: <StitchIcon stitchName="purl" />,
+		width: stitches.purl.width,
 	},
 };
