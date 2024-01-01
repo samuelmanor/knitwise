@@ -7,6 +7,10 @@ interface RowProps {
 	currentRow?: number;
 }
 
+/**
+ * A row of stitches.
+ * @param stitches The stitches to be rendered.
+ */
 export const Row: FC<RowProps> = ({ stitches, currentRow }) => {
 	// todo: write some kind of function that handles the width
 

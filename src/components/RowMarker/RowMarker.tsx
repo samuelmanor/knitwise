@@ -6,6 +6,10 @@ interface RowMarkerProps {
 	currentRow: number;
 }
 
+/**
+ * A marker that indicates the current row.
+ * @param children The content to be wrapped by the marker.
+ */
 export const RowMarker: FC<RowMarkerProps> = ({ children, currentRow }) => {
 	const side = currentRow % 2 === 1 ? "left" : "right";
 	if (!children) {

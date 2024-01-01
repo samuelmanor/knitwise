@@ -7,6 +7,10 @@ interface BlockProps {
 	currentRow?: number;
 }
 
+/**
+ * A block of the pattern; made up of many rows.
+ * @param rows The rows to be rendered.
+ */
 export const Block: FC<BlockProps> = ({ rows, currentRow }) => {
 	// todo: write some kind of function that handles the width
 

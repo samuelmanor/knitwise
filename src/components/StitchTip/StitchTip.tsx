@@ -8,6 +8,10 @@ interface StitchTipProps {
 	description: string;
 }
 
+/**
+ * A tooltip that displays the name, abbreviation, and description of a stitch.
+ * @param children The content to be wrapped by the tooltip.
+ */
 export const StitchTip: FC<StitchTipProps> = ({ children, name, abbreviation, description }) => {
 	const tooltipText = (
 		<Grid container direction="column">

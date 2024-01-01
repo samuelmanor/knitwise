@@ -6,6 +6,10 @@ interface ProjectProps {
 	blocks: JSX.Element[][][]; // takes an array of Block components
 }
 
+/**
+ * A project; made up of many blocks.
+ * @param blocks The blocks to be rendered.
+ */
 export const Project: FC<ProjectProps> = ({ blocks }) => {
 	const currentRow = 2; // => into redux state at some point
 

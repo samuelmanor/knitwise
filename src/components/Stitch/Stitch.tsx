@@ -10,6 +10,13 @@ export interface StitchProps {
 	// userGenerated?: boolean; -> future feature
 }
 
+/**
+ * An individual stitch.
+ * @param name The name of the stitch.
+ * @param abbreviation The abbreviation of the stitch.
+ * @param description The description of the stitch.
+ * @param width The width of the stitch in regards to grid columns.
+ */
 export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, width }) => {
 	return (
 		<StitchTip name={name} abbreviation={abbreviation} description={description}>
