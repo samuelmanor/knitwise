@@ -7,10 +7,12 @@ interface ProjectProps {
 }
 
 export const Project: FC<ProjectProps> = ({ blocks }) => {
+	const currentRow = 2; // => into redux state at some point
+
 	return (
 		<Grid container onClick={() => console.log(blocks)} sx={{}}>
 			{blocks.map((block, i) => {
-				return <Block key={`${i}${block}`} rows={block} />;
+				return <Block key={`${i}${block}`} rows={block} currentRow={currentRow} />;
 			})}
 		</Grid>
 	);

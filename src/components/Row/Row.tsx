@@ -4,9 +4,10 @@ import { Stitch } from "../Stitch";
 
 interface RowProps {
 	stitches: JSX.Element[]; // takes an array of Stitch components
+	currentRow?: number;
 }
 
-export const Row: FC<RowProps> = ({ stitches }) => {
+export const Row: FC<RowProps> = ({ stitches, currentRow }) => {
 	// todo: write some kind of function that handles the width
 
 	return (
