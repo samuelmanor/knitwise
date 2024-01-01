@@ -4,6 +4,7 @@ import { expect } from "@storybook/jest";
 import { within } from "@storybook/testing-library";
 
 import { Row } from "./Row";
+import { testArgs } from "../Project/Project.stories";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof Row> = {
@@ -32,7 +33,6 @@ export const Primary: Story = {
 		expect(element).toBeTruthy();
 	},
 	args: {
-		stitches: ["k", "p", "k"],
-		// label: 'Row',
+		stitches: [testArgs.stitches.knit, testArgs.stitches.purl, testArgs.stitches.knit],
 	},
 };

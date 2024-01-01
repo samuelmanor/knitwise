@@ -3,12 +3,13 @@ import { Meta, StoryObj } from "@storybook/react";
 import { expect } from "@storybook/jest";
 import { within } from "@storybook/testing-library";
 
-import { StitchIcon } from "./StitchIcon";
+import { Block } from "./Block";
+import { testArgs } from "../Project/Project.stories";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-const meta: Meta<typeof StitchIcon> = {
-	title: "StitchIcon",
-	component: StitchIcon,
+const meta: Meta<typeof Block> = {
+	title: "Block",
+	component: Block,
 	parameters: {
 		// Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
 		layout: "centered",
@@ -22,29 +23,16 @@ const meta: Meta<typeof StitchIcon> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof StitchIcon>;
+type Story = StoryObj<typeof Block>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const Knit: Story = {
+export const Primary: Story = {
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		const element = canvas.getByTestId(/knit/i);
+		const element = canvas.getByText(/Block/i);
 		expect(element).toBeTruthy();
 	},
 	args: {
-		stitchName: "k",
-		color: "red",
-	},
-};
-
-export const Purl: Story = {
-	play: async ({ canvasElement }) => {
-		const canvas = within(canvasElement);
-		const element = canvas.getByTestId(/purl/i);
-		expect(element).toBeTruthy();
-	},
-	args: {
-		stitchName: "p",
-		color: "blue",
+		rows: [testArgs.rows.row1, testArgs.rows.row2],
 	},
 };

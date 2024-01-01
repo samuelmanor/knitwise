@@ -12,7 +12,7 @@ export const StitchTip: FC<StitchTipProps> = ({ children, name, abbreviation, de
 	const tooltipText = (
 		<Grid container direction="column">
 			<Typography variant="h6">{name}</Typography>
-			<Typography variant="body1">{abbreviation}</Typography>
+			{/* <Typography variant="body1">{abbreviation}</Typography> */}
 			<Typography variant="body2">{description}</Typography>
 		</Grid>
 	);
