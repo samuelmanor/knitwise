@@ -4,7 +4,7 @@ import { Stitch, StitchProps } from "../Stitch";
 
 interface RowProps {
 	stitches?: JSX.Element[]; // takes an array of Stitch components
-	row?: object[];
+	row?: StitchProps[];
 	currentRow?: number;
 	i: number; // index of the row
 }

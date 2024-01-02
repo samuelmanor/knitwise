@@ -1,6 +1,7 @@
 import { Grid } from "@mui/material";
 import { FC } from "react";
 import { Row } from "../Row";
+import { StitchProps } from "../Stitch";
 
 interface BlockProps {
 	block?: object[];
@@ -16,7 +17,7 @@ export const Block: FC<BlockProps> = ({ block, currentRow }) => {
 
 	const renderRows = () => {
 		return block.map((row, i) => {
-			return <Row key={i} row={row} />;
+			return <Row key={i} row={row as StitchProps[]} i={i} />;
 		});
 	};
 	return (
