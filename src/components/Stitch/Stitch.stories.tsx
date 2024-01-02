@@ -34,18 +34,18 @@ export const Knit: Story = {
 		expect(element).toBeTruthy();
 	},
 	args: {
-		name: "knit",
-		abbreviation: stitches.k.abbreviation,
-		description: stitches.k.description,
-		width: stitches.k.width,
+		// name: "knit",
+		// abbreviation: stitches.k.abbreviation,
+		// description: stitches.k.description,
+		// width: stitches.k.width,
 	},
 };
 
 export const Purl: Story = {
 	args: {
-		name: "purl",
-		abbreviation: stitches.p.abbreviation,
-		description: stitches.p.description,
-		width: stitches.p.width,
+		// name: "purl",
+		// abbreviation: stitches.p.abbreviation,
+		// description: stitches.p.description,
+		// width: stitches.p.width,
 	},
 };

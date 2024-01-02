@@ -59,6 +59,6 @@ export const Primary: Story = {
 		expect(element).toBeTruthy();
 	},
 	args: {
-		blocks: [testArgs.blocks.block1, testArgs.blocks.block2],
+		// blocks: [testArgs.blocks.block1, testArgs.blocks.block2, testArgs.blocks.block1],
 	},
 };

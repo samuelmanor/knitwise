@@ -33,6 +33,6 @@ export const Primary: Story = {
 		expect(element).toBeTruthy();
 	},
 	args: {
-		rows: [testArgs.rows.row1, testArgs.rows.row2],
+		// rows: [testArgs.rows.row1, testArgs.rows.row2],
 	},
 };

@@ -33,6 +33,6 @@ export const Primary: Story = {
 		expect(element).toBeTruthy();
 	},
 	args: {
-		stitches: [testArgs.stitches.knit, testArgs.stitches.purl, testArgs.stitches.knit],
+		// stitches: [testArgs.stitches.knit, testArgs.stitches.purl, testArgs.stitches.knit],
 	},
 };

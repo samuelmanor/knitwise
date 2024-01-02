@@ -3,7 +3,7 @@ import { FC } from "react";
 import { Row } from "../Row";
 
 interface BlockProps {
-	rows: JSX.Element[][]; // takes an array of Row components
+	block?: object[];
 	currentRow?: number;
 }
 
@@ -11,18 +11,27 @@ interface BlockProps {
  * A block of the pattern; made up of many rows.
  * @param rows The rows to be rendered.
  */
-export const Block: FC<BlockProps> = ({ rows, currentRow }) => {
+export const Block: FC<BlockProps> = ({ block, currentRow }) => {
 	// todo: write some kind of function that handles the width
 
+	const renderRows = () => {
+		return block.map((row, i) => {
+			return <Row key={i} row={row} />;
+		});
+	};
 	return (
-		<Grid
-			container
-			onClick={() => console.log(rows)}
-			sx={{ border: "2px solid red", flex: `0 0 ${100 / rows.length}%`, width: `${rows.length * 27}px` }} // todo: fix width
-		>
-			{rows.map((row, i) => {
-				return <Row key={`${i}${row}`} stitches={row} currentRow={currentRow} />;
-			})}
+		// <Grid
+		// 	container
+		// 	onClick={() => console.log(rows)}
+		// 	sx={{ border: "2px solid red", flex: `0 0 ${100 / rows.length}%` }} // todo: fix width
+		// >
+		// 	{/* {rows.map((row, i) => {
+		// 		return <Row key={`${i}${row}`} stitches={row} currentRow={currentRow} i={i} />;
+		// 	})} */}
+		// 	block
+		// </Grid>
+		<Grid container onClick={() => console.log(block)} sx={{ border: "2px red solid", width: "fit-content" }}>
+			{renderRows()}
 		</Grid>
 	);
 };
