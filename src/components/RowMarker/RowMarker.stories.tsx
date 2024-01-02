@@ -34,14 +34,14 @@ export const RSRow: Story = {
 		expect(element).toBeTruthy();
 	},
 	args: {
-		children: <Row stitches={[testArgs.stitches.knit, testArgs.stitches.purl, testArgs.stitches.knit]}></Row>,
+		// children: <Row stitches={[testArgs.stitches.knit, testArgs.stitches.purl, testArgs.stitches.knit]}></Row>,
 		currentRow: 3,
 	},
 };
 
 export const WSRow: Story = {
 	args: {
-		children: RSRow.args.children,
+		// children: RSRow.args.children,
 		currentRow: 4,
 	},
 };

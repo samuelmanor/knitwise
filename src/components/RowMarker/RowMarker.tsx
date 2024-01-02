@@ -1,8 +1,8 @@
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { FC } from "react";
 
 interface RowMarkerProps {
-	children?: React.ReactNode;
+	// children?: React.ReactNode;
 	currentRow: number;
 }
 
@@ -10,31 +10,23 @@ interface RowMarkerProps {
  * A marker that indicates the current row.
  * @param children The content to be wrapped by the marker.
  */
-export const RowMarker: FC<RowMarkerProps> = ({ children, currentRow }) => {
-	const side = currentRow % 2 === 1 ? "left" : "right";
-	if (!children) {
-		return null;
-	}
+export const RowMarker: FC<RowMarkerProps> = ({ currentRow }) => {
+	const side = currentRow % 2 === 1;
+	const label = side ? "WS →" : "← RS";
 
-	const marker = (
-		<Grid
-			item
-			sx={{
-				position: "absolute",
-				textAlign: side,
-				width: "200%",
-				mt: 0.5,
-			}}
-		>
-			{side === "left" ? "WS →" : "← RS"}
-		</Grid>
-	);
+	const marker = <Grid item>{label}</Grid>;
 
 	return (
-		<Grid container sx={{ display: "flex", justifyContent: "center" }}>
-			{side === "left" ? marker : null}
-			{children}
-			{side === "right" ? marker : null}
+		<Grid
+			container
+			sx={{
+				backgroundColor: "red",
+				display: "flex",
+				// flexDirection: side ? "row" : "row-reverse",
+			}}
+		>
+			{marker}
+			{/* <Box>{children}</Box> */}
 		</Grid>
 	);
 };
