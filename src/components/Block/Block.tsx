@@ -63,9 +63,17 @@ export const Block: FC<BlockProps> = ({
 		<Grid
 			container
 			onClick={() => console.log("block length:", block.length, "currentBlockRow:", currentBlockRow)}
-			sx={{ border: "2px red solid", width: "fit-content", flexDirection: "row" }}
+			sx={{
+				border: "2px red solid",
+				width: "fit-content",
+				// height: "fit-content",
+				height: "fit-content",
+				flexDirection: "row",
+			}}
 		>
-			<Grid container>{renderRows()}</Grid>
+			<Grid container sx={{ flexDirection: "column-reverse" }}>
+				{renderRows()}
+			</Grid>
 		</Grid>
 	);
 };

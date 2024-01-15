@@ -14,6 +14,7 @@ export interface WorkspaceProps {
 export const Workspace: FC<WorkspaceProps> = ({ project }) => {
 	const [knittingMode, toggleKnittingMode] = useState(false);
 
+	// make no project found component?
 	if (!project) return null;
 
 	const getPattern = () => {
@@ -21,7 +22,7 @@ export const Workspace: FC<WorkspaceProps> = ({ project }) => {
 	};
 
 	return (
-		<Grid container>
+		<Grid container justifyContent={"center"} height={"100%"} width={"100%"} mt={"10%"}>
 			{/* <Button>knitting mode {knittingMode ? "off" : "on"}</Button> */}
 			<Project project={project} />
 		</Grid>

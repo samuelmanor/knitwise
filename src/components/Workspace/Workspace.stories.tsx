@@ -23,7 +23,7 @@ const meta: Meta<typeof Workspace> = {
 	},
 };
 
-const testProject = [
+export const testProject = [
 	// the project
 	[
 		// the blocks

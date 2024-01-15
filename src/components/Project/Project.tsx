@@ -31,7 +31,17 @@ export const Project: FC<ProjectProps> = ({ project }) => {
 	};
 
 	return (
-		<Grid container sx={{ background: "green", justifyContent: "center", gap: 2 }}>
+		<Grid
+			container
+			sx={{
+				background: "green",
+				justifyContent: "center",
+				alignItems: "center",
+				gap: 2,
+				height: "70%",
+				width: "70%",
+			}}
+		>
 			<Button onClick={() => setTriggerNextRow(true)}>next row</Button>
 			{renderBlocks()}
 			<Button onClick={() => setTriggerPrevRow(true)}>prev row</Button>
