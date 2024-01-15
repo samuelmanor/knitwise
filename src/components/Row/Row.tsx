@@ -31,9 +31,8 @@ export const Row: FC<RowProps> = ({ stitches, row, currentRow, i }) => {
 			// flexDirection="row"
 			// width="fit-content"
 			justifyContent="space-evenly"
-			border="2px solid purple"
+			// border="2px solid purple"
 			sx={{ color: `${currentRow === i + 1 ? "red" : "black"}` }}
-			// onClick={() => console.log(currentRow, i)}
 		>
 			{renderStitches()}
 		</Grid>

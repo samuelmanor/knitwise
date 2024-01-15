@@ -1,9 +1,8 @@
-import { Button, Grid } from "@mui/material";
+import { Box, Button, Grid } from "@mui/material";
 import { FC, useState } from "react";
 import { Block } from "../Block";
 
 interface ProjectProps {
-	// blocks: JSX.Element[][][]; // takes an array of Block components
 	project: Object[][];
 }
 
@@ -43,7 +42,7 @@ export const Project: FC<ProjectProps> = ({ project }) => {
 			}}
 		>
 			<Button onClick={() => setTriggerNextRow(true)}>next row</Button>
-			{renderBlocks()}
+			<Box display={"flex"}>{renderBlocks()}</Box>
 			<Button onClick={() => setTriggerPrevRow(true)}>prev row</Button>
 		</Grid>
 	);
