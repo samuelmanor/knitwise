@@ -43,7 +43,7 @@ export const Block: FC<BlockProps> = ({
 			}
 			setTriggerNextRow(false);
 		}
-	}, [block, triggerNextRow]);
+	}, [block, currentBlockRow, triggerNextRow]);
 
 	/**
 	 * Handles the block repeat when going to the previous row.
@@ -57,7 +57,7 @@ export const Block: FC<BlockProps> = ({
 			}
 			setTriggerPrevRow(false);
 		}
-	});
+	}, [block, currentBlockRow, triggerPrevRow]);
 
 	return (
 		<Grid
@@ -67,13 +67,16 @@ export const Block: FC<BlockProps> = ({
 				// border: "2px red solid",
 				width: "fit-content",
 				flexDirection: "row",
+				margin: "5px",
+				// backgroundColor: "rgba(0, 0, 0, 0.5)",
+				// mt: currentBlockRow * -1.5,
 			}}
 		>
 			<Grid
 				container
 				sx={{
 					flexDirection: "column-reverse",
-					marginBottom: currentBlockRow * -2.25,
+					marginBottom: currentBlockRow * -6.4, // needs to change if font size changes
 				}}
 			>
 				{renderRows()}

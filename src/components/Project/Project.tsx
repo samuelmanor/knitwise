@@ -11,6 +11,7 @@ interface ProjectProps {
  * @param blocks The blocks to be rendered.
  */
 export const Project: FC<ProjectProps> = ({ project }) => {
+	// => to redux, as well as some kind of currentRow var to initialize block rows with
 	const [triggerNextRow, setTriggerNextRow] = useState(false);
 	const [triggerPrevRow, setTriggerPrevRow] = useState(false);
 
@@ -34,15 +35,21 @@ export const Project: FC<ProjectProps> = ({ project }) => {
 			container
 			sx={{
 				background: "green",
+				border: "2px solid black",
 				justifyContent: "center",
-				alignItems: "center",
+				alignItems: "flex-start",
 				gap: 2,
 				height: "70%",
 				width: "70%",
+				pt: 10,
+				position: "absolute",
 			}}
 		>
 			<Button onClick={() => setTriggerNextRow(true)}>next row</Button>
 			<Box display={"flex"}>{renderBlocks()}</Box>
+			<Box position={"absolute"} mt={21.5}>
+				current row placement
+			</Box>
 			<Button onClick={() => setTriggerPrevRow(true)}>prev row</Button>
 		</Grid>
 	);

@@ -4,7 +4,6 @@ import { FC } from "react";
 interface StitchTipProps {
 	children: React.ReactNode;
 	name: string;
-	abbreviation: string;
 	description: string;
 }
 
@@ -12,7 +11,7 @@ interface StitchTipProps {
  * A tooltip that displays the name, abbreviation, and description of a stitch.
  * @param children The content to be wrapped by the tooltip.
  */
-export const StitchTip: FC<StitchTipProps> = ({ children, name, abbreviation, description }) => {
+export const StitchTip: FC<StitchTipProps> = ({ children, name, description }) => {
 	const tooltipText = (
 		<Grid container direction="column">
 			<Typography variant="h6">{name}</Typography>

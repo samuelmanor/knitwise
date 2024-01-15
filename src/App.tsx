@@ -8,7 +8,7 @@ function App() {
 	return (
 		<Box
 			sx={{
-				backgroundColor: "yellow",
+				// backgroundColor: "yellow",
 				position: "fixed",
 				height: "100%",
 				width: "100%",

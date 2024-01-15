@@ -34,7 +34,6 @@ export const Primary: Story = {
 	args: {
 		// label: 'StitchTip',
 		name: "test name",
-		abbreviation: "test abbreviation",
 		description: "test description",
 		children: <div>test</div>,
 	},

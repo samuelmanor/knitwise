@@ -32,7 +32,9 @@ export const Row: FC<RowProps> = ({ stitches, row, currentRow, i }) => {
 			// width="fit-content"
 			justifyContent="space-evenly"
 			// border="2px solid purple"
-			sx={{ color: `${currentRow === i + 1 ? "red" : "black"}` }}
+			sx={{ color: `${currentRow === i + 1 ? "red" : "black"}`, backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+			pl={1}
+			pr={1}
 		>
 			{renderStitches()}
 		</Grid>
