@@ -14,17 +14,27 @@ interface RowProps {
  * @param stitches The stitches to be rendered.
  */
 export const Row: FC<RowProps> = ({ stitches, row, currentRow, i }) => {
-	// from redux, if "knitting mode" is on, and if i is odd (the row is ws), reverse the stitches via flex-direction: row-reverse (?)
-	// todo: write some kind of function that handles the width
-
 	const renderStitches = () => {
 		return row.map((stitch: StitchProps, i) => {
-			return <Stitch key={i} {...stitch} />;
+			return (
+				<Grid item display="inline">
+					<Stitch key={i} {...stitch} />
+				</Grid>
+			);
 		});
 	};
 
+	// figure something out about the width of stitches - flex-grow?
 	return (
-		<Grid container flexDirection="row" onClick={() => console.log(stitches)}>
+		<Grid
+			container
+			// flexDirection="row"
+			// width="fit-content"
+			justifyContent="space-evenly"
+			border="2px solid purple"
+			sx={{ color: `${currentRow === i + 1 ? "red" : "black"}` }}
+			// onClick={() => console.log(currentRow, i)}
+		>
 			{renderStitches()}
 		</Grid>
 	);

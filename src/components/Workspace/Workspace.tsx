@@ -22,7 +22,7 @@ export const Workspace: FC<WorkspaceProps> = ({ project }) => {
 
 	return (
 		<Grid container>
-			<Button>knitting mode {knittingMode ? "off" : "on"}</Button>
+			{/* <Button>knitting mode {knittingMode ? "off" : "on"}</Button> */}
 			<Project project={project} />
 		</Grid>
 	);

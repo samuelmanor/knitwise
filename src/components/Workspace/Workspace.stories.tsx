@@ -60,6 +60,12 @@ const testProject = [
 			{ name: "purl", abbreviation: "p", description: "purl 1", width: 1 },
 			{ name: "knit", abbreviation: "k", description: "knit 1", width: 1 },
 		],
+
+		[
+			{ name: "purl", abbreviation: "p", description: "purl 1", width: 1 },
+			{ name: "knit", abbreviation: "k", description: "knit 1", width: 1 },
+			{ name: "purl", abbreviation: "p", description: "purl 1", width: 1 },
+		],
 	],
 	[
 		[
