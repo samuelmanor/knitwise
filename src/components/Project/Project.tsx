@@ -4,6 +4,7 @@ import { Block } from "../Block";
 
 interface ProjectProps {
 	project: Object[][];
+	// currentRow ??
 }
 
 /**
