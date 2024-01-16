@@ -2,14 +2,15 @@ import { Grid } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import { Row } from "../Row";
 import { StitchProps } from "../Stitch";
+import { useSelector } from "react-redux";
 
 interface BlockProps {
 	block?: object[];
 	currentRow?: number;
-	triggerNextRow?: boolean;
-	setTriggerNextRow?: React.Dispatch<React.SetStateAction<boolean>>;
-	triggerPrevRow?: boolean;
-	setTriggerPrevRow?: React.Dispatch<React.SetStateAction<boolean>>;
+	// triggerNextRow?: boolean;
+	// setTriggerNextRow?: React.Dispatch<React.SetStateAction<boolean>>;
+	// triggerPrevRow?: boolean;
+	// setTriggerPrevRow?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 /**
@@ -18,46 +19,60 @@ interface BlockProps {
  */
 export const Block: FC<BlockProps> = ({
 	block,
-	triggerNextRow,
-	setTriggerNextRow,
-	triggerPrevRow,
-	setTriggerPrevRow,
+	// triggerNextRow,
+	// setTriggerNextRow,
+	// triggerPrevRow,
+	// setTriggerPrevRow,
 }) => {
-	const [currentBlockRow, setCurrentBlockRow] = useState(1);
+	const currentRow = useSelector((state: any) => state.projects.currentRow);
 
+	/**
+	 * Keeps track of the current row number as it pertains to the individual block itself.
+	 * ex. row 4 of a project might be row 1 of a block.
+	 */
+	const [currentBlockRow, setCurrentBlockRow] = useState(currentRow); // => reconfigure ; % ?
+
+	/**
+	 * Renders the rows of the block.
+	 */
 	const renderRows = () => {
 		return block.map((row, i) => {
-			return <Row key={i} row={row as StitchProps[]} i={i} currentRow={currentBlockRow} />;
+			return <Row key={i} row={row as StitchProps[]} i={i} totalRowNum={block.length} />;
 		});
 	};
 
 	/**
 	 * Handles the block repeat when going to the next row.
 	 */
-	useEffect(() => {
-		if (triggerNextRow) {
-			if (currentBlockRow === block.length) {
-				setCurrentBlockRow(1);
-			} else {
-				setCurrentBlockRow(currentBlockRow + 1);
-			}
-			setTriggerNextRow(false);
-		}
-	}, [block, currentBlockRow, triggerNextRow]);
+	// useEffect(() => {
+	// 	if (triggerNextRow) {
+	// 		if (currentBlockRow === block.length) {
+	// 			setCurrentBlockRow(1);
+	// 		} else {
+	// 			setCurrentBlockRow(currentBlockRow + 1);
+	// 		}
+	// 		setTriggerNextRow(false);
+	// 	}
+	// }, [block, currentBlockRow, triggerNextRow]);
 
 	/**
 	 * Handles the block repeat when going to the previous row.
 	 */
+	// useEffect(() => {
+	// 	if (triggerPrevRow) {
+	// 		if (currentBlockRow === 1) {
+	// 			setCurrentBlockRow(block.length);
+	// 		} else {
+	// 			setCurrentBlockRow(currentBlockRow - 1);
+	// 		}
+	// 		setTriggerPrevRow(false);
+	// 	}
+	// }, [block, currentBlockRow, triggerPrevRow]);
+
 	useEffect(() => {
-		if (triggerPrevRow) {
-			if (currentBlockRow === 1) {
-				setCurrentBlockRow(block.length);
-			} else {
-				setCurrentBlockRow(currentBlockRow - 1);
-			}
-			setTriggerPrevRow(false);
-		}
-	}, [block, currentBlockRow, triggerPrevRow]);
+		console.log("currentRow:", currentRow);
+		console.log("currentBlockRow:", currentBlockRow);
+	}, [currentRow]);
 
 	return (
 		<Grid

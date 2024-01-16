@@ -1,11 +1,12 @@
 import { Grid } from "@mui/material";
 import { FC } from "react";
 import { Stitch, StitchProps } from "../Stitch";
+import { useSelector } from "react-redux";
 
 interface RowProps {
 	stitches?: JSX.Element[]; // takes an array of Stitch components
 	row?: StitchProps[];
-	currentRow?: number;
+	totalRowNum?: number; // total number of rows in the block
 	i: number; // index of the row
 }
 
@@ -13,7 +14,9 @@ interface RowProps {
  * A row of stitches.
  * @param stitches The stitches to be rendered.
  */
-export const Row: FC<RowProps> = ({ stitches, row, currentRow, i }) => {
+export const Row: FC<RowProps> = ({ stitches, row, i, totalRowNum }) => {
+	const currentRow = useSelector((state: any) => state.projects.currentRow);
+
 	const renderStitches = () => {
 		return row.map((stitch: StitchProps, i) => {
 			return (
@@ -32,7 +35,7 @@ export const Row: FC<RowProps> = ({ stitches, row, currentRow, i }) => {
 			// width="fit-content"
 			justifyContent="space-evenly"
 			// border="2px solid purple"
-			sx={{ color: `${currentRow === i + 1 ? "red" : "black"}`, backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+			// sx={{ color: `${highlight ? "red" : "black"}`, backgroundColor: "rgba(0, 0, 0, 0.5)" }}
 			pl={1}
 			pr={1}
 		>

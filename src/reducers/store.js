@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import workspaceReducer from "./workspaceReducer";
 import projectReducer from "./projectReducer";
+import workspaceReducer from "./workspaceReducer";
 
 export default configureStore({
 	reducer: {
