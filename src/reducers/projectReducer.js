@@ -1,18 +1,21 @@
+// handles things just within a single project like the current row and all the blocks
+
 import { createSlice } from "@reduxjs/toolkit";
 import { testProject } from "../components/Workspace/Workspace.stories";
 
 const projectSlice = createSlice({
 	name: "project",
 	initialState: {
-		projects: [testProject],
+		project: testProject,
+		currentRow: 1,
 	},
 	reducers: {
-		addProject(state, action) {
-			state.projects.push(action.payload);
+		setCurrentRow(state, action) {
+			state.currentRow = action.payload;
 		},
 	},
 });
 
-export const { addProject } = projectSlice.actions;
+export const { setCurrentRow } = projectSlice.actions;
 
 export default projectSlice.reducer;
