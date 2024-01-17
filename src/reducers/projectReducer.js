@@ -72,26 +72,26 @@ const projectSlice = createSlice({
 		currentRow: 1,
 	},
 	reducers: {
-		setCurrentRow(state, action) {
-			state.currentRow = action.payload;
-		},
-		toNextRow(state) {
-			state.currentRow++;
-			console.log(state.currentRow);
-			console.log("hiiiiiiii");
-		},
-		toPrevRow(state) {
-			state.currentRow--;
-		},
+		// setCurrentRow(state, action) {
+		// 	state.currentRow = action.payload;
+		// },
+		// toNextRow(state) {
+		// 	state.currentRow++;
+		// 	console.log(state.currentRow);
+		// 	console.log("hiiiiiiii");
+		// },
+		// toPrevRow(state) {
+		// 	state.currentRow--;
+		// },
 	},
 });
 
 export const { setCurrentRow, toNextRow, toPrevRow } = projectSlice.actions;
 
-export const nextRow = () => {
-	return dispatch => {
-		dispatch(toNextRow());
-	};
-};
+// export const nextRow = () => {
+// 	return dispatch => {
+// 		dispatch(toNextRow());
+// 	};
+// };
 
 export default projectSlice.reducer;

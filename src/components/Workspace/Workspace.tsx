@@ -29,7 +29,7 @@ export const Workspace: FC<WorkspaceProps> = ({ project }) => {
 	return (
 		<Grid container justifyContent={"center"} height={"70%"} width={"70%"} border={"2px solid black"}>
 			{/* <Button>knitting mode {knittingMode ? "off" : "on"}</Button> */}
-			<Project projectRow={project.projectRow} blocks={project.blocks} />
+			<Project currentProjectRow={project.currentProjectRow} blocks={project.blocks} />
 			{/* <Button onClick={() => console.log(projects)}>log projects</Button> */}
 		</Grid>
 	);

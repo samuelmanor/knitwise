@@ -61,7 +61,7 @@ const 2x1rpc = {
 export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbol, width }) => {
 	return (
 		<StitchTip name={name} description={description}>
-			<Grid item m={1} fontSize={30} sx={{ cursor: "pointer" }}>
+			<Grid item fontSize={30} sx={{ cursor: "pointer", mt: 1, mb: 1 }}>
 				{symbol}
 			</Grid>
 		</StitchTip>

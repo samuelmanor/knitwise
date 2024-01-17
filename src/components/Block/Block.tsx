@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import { Row } from "../Row";
 import { StitchProps } from "../Stitch";
@@ -6,8 +6,9 @@ import { useSelector } from "react-redux";
 
 export interface BlockProps {
 	// block?: object[];
-	currentRow: number;
+	currentBlockRow: number;
 	stitches: StitchProps[][];
+	index?: number;
 	// triggerNextRow?: boolean;
 	// setTriggerNextRow?: React.Dispatch<React.SetStateAction<boolean>>;
 	// triggerPrevRow?: boolean;
@@ -18,22 +19,23 @@ export interface BlockProps {
  * A block of the pattern; made up of many rows.
  * @param rows The rows to be rendered.
  */
-export const Block: FC<BlockProps> = (
-	{
-		// block,
-		// triggerNextRow,
-		// setTriggerNextRow,
-		// triggerPrevRow,
-		// setTriggerPrevRow,
-	},
-) => {
-	const currentRow = useSelector((state: any) => state.projects.currentRow);
+export const Block: FC<BlockProps> = ({
+	// block,
+	// triggerNextRow,
+	// setTriggerNextRow,
+	// triggerPrevRow,
+	// setTriggerPrevRow,
+	currentBlockRow,
+	stitches,
+	index,
+}) => {
+	// const currentRow = useSelector((state: any) => state.projects.currentRow);
 
 	/**
 	 * Keeps track of the current row number as it pertains to the individual block itself.
 	 * ex. row 4 of a project might be row 1 of a block.
 	 */
-	const [currentBlockRow, setCurrentBlockRow] = useState(currentRow); // => reconfigure ; % ?
+	// const [currentBlockRow, setCurrentBlockRow] = useState(currentRow); // => reconfigure ; % ?
 
 	/**
 	 * Renders the rows of the block.
@@ -77,28 +79,47 @@ export const Block: FC<BlockProps> = (
 	// 	console.log("currentBlockRow:", currentBlockRow);
 	// }, [currentRow]);
 
+	// const renderRows = () => {
+	// 	return block.map((row, i) => {
+	// 		return <Row key={i} row={row as StitchProps[]} i={i} totalRowNum={block.length} />;
+	// 	});
+	// };
+
 	return (
 		<Grid
 			container
 			// onClick={() => console.log("block length:", block.length, "currentBlockRow:", currentBlockRow)}
 			sx={{
 				// border: "2px red solid",
-				width: "fit-content",
-				flexDirection: "row",
-				margin: "5px",
+				// width: "fit-content",
+				// flexDirection: "row",
+				// margin: "5px",
 				// backgroundColor: "rgba(0, 0, 0, 0.5)",
 				// mt: currentBlockRow * -1.5,
+				// ml: (stitches.length - index) * 30,
+				// ml: (index + 1) * 20 - stitches.length * 2.5,
+				border: "2px solid red",
+				width: "fit-content",
+				position: "absolute",
+				ml: index * 45,
+				// left: stitches.length * -10,
 			}}
 		>
 			<Grid
 				container
-				sx={{
-					flexDirection: "column-reverse",
-					marginBottom: currentBlockRow * -6.4, // needs to change if font size changes
-				}}
+				sx={
+					{
+						// flexDirection: "column-reverse",
+						// marginBottom: currentBlockRow * -6.4, // needs to change if font size changes
+					}
+				}
 			>
 				{/* {renderRows()} */}
-				block
+				{/* block */}
+				<Button onClick={() => console.log("stitches:", stitches)}>log stitches</Button>
+				{stitches.map((row, i) => {
+					return <Row key={i} row={row} i={i} totalRowNum={stitches.length} />;
+				})}
 			</Grid>
 		</Grid>
 	);
