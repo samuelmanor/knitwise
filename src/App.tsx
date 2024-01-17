@@ -179,16 +179,19 @@ export const testProject3 = {
 					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
 					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
 					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-				],
-				[
-					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
-					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
 					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
 				],
 				[
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
 					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
 					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
 					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+				],
+				[
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
 				],
 			],
 		},

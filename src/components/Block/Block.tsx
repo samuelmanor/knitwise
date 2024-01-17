@@ -99,9 +99,12 @@ export const Block: FC<BlockProps> = ({
 				// ml: (stitches.length - index) * 30,
 				// ml: (index + 1) * 20 - stitches.length * 2.5,
 				border: "2px solid red",
-				width: "fit-content",
-				position: "absolute",
-				ml: index * 45,
+				width: stitches[0].length * 60,
+				// width: "20%",
+				// position: "absolute",
+				// ml: index * 40,
+				// pb: stitches.length * 3, // maybe dont have everything absolute and have height be 100% of the project area, then align the block in the center and add top and bottom padding to move things up and down?
+				// width: stitches.length * 40,
 				// left: stitches.length * -10,
 			}}
 		>

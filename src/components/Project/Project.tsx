@@ -35,6 +35,8 @@ export const Project: FC<ProjectProps> = ({ currentProjectRow, blocks }) => {
 				// border: "2px solid black",
 				// display: "flex",
 				// // flexDirection: "row",
+				justifyContent: "center",
+				gap: 2,
 			}}
 		>
 			{blocks.map((block, i) => {
