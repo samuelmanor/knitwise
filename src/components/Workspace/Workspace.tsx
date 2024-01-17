@@ -1,11 +1,12 @@
 import { FC, useState } from "react";
 import { Button, Grid } from "@mui/material";
-import { Project } from "../Project";
+import { Project, ProjectProps } from "../Project";
 import { StitchProps } from "../Stitch";
 import { useSelector } from "react-redux";
+import { BlockProps } from "../Block";
 
-export interface WorkspaceProps {
-	project: StitchProps[][][];
+interface WorkspaceProps {
+	project: ProjectProps;
 }
 
 /**
@@ -19,14 +20,16 @@ export const Workspace: FC<WorkspaceProps> = ({ project }) => {
 	// make no project found component?
 	if (!project) return null;
 
+	// where editing mode is handled ?
+
 	const getPattern = () => {
 		const pattern = "";
 	};
 
 	return (
-		<Grid container justifyContent={"center"} height={"100%"} width={"100%"} mt={"10%"}>
+		<Grid container justifyContent={"center"} height={"70%"} width={"70%"} border={"2px solid black"}>
 			{/* <Button>knitting mode {knittingMode ? "off" : "on"}</Button> */}
-			<Project project={project} />
+			<Project projectRow={project.projectRow} blocks={project.blocks} />
 			{/* <Button onClick={() => console.log(projects)}>log projects</Button> */}
 		</Grid>
 	);

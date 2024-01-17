@@ -3,6 +3,112 @@ import { Box, Grid } from "@mui/material";
 import "./App.css";
 import { Workspace } from "./components/Workspace";
 
+export const testProject2 = {
+	projectRow: 1,
+	blocks: {
+		block1: {
+			currentRow: 1,
+			stitches: [
+				[
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+				],
+				[
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+				],
+				[
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+				],
+			],
+		},
+		block2: {
+			currentRow: 1,
+			stitches: [
+				[
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+				],
+				[
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+				],
+				[
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+				],
+			],
+		},
+		block3: {
+			currentRow: 1,
+			stitches: [
+				[
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+				],
+				[
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+				],
+				[
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+				],
+			],
+		},
+		block4: {
+			currentRow: 1,
+			stitches: [
+				[
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+				],
+				[
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+				],
+				[
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+				],
+			],
+		},
+		block5: {
+			currentRow: 1,
+			stitches: [
+				[
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+				],
+				[
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+				],
+				[
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+				],
+			],
+		},
+	},
+};
+
 export const testProject = [
 	// the project
 	[
@@ -78,7 +184,8 @@ function App() {
 				alignItems: "center",
 			}}
 		>
-			<Workspace project={testProject} />
+			{/* <Workspace project={testProject} /> */}
+			<Workspace project={testProject2} />
 		</Box>
 	);
 }

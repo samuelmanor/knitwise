@@ -4,9 +4,10 @@ import { Row } from "../Row";
 import { StitchProps } from "../Stitch";
 import { useSelector } from "react-redux";
 
-interface BlockProps {
-	block?: object[];
-	currentRow?: number;
+export interface BlockProps {
+	// block?: object[];
+	currentRow: number;
+	stitches: StitchProps[][];
 	// triggerNextRow?: boolean;
 	// setTriggerNextRow?: React.Dispatch<React.SetStateAction<boolean>>;
 	// triggerPrevRow?: boolean;
@@ -17,13 +18,15 @@ interface BlockProps {
  * A block of the pattern; made up of many rows.
  * @param rows The rows to be rendered.
  */
-export const Block: FC<BlockProps> = ({
-	block,
-	// triggerNextRow,
-	// setTriggerNextRow,
-	// triggerPrevRow,
-	// setTriggerPrevRow,
-}) => {
+export const Block: FC<BlockProps> = (
+	{
+		// block,
+		// triggerNextRow,
+		// setTriggerNextRow,
+		// triggerPrevRow,
+		// setTriggerPrevRow,
+	},
+) => {
 	const currentRow = useSelector((state: any) => state.projects.currentRow);
 
 	/**
@@ -35,11 +38,11 @@ export const Block: FC<BlockProps> = ({
 	/**
 	 * Renders the rows of the block.
 	 */
-	const renderRows = () => {
-		return block.map((row, i) => {
-			return <Row key={i} row={row as StitchProps[]} i={i} totalRowNum={block.length} />;
-		});
-	};
+	// const renderRows = () => {
+	// 	return block.map((row, i) => {
+	// 		return <Row key={i} row={row as StitchProps[]} i={i} totalRowNum={block.length} />;
+	// 	});
+	// };
 
 	/**
 	 * Handles the block repeat when going to the next row.
@@ -69,15 +72,15 @@ export const Block: FC<BlockProps> = ({
 	// 	}
 	// }, [block, currentBlockRow, triggerPrevRow]);
 
-	useEffect(() => {
-		console.log("currentRow:", currentRow);
-		console.log("currentBlockRow:", currentBlockRow);
-	}, [currentRow]);
+	// useEffect(() => {
+	// 	console.log("currentRow:", currentRow);
+	// 	console.log("currentBlockRow:", currentBlockRow);
+	// }, [currentRow]);
 
 	return (
 		<Grid
 			container
-			onClick={() => console.log("block length:", block.length, "currentBlockRow:", currentBlockRow)}
+			// onClick={() => console.log("block length:", block.length, "currentBlockRow:", currentBlockRow)}
 			sx={{
 				// border: "2px red solid",
 				width: "fit-content",
@@ -94,7 +97,7 @@ export const Block: FC<BlockProps> = ({
 					marginBottom: currentBlockRow * -6.4, // needs to change if font size changes
 				}}
 			>
-				{renderRows()}
+				{/* {renderRows()} */}
 			</Grid>
 		</Grid>
 	);

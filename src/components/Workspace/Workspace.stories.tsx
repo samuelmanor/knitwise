@@ -37,6 +37,6 @@ export const Primary: Story = {
 	args: {
 		// project: <Project blocks={[testArgs.blocks.block1, testArgs.blocks.block2, testArgs.blocks.block1]} />,
 		// project: [testArgs.blocks.block1, testArgs.blocks.block2, testArgs.blocks.block1],
-		project: testProject,
+		// project: testProject,
 	},
 };
