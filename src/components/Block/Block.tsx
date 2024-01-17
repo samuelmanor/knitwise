@@ -98,6 +98,7 @@ export const Block: FC<BlockProps> = (
 				}}
 			>
 				{/* {renderRows()} */}
+				block
 			</Grid>
 		</Grid>
 	);
