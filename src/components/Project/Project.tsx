@@ -15,14 +15,6 @@ export interface ProjectProps {
  * @param blocks The blocks to be rendered.
  */
 export const Project: FC<ProjectProps> = ({ currentProjectRow, blocks }) => {
-	// => to redux, as well as some kind of currentRow var to initialize block rows with
-	// const [triggerNextRow, setTriggerNextRow] = useState(false);
-	// const [triggerPrevRow, setTriggerPrevRow] = useState(false);
-	// const [blocks, setBlocks] = useState<ReactElement[]>([]);
-
-	// const currentRow = useSelector((state: any) => state.projects.currentRow);
-	// const dispatch = useDispatch();
-
 	if (!blocks) return <div>no blocks found</div>;
 
 	return (

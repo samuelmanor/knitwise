@@ -2,84 +2,203 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
-const testProject = [
-	// the project
-	[
-		// the blocks
-		[
-			// the rows
-			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 }, // block 1 row 1 stitch 1
-			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 }, // block 1 row 1 stitch 2
-			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 }, // block 1 row 1 stitch 3
-		],
-		[
-			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 }, // block 1 row 2 stitch 1
-			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 }, // block 1 row 2 stitch 2
-			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 }, // block 1 row 2 stitch 3
-		],
-		[
-			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 }, // block 1 row 3 stitch 1
-			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
-		],
-	],
-	[
-		[
-			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 }, // block 2 row 1 stitch 1
-			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
-		],
-		[
-			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
-			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-		],
-		[
-			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
-			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
-		],
+// const testProject = [
+// 	// the project
+// 	[
+// 		// the blocks
+// 		[
+// 			// the rows
+// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 }, // block 1 row 1 stitch 1
+// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 }, // block 1 row 1 stitch 2
+// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 }, // block 1 row 1 stitch 3
+// 		],
+// 		[
+// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 }, // block 1 row 2 stitch 1
+// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 }, // block 1 row 2 stitch 2
+// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 }, // block 1 row 2 stitch 3
+// 		],
+// 		[
+// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 }, // block 1 row 3 stitch 1
+// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+// 		],
+// 	],
+// 	[
+// 		[
+// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 }, // block 2 row 1 stitch 1
+// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+// 		],
+// 		[
+// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+// 		],
+// 		[
+// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+// 		],
 
-		[
-			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
-			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-		],
+// 		[
+// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+// 		],
+// 	],
+// 	[
+// 		[
+// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 }, // block 3 row 1 stitch 1
+// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+// 		],
+// 		[
+// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+// 		],
+// 		[
+// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+// 		],
+// 	],
+// ];
+
+export const testProject3 = {
+	// projectName: "test project",
+	currentProjectRow: 1,
+	blocks: [
+		{
+			currentBlockRow: 1,
+			stitches: [
+				[
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+				],
+				[
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+				],
+			],
+		},
+		{
+			currentBlockRow: 1,
+			stitches: [
+				[
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+				],
+				[
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+				],
+				[
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+				],
+			],
+		},
+		{
+			currentBlockRow: 1,
+			stitches: [
+				[
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+				],
+				[
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+				],
+				[
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+				],
+				[
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+				],
+			],
+		},
+		{
+			currentBlockRow: 1,
+			stitches: [
+				[
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+				],
+				[
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+				],
+				[
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+				],
+			],
+		},
+		{
+			currentBlockRow: 1,
+			stitches: [
+				[
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+				],
+				[
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+				],
+				[
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+				],
+				[
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+				],
+				[
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
+					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
+				],
+			],
+		},
 	],
-	[
-		[
-			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 }, // block 3 row 1 stitch 1
-			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
-		],
-		[
-			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
-			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-		],
-		[
-			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
-			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
-		],
-	],
-];
+};
 
 const projectSlice = createSlice({
 	name: "project",
 	initialState: {
-		project: testProject,
+		project: testProject3,
 		currentRow: 1,
 	},
 	reducers: {
-		// setCurrentRow(state, action) {
-		// 	state.currentRow = action.payload;
-		// },
-		// toNextRow(state) {
-		// 	state.currentRow++;
-		// 	console.log(state.currentRow);
-		// 	console.log("hiiiiiiii");
-		// },
+		updateBlockRow(state, blockIndex, row) {
+			// for saving progress
+			state.project.blocks[blockIndex].currentBlockRow = row;
+		},
+		toNextRow(state) {
+			state.currentRow++;
+		},
 		// toPrevRow(state) {
 		// 	state.currentRow--;
 		// },
@@ -88,9 +207,21 @@ const projectSlice = createSlice({
 
 export const { setCurrentRow, toNextRow, toPrevRow } = projectSlice.actions;
 
-// export const nextRow = () => {
+export const updateBlockRow = (blockIndex, row) => {
+	return dispatch => {
+		dispatch(updateBlockRow(blockIndex, row));
+	};
+};
+
+export const nextRow = () => {
+	return dispatch => {
+		dispatch(toNextRow());
+	};
+};
+
+// export const prevRow = () => {
 // 	return dispatch => {
-// 		dispatch(toNextRow());
+// 		dispatch(toPrevRow());
 // 	};
 // };
 

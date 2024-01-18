@@ -1,4 +1,4 @@
-import { Button, Grid } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import { Row } from "../Row";
 import { StitchProps } from "../Stitch";
@@ -9,56 +9,29 @@ export interface BlockProps {
 	currentBlockRow: number;
 	stitches: StitchProps[][];
 	index?: number;
-	// triggerNextRow?: boolean;
-	// setTriggerNextRow?: React.Dispatch<React.SetStateAction<boolean>>;
-	// triggerPrevRow?: boolean;
-	// setTriggerPrevRow?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 /**
  * A block of the pattern; made up of many rows.
  * @param rows The rows to be rendered.
  */
-export const Block: FC<BlockProps> = ({
-	// block,
-	// triggerNextRow,
-	// setTriggerNextRow,
-	// triggerPrevRow,
-	// setTriggerPrevRow,
-	currentBlockRow,
-	stitches,
-	index,
-}) => {
+export const Block: FC<BlockProps> = ({ currentBlockRow, stitches, index }) => {
 	// const currentRow = useSelector((state: any) => state.projects.currentRow);
+	const [rowToHighlight, setRowToHighlight] = useState(currentBlockRow);
+	const currentRow = useSelector((state: any) => state.projects.currentRow);
 
-	/**
-	 * Keeps track of the current row number as it pertains to the individual block itself.
-	 * ex. row 4 of a project might be row 1 of a block.
-	 */
-	// const [currentBlockRow, setCurrentBlockRow] = useState(currentRow); // => reconfigure ; % ?
+	useEffect(() => {
+		if (currentRow <= stitches.length) {
+			setRowToHighlight(currentRow);
+		} else if (currentRow === stitches.length + 1 || rowToHighlight === stitches.length) {
+			setRowToHighlight(1);
+		} else if (rowToHighlight < stitches.length) {
+			setRowToHighlight(rowToHighlight + 1);
+		}
+		// console.log(`currentBlockRow for block ${index} is ${currentBlockRow}`);
 
-	/**
-	 * Renders the rows of the block.
-	 */
-	// const renderRows = () => {
-	// 	return block.map((row, i) => {
-	// 		return <Row key={i} row={row as StitchProps[]} i={i} totalRowNum={block.length} />;
-	// 	});
-	// };
-
-	/**
-	 * Handles the block repeat when going to the next row.
-	 */
-	// useEffect(() => {
-	// 	if (triggerNextRow) {
-	// 		if (currentBlockRow === block.length) {
-	// 			setCurrentBlockRow(1);
-	// 		} else {
-	// 			setCurrentBlockRow(currentBlockRow + 1);
-	// 		}
-	// 		setTriggerNextRow(false);
-	// 	}
-	// }, [block, currentBlockRow, triggerNextRow]);
+		// call updateBlockRow at the end when saving progress
+	}, [currentRow]);
 
 	/**
 	 * Handles the block repeat when going to the previous row.
@@ -73,17 +46,6 @@ export const Block: FC<BlockProps> = ({
 	// 		setTriggerPrevRow(false);
 	// 	}
 	// }, [block, currentBlockRow, triggerPrevRow]);
-
-	// useEffect(() => {
-	// 	console.log("currentRow:", currentRow);
-	// 	console.log("currentBlockRow:", currentBlockRow);
-	// }, [currentRow]);
-
-	// const renderRows = () => {
-	// 	return block.map((row, i) => {
-	// 		return <Row key={i} row={row as StitchProps[]} i={i} totalRowNum={block.length} />;
-	// 	});
-	// };
 
 	return (
 		<Grid
@@ -110,18 +72,17 @@ export const Block: FC<BlockProps> = ({
 		>
 			<Grid
 				container
-				sx={
-					{
-						// flexDirection: "column-reverse",
-						// marginBottom: currentBlockRow * -6.4, // needs to change if font size changes
-					}
-				}
+				sx={{
+					flexDirection: "column-reverse",
+					// marginBottom: currentBlockRow * -6.4, // needs to change if font size changes
+				}}
 			>
 				{/* {renderRows()} */}
 				{/* block */}
+				<Typography>highlighting row {rowToHighlight}</Typography>
 				<Button onClick={() => console.log("stitches:", stitches)}>log stitches</Button>
 				{stitches.map((row, i) => {
-					return <Row key={i} row={row} i={i} totalRowNum={stitches.length} />;
+					return <Row key={i} row={row} i={i} rowToHighlight={rowToHighlight} />;
 				})}
 			</Grid>
 		</Grid>
