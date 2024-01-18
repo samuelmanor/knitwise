@@ -17,6 +17,16 @@ export interface ProjectProps {
 export const Project: FC<ProjectProps> = ({ currentProjectRow, blocks }) => {
 	if (!blocks) return <div>no blocks found</div>;
 
+	const getTallestBlock = () => {
+		let tallestBlock = 0;
+		blocks.forEach(block => {
+			if (block.stitches.length > tallestBlock) {
+				tallestBlock = block.stitches.length;
+			}
+		});
+		return tallestBlock;
+	};
+
 	return (
 		<Grid
 			container
@@ -34,10 +44,18 @@ export const Project: FC<ProjectProps> = ({ currentProjectRow, blocks }) => {
 			{blocks.map((block, i) => {
 				return (
 					<Box key={i} sx={{ display: "flex", alignItems: "flex-end" }}>
-						<Block currentBlockRow={block.currentBlockRow} stitches={block.stitches} index={i} />
+						<Block
+							currentBlockRow={block.currentBlockRow}
+							stitches={block.stitches}
+							index={i}
+							tallestBlock={getTallestBlock()}
+						/>
 					</Box>
 				);
 			})}
+			<Grid item sx={{ position: "absolute", mt: 36 }} onClick={() => console.log(getTallestBlock())}>
+				current row
+			</Grid>
 		</Grid>
 	);
 };

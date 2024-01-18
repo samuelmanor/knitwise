@@ -9,13 +9,14 @@ export interface BlockProps {
 	currentBlockRow: number;
 	stitches: StitchProps[][];
 	index?: number;
+	tallestBlock?: number;
 }
 
 /**
  * A block of the pattern; made up of many rows.
  * @param rows The rows to be rendered.
  */
-export const Block: FC<BlockProps> = ({ currentBlockRow, stitches, index }) => {
+export const Block: FC<BlockProps> = ({ currentBlockRow, stitches, index, tallestBlock }) => {
 	// const currentRow = useSelector((state: any) => state.projects.currentRow);
 	const [rowToHighlight, setRowToHighlight] = useState(currentBlockRow);
 	const currentRow = useSelector((state: any) => state.projects.currentRow);
@@ -32,6 +33,40 @@ export const Block: FC<BlockProps> = ({ currentBlockRow, stitches, index }) => {
 
 		// call updateBlockRow at the end when saving progress
 	}, [currentRow]);
+
+	const handlePadding = () => {
+		// the tallest block's currently highlighted row
+		const tallestBlockRowNum = currentRow % (tallestBlock + 1);
+		const firstRow = currentRow === 1 && currentBlockRow === 1;
+
+		const numberOfRepeats = Math.floor(currentRow / (tallestBlock + 1));
+
+		console.log(currentRow, "repeats", numberOfRepeats);
+
+		// if (stitches.length === tallestBlock && numberOfRepeats > 0 && tallestBlockRowNum === 1) {
+		// 	console.log(index + 1, "first if");
+		// 	return `0 0 ${99}px 0`;
+		// }
+
+		if (stitches.length === tallestBlock || firstRow) {
+			// the tallest block is stationary
+
+			// if (numberOfRepeats > 0) {
+			// 	return `${numberOfRepeats * 50}px 0 0 0`;
+			// }
+			return "0 0 50px 0";
+		} else if (rowToHighlight === 1 && !firstRow) {
+			// block has just repeated
+			return `0 0 ${49 * tallestBlockRowNum}px 0`;
+		} else if (numberOfRepeats > 0 && tallestBlockRowNum === 1) {
+			// tallest block has just repeated
+			// console.log(index + 1, "repeated block");
+			return 0;
+		} else {
+			console.log(index + 1, `last else block `);
+			return `0 0 ${tallestBlockRowNum * 49 - rowToHighlight * 49 + 50}px 0`;
+		}
+	};
 
 	/**
 	 * Handles the block repeat when going to the previous row.
@@ -61,13 +96,15 @@ export const Block: FC<BlockProps> = ({ currentBlockRow, stitches, index }) => {
 				// ml: (stitches.length - index) * 30,
 				// ml: (index + 1) * 20 - stitches.length * 2.5,
 				border: "2px solid red",
-				width: stitches[0].length * 60,
+				width: stitches[0].length * 40,
+				maxHeight: "100%",
 				// width: "20%",
 				// position: "absolute",
 				// ml: index * 40,
 				// pb: stitches.length * 3, // maybe dont have everything absolute and have height be 100% of the project area, then align the block in the center and add top and bottom padding to move things up and down?
 				// width: stitches.length * 40,
 				// left: stitches.length * -10,
+				m: handlePadding(),
 			}}
 		>
 			<Grid
@@ -79,8 +116,10 @@ export const Block: FC<BlockProps> = ({ currentBlockRow, stitches, index }) => {
 			>
 				{/* {renderRows()} */}
 				{/* block */}
-				<Typography>highlighting row {rowToHighlight}</Typography>
-				<Button onClick={() => console.log("stitches:", stitches)}>log stitches</Button>
+				<Typography>
+					hr {rowToHighlight} cbr {currentBlockRow}
+				</Typography>
+				{/* <Button onClick={() => console.log("stitches:", stitches)}>log stitches</Button> */}
 				{stitches.map((row, i) => {
 					return <Row key={i} row={row} i={i} rowToHighlight={rowToHighlight} />;
 				})}
