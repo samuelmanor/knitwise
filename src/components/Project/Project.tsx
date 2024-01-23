@@ -46,7 +46,7 @@ export const Project: FC<ProjectProps> = ({ currentProjectRow, blocks }) => {
 				return (
 					<Box key={i} sx={{ display: "flex", alignItems: "flex-end" }}>
 						<Block
-							currentBlockRow={block.currentBlockRow}
+							// currentBlockRow={block.currentBlockRow}
 							stitches={block.stitches}
 							index={i}
 							// tallestBlock={getTallestBlock()}
@@ -54,11 +54,6 @@ export const Project: FC<ProjectProps> = ({ currentProjectRow, blocks }) => {
 					</Box>
 				);
 			})}
-			{/* <Block block={testSelector.blocks.block0} index={0} />
-			<Block block={testSelector.blocks.block1} index={1} />
-			<Block block={testSelector.blocks.block2} index={2} />
-			<Block block={testSelector.blocks.block3} index={3} />
-			<Block block={testSelector.blocks.block4} index={4} /> */}
 
 			<Grid item sx={{ position: "absolute", mt: 36 }} onClick={() => console.log(getTallestBlock())}>
 				current row

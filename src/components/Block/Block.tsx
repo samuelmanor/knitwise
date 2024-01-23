@@ -7,7 +7,7 @@ import { updateBlockRow } from "../../reducers/projectReducer.js";
 
 export interface BlockProps {
 	// block?: object;
-	currentBlockRow?: number;
+	// currentBlockRow?: number;
 	stitches?: StitchProps[][];
 	index?: number;
 	// tallestBlock?: number;
@@ -22,13 +22,14 @@ export interface BlockProps {
  * A block of the pattern; made up of many rows.
  * @param rows The rows to be rendered.
  */
-export const Block: FC<BlockProps> = ({ currentBlockRow, stitches, index }) => {
+export const Block: FC<BlockProps> = ({ stitches, index }) => {
 	// const currentRow = useSelector((state: any) => state.projects.currentRow);
 	// const [rowToHighlight, setRowToHighlight] = useState(currentBlockRow);
 
 	const currentRow = useSelector((state: any) => state.projects.currentRow);
+	const currentBlockRow = useSelector((state: any) => state.projects.project.blocks[index].currentBlockRow);
 
-	const dispatch = useDispatch();
+	// const dispatch = useDispatch();
 
 	// const highlightRow = (current: number, max: number) => {
 	// 	if (currentRow <= max) {
@@ -129,7 +130,7 @@ export const Block: FC<BlockProps> = ({ currentBlockRow, stitches, index }) => {
 	return (
 		<Grid
 			container
-			onClick={() => console.log(currentBlockRow)}
+			// onClick={() => console.log(currentBlockRow)}
 			sx={{
 				// border: "2px red solid",
 				// width: "fit-content",
@@ -164,7 +165,7 @@ export const Block: FC<BlockProps> = ({ currentBlockRow, stitches, index }) => {
 				<Typography>{currentBlockRow}</Typography>
 				{/* <Button onClick={() => console.log("stitches:", stitches)}>log stitches</Button> */}
 				{stitches.map((row, i) => {
-					return <Row key={`row${i}`} row={row} i={i} rowToHighlight={currentBlockRow === i} />;
+					return <Row key={`row${i}`} row={row} i={i} rowToHighlight={currentBlockRow - 1 === i} />;
 				})}
 			</Grid>
 		</Grid>
