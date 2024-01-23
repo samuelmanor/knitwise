@@ -5,28 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { nextRow } from "../../reducers/projectReducer.js";
 
 export interface ProjectProps {
-	projectName?: string;
-	currentProjectRow: number;
+	// projectName?: string;
 	blocks: BlockProps[];
 }
 
 /**
  * A project; made up of many blocks.
- * @param blocks The blocks to be rendered.
+ * @param blocks The blocks of the project.
  */
-export const Project: FC<ProjectProps> = ({ currentProjectRow, blocks }) => {
-	const testSelector = useSelector((state: any) => state.projects.project);
+export const Project: FC<ProjectProps> = ({ blocks }) => {
 	if (!blocks) return <div>no blocks found</div>;
-
-	// const tallestBlockLength = () => {
-	// 	let tallestBlock = 0;
-	// 	blocks.forEach(block => {
-	// 		if (block.stitches.length > tallestBlock) {
-	// 			tallestBlock = block.stitches.length;
-	// 		}
-	// 	});
-	// 	return tallestBlock;
-	// };
 
 	const getTallestBlock = () => {
 		let tallestBlock = 0;
@@ -45,11 +33,6 @@ export const Project: FC<ProjectProps> = ({ currentProjectRow, blocks }) => {
 			container
 			sx={{
 				background: "green",
-				// height: getTallestBlock() * 100,
-				// // justifyContent: "space-around",
-				// border: "2px solid black",
-				// display: "flex",
-				// // flexDirection: "row",
 				justifyContent: "center",
 				gap: 2,
 			}}
@@ -57,13 +40,7 @@ export const Project: FC<ProjectProps> = ({ currentProjectRow, blocks }) => {
 			{blocks.map((block, i) => {
 				return (
 					<Box key={i} sx={{ display: "flex", alignItems: "flex-end" }}>
-						<Block
-							// currentBlockRow={block.currentBlockRow}
-							stitches={block.stitches}
-							index={i}
-							tallestBlockIndex={getTallestBlock()}
-							// tallestBlock={getTallestBlock()}
-						/>
+						<Block stitches={block.stitches} index={i} tallestBlockIndex={getTallestBlock()} />
 					</Box>
 				);
 			})}

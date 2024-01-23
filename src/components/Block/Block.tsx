@@ -1,9 +1,8 @@
-import { Button, Grid, Typography } from "@mui/material";
-import { FC, useEffect, useState } from "react";
+import { Grid, Typography } from "@mui/material";
+import { FC } from "react";
 import { Row } from "../Row";
 import { StitchProps } from "../Stitch";
-import { useDispatch, useSelector } from "react-redux";
-import { updateBlockRow } from "../../reducers/projectReducer.js";
+import { useSelector } from "react-redux";
 
 export interface BlockProps {
 	stitches?: StitchProps[][];
@@ -13,13 +12,18 @@ export interface BlockProps {
 
 /**
  * A block of the pattern; made up of many rows.
- * @param rows The rows to be rendered.
+ * @param stitches The rows of stitches to be rendered.
+ * @param index The index of the block.
+ * @param tallestBlockIndex The index of the tallest block - used to calculate padding.
  */
 export const Block: FC<BlockProps> = ({ stitches, index, tallestBlockIndex }) => {
 	const currentRow = useSelector((state: any) => state.projects.currentRow);
 	const currentBlockRow = useSelector((state: any) => state.projects.project.blocks[index].currentBlockRow);
 	const tallestBlock = useSelector((state: any) => state.projects.project.blocks[tallestBlockIndex]);
 
+	/**
+	 * Calculates the padding for the block.
+	 */
 	const handlePadding = () => {
 		const firstRow = currentRow === 1 && currentBlockRow === 1;
 		if (index === tallestBlockIndex || firstRow) {

@@ -40,7 +40,7 @@ export const Workspace: FC<WorkspaceProps> = ({ project }) => {
 			overflow={"scroll"}
 		>
 			{/* <Button>knitting mode {knittingMode ? "off" : "on"}</Button> */}
-			<Project currentProjectRow={project.currentProjectRow} blocks={project.blocks} />
+			<Project blocks={project.blocks} />
 			{/* <Button onClick={() => console.log(projects)}>log projects</Button> */}
 			<Button onClick={() => dispatch(nextRow())} sx={{ position: "absolute", backgroundColor: "white" }}>
 				next row
