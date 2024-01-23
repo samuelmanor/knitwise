@@ -15,16 +15,17 @@ export interface ProjectProps {
  * @param blocks The blocks to be rendered.
  */
 export const Project: FC<ProjectProps> = ({ currentProjectRow, blocks }) => {
+	const testSelector = useSelector((state: any) => state.projects.project);
 	if (!blocks) return <div>no blocks found</div>;
 
 	const getTallestBlock = () => {
-		let tallestBlock = 0;
-		blocks.forEach(block => {
-			if (block.stitches.length > tallestBlock) {
-				tallestBlock = block.stitches.length;
-			}
-		});
-		return tallestBlock;
+		// let tallestBlock = 0;
+		// blocks.forEach(block => {
+		// 	if (block.stitches.length > tallestBlock) {
+		// 		tallestBlock = block.stitches.length;
+		// 	}
+		// });
+		// return tallestBlock;
 	};
 
 	return (
@@ -32,7 +33,7 @@ export const Project: FC<ProjectProps> = ({ currentProjectRow, blocks }) => {
 			container
 			sx={{
 				background: "green",
-				// height: "fit-content",
+				// height: getTallestBlock() * 100,
 				// // justifyContent: "space-around",
 				// border: "2px solid black",
 				// display: "flex",
@@ -48,11 +49,17 @@ export const Project: FC<ProjectProps> = ({ currentProjectRow, blocks }) => {
 							currentBlockRow={block.currentBlockRow}
 							stitches={block.stitches}
 							index={i}
-							tallestBlock={getTallestBlock()}
+							// tallestBlock={getTallestBlock()}
 						/>
 					</Box>
 				);
 			})}
+			{/* <Block block={testSelector.blocks.block0} index={0} />
+			<Block block={testSelector.blocks.block1} index={1} />
+			<Block block={testSelector.blocks.block2} index={2} />
+			<Block block={testSelector.blocks.block3} index={3} />
+			<Block block={testSelector.blocks.block4} index={4} /> */}
+
 			<Grid item sx={{ position: "absolute", mt: 36 }} onClick={() => console.log(getTallestBlock())}>
 				current row
 			</Grid>

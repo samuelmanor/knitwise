@@ -1,6 +1,6 @@
 // handles things just within a single project like the current row and all the blocks
 
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 // const testProject = [
 // 	// the project
@@ -192,9 +192,35 @@ const projectSlice = createSlice({
 		currentRow: 1,
 	},
 	reducers: {
-		updateBlockRow(state, blockIndex, row) {
-			// for saving progress
-			state.project.blocks[blockIndex].currentBlockRow = row;
+		updateBlockRow(state, direction) {
+			const calculateNextPosition = (blockLength, previousPosition) => {
+				if (direction.payload.direction === "next") {
+					if (previousPosition < blockLength) {
+						return previousPosition + 1;
+					} else if (previousPosition === blockLength) {
+						return 1;
+					} else if (previousPosition > blockLength) {
+						return previousPosition;
+					}
+				}
+			};
+
+			const newState = {
+				...state,
+				project: {
+					...state.project,
+					blocks: state.project.blocks.map((block, index) => {
+						const newBlock = {
+							...block,
+							currentBlockRow: calculateNextPosition(block.stitches.length, block.currentBlockRow),
+						};
+						console.log("new block", newBlock);
+						return newBlock;
+					}),
+				},
+			};
+			// console.log("new state", newState);
+			return newState;
 		},
 		toNextRow(state) {
 			state.currentRow++;
@@ -205,16 +231,17 @@ const projectSlice = createSlice({
 	},
 });
 
-export const { setCurrentRow, toNextRow, toPrevRow } = projectSlice.actions;
+export const { updateBlockRow, toNextRow } = projectSlice.actions;
 
-export const updateBlockRow = (blockIndex, row) => {
-	return dispatch => {
-		dispatch(updateBlockRow(blockIndex, row));
-	};
-};
+// export const updateBlockRow = (index, newPosition) => {
+// 	return dispatch => {
+// 		dispatch(changeBlockRow(index, newPosition));
+// 	};
+// };
 
 export const nextRow = () => {
 	return dispatch => {
+		dispatch(updateBlockRow({ direction: "next" }));
 		dispatch(toNextRow());
 	};
 };

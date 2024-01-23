@@ -7,7 +7,7 @@ import { BlockProps } from "../Block";
 import { nextRow } from "../../reducers/projectReducer.js";
 
 interface WorkspaceProps {
-	project: ProjectProps;
+	project: any;
 }
 
 /**

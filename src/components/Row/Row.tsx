@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 interface RowProps {
 	// stitches?: JSX.Element[]; // takes an array of Stitch components
 	row?: StitchProps[];
-	rowToHighlight: number;
+	rowToHighlight: boolean;
 	i: number; // index of the row
 }
 
@@ -15,6 +15,7 @@ interface RowProps {
  * @param stitches The stitches to be rendered.
  */
 export const Row: FC<RowProps> = ({ row, i, rowToHighlight }) => {
+	// const testRowToHighlight = useSelector((state: any) => state.projects.blocks[i]);
 	// const currentRow = useSelector((state: any) => state.projects.currentRow);
 
 	// const renderStitches = () => {
@@ -35,9 +36,9 @@ export const Row: FC<RowProps> = ({ row, i, rowToHighlight }) => {
 			// width="fit-content"
 			justifyContent="space-evenly"
 			border="2px solid purple"
-			sx={{ color: rowToHighlight === i + 1 ? "red" : "black" }}
-			onClick={() => console.log(row, i)}
-			// sx={{ color: `${highlight ? "red" : "black"}`, backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+			// sx={{ color: rowToHighlight === i + 1 ? "red" : "black" }}
+			// onClick={() => console.log("hi")}
+			sx={{ color: `${rowToHighlight ? "red" : "black"}` }}
 			// pl={1}
 			// pr={1}
 		>
