@@ -18,14 +18,26 @@ export const Project: FC<ProjectProps> = ({ currentProjectRow, blocks }) => {
 	const testSelector = useSelector((state: any) => state.projects.project);
 	if (!blocks) return <div>no blocks found</div>;
 
+	// const tallestBlockLength = () => {
+	// 	let tallestBlock = 0;
+	// 	blocks.forEach(block => {
+	// 		if (block.stitches.length > tallestBlock) {
+	// 			tallestBlock = block.stitches.length;
+	// 		}
+	// 	});
+	// 	return tallestBlock;
+	// };
+
 	const getTallestBlock = () => {
-		// let tallestBlock = 0;
-		// blocks.forEach(block => {
-		// 	if (block.stitches.length > tallestBlock) {
-		// 		tallestBlock = block.stitches.length;
-		// 	}
-		// });
-		// return tallestBlock;
+		let tallestBlock = 0;
+		let index = 0;
+		blocks.forEach((block, i) => {
+			if (block.stitches.length > tallestBlock) {
+				tallestBlock = block.stitches.length;
+				index = i;
+			}
+		});
+		return index;
 	};
 
 	return (
@@ -49,6 +61,7 @@ export const Project: FC<ProjectProps> = ({ currentProjectRow, blocks }) => {
 							// currentBlockRow={block.currentBlockRow}
 							stitches={block.stitches}
 							index={i}
+							tallestBlockIndex={getTallestBlock()}
 							// tallestBlock={getTallestBlock()}
 						/>
 					</Box>

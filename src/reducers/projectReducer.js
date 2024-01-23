@@ -239,7 +239,7 @@ const projectSlice = createSlice({
 							...block,
 							currentBlockRow: calculateNextPosition(block.stitches.length, block.currentBlockRow),
 						};
-						console.log("new block", newBlock);
+						// console.log("new block", newBlock);
 						return newBlock;
 					}),
 				},
