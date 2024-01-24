@@ -2,6 +2,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const testProject3 = {
+	// move into a testProject.ts file
 	// projectName: "test project",
 	currentProjectRow: 1,
 	blocks: [
@@ -153,9 +154,9 @@ const projectSlice = createSlice({
 		currentRow: 1,
 	},
 	reducers: {
-		updateBlockRow(state, direction) {
+		updateBlockRow(state, action) {
 			const calculateNextPosition = (blockLength, previousPosition) => {
-				if (direction.payload.direction === "next") {
+				if (action.payload.direction === "next") {
 					if (previousPosition < blockLength) {
 						return previousPosition + 1;
 					} else if (previousPosition === blockLength) {
@@ -163,7 +164,7 @@ const projectSlice = createSlice({
 					} else if (previousPosition > blockLength) {
 						return previousPosition;
 					}
-				} else if (direction.payload.direction === "previous") {
+				} else if (action.payload.direction === "previous") {
 					if (previousPosition > 1) {
 						return previousPosition - 1;
 					} else if (previousPosition === 1) {
