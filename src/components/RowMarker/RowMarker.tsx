@@ -23,6 +23,7 @@ export const RowMarker: FC<RowMarkerProps> = ({ currentRow }) => {
 			sx={{
 				backgroundColor: "red",
 				display: "flex",
+				position: "absolute",
 				// flexDirection: side ? "row" : "row-reverse",
 			}}
 		>

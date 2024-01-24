@@ -58,3 +58,5 @@ export const Block: FC<BlockProps> = ({ stitches, index, tallestBlockIndex }) =>
 		</Grid>
 	);
 };
+
+// <Row blockIndex={} rowIndex={i} if blockIndex === 0 || blockIndex === project.blocks.length ? show row marker left or right ?

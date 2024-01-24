@@ -4,7 +4,7 @@ import { Project, ProjectProps } from "../Project";
 import { StitchProps } from "../Stitch";
 import { useDispatch, useSelector } from "react-redux";
 import { BlockProps } from "../Block";
-import { nextRow } from "../../reducers/projectReducer.js";
+import { nextRow, prevRow } from "../../reducers/projectReducer.js";
 
 interface WorkspaceProps {
 	project: any;
@@ -41,9 +41,11 @@ export const Workspace: FC<WorkspaceProps> = ({ project }) => {
 		>
 			{/* <Button>knitting mode {knittingMode ? "off" : "on"}</Button> */}
 			<Project blocks={project.blocks} />
-			{/* <Button onClick={() => console.log(projects)}>log projects</Button> */}
-			<Button onClick={() => dispatch(nextRow())} sx={{ position: "absolute", backgroundColor: "white" }}>
+			<Button onClick={() => dispatch(nextRow())} sx={{ backgroundColor: "white" }}>
 				next row
+			</Button>
+			<Button onClick={() => dispatch(prevRow())} sx={{ backgroundColor: "white" }}>
+				prev row
 			</Button>
 		</Grid>
 	);

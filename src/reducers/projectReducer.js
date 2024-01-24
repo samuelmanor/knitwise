@@ -1,69 +1,5 @@
 // handles things just within a single project like the current row and all the blocks
-
-import { createSlice, current } from "@reduxjs/toolkit";
-
-// const testProject = [
-// 	// the project
-// 	[
-// 		// the blocks
-// 		[
-// 			// the rows
-// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 }, // block 1 row 1 stitch 1
-// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 }, // block 1 row 1 stitch 2
-// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 }, // block 1 row 1 stitch 3
-// 		],
-// 		[
-// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 }, // block 1 row 2 stitch 1
-// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 }, // block 1 row 2 stitch 2
-// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 }, // block 1 row 2 stitch 3
-// 		],
-// 		[
-// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 }, // block 1 row 3 stitch 1
-// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
-// 		],
-// 	],
-// 	[
-// 		[
-// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 }, // block 2 row 1 stitch 1
-// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
-// 		],
-// 		[
-// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
-// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-// 		],
-// 		[
-// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
-// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
-// 		],
-
-// 		[
-// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
-// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-// 		],
-// 	],
-// 	[
-// 		[
-// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 }, // block 3 row 1 stitch 1
-// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
-// 		],
-// 		[
-// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
-// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-// 		],
-// 		[
-// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
-// 			{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
-// 			{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },
-// 		],
-// 	],
-// ];
+import { createSlice } from "@reduxjs/toolkit";
 
 export const testProject3 = {
 	// projectName: "test project",
@@ -227,42 +163,41 @@ const projectSlice = createSlice({
 					} else if (previousPosition > blockLength) {
 						return previousPosition;
 					}
+				} else if (direction.payload.direction === "previous") {
+					if (previousPosition > 1) {
+						return previousPosition - 1;
+					} else if (previousPosition === 1) {
+						return blockLength;
+					} else if (previousPosition < 1) {
+						return previousPosition;
+					}
 				}
 			};
 
-			const newState = {
+			return {
 				...state,
 				project: {
 					...state.project,
-					blocks: state.project.blocks.map((block, index) => {
+					blocks: state.project.blocks.map(block => {
 						const newBlock = {
 							...block,
 							currentBlockRow: calculateNextPosition(block.stitches.length, block.currentBlockRow),
 						};
-						// console.log("new block", newBlock);
 						return newBlock;
 					}),
 				},
 			};
-			// console.log("new state", newState);
-			return newState;
 		},
 		toNextRow(state) {
 			state.currentRow++;
 		},
-		// toPrevRow(state) {
-		// 	state.currentRow--;
-		// },
+		toPrevRow(state) {
+			state.currentRow--;
+		},
 	},
 });
 
-export const { updateBlockRow, toNextRow } = projectSlice.actions;
-
-// export const updateBlockRow = (index, newPosition) => {
-// 	return dispatch => {
-// 		dispatch(changeBlockRow(index, newPosition));
-// 	};
-// };
+export const { updateBlockRow, toNextRow, toPrevRow } = projectSlice.actions;
 
 export const nextRow = () => {
 	return dispatch => {
@@ -271,10 +206,11 @@ export const nextRow = () => {
 	};
 };
 
-// export const prevRow = () => {
-// 	return dispatch => {
-// 		dispatch(toPrevRow());
-// 	};
-// };
+export const prevRow = () => {
+	return dispatch => {
+		dispatch(updateBlockRow({ direction: "previous" }));
+		dispatch(toPrevRow());
+	};
+};
 
 export default projectSlice.reducer;

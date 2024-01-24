@@ -1,8 +1,6 @@
-import { Box, Button, Grid } from "@mui/material";
-import { FC, ReactElement, useEffect, useState } from "react";
+import { Box, Grid } from "@mui/material";
+import { FC } from "react";
 import { Block, BlockProps } from "../Block";
-import { useDispatch, useSelector } from "react-redux";
-import { nextRow } from "../../reducers/projectReducer.js";
 
 export interface ProjectProps {
 	// projectName?: string;
@@ -44,10 +42,6 @@ export const Project: FC<ProjectProps> = ({ blocks }) => {
 					</Box>
 				);
 			})}
-
-			<Grid item sx={{ position: "absolute", mt: 36 }} onClick={() => console.log(getTallestBlock())}>
-				current row
-			</Grid>
 		</Grid>
 	);
 };
