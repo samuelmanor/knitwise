@@ -4,35 +4,42 @@ import { expect } from "@storybook/jest";
 import { within } from "@storybook/testing-library";
 
 import { Block } from "./Block";
-import { testArgs } from "../Project/Project.stories";
+import { Provider } from "react-redux";
+import store from "./../../reducers/store";
+import { testProject } from "../../utils/testProject";
 
-// More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof Block> = {
 	title: "Block",
 	component: Block,
 	parameters: {
-		// Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
 		layout: "centered",
 	},
-	// This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
 	tags: ["autodocs"],
-	// More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-	argTypes: {
-		// backgroundColor: { control: 'color' },
-	},
+	decorators: [
+		Story => (
+			<Provider store={store}>
+				<Story />
+			</Provider>
+		),
+	],
 };
 
 export default meta;
 type Story = StoryObj<typeof Block>;
 
-// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Primary: Story = {
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		const element = canvas.getByText(/Block/i);
+		const element = canvas.getByTestId("block1");
 		expect(element).toBeTruthy();
 	},
 	args: {
-		// rows: [testArgs.rows.row1, testArgs.rows.row2],
+		stitches: [
+			testProject.blocks[0].stitches[0],
+			testProject.blocks[0].stitches[1],
+			testProject.blocks[0].stitches[0],
+		],
+		index: 1,
+		tallestBlockIndex: 1,
 	},
 };

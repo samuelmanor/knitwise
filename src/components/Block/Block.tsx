@@ -5,7 +5,7 @@ import { StitchProps } from "../Stitch";
 import { useSelector } from "react-redux";
 
 export interface BlockProps {
-	stitches?: StitchProps[][];
+	stitches: StitchProps[][];
 	index?: number;
 	tallestBlockIndex?: number;
 }
@@ -14,7 +14,7 @@ export interface BlockProps {
  * A block of the pattern; made up of many rows.
  * @param stitches The rows of stitches to be rendered.
  * @param index The index of the block.
- * @param tallestBlockIndex The index of the tallest block - used to calculate padding.
+ * @param tallestBlockIndex The index of the tallest block in the project - used to calculate padding for individual blocks.
  */
 export const Block: FC<BlockProps> = ({ stitches, index, tallestBlockIndex }) => {
 	const currentRow = useSelector((state: any) => state.projects.currentRow);
@@ -27,13 +27,21 @@ export const Block: FC<BlockProps> = ({ stitches, index, tallestBlockIndex }) =>
 	const handlePadding = () => {
 		const firstRow = currentRow === 1 && currentBlockRow === 1;
 		if (index === tallestBlockIndex || firstRow) {
+			// on the first row, all blocks are aligned
 			return "50px";
 		} else {
+			// a block's position is relative to the tallest block / the current row of both the tallest block and the current block
 			const tallestBlockPosition = tallestBlock.currentBlockRow * 49;
 			const currentBlockPosition = currentBlockRow * 49;
 			return `${tallestBlockPosition - currentBlockPosition + 50}px`;
 		}
 	};
+
+	if (!stitches) {
+		return null; // make error block ?
+	}
+
+	// <Row blockIndex={} rowIndex={i} if blockIndex === 0 || blockIndex === project.blocks.length ? show row marker left or right ?
 
 	return (
 		<Grid
@@ -43,6 +51,7 @@ export const Block: FC<BlockProps> = ({ stitches, index, tallestBlockIndex }) =>
 				maxHeight: "100%",
 				mb: handlePadding(),
 			}}
+			data-testid={`block${index}`}
 		>
 			<Grid
 				container
@@ -52,11 +61,9 @@ export const Block: FC<BlockProps> = ({ stitches, index, tallestBlockIndex }) =>
 			>
 				<Typography>{currentBlockRow}</Typography>
 				{stitches.map((row, i) => {
-					return <Row key={`row${i}`} row={row} i={i} rowToHighlight={currentBlockRow - 1 === i} />;
+					return <Row key={`row${i}`} row={row} highlightRow={currentBlockRow - 1 === i} />;
 				})}
 			</Grid>
 		</Grid>
 	);
 };
-
-// <Row blockIndex={} rowIndex={i} if blockIndex === 0 || blockIndex === project.blocks.length ? show row marker left or right ?

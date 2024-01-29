@@ -1,20 +1,18 @@
 import { Grid } from "@mui/material";
 import { FC } from "react";
 import { Stitch, StitchProps } from "../Stitch";
-import { useSelector } from "react-redux";
 
 interface RowProps {
-	// stitches?: JSX.Element[]; // takes an array of Stitch components
-	row?: StitchProps[];
-	rowToHighlight: boolean;
-	i: number; // index of the row
+	row: StitchProps[];
+	highlightRow?: boolean;
 }
 
 /**
  * A row of stitches.
- * @param stitches The stitches to be rendered.
+ * @param row The stitches to be rendered.
+ * @param highlightRow Whether or not to highlight the row to indicate that it's currently being worked.
  */
-export const Row: FC<RowProps> = ({ row, i, rowToHighlight }) => {
+export const Row: FC<RowProps> = ({ row, highlightRow }) => {
 	// const testRowToHighlight = useSelector((state: any) => state.projects.blocks[i]);
 	// const currentRow = useSelector((state: any) => state.projects.currentRow);
 
@@ -28,6 +26,10 @@ export const Row: FC<RowProps> = ({ row, i, rowToHighlight }) => {
 	// 	});
 	// };
 
+	if (!row) {
+		return null; // make error row ?
+	}
+
 	// figure something out about the width of stitches - flex-grow?
 	return (
 		<Grid
@@ -38,7 +40,7 @@ export const Row: FC<RowProps> = ({ row, i, rowToHighlight }) => {
 			border="2px solid purple"
 			// sx={{ color: rowToHighlight === i + 1 ? "red" : "black" }}
 			// onClick={() => console.log("hi")}
-			sx={{ color: `${rowToHighlight ? "red" : "black"}` }}
+			sx={{ color: `${highlightRow ? "red" : "black"}` }}
 			// pl={1}
 			// pr={1}
 		>
