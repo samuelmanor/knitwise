@@ -61,7 +61,7 @@ export const Block: FC<BlockProps> = ({ stitches, index, tallestBlockIndex }) =>
 			>
 				<Typography>{currentBlockRow}</Typography>
 				{stitches.map((row, i) => {
-					return <Row key={`row${i}`} row={row} highlightRow={currentBlockRow - 1 === i} />;
+					return <Row key={`row${i}`} row={row} highlightRow={currentBlockRow - 1 === i} index={i} />;
 				})}
 			</Grid>
 		</Grid>

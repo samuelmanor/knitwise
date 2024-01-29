@@ -5,14 +5,16 @@ import { Stitch, StitchProps } from "../Stitch";
 interface RowProps {
 	row: StitchProps[];
 	highlightRow?: boolean;
+	index?: number;
 }
 
 /**
  * A row of stitches.
  * @param row The stitches to be rendered.
  * @param highlightRow Whether or not to highlight the row to indicate that it's currently being worked.
+ * @param index The index of the row.
  */
-export const Row: FC<RowProps> = ({ row, highlightRow }) => {
+export const Row: FC<RowProps> = ({ row, highlightRow, index }) => {
 	// const testRowToHighlight = useSelector((state: any) => state.projects.blocks[i]);
 	// const currentRow = useSelector((state: any) => state.projects.currentRow);
 
@@ -43,12 +45,13 @@ export const Row: FC<RowProps> = ({ row, highlightRow }) => {
 			sx={{ color: `${highlightRow ? "red" : "black"}` }}
 			// pl={1}
 			// pr={1}
+			data-testid={`row${index}`}
 		>
 			{/* {renderStitches()} */}
 			{row.map((stitch, i) => {
 				return (
 					<Grid item display="inline">
-						<Stitch key={i} {...stitch} />
+						<Stitch key={i} index={i} {...stitch} />
 					</Grid>
 				);
 			})}

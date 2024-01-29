@@ -30,7 +30,7 @@ type Story = StoryObj<typeof Row>;
 export const Primary: Story = {
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		const element = canvas.getByText(/Row/i);
+		const element = canvas.getByTestId(/row1/i);
 		expect(element).toBeTruthy();
 	},
 	args: {
@@ -40,5 +40,6 @@ export const Primary: Story = {
 			testProject.blocks[0].stitches[0][0],
 		],
 		highlightRow: true,
+		index: 1,
 	},
 };

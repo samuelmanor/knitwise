@@ -4,46 +4,52 @@ import { expect } from "@storybook/jest";
 import { within } from "@storybook/testing-library";
 
 import { Stitch } from "./Stitch";
+import { Provider } from "react-redux";
+import store from "./../../reducers/store";
+import { testProject } from "../../utils/testProject";
 
-// More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof Stitch> = {
 	title: "Stitch",
 	component: Stitch,
 	parameters: {
-		// Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
 		layout: "centered",
 	},
-	// This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
 	tags: ["autodocs"],
-	// More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-	argTypes: {
-		// backgroundColor: { control: 'color' },
-	},
+	decorators: [
+		Story => (
+			<Provider store={store}>
+				<Story />
+			</Provider>
+		),
+	],
 };
 
 export default meta;
 type Story = StoryObj<typeof Stitch>;
 
-// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
+const knitStitch = testProject.blocks[0].stitches[0][0];
+const purlStitch = testProject.blocks[0].stitches[0][1];
+
 export const Knit: Story = {
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		const element = canvas.getByText(/Stitch/i);
+		const element = canvas.getByTestId(/stitch1knit/i);
 		expect(element).toBeTruthy();
 	},
 	args: {
-		// name: "knit",
-		// abbreviation: stitches.k.abbreviation,
-		// description: stitches.k.description,
-		// width: stitches.k.width,
+		...knitStitch,
+		index: 1,
 	},
 };
 
 export const Purl: Story = {
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const element = canvas.getByTestId(/stitch1purl/i);
+		expect(element).toBeTruthy();
+	},
 	args: {
-		// name: "purl",
-		// abbreviation: stitches.p.abbreviation,
-		// description: stitches.p.description,
-		// width: stitches.p.width,
+		...purlStitch,
+		index: 1,
 	},
 };

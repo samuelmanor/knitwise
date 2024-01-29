@@ -30,7 +30,7 @@ type Story = StoryObj<typeof Block>;
 export const Primary: Story = {
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		const element = canvas.getByTestId("block1");
+		const element = canvas.getByTestId(/block1/i);
 		expect(element).toBeTruthy();
 	},
 	args: {
