@@ -1,33 +1,25 @@
 import { Grid } from "@mui/material";
 import { FC } from "react";
 import { Stitch, StitchProps } from "../Stitch";
+import { RowMarker } from "../RowMarker";
 
 interface RowProps {
 	row: StitchProps[];
 	highlightRow?: boolean;
-	index?: number;
+	rowIndex?: number;
+	showLeftRowMarker?: boolean;
+	showRightRowMarker?: boolean;
 }
 
 /**
  * A row of stitches.
  * @param row The stitches to be rendered.
  * @param highlightRow Whether or not to highlight the row to indicate that it's currently being worked.
- * @param index The index of the row.
+ * @param rowIndex The index of the row.
+ * @param showLeftRowMarker Whether or not to show the wrong side marker on the left side of the row.
+ * @param showRightRowMarker Whether or not to show the right side marker on the right side of the row.
  */
-export const Row: FC<RowProps> = ({ row, highlightRow, index }) => {
-	// const testRowToHighlight = useSelector((state: any) => state.projects.blocks[i]);
-	// const currentRow = useSelector((state: any) => state.projects.currentRow);
-
-	// const renderStitches = () => {
-	// 	return row.map((stitch: StitchProps, i) => {
-	// 		return (
-	// 			<Grid item display="inline">
-	// 				<Stitch key={i} {...stitch} />
-	// 			</Grid>
-	// 		);
-	// 	});
-	// };
-
+export const Row: FC<RowProps> = ({ row, highlightRow, rowIndex, showLeftRowMarker, showRightRowMarker }) => {
 	if (!row) {
 		return null; // make error row ?
 	}
@@ -36,18 +28,12 @@ export const Row: FC<RowProps> = ({ row, highlightRow, index }) => {
 	return (
 		<Grid
 			container
-			// flexDirection="row"
-			// width="fit-content"
 			justifyContent="space-evenly"
 			border="2px solid purple"
-			// sx={{ color: rowToHighlight === i + 1 ? "red" : "black" }}
-			// onClick={() => console.log("hi")}
 			sx={{ color: `${highlightRow ? "red" : "black"}` }}
-			// pl={1}
-			// pr={1}
-			data-testid={`row${index}`}
+			data-testid={`row${rowIndex}`}
 		>
-			{/* {renderStitches()} */}
+			{highlightRow && showLeftRowMarker ? <RowMarker position="left" /> : null}
 			{row.map((stitch, i) => {
 				return (
 					<Grid item display="inline">
@@ -55,6 +41,7 @@ export const Row: FC<RowProps> = ({ row, highlightRow, index }) => {
 					</Grid>
 				);
 			})}
+			{highlightRow && showRightRowMarker ? <RowMarker position="right" /> : null}
 		</Grid>
 	);
 };

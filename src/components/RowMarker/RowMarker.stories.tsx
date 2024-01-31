@@ -30,18 +30,21 @@ type Story = StoryObj<typeof RowMarker>;
 export const RSRow: Story = {
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		const element = canvas.getByText(/RowMarker/i);
+		const element = canvas.getByText(/rowmarkerright/i);
 		expect(element).toBeTruthy();
 	},
 	args: {
-		// children: <Row stitches={[testArgs.stitches.knit, testArgs.stitches.purl, testArgs.stitches.knit]}></Row>,
-		currentRow: 3,
+		position: "right",
 	},
 };
 
 export const WSRow: Story = {
+	play: async ({ canvasElement }) => {
+		const canvas = within(canvasElement);
+		const element = canvas.getByText(/rowmarkerleft/i);
+		expect(element).toBeTruthy();
+	},
 	args: {
-		// children: RSRow.args.children,
-		currentRow: 4,
+		position: "left",
 	},
 };

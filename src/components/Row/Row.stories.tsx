@@ -40,6 +40,6 @@ export const Primary: Story = {
 			testProject.blocks[0].stitches[0][0],
 		],
 		highlightRow: true,
-		index: 1,
+		rowIndex: 1,
 	},
 };

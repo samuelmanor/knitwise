@@ -1,6 +1,7 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import { FC } from "react";
 import { Block, BlockProps } from "../Block";
+import { useSelector } from "react-redux";
 
 export interface ProjectProps {
 	// projectName?: string;
@@ -12,6 +13,7 @@ export interface ProjectProps {
  * @param blocks The blocks of the project.
  */
 export const Project: FC<ProjectProps> = ({ blocks }) => {
+	const currentRow = useSelector((state: any) => state.projects.currentRow);
 	if (!blocks) return <div>no blocks found</div>;
 
 	const getTallestBlock = () => {
@@ -35,6 +37,7 @@ export const Project: FC<ProjectProps> = ({ blocks }) => {
 				gap: 2,
 			}}
 		>
+			<Typography variant="h6">current row: {currentRow}</Typography>
 			{blocks.map((block, i) => {
 				return (
 					<Box key={i} sx={{ display: "flex", alignItems: "flex-end" }}>
