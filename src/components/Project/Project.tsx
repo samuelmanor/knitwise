@@ -32,7 +32,8 @@ export const Project: FC<ProjectProps> = ({ blocks }) => {
 		<Grid
 			container
 			sx={{
-				background: "green",
+				background: "gray",
+				border: "2px solid black",
 				justifyContent: "center",
 				gap: 2,
 			}}

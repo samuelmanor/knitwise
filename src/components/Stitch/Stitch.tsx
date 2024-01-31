@@ -26,12 +26,21 @@ export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbo
 			<Grid
 				item
 				fontSize={30}
-				sx={{ cursor: "pointer", mt: 0.5, mb: 0.5, border: "1px solid red" }}
-				data-testId={`stitch${index}${name}`}
+				sx={{
+					cursor: "pointer",
+					mt: 0.5,
+					mb: 0.5,
+					// border: "1px solid red",
+					width: symbol.length * 15,
+					display: "flex",
+					justifyContent: "center",
+					letterSpacing: symbol.length * 0.5,
+					border: symbol.length > 1 ? "1px solid black" : "none",
+				}}
+				data-testid={`stitch${index}${name}`}
 			>
 				{symbol}
 			</Grid>
 		</StitchTip>
-		// <Grid item>{abbreviation}</Grid>
 	);
 };

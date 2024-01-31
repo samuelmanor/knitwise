@@ -32,8 +32,8 @@ export const Block: FC<BlockProps> = ({ stitches, index, tallestBlockIndex }) =>
 			return "50px";
 		} else {
 			// a block's position is relative to the current row of both the tallest block and the current block
-			const tallestBlockPosition = tallestBlock.currentBlockRow * 49;
-			const currentBlockPosition = currentBlockRow * 49;
+			const tallestBlockPosition = tallestBlock.currentBlockRow * 43;
+			const currentBlockPosition = currentBlockRow * 43;
 			return `${tallestBlockPosition - currentBlockPosition + 50}px`;
 		}
 	};
@@ -46,11 +46,13 @@ export const Block: FC<BlockProps> = ({ stitches, index, tallestBlockIndex }) =>
 		<Grid
 			container
 			sx={{
-				border: "2px solid red",
+				// border: "2px solid red",
+				backgroundColor: "rgba(0,0,0,0.3)",
 				maxHeight: "100%",
 				mb: handlePadding(),
 			}}
 			data-testid={`block${index}`}
+			onClick={() => console.log(currentBlockRow)}
 		>
 			<Grid
 				container

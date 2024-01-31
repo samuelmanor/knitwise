@@ -29,8 +29,9 @@ export const Row: FC<RowProps> = ({ row, highlightRow, rowIndex, showLeftRowMark
 		<Grid
 			container
 			justifyContent="space-evenly"
-			border="2px solid purple"
-			sx={{ color: `${highlightRow ? "red" : "black"}` }}
+			// border="2px solid purple"
+			// sx={{ color: `${highlightRow ? "red" : "black"}` }}
+			sx={{ backgroundColor: `${highlightRow ? "rgba(0,0,0,0.3)" : "transparent"}` }}
 			data-testid={`row${rowIndex}`}
 		>
 			{highlightRow && showLeftRowMarker ? <RowMarker position="left" /> : null}
