@@ -23,7 +23,7 @@ export const RowMarker: FC<RowMarkerProps> = ({ position }) => {
 				ml: position === "right" ? 15 : 0,
 				mr: position === "left" ? 15 : 0,
 			}}
-			data-testId={`rowmarker${position}`}
+			data-testid={`rowmarker${position}`}
 		>
 			<Grid item>{label}</Grid>
 		</Grid>

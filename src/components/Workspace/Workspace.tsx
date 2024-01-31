@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Button, Grid } from "@mui/material";
 import { Project, ProjectProps } from "../Project";
 import { StitchProps } from "../Stitch";
@@ -24,10 +24,6 @@ export const Workspace: FC<WorkspaceProps> = ({ project }) => {
 	if (!project) return null;
 
 	// where editing mode is handled ?
-
-	const getPattern = () => {
-		const pattern = "";
-	};
 
 	return (
 		<Grid
