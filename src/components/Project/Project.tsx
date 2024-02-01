@@ -4,7 +4,7 @@ import { Block, BlockProps } from "../Block";
 import { useSelector } from "react-redux";
 
 export interface ProjectProps {
-	// projectName?: string;
+	projectName?: string;
 	blocks: BlockProps[];
 }
 
@@ -14,6 +14,8 @@ export interface ProjectProps {
  */
 export const Project: FC<ProjectProps> = ({ blocks }) => {
 	const currentRow = useSelector((state: any) => state.projects.currentRow);
+	const currentMode = useSelector((state: any) => state.workspace.mode);
+
 	if (!blocks) return <div>no blocks found</div>;
 
 	const getTallestBlock = () => {
@@ -38,7 +40,7 @@ export const Project: FC<ProjectProps> = ({ blocks }) => {
 				gap: 2,
 			}}
 		>
-			<Typography variant="h6">current row: {currentRow}</Typography>
+			{currentMode === "chart" ? <Typography variant="h6">current row: {currentRow}</Typography> : null}
 			{blocks.map((block, i) => {
 				return (
 					<Box key={i} sx={{ display: "flex", alignItems: "flex-end" }}>

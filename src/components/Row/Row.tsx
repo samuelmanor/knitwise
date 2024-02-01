@@ -2,6 +2,7 @@ import { Grid } from "@mui/material";
 import { FC } from "react";
 import { Stitch, StitchProps } from "../Stitch";
 import { RowMarker } from "../RowMarker";
+import { useSelector } from "react-redux";
 
 interface RowProps {
 	row: StitchProps[];
@@ -20,6 +21,8 @@ interface RowProps {
  * @param showRightRowMarker Whether or not to show the right side marker on the right side of the row.
  */
 export const Row: FC<RowProps> = ({ row, highlightRow, rowIndex, showLeftRowMarker, showRightRowMarker }) => {
+	const currentMode = useSelector((state: any) => state.workspace.mode);
+
 	if (!row) {
 		return null; // make error row ?
 	}
@@ -31,18 +34,18 @@ export const Row: FC<RowProps> = ({ row, highlightRow, rowIndex, showLeftRowMark
 			justifyContent="space-evenly"
 			// border="2px solid purple"
 			// sx={{ color: `${highlightRow ? "red" : "black"}` }}
-			sx={{ backgroundColor: `${highlightRow ? "rgba(0,0,0,0.3)" : "transparent"}` }}
+			sx={{ backgroundColor: `${highlightRow && currentMode === "chart" ? "rgba(0,0,0,0.3)" : "transparent"}` }}
 			data-testid={`row${rowIndex}`}
 		>
-			{highlightRow && showLeftRowMarker ? <RowMarker position="left" /> : null}
+			{highlightRow && showLeftRowMarker && currentMode === "chart" ? <RowMarker position="left" /> : null}
 			{row.map((stitch, i) => {
 				return (
 					<Grid item display="inline">
-						<Stitch key={i} index={i} {...stitch} />
+						<Stitch key={i} index={i} view={"chart"} {...stitch} />
 					</Grid>
 				);
 			})}
-			{highlightRow && showRightRowMarker ? <RowMarker position="right" /> : null}
+			{highlightRow && showRightRowMarker && currentMode === "chart" ? <RowMarker position="right" /> : null}
 		</Grid>
 	);
 };

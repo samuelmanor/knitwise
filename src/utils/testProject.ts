@@ -1,7 +1,7 @@
 import { stitches } from "./stitches";
 
 export const testProject = {
-	// projectName: "test project",
+	projectName: "test project 1",
 	currentProjectRow: 1,
 	blocks: [
 		{

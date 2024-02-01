@@ -9,6 +9,7 @@ export interface StitchProps {
 	description?: string;
 	width?: number;
 	index?: number;
+	view?: "chart" | "search";
 	// userGenerated?: boolean; -> future feature ?
 }
 
@@ -20,27 +21,33 @@ export interface StitchProps {
  * @param description A description of the stitch that describes how to work it.
  * @param width The width of the stitch in regards to grid columns.
  */
-export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbol, width, index }) => {
-	return (
-		<StitchTip name={name} description={description}>
-			<Grid
-				item
-				fontSize={30}
-				sx={{
-					cursor: "pointer",
-					mt: 0.5,
-					mb: 0.5,
-					// border: "1px solid red",
-					width: symbol.length * 15,
-					display: "flex",
-					justifyContent: "center",
-					letterSpacing: symbol.length * 0.5,
-					border: symbol.length > 1 ? "1px solid black" : "none",
-				}}
-				data-testid={`stitch${index}${name}`}
-			>
-				{symbol}
-			</Grid>
-		</StitchTip>
-	);
+export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbol, width, index, view }) => {
+	if (view === "chart" || view === undefined) {
+		return (
+			<StitchTip name={name} description={description}>
+				<Grid
+					item
+					fontSize={30}
+					sx={{
+						cursor: "pointer",
+						mt: 0.5,
+						mb: 0.5,
+						// border: "1px solid red",
+						width: symbol.length * 15,
+						display: "flex",
+						justifyContent: "center",
+						letterSpacing: symbol.length * 0.5,
+						border: symbol.length > 1 ? "1px solid black" : "none",
+					}}
+					data-testid={`stitch${index}${name}`}
+				>
+					{symbol}
+				</Grid>
+			</StitchTip>
+		);
+	}
+
+	if (view === "search") {
+		return <Grid item>stitch</Grid>;
+	}
 };

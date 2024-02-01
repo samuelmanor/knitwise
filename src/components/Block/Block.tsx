@@ -52,7 +52,7 @@ export const Block: FC<BlockProps> = ({ stitches, index, tallestBlockIndex }) =>
 				mb: handlePadding(),
 			}}
 			data-testid={`block${index}`}
-			onClick={() => console.log(currentBlockRow)}
+			// onClick={() => console.log(currentBlockRow)}
 		>
 			<Grid
 				container
