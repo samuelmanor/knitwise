@@ -5,6 +5,7 @@ import { StitchProps } from "../Stitch";
 import { useSelector } from "react-redux";
 
 export interface BlockProps {
+	// blockName?: string;
 	stitches: StitchProps[][];
 	index?: number;
 	tallestBlockIndex?: number;
