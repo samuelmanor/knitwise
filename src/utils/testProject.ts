@@ -6,7 +6,7 @@ export const testProject = {
 	blocks: [
 		{
 			currentBlockRow: 1,
-			// blockName: "block 1",
+			blockName: "block 1",
 			stitches: [
 				[stitches.k, stitches.p, stitches.k],
 				[stitches.p, stitches.k, stitches.p],
@@ -14,7 +14,7 @@ export const testProject = {
 		},
 		{
 			currentBlockRow: 1,
-			// blockName: "panel a",
+			blockName: "panel a",
 			stitches: [
 				// "panel a" from handsome chris sweater pattern
 				[stitches.p, stitches._2x1rpc, stitches._2x1lpc, stitches._2x1rpc, stitches._2x1lpc, stitches.p],
@@ -172,6 +172,7 @@ export const testProject = {
 		},
 		{
 			currentBlockRow: 1,
+			blockName: "block 3",
 			stitches: [
 				[
 					{ name: "purl", abbreviation: "p", symbol: "-", description: "purl 1", width: 1 },
@@ -195,6 +196,7 @@ export const testProject = {
 		},
 		{
 			currentBlockRow: 1,
+			blockName: "block 4",
 			stitches: [
 				[
 					{ name: "knit", abbreviation: "k", symbol: "*", description: "knit 1", width: 1 },

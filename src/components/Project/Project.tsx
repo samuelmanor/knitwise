@@ -44,7 +44,12 @@ export const Project: FC<ProjectProps> = ({ blocks }) => {
 			{blocks.map((block, i) => {
 				return (
 					<Box key={i} sx={{ display: "flex", alignItems: "flex-end" }}>
-						<Block stitches={block.stitches} index={i} tallestBlockIndex={getTallestBlock()} />
+						<Block
+							stitches={block.stitches}
+							blockName={block.blockName}
+							index={i}
+							tallestBlockIndex={getTallestBlock()}
+						/>
 					</Box>
 				);
 			})}

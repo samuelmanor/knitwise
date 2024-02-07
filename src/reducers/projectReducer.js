@@ -44,6 +44,11 @@ const projectSlice = createSlice({
 				},
 			};
 		},
+		resetProject(state) {
+			state.project.blocks.forEach(block => {
+				block.currentBlockRow = 1;
+			});
+		},
 		toNextRow(state) {
 			state.currentRow++;
 		},
@@ -53,7 +58,7 @@ const projectSlice = createSlice({
 	},
 });
 
-export const { updateBlockRow, toNextRow, toPrevRow } = projectSlice.actions;
+export const { updateBlockRow, toNextRow, toPrevRow, resetProject } = projectSlice.actions;
 
 export const nextRow = () => {
 	return dispatch => {
@@ -66,6 +71,12 @@ export const prevRow = () => {
 	return dispatch => {
 		dispatch(updateBlockRow({ direction: "previous" }));
 		dispatch(toPrevRow());
+	};
+};
+
+export const reset = () => {
+	return dispatch => {
+		dispatch(resetProject());
 	};
 };
 

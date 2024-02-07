@@ -1,8 +1,8 @@
-import { FC } from "react";
-import { Button, Grid, Typography } from "@mui/material";
+import { FC, useState } from "react";
+import { Button, ClickAwayListener, Grid, Typography } from "@mui/material";
 import { Project } from "../Project";
 import { useDispatch, useSelector } from "react-redux";
-import { nextRow, prevRow } from "../../reducers/projectReducer.js";
+import { nextRow, prevRow, reset } from "../../reducers/projectReducer.js";
 import { setMode } from "../../reducers/workspaceReducer.js";
 
 interface WorkspaceProps {
@@ -17,13 +17,12 @@ export const Workspace: FC<WorkspaceProps> = ({}) => {
 	const currentMode = useSelector((state: any) => state.workspace.mode);
 	const projects = useSelector((state: any) => state.workspace.projects);
 	const currentProjectId = useSelector((state: any) => state.workspace.currentProjectId);
+	const [showEditWarning, setShowEditWarning] = useState(false);
 
 	const dispatch = useDispatch();
 
 	// make no project found component?
 	// if (!project) return null;
-
-	// where editing mode is handled ?
 
 	const chartView = (
 		<Grid container>
@@ -33,6 +32,9 @@ export const Workspace: FC<WorkspaceProps> = ({}) => {
 			</Button>
 			<Button onClick={() => dispatch(prevRow())} sx={{ backgroundColor: "white" }}>
 				prev row
+			</Button>
+			<Button onClick={() => dispatch(reset())} sx={{ backgroundColor: "white" }}>
+				reset project
 			</Button>
 		</Grid>
 	);
@@ -52,7 +54,19 @@ export const Workspace: FC<WorkspaceProps> = ({}) => {
 	// 	</Grid>
 	// );
 
-	const editView = // for editing an individual project
+	/**
+	 * Handles the edit button click; sets the mode to "edit", resets the project, and dismisses the warning.
+	 */
+	const handleEdit = () => {
+		dispatch(setMode("edit"));
+		dispatch(reset());
+		setShowEditWarning(false);
+	};
+
+	/**
+	 * The view used to edit the project.
+	 */
+	const editView = // todo: flesh this out. or yknow make it useable
 		(
 			<Grid container>
 				<Typography variant="h6">edit mode</Typography>
@@ -60,6 +74,21 @@ export const Workspace: FC<WorkspaceProps> = ({}) => {
 				<Project blocks={projects[currentProjectId].blocks} />
 			</Grid>
 		);
+
+	/**
+	 * Warns the user that switching to edit mode will reset any progress made.
+	 */
+	const editWarning = (
+		<ClickAwayListener onClickAway={() => setShowEditWarning(false)}>
+			<Grid container sx={{ backgroundColor: "red" }}>
+				<Typography>
+					Warning: switching to edit mode will reset all block rows to 1. Are you sure you want to continue?
+				</Typography>
+				<Button onClick={handleEdit}>yes</Button>
+				<Button onClick={() => setShowEditWarning(false)}>no</Button>
+			</Grid>
+		</ClickAwayListener>
+	);
 
 	return (
 		<Grid
@@ -72,7 +101,8 @@ export const Workspace: FC<WorkspaceProps> = ({}) => {
 			// overflow={"scroll"}
 		>
 			<Typography variant="h6">{projects[currentProjectId].projectName}</Typography>
-			{currentMode === "chart" ? <Button onClick={() => dispatch(setMode("edit"))}>edit</Button> : null}
+			{currentMode === "chart" ? <Button onClick={() => setShowEditWarning(true)}>edit</Button> : null}
+			{showEditWarning ? editWarning : null}
 			{currentMode === "chart" ? chartView : null}
 			{/* {currentMode === "select" ? selectView : null} */}
 			{currentMode === "edit" ? editView : null}

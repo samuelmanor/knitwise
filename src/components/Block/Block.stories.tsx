@@ -40,6 +40,7 @@ export const Primary: Story = {
 			testProject.blocks[0].stitches[0],
 		],
 		index: 1,
+		blockName: "block1",
 		tallestBlockIndex: 1,
 	},
 };

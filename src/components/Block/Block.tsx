@@ -5,7 +5,7 @@ import { StitchProps } from "../Stitch";
 import { useSelector } from "react-redux";
 
 export interface BlockProps {
-	// blockName?: string;
+	blockName: string;
 	stitches: StitchProps[][];
 	index?: number;
 	tallestBlockIndex?: number;
@@ -17,11 +17,12 @@ export interface BlockProps {
  * @param index The index of the block.
  * @param tallestBlockIndex The index of the tallest block in the project - used to calculate padding for individual blocks.
  */
-export const Block: FC<BlockProps> = ({ stitches, index, tallestBlockIndex }) => {
+export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlockIndex }) => {
 	const currentRow = useSelector((state: any) => state.projects.currentRow);
 	const numOfBlocks = useSelector((state: any) => state.projects.project.blocks.length);
 	const currentBlockRow = useSelector((state: any) => state.projects.project.blocks[index].currentBlockRow);
 	const tallestBlock = useSelector((state: any) => state.projects.project.blocks[tallestBlockIndex]);
+	const currentMode = useSelector((state: any) => state.workspace.mode);
 
 	/**
 	 * Calculates the padding for the block.
@@ -61,7 +62,8 @@ export const Block: FC<BlockProps> = ({ stitches, index, tallestBlockIndex }) =>
 					flexDirection: "column-reverse",
 				}}
 			>
-				<Typography>{currentBlockRow}</Typography>
+				<Typography>{currentMode === "chart" ? `current row: ${currentRow}` : null}</Typography>
+				<Typography>{blockName}</Typography>
 				{stitches.map((row, i) => {
 					return (
 						<Row
