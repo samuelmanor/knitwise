@@ -1,8 +1,9 @@
-import { Grid, Typography } from "@mui/material";
+import { Button, IconButton, Grid, Typography } from "@mui/material";
 import { FC } from "react";
 import { Row } from "../Row";
 import { StitchProps } from "../Stitch";
 import { useSelector } from "react-redux";
+import { EditOutlined, DeleteOutlined } from "@mui/icons-material";
 
 export interface BlockProps {
 	blockName: string;
@@ -56,6 +57,16 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 			data-testid={`block${index}`}
 			// onClick={() => console.log(currentBlockRow)}
 		>
+			{currentMode === "edit" ? (
+				<Grid container>
+					<IconButton onClick={() => console.log("hi")}>
+						<EditOutlined />
+					</IconButton>
+					<IconButton onClick={() => console.log("hi")}>
+						<DeleteOutlined />
+					</IconButton>
+				</Grid>
+			) : null}
 			<Grid
 				container
 				sx={{
