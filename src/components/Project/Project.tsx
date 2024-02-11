@@ -1,33 +1,43 @@
-import { Box, Grid, Typography } from "@mui/material";
-import { FC } from "react";
+import { Box, Grid, IconButton, Typography } from "@mui/material";
+import { FC, useState } from "react";
 import { Block, BlockProps } from "../Block";
 import { useSelector } from "react-redux";
+import { EditOutlined, DeleteOutlined } from "@mui/icons-material";
+import { BlockEditor } from "../BlockEditor";
 
 export interface ProjectProps {
 	projectName?: string;
-	blocks: BlockProps[];
+	// blocks?: BlockProps[];
 }
 
 /**
  * A project; made up of many blocks.
  * @param blocks The blocks of the project.
  */
-export const Project: FC<ProjectProps> = ({ blocks }) => {
+export const Project: FC<ProjectProps> = ({}) => {
 	const currentRow = useSelector((state: any) => state.projects.currentRow);
 	const currentMode = useSelector((state: any) => state.workspace.mode);
+	const blocks = useSelector((state: any) => state.projects.project.blocks);
+	const [showBlockEditor, setShowBlockEditor] = useState(false);
+	const [currentDraftBlock, setCurrentDraftBlock] = useState(0);
 
 	if (!blocks) return <div>no blocks found</div>;
 
 	const getTallestBlock = () => {
 		let tallestBlock = 0;
 		let index = 0;
-		blocks.forEach((block, i) => {
+		blocks.forEach((block: BlockProps, i: number) => {
 			if (block.stitches.length > tallestBlock) {
 				tallestBlock = block.stitches.length;
 				index = i;
 			}
 		});
 		return index;
+	};
+
+	const handleEdit = (blockIndex: number) => {
+		setShowBlockEditor(true);
+		setCurrentDraftBlock(blockIndex);
 	};
 
 	return (
@@ -40,10 +50,23 @@ export const Project: FC<ProjectProps> = ({ blocks }) => {
 				gap: 2,
 			}}
 		>
+			{currentMode === "edit" && showBlockEditor ? (
+				<BlockEditor blockIndex={currentDraftBlock} closeEditor={() => setShowBlockEditor(false)} />
+			) : null}
 			{currentMode === "chart" ? <Typography variant="h6">current row: {currentRow}</Typography> : null}
-			{blocks.map((block, i) => {
+			{blocks.map((block: BlockProps, i: number) => {
 				return (
 					<Box key={i} sx={{ display: "flex", alignItems: "flex-end" }}>
+						{currentMode === "edit" ? (
+							<Grid container position={"absolute"}>
+								<IconButton onClick={() => handleEdit(i)}>
+									<EditOutlined />
+								</IconButton>
+								<IconButton onClick={() => console.log(`delete ${i}`)}>
+									<DeleteOutlined />
+								</IconButton>
+							</Grid>
+						) : null}
 						<Block
 							stitches={block.stitches}
 							blockName={block.blockName}

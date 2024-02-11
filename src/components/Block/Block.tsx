@@ -1,9 +1,10 @@
 import { Button, IconButton, Grid, Typography } from "@mui/material";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Row } from "../Row";
 import { StitchProps } from "../Stitch";
 import { useSelector } from "react-redux";
 import { EditOutlined, DeleteOutlined } from "@mui/icons-material";
+import { BlockEditor } from "../BlockEditor";
 
 export interface BlockProps {
 	blockName: string;
@@ -24,6 +25,7 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 	const currentBlockRow = useSelector((state: any) => state.projects.project.blocks[index].currentBlockRow);
 	const tallestBlock = useSelector((state: any) => state.projects.project.blocks[tallestBlockIndex]);
 	const currentMode = useSelector((state: any) => state.workspace.mode);
+	// const [showBlockEditor, setShowBlockEditor] = useState(false);
 
 	/**
 	 * Calculates the padding for the block.
@@ -54,19 +56,24 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 				maxHeight: "100%",
 				mb: handlePadding(),
 			}}
-			data-testid={`block${index}`}
+			data-testid={`block${index}`} // todo: change this to use the block's name
 			// onClick={() => console.log(currentBlockRow)}
 		>
-			{currentMode === "edit" ? (
+			{/* {currentMode === "edit" ? (
 				<Grid container>
-					<IconButton onClick={() => console.log("hi")}>
+					<IconButton onClick={() => setShowBlockEditor(true)}>
 						<EditOutlined />
 					</IconButton>
 					<IconButton onClick={() => console.log("hi")}>
 						<DeleteOutlined />
 					</IconButton>
 				</Grid>
-			) : null}
+			) : null} */}
+			{/* {showBlockEditor ? (
+				<Grid container sx={{ border: "2px solid red", height: 100, width: 100, position: "absolute" }}>
+					<BlockEditor blockIndex={index} closeEditor={() => setShowBlockEditor(false)} />
+				</Grid>
+			) : null} */}
 			<Grid
 				container
 				sx={{

@@ -9,6 +9,11 @@ const workspaceSlice = createSlice({
 		mode: "chart",
 		customBlocks: [],
 		currentProjectId: 0,
+		// draftProject: {
+		// 	name: "",
+		// 	blocks: [],
+		// 	currentDraftBlock: 0,
+		// }
 	},
 	reducers: {
 		// addProject(state, action) {

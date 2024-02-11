@@ -26,7 +26,7 @@ export const Workspace: FC<WorkspaceProps> = ({}) => {
 
 	const chartView = (
 		<Grid container>
-			<Project blocks={projects[currentProjectId].blocks} />
+			<Project />
 			<Button onClick={() => dispatch(nextRow())} sx={{ backgroundColor: "white" }}>
 				next row
 			</Button>
@@ -71,7 +71,7 @@ export const Workspace: FC<WorkspaceProps> = ({}) => {
 			<Grid container>
 				<Typography variant="h6">edit mode</Typography>
 				<Button onClick={() => dispatch(setMode("chart"))}>finish editing</Button>
-				<Project blocks={projects[currentProjectId].blocks} />
+				<Project />
 			</Grid>
 		);
 
