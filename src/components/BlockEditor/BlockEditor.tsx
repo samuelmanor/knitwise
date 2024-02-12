@@ -1,9 +1,9 @@
 import { FC, useState } from "react";
 import { Block } from "../Block/Block";
-import { Button, Grid, IconButton, Typography } from "@mui/material";
+import { Button, ClickAwayListener, Grid, IconButton, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Row } from "../Row";
-import { DeleteOutlined, EditOutlined, SaveOutlined } from "@mui/icons-material";
+import { AddOutlined, Close, DeleteOutlined, EditOutlined, SaveOutlined } from "@mui/icons-material";
 import { updateRow } from "../../reducers/projectReducer";
 
 interface BlockEditorProps {
@@ -27,6 +27,12 @@ export const BlockEditor: FC<BlockEditorProps> = ({ blockIndex, closeEditor }) =
 		dispatch(updateRow({ blockIndex, rowIndex, stitches: [] }));
 	};
 
+	const addRowButton = (
+		<IconButton onClick={() => console.log("add ")}>
+			<AddOutlined />
+		</IconButton>
+	);
+
 	const rows = block.stitches.map((row, i) => {
 		return (
 			<Grid container key={i}>
@@ -34,23 +40,37 @@ export const BlockEditor: FC<BlockEditorProps> = ({ blockIndex, closeEditor }) =
 					<Typography>{i + 1}</Typography>
 				</Grid>
 				<Grid item onClick={() => console.log("kasdjf;sakd", row)}>
-					{draftRow === i ? <div>draft row</div> : <Row row={row} />}
+					{draftRow === i ? (
+						<ClickAwayListener onClickAway={() => setDraftRow(-1)}>
+							<div>draft row</div>
+						</ClickAwayListener>
+					) : (
+						<Row row={row} />
+					)}
 				</Grid>
 				{draftRow === i ? (
-					<IconButton onClick={() => handleRowEdit(i)}>
-						<SaveOutlined />
-					</IconButton>
+					<Grid container>
+						<IconButton onClick={() => handleRowEdit(i)}>
+							<SaveOutlined />
+						</IconButton>
+						<IconButton onClick={() => setDraftRow(-1)}>
+							<Close />
+						</IconButton>
+					</Grid>
 				) : (
 					<Grid container>
-						<Grid item>
-							<IconButton onClick={() => setDraftRow(i)}>
-								<EditOutlined />
-							</IconButton>
-						</Grid>
-						<Grid item>
-							<IconButton onClick={() => deleteRow(i)}>
-								<DeleteOutlined />
-							</IconButton>
+						<Grid container>
+							<Grid item>
+								<IconButton onClick={() => setDraftRow(i)}>
+									<EditOutlined />
+								</IconButton>
+							</Grid>
+							<Grid item>
+								<IconButton onClick={() => deleteRow(i)}>
+									<DeleteOutlined />
+								</IconButton>
+							</Grid>
+							{draftRow === -1 ? <Grid container>{addRowButton}</Grid> : null}
 						</Grid>
 					</Grid>
 				)}
@@ -60,11 +80,7 @@ export const BlockEditor: FC<BlockEditorProps> = ({ blockIndex, closeEditor }) =
 
 	return (
 		<Grid container onClick={() => console.log(block)}>
-			<Grid item>
-				{/* <Block index={blockIndex} {...block} /> */}
-				{rows}
-				{block.stitches.length < 10 ? <Button>add row</Button> : null}
-			</Grid>
+			<Grid item>{rows}</Grid>
 			<Grid item>
 				<Button onClick={closeEditor}>close</Button>
 			</Grid>

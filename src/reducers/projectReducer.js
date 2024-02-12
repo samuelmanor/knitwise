@@ -70,6 +70,9 @@ const projectSlice = createSlice({
 			};
 			return newState;
 		},
+		addBlockRow(state, action) {
+			console.log(action.payload);
+		},
 		removeBlockRow(state, action) {
 			const newState = {
 				...state,
@@ -106,8 +109,15 @@ const projectSlice = createSlice({
 	},
 });
 
-export const { updateBlockRowPosition, updateBlockRowStitches, removeBlockRow, toNextRow, toPrevRow, resetProject } =
-	projectSlice.actions;
+export const {
+	updateBlockRowPosition,
+	updateBlockRowStitches,
+	addBlockRow,
+	removeBlockRow,
+	toNextRow,
+	toPrevRow,
+	resetProject,
+} = projectSlice.actions;
 
 export const nextRow = () => {
 	return dispatch => {
