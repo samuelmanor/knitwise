@@ -1,5 +1,5 @@
 // handles things just within a single project like the current row and all the blocks
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import { testProject } from "../utils/testProject";
 
 const projectSlice = createSlice({
@@ -9,7 +9,7 @@ const projectSlice = createSlice({
 		currentRow: 1,
 	},
 	reducers: {
-		updateBlockRow(state, action) {
+		updateBlockRowPosition(state, action) {
 			const calculateNextPosition = (blockLength, previousPosition) => {
 				if (action.payload.direction === "next") {
 					if (previousPosition < blockLength) {
@@ -44,6 +44,54 @@ const projectSlice = createSlice({
 				},
 			};
 		},
+		updateBlockRowStitches(state, action) {
+			const newState = {
+				...state,
+				project: {
+					...state.project,
+					blocks: state.project.blocks.map((block, index) => {
+						if (index === action.payload.blockIndex) {
+							const newBlock = {
+								...block,
+								stitches: block.stitches.map((row, rowIndex) => {
+									if (rowIndex === action.payload.rowIndex) {
+										return action.payload.stitches;
+									} else {
+										return row;
+									}
+								}),
+							};
+							return newBlock;
+						} else {
+							return block;
+						}
+					}),
+				},
+			};
+			return newState;
+		},
+		removeBlockRow(state, action) {
+			const newState = {
+				...state,
+				project: {
+					...state.project,
+					blocks: state.project.blocks.map((block, index) => {
+						if (index === action.payload.blockIndex) {
+							const newBlock = {
+								...block,
+								stitches: block.stitches.filter(
+									(row, rowIndex) => rowIndex !== action.payload.rowIndex,
+								),
+							};
+							return newBlock;
+						} else {
+							return block;
+						}
+					}),
+				},
+			};
+			return newState;
+		},
 		resetProject(state) {
 			state.project.blocks.forEach(block => {
 				block.currentBlockRow = 1;
@@ -58,18 +106,19 @@ const projectSlice = createSlice({
 	},
 });
 
-export const { updateBlockRow, toNextRow, toPrevRow, resetProject } = projectSlice.actions;
+export const { updateBlockRowPosition, updateBlockRowStitches, removeBlockRow, toNextRow, toPrevRow, resetProject } =
+	projectSlice.actions;
 
 export const nextRow = () => {
 	return dispatch => {
-		dispatch(updateBlockRow({ direction: "next" }));
+		dispatch(updateBlockRowPosition({ direction: "next" }));
 		dispatch(toNextRow());
 	};
 };
 
 export const prevRow = () => {
 	return dispatch => {
-		dispatch(updateBlockRow({ direction: "previous" }));
+		dispatch(updateBlockRowPosition({ direction: "previous" }));
 		dispatch(toPrevRow());
 	};
 };
@@ -77,6 +126,16 @@ export const prevRow = () => {
 export const reset = () => {
 	return dispatch => {
 		dispatch(resetProject());
+	};
+};
+
+export const updateRow = rowInfo => {
+	return dispatch => {
+		if (rowInfo.stitches.length === 0) {
+			dispatch(removeBlockRow(rowInfo));
+		} else {
+			dispatch(updateBlockRowStitches(rowInfo));
+		}
 	};
 };
 
