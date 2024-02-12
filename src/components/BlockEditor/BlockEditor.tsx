@@ -41,7 +41,7 @@ export const BlockEditor: FC<BlockEditorProps> = ({ blockIndex, closeEditor }) =
 				<Grid item>
 					{draftRow === i ? (
 						<ClickAwayListener onClickAway={() => setDraftRow(-1)}>
-							<RowEditor row={block.stitches[draftRow]} />
+							<RowEditor row={block.stitches[draftRow]} blockIndex={blockIndex} rowIndex={i} />
 						</ClickAwayListener>
 					) : (
 						<Row row={row} />
@@ -49,7 +49,7 @@ export const BlockEditor: FC<BlockEditorProps> = ({ blockIndex, closeEditor }) =
 				</Grid>
 				{draftRow === i ? (
 					<Grid container>
-						<IconButton onClick={() => handleEditRow(i)}>
+						<IconButton onClick={() => setDraftRow(-1)}>
 							<SaveOutlined />
 						</IconButton>
 						<IconButton onClick={() => setDraftRow(-1)}>

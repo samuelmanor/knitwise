@@ -9,7 +9,7 @@ export interface StitchProps {
 	description?: string;
 	width?: number;
 	index?: number;
-	view?: "chart" | "search";
+	view?: "chart" | "search" | "edit";
 	// userGenerated?: boolean; -> future feature ?
 }
 
@@ -47,13 +47,25 @@ export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbo
 		);
 	}
 
-	if (view === "search") {
+	if (view === "edit") {
 		return (
 			<Grid
 				container
 				sx={{ border: "2px solid red", flexDirection: "column", alignItems: "center", cursor: "pointer" }}
 			>
 				<Grid item>{symbol}</Grid>
+				<Grid item>{abbreviation}</Grid>
+			</Grid>
+		);
+	}
+
+	if (view === "search") {
+		return (
+			<Grid
+				container
+				sx={{ border: "2px solid red", flexDirection: "column", alignItems: "center", cursor: "pointer" }}
+			>
+				{/* <Grid item>{symbol}</Grid> */}
 				<Grid item>{name}</Grid>
 			</Grid>
 		);
