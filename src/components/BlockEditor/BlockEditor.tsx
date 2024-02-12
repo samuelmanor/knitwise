@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Row } from "../Row";
 import { AddOutlined, Close, DeleteOutlined, EditOutlined, SaveOutlined } from "@mui/icons-material";
 import { updateRow, addRow } from "../../reducers/projectReducer";
+import { RowEditor } from "../RowEditor";
 
 interface BlockEditorProps {
 	blockIndex: number;
@@ -40,7 +41,7 @@ export const BlockEditor: FC<BlockEditorProps> = ({ blockIndex, closeEditor }) =
 				<Grid item>
 					{draftRow === i ? (
 						<ClickAwayListener onClickAway={() => setDraftRow(-1)}>
-							<div>draft row</div>
+							<RowEditor row={block.stitches[draftRow]} />
 						</ClickAwayListener>
 					) : (
 						<Row row={row} />
@@ -83,7 +84,7 @@ export const BlockEditor: FC<BlockEditorProps> = ({ blockIndex, closeEditor }) =
 	});
 
 	return (
-		<Grid container onClick={() => console.log(block)}>
+		<Grid container>
 			<Grid item>{rows}</Grid>
 			<Grid item>
 				<Button onClick={closeEditor}>close</Button>

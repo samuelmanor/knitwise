@@ -29,7 +29,7 @@ export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbo
 					item
 					fontSize={30}
 					sx={{
-						cursor: "pointer",
+						// cursor: "pointer",
 						mt: 0.5,
 						mb: 0.5,
 						// border: "1px solid red",
@@ -48,6 +48,14 @@ export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbo
 	}
 
 	if (view === "search") {
-		return <Grid item>stitch</Grid>;
+		return (
+			<Grid
+				container
+				sx={{ border: "2px solid red", flexDirection: "column", alignItems: "center", cursor: "pointer" }}
+			>
+				<Grid item>{symbol}</Grid>
+				<Grid item>{name}</Grid>
+			</Grid>
+		);
 	}
 };

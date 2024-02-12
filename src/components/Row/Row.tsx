@@ -4,7 +4,7 @@ import { Stitch, StitchProps } from "../Stitch";
 import { RowMarker } from "../RowMarker";
 import { useSelector } from "react-redux";
 
-interface RowProps {
+export interface RowProps {
 	row: StitchProps[];
 	highlightRow?: boolean;
 	rowIndex?: number;
