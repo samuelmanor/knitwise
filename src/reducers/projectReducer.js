@@ -71,7 +71,27 @@ const projectSlice = createSlice({
 			return newState;
 		},
 		addBlockRow(state, action) {
-			console.log(action.payload);
+			const newState = {
+				...state,
+				project: {
+					...state.project,
+					blocks: state.project.blocks.map((block, index) => {
+						if (index === action.payload.blockIndex) {
+							return {
+								...block,
+								stitches: [
+									...block.stitches.slice(0, action.payload.rowIndex + 1),
+									[],
+									...block.stitches.slice(action.payload.rowIndex + 1),
+								],
+							};
+						} else {
+							return block;
+						}
+					}),
+				},
+			};
+			return newState;
 		},
 		removeBlockRow(state, action) {
 			const newState = {
@@ -146,6 +166,12 @@ export const updateRow = rowInfo => {
 		} else {
 			dispatch(updateBlockRowStitches(rowInfo));
 		}
+	};
+};
+
+export const addRow = rowInfo => {
+	return dispatch => {
+		dispatch(addBlockRow(rowInfo));
 	};
 };
 

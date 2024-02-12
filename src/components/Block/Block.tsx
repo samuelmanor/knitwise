@@ -81,7 +81,7 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 				}}
 			>
 				<Typography>{currentMode === "chart" ? `current row: ${currentRow}` : null}</Typography>
-				<Typography>{blockName}</Typography>
+				<Typography onClick={() => console.log(stitches)}>{blockName}</Typography>
 				{stitches.map((row, i) => {
 					return (
 						<Row
