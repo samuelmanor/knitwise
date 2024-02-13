@@ -1,6 +1,7 @@
 // handles things just within a single project like the current row and all the blocks
 import { createSlice, current } from "@reduxjs/toolkit";
 import { testProject } from "../utils/testProject";
+import { stitches } from "../utils/stitches";
 
 const projectSlice = createSlice({
 	name: "project",
@@ -9,6 +10,25 @@ const projectSlice = createSlice({
 		currentRow: 1,
 	},
 	reducers: {
+		newBlock(state, action) {
+			console.log(action.payload);
+			const newBlock = {
+				blockName: "new block",
+				stitches: [[]],
+				currentBlockRow: 1,
+			};
+			const newState = {
+				...state,
+				project: {
+					...state.project,
+					blocks:
+						action.payload.blockIndex === 0
+							? [newBlock, ...state.project.blocks]
+							: [...state.project.blocks, newBlock],
+				},
+			};
+			return newState;
+		},
 		removeBlock(state, action) {
 			const newState = {
 				...state,
@@ -140,6 +160,7 @@ const projectSlice = createSlice({
 });
 
 export const {
+	newBlock,
 	removeBlock,
 	updateBlockRowPosition,
 	updateBlockRowStitches,
@@ -186,11 +207,11 @@ export const addRow = rowInfo => {
 	};
 };
 
-// export const addBlock = blockInfo => {
-// 	return dispatch => {
-// 		dispatch(newBlock(blockInfo));
-// 	};
-// };
+export const addBlock = blockInfo => {
+	return dispatch => {
+		dispatch(newBlock(blockInfo));
+	};
+};
 
 export const deleteBlock = blockInfo => {
 	return dispatch => {

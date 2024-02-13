@@ -1,10 +1,10 @@
-import { Box, Grid, IconButton, Typography } from "@mui/material";
+import { Box, Button, ClickAwayListener, Grid, IconButton, Typography } from "@mui/material";
 import { FC, useState } from "react";
 import { Block, BlockProps } from "../Block";
 import { useDispatch, useSelector } from "react-redux";
-import { EditOutlined, DeleteOutlined } from "@mui/icons-material";
+import { EditOutlined, DeleteOutlined, AddOutlined, CancelOutlined } from "@mui/icons-material";
 import { BlockEditor } from "../BlockEditor";
-import { deleteBlock } from "../../reducers/projectReducer";
+import { deleteBlock, addBlock } from "../../reducers/projectReducer";
 
 export interface ProjectProps {
 	projectName?: string;
@@ -20,6 +20,7 @@ export const Project: FC<ProjectProps> = ({}) => {
 	const currentMode = useSelector((state: any) => state.workspace.mode);
 	const blocks = useSelector((state: any) => state.projects.project.blocks);
 	const [showBlockEditor, setShowBlockEditor] = useState(false);
+	const [showBlockMenu, setShowBlockMenu] = useState(false);
 	const [currentDraftBlock, setCurrentDraftBlock] = useState(0);
 
 	const dispatch = useDispatch();
@@ -43,6 +44,33 @@ export const Project: FC<ProjectProps> = ({}) => {
 		setCurrentDraftBlock(blockIndex);
 	};
 
+	const handleAddNewBlock = () => {
+		dispatch(addBlock({ blockIndex: blocks.length }));
+		setShowBlockMenu(false);
+		setCurrentDraftBlock(blocks.length);
+		setShowBlockEditor(true);
+	};
+
+	const addBlockMenu = (
+		<ClickAwayListener onClickAway={() => setShowBlockMenu(false)}>
+			<Grid container sx={{ position: "absolute" }}>
+				<IconButton onClick={() => setShowBlockMenu(false)}>
+					<CancelOutlined />
+				</IconButton>
+				<Grid item>
+					<Button onClick={() => handleAddNewBlock()}>
+						<Typography>create new block</Typography>
+					</Button>
+				</Grid>
+				<Grid item>
+					<Button>
+						<Typography>add new instance of an existing block</Typography>
+					</Button>
+				</Grid>
+			</Grid>
+		</ClickAwayListener>
+	);
+
 	return (
 		<Grid
 			container
@@ -57,6 +85,14 @@ export const Project: FC<ProjectProps> = ({}) => {
 				<BlockEditor blockIndex={currentDraftBlock} closeEditor={() => setShowBlockEditor(false)} />
 			) : null}
 			{currentMode === "chart" ? <Typography variant="h6">current row: {currentRow}</Typography> : null}
+			{currentMode === "edit" ? (
+				<Grid item sx={{}}>
+					<IconButton onClick={() => dispatch(addBlock({ blockIndex: 0 }))}>
+						<AddOutlined />
+					</IconButton>
+				</Grid>
+			) : null}
+			{currentMode === "edit" && showBlockMenu ? addBlockMenu : null}
 			{blocks.map((block: BlockProps, i: number) => {
 				return (
 					<Box key={i} sx={{ display: "flex", alignItems: "flex-end" }}>
@@ -79,6 +115,13 @@ export const Project: FC<ProjectProps> = ({}) => {
 					</Box>
 				);
 			})}
+			{currentMode === "edit" ? (
+				<Grid item sx={{}}>
+					<IconButton onClick={() => setShowBlockMenu(true)}>
+						<AddOutlined />
+					</IconButton>
+				</Grid>
+			) : null}
 		</Grid>
 	);
 };

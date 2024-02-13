@@ -83,6 +83,18 @@ export const BlockEditor: FC<BlockEditorProps> = ({ blockIndex, closeEditor }) =
 	return (
 		<Grid container>
 			<Grid item>{rows}</Grid>
+			{block.stitches.length === 0 ? (
+				<Grid container sx={{ flexDirection: "column" }}>
+					<Grid item>
+						<Typography>this block doesn't have any rows added yet. click below to add one!</Typography>
+					</Grid>
+					<Grid item>
+						<IconButton onClick={() => handleAddRow(0)}>
+							<AddOutlined />
+						</IconButton>
+					</Grid>
+				</Grid>
+			) : null}
 			<Grid item>
 				<Button onClick={closeEditor}>close</Button>
 			</Grid>
