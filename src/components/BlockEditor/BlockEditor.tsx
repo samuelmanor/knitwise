@@ -18,10 +18,7 @@ export const BlockEditor: FC<BlockEditorProps> = ({ blockIndex, closeEditor }) =
 
 	const dispatch = useDispatch();
 
-	const handleEditRow = (rowIndex: number) => {
-		setDraftRow(-1);
-		dispatch(updateRow({ blockIndex, rowIndex, stitches: [] })); // todo: add stitches to editor
-	};
+	// todo: write func to double check the stitch widths add up correctly row by row before the user closes block edit
 
 	const handleAddRow = (rowIndex: number) => {
 		dispatch(addRow({ blockIndex, rowIndex }));
