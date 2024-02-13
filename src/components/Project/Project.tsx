@@ -1,9 +1,10 @@
 import { Box, Grid, IconButton, Typography } from "@mui/material";
 import { FC, useState } from "react";
 import { Block, BlockProps } from "../Block";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { EditOutlined, DeleteOutlined } from "@mui/icons-material";
 import { BlockEditor } from "../BlockEditor";
+import { deleteBlock } from "../../reducers/projectReducer";
 
 export interface ProjectProps {
 	projectName?: string;
@@ -20,6 +21,8 @@ export const Project: FC<ProjectProps> = ({}) => {
 	const blocks = useSelector((state: any) => state.projects.project.blocks);
 	const [showBlockEditor, setShowBlockEditor] = useState(false);
 	const [currentDraftBlock, setCurrentDraftBlock] = useState(0);
+
+	const dispatch = useDispatch();
 
 	if (!blocks) return <div>no blocks found</div>;
 
@@ -62,7 +65,7 @@ export const Project: FC<ProjectProps> = ({}) => {
 								<IconButton onClick={() => handleEdit(i)}>
 									<EditOutlined />
 								</IconButton>
-								<IconButton onClick={() => console.log(`delete ${i}`)}>
+								<IconButton onClick={() => dispatch(deleteBlock({ blockIndex: i }))}>
 									<DeleteOutlined />
 								</IconButton>
 							</Grid>

@@ -42,6 +42,7 @@ export const RowEditor: FC<RowEditorProps> = ({ row, blockIndex, rowIndex }) => 
 	const handleDeleteStitch = (index: number) => {
 		const updatedRow = row.filter((stitch, i) => i !== index);
 		dispatch(updateRow({ blockIndex, rowIndex, stitches: updatedRow }));
+		setSelectedStitch(null);
 	};
 
 	const stitchSelect = (

@@ -9,6 +9,16 @@ const projectSlice = createSlice({
 		currentRow: 1,
 	},
 	reducers: {
+		removeBlock(state, action) {
+			const newState = {
+				...state,
+				project: {
+					...state.project,
+					blocks: state.project.blocks.filter((block, index) => index !== action.payload.blockIndex),
+				},
+			};
+			return newState;
+		},
 		updateBlockRowPosition(state, action) {
 			const calculateNextPosition = (blockLength, previousPosition) => {
 				if (action.payload.direction === "next") {
@@ -130,6 +140,7 @@ const projectSlice = createSlice({
 });
 
 export const {
+	removeBlock,
 	updateBlockRowPosition,
 	updateBlockRowStitches,
 	addBlockRow,
@@ -172,6 +183,18 @@ export const updateRow = rowInfo => {
 export const addRow = rowInfo => {
 	return dispatch => {
 		dispatch(addBlockRow(rowInfo));
+	};
+};
+
+// export const addBlock = blockInfo => {
+// 	return dispatch => {
+// 		dispatch(newBlock(blockInfo));
+// 	};
+// };
+
+export const deleteBlock = blockInfo => {
+	return dispatch => {
+		dispatch(removeBlock(blockInfo));
 	};
 };
 
