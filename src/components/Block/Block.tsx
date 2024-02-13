@@ -1,10 +1,11 @@
-import { Button, IconButton, Grid, Typography } from "@mui/material";
+import { Button, IconButton, Grid, Typography, TextField } from "@mui/material";
 import { FC, useState } from "react";
 import { Row } from "../Row";
 import { StitchProps } from "../Stitch";
-import { useSelector } from "react-redux";
-import { EditOutlined, DeleteOutlined } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
+import { EditOutlined, DeleteOutlined, SaveOutlined } from "@mui/icons-material";
 import { BlockEditor } from "../BlockEditor";
+import { updateBlockName } from "../../reducers/projectReducer";
 
 export interface BlockProps {
 	blockName: string;
@@ -25,7 +26,10 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 	const currentBlockRow = useSelector((state: any) => state.projects.project.blocks[index].currentBlockRow);
 	const tallestBlock = useSelector((state: any) => state.projects.project.blocks[tallestBlockIndex]);
 	const currentMode = useSelector((state: any) => state.workspace.mode);
-	// const [showBlockEditor, setShowBlockEditor] = useState(false);
+	const [showNameEditor, setShowNameEditor] = useState(false);
+	const [blockNameDraft, setBlockNameDraft] = useState(blockName);
+
+	const dispatch = useDispatch();
 
 	/**
 	 * Calculates the padding for the block.
@@ -43,6 +47,35 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 		}
 	};
 
+	const nameField = showNameEditor ? (
+		<Grid container>
+			<Grid item>
+				<TextField value={blockNameDraft} onChange={e => setBlockNameDraft(e.target.value)} />
+			</Grid>
+			<Grid item>
+				<IconButton
+					onClick={() => {
+						setShowNameEditor(false);
+						dispatch(updateBlockName({ blockIndex: index, blockName: blockNameDraft }));
+					}}
+				>
+					<SaveOutlined />
+				</IconButton>
+			</Grid>
+		</Grid>
+	) : (
+		<Grid container>
+			<Grid item>
+				<Typography>{blockName}</Typography>
+			</Grid>
+			<Grid item>
+				<IconButton onClick={() => setShowNameEditor(true)}>
+					<EditOutlined />
+				</IconButton>
+			</Grid>
+		</Grid>
+	);
+
 	if (!stitches) {
 		return null; // make error block ?
 	}
@@ -59,21 +92,6 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 			data-testid={`block${index}`} // todo: change this to use the block's name
 			// onClick={() => console.log(currentBlockRow)}
 		>
-			{/* {currentMode === "edit" ? (
-				<Grid container>
-					<IconButton onClick={() => setShowBlockEditor(true)}>
-						<EditOutlined />
-					</IconButton>
-					<IconButton onClick={() => console.log("hi")}>
-						<DeleteOutlined />
-					</IconButton>
-				</Grid>
-			) : null} */}
-			{/* {showBlockEditor ? (
-				<Grid container sx={{ border: "2px solid red", height: 100, width: 100, position: "absolute" }}>
-					<BlockEditor blockIndex={index} closeEditor={() => setShowBlockEditor(false)} />
-				</Grid>
-			) : null} */}
 			<Grid
 				container
 				sx={{
@@ -81,7 +99,13 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 				}}
 			>
 				<Typography>{currentMode === "chart" ? `current row: ${currentRow}` : null}</Typography>
-				<Typography onClick={() => console.log(stitches)}>{blockName}</Typography>
+				{/* <Typography onClick={() => console.log(stitches)}>{blockName}</Typography> */}
+				{currentMode === "edit" ? (
+					// <Grid container>{blockName}</Grid>
+					<Grid container>{nameField}</Grid>
+				) : (
+					<Typography onClick={() => console.log(stitches)}>{blockName}</Typography>
+				)}
 				{stitches.map((row, i) => {
 					return (
 						<Row

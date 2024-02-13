@@ -20,8 +20,8 @@ export const RowMarker: FC<RowMarkerProps> = ({ position }) => {
 				width: 50,
 				height: 50,
 				mt: 1.5,
-				ml: position === "right" ? 15 : 0,
-				mr: position === "left" ? 15 : 0,
+				ml: position === "right" ? 20 : 0,
+				mr: position === "left" ? 20 : 0,
 			}}
 			data-testid={`rowmarker${position}`}
 		>

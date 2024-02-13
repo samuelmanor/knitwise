@@ -10,8 +10,29 @@ const projectSlice = createSlice({
 		currentRow: 1,
 	},
 	reducers: {
-		newBlock(state, action) {
+		editBlockName(state, action) {
 			console.log(action.payload);
+			const newState = {
+				...state,
+				project: {
+					...state.project,
+					blocks: state.project.blocks.map((block, index) => {
+						if (index === action.payload.blockIndex) {
+							const newBlock = {
+								...block,
+								blockName: action.payload.blockName,
+							};
+							return newBlock;
+						} else {
+							return block;
+						}
+					}),
+				},
+			};
+			return newState;
+		},
+		newBlock(state, action) {
+			// console.log(action.payload);
 			const newBlock = {
 				blockName: "new block",
 				stitches: [[]],
@@ -160,6 +181,7 @@ const projectSlice = createSlice({
 });
 
 export const {
+	editBlockName,
 	newBlock,
 	removeBlock,
 	updateBlockRowPosition,
@@ -216,6 +238,12 @@ export const addBlock = blockInfo => {
 export const deleteBlock = blockInfo => {
 	return dispatch => {
 		dispatch(removeBlock(blockInfo));
+	};
+};
+
+export const updateBlockName = blockInfo => {
+	return dispatch => {
+		dispatch(editBlockName(blockInfo));
 	};
 };
 

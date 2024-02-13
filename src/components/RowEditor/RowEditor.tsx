@@ -20,6 +20,8 @@ export const RowEditor: FC<RowEditorProps> = ({ row, blockIndex, rowIndex }) => 
 
 	const dispatch = useDispatch();
 
+	// if row is empty (just created?) then show stitch select right away
+
 	const handleRowEdit = (newStitch: StitchProps, action: "edit" | "add") => {
 		if (action === "add") {
 			setShowStitchSelect(false);
