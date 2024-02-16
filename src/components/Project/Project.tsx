@@ -6,12 +6,9 @@ import { EditOutlined, DeleteOutlined, AddOutlined, CancelOutlined } from "@mui/
 import { BlockEditor } from "../BlockEditor";
 import { deleteBlock, addBlock } from "../../reducers/projectReducer";
 
-export interface ProjectProps {}
+// export interface ProjectProps {}
 
-/**
- * A project; made up of many blocks.
- */
-export const Project: FC<ProjectProps> = () => {
+export const Project: FC<{}> = () => {
 	const currentRow = useSelector((state: any) => state.projects.currentRow);
 	const currentMode = useSelector((state: any) => state.workspace.mode);
 	const blocks = useSelector((state: any) => state.projects.project.blocks);
@@ -23,7 +20,12 @@ export const Project: FC<ProjectProps> = () => {
 
 	if (!blocks) return <div>no blocks found</div>;
 
+	/**
+	 * Finds the tallest block in the project-- used to calculate the position for individual blocks when working rows.
+	 * @returns The index of the tallest block.
+	 */
 	const getTallestBlock = () => {
+		// move to block component?
 		let tallestBlock = 0;
 		let index = 0;
 		blocks.forEach((block: BlockProps, i: number) => {
@@ -35,11 +37,18 @@ export const Project: FC<ProjectProps> = () => {
 		return index;
 	};
 
+	/**
+	 * Opens the block editor.
+	 */
 	const handleEdit = (blockIndex: number) => {
 		setShowBlockEditor(true);
 		setCurrentDraftBlock(blockIndex);
 	};
 
+	/**
+	 * Adds a new block to the project at the specified position.
+	 * @param position The position to add the new block
+	 */
 	const handleAddNewBlock = (position: "start" | "end") => {
 		dispatch(addBlock({ blockIndex: position === "start" ? 0 : blocks.length }));
 		setShowBlockMenu(false);
