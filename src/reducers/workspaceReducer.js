@@ -1,5 +1,5 @@
 // handles all top-level things like the list of projects and the current project('s id)
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 import { testProject } from "../utils/testProject";
 
 const workspaceSlice = createSlice({
@@ -25,9 +25,24 @@ const workspaceSlice = createSlice({
 		setCurrentProjectId(state, action) {
 			state.currentProjectId = action.payload;
 		},
+		editProjectName(state, action) {
+			return {
+				...state,
+				projects: state.projects.map((project, i) => {
+					if (i === state.currentProjectId) {
+						return {
+							...project,
+							projectName: action.payload.projectName,
+						};
+					} else {
+						return project;
+					}
+				}),
+			};
+		},
 	},
 });
 
-export const { setMode, setCurrentProjectId } = workspaceSlice.actions;
+export const { setMode, setCurrentProjectId, editProjectName } = workspaceSlice.actions;
 
 export default workspaceSlice.reducer;

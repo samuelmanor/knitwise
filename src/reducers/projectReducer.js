@@ -11,7 +11,7 @@ const projectSlice = createSlice({
 	},
 	reducers: {
 		editBlockName(state, action) {
-			console.log(action.payload);
+			// console.log(action.payload);
 			const newState = {
 				...state,
 				project: {

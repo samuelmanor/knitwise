@@ -1,9 +1,12 @@
 import { FC, useState } from "react";
-import { Button, ClickAwayListener, Grid, Typography } from "@mui/material";
+import { Button, ClickAwayListener, Grid, IconButton, TextField, Typography } from "@mui/material";
 import { Project } from "../Project";
 import { useDispatch, useSelector } from "react-redux";
 import { nextRow, prevRow, reset } from "../../reducers/projectReducer.js";
 import { setMode } from "../../reducers/workspaceReducer.js";
+// import { updateProjectName } from "../../reducers/projectReducer.js";
+import { EditOutlined, SaveOutlined } from "@mui/icons-material";
+import { editProjectName } from "../../reducers/workspaceReducer.js";
 
 interface WorkspaceProps {
 	// project: any;
@@ -12,12 +15,15 @@ interface WorkspaceProps {
 /**
  * The workspace; where the project is rendered.
  */
-export const Workspace: FC<WorkspaceProps> = ({}) => {
+export const Workspace: FC<WorkspaceProps> = () => {
 	// const [currentView, setCurrentView] = useState("chart"); // chart, edit, text?
 	const currentMode = useSelector((state: any) => state.workspace.mode);
-	const projects = useSelector((state: any) => state.workspace.projects);
-	const currentProjectId = useSelector((state: any) => state.workspace.currentProjectId);
+	// const projects = useSelector((state: any) => state.workspace.projects);
+	// const currentProjectId = useSelector((state: any) => state.workspace.currentProjectId);
+	const currentProject = useSelector((state: any) => state.workspace.projects[state.workspace.currentProjectId]);
 	const [showEditWarning, setShowEditWarning] = useState(false);
+	const [showProjectNameEditor, setShowProjectNameEditor] = useState(false);
+	const [projectNameDraft, setProjectNameDraft] = useState(currentProject.projectName);
 
 	const dispatch = useDispatch();
 
@@ -90,6 +96,35 @@ export const Workspace: FC<WorkspaceProps> = ({}) => {
 		</ClickAwayListener>
 	);
 
+	const projectNameEditor = showProjectNameEditor ? (
+		<Grid container>
+			<Grid item>
+				<TextField value={projectNameDraft} onChange={e => setProjectNameDraft(e.target.value)} />
+			</Grid>
+			<Grid item>
+				<IconButton
+					onClick={() => {
+						dispatch(editProjectName({ projectName: projectNameDraft }));
+						setShowProjectNameEditor(false);
+					}}
+				>
+					<SaveOutlined />
+				</IconButton>
+			</Grid>
+		</Grid>
+	) : (
+		<Grid container>
+			<Grid item>
+				<Typography variant="h4">{currentProject.projectName}</Typography>
+			</Grid>
+			<Grid item>
+				<IconButton onClick={() => setShowProjectNameEditor(true)}>
+					<EditOutlined />
+				</IconButton>
+			</Grid>
+		</Grid>
+	);
+
 	return (
 		<Grid
 			container
@@ -100,7 +135,13 @@ export const Workspace: FC<WorkspaceProps> = ({}) => {
 			// overflow={"scroll"}
 			// overflow={"scroll"}
 		>
-			<Typography variant="h6">{projects[currentProjectId].projectName}</Typography>
+			{/* <Typography variant="h6">{projects[currentProjectId].projectName}</Typography>
+			 */}
+			{currentMode === "edit" ? (
+				<Grid container>{projectNameEditor}</Grid>
+			) : (
+				<Typography variant="h4">{currentProject.projectName}</Typography>
+			)}
 			{currentMode === "chart" ? <Button onClick={() => setShowEditWarning(true)}>edit</Button> : null}
 			{showEditWarning ? editWarning : null}
 			{currentMode === "chart" ? chartView : null}
