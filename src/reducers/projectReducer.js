@@ -11,8 +11,7 @@ const projectSlice = createSlice({
 	},
 	reducers: {
 		editBlockName(state, action) {
-			// console.log(action.payload);
-			const newState = {
+			return {
 				...state,
 				project: {
 					...state.project,
@@ -29,15 +28,14 @@ const projectSlice = createSlice({
 					}),
 				},
 			};
-			return newState;
 		},
-		newBlock(state, action) {
-			// console.log(action.payload);
+		addBlock(state, action) {
 			const newBlock = {
 				blockName: "new block",
 				stitches: [[]],
 				currentBlockRow: 1,
 			};
+
 			const newState = {
 				...state,
 				project: {
@@ -50,15 +48,14 @@ const projectSlice = createSlice({
 			};
 			return newState;
 		},
-		removeBlock(state, action) {
-			const newState = {
+		deleteBlock(state, action) {
+			return {
 				...state,
 				project: {
 					...state.project,
 					blocks: state.project.blocks.filter((block, index) => index !== action.payload.blockIndex),
 				},
 			};
-			return newState;
 		},
 		updateBlockRowPosition(state, action) {
 			const calculateNextPosition = (blockLength, previousPosition) => {
@@ -86,17 +83,16 @@ const projectSlice = createSlice({
 				project: {
 					...state.project,
 					blocks: state.project.blocks.map(block => {
-						const newBlock = {
+						return {
 							...block,
 							currentBlockRow: calculateNextPosition(block.stitches.length, block.currentBlockRow),
 						};
-						return newBlock;
 					}),
 				},
 			};
 		},
 		updateBlockRowStitches(state, action) {
-			const newState = {
+			return {
 				...state,
 				project: {
 					...state.project,
@@ -119,10 +115,9 @@ const projectSlice = createSlice({
 					}),
 				},
 			};
-			return newState;
 		},
 		addBlockRow(state, action) {
-			const newState = {
+			return {
 				...state,
 				project: {
 					...state.project,
@@ -142,29 +137,26 @@ const projectSlice = createSlice({
 					}),
 				},
 			};
-			return newState;
 		},
 		removeBlockRow(state, action) {
-			const newState = {
+			return {
 				...state,
 				project: {
 					...state.project,
 					blocks: state.project.blocks.map((block, index) => {
 						if (index === action.payload.blockIndex) {
-							const newBlock = {
+							return {
 								...block,
 								stitches: block.stitches.filter(
 									(row, rowIndex) => rowIndex !== action.payload.rowIndex,
 								),
 							};
-							return newBlock;
 						} else {
 							return block;
 						}
 					}),
 				},
 			};
-			return newState;
 		},
 		resetProject(state) {
 			state.project.blocks.forEach(block => {
@@ -182,8 +174,8 @@ const projectSlice = createSlice({
 
 export const {
 	editBlockName,
-	newBlock,
-	removeBlock,
+	addBlock,
+	deleteBlock,
 	updateBlockRowPosition,
 	updateBlockRowStitches,
 	addBlockRow,
@@ -207,12 +199,6 @@ export const prevRow = () => {
 	};
 };
 
-export const reset = () => {
-	return dispatch => {
-		dispatch(resetProject());
-	};
-};
-
 export const updateRow = rowInfo => {
 	return dispatch => {
 		if (rowInfo.stitches.length === 0) {
@@ -220,30 +206,6 @@ export const updateRow = rowInfo => {
 		} else {
 			dispatch(updateBlockRowStitches(rowInfo));
 		}
-	};
-};
-
-export const addRow = rowInfo => {
-	return dispatch => {
-		dispatch(addBlockRow(rowInfo));
-	};
-};
-
-export const addBlock = blockInfo => {
-	return dispatch => {
-		dispatch(newBlock(blockInfo));
-	};
-};
-
-export const deleteBlock = blockInfo => {
-	return dispatch => {
-		dispatch(removeBlock(blockInfo));
-	};
-};
-
-export const updateBlockName = blockInfo => {
-	return dispatch => {
-		dispatch(editBlockName(blockInfo));
 	};
 };
 

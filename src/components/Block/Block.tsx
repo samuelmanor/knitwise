@@ -5,7 +5,7 @@ import { StitchProps } from "../Stitch";
 import { useDispatch, useSelector } from "react-redux";
 import { EditOutlined, DeleteOutlined, SaveOutlined } from "@mui/icons-material";
 import { BlockEditor } from "../BlockEditor";
-import { updateBlockName } from "../../reducers/projectReducer";
+import { editBlockName } from "../../reducers/projectReducer";
 
 export interface BlockProps {
 	blockName: string;
@@ -56,7 +56,7 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 				<IconButton
 					onClick={() => {
 						setShowNameEditor(false);
-						dispatch(updateBlockName({ blockIndex: index, blockName: blockNameDraft }));
+						dispatch(editBlockName({ blockIndex: index, blockName: blockNameDraft }));
 					}}
 				>
 					<SaveOutlined />

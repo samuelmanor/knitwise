@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import { Button, ClickAwayListener, Grid, IconButton, TextField, Typography } from "@mui/material";
 import { Project } from "../Project";
 import { useDispatch, useSelector } from "react-redux";
-import { nextRow, prevRow, reset } from "../../reducers/projectReducer.js";
+import { nextRow, prevRow, resetProject } from "../../reducers/projectReducer.js";
 import { setMode } from "../../reducers/workspaceReducer.js";
 // import { updateProjectName } from "../../reducers/projectReducer.js";
 import { EditOutlined, SaveOutlined } from "@mui/icons-material";
@@ -39,7 +39,7 @@ export const Workspace: FC<WorkspaceProps> = () => {
 			<Button onClick={() => dispatch(prevRow())} sx={{ backgroundColor: "white" }}>
 				prev row
 			</Button>
-			<Button onClick={() => dispatch(reset())} sx={{ backgroundColor: "white" }}>
+			<Button onClick={() => dispatch(resetProject())} sx={{ backgroundColor: "white" }}>
 				reset project
 			</Button>
 		</Grid>
@@ -65,7 +65,7 @@ export const Workspace: FC<WorkspaceProps> = () => {
 	 */
 	const handleEdit = () => {
 		dispatch(setMode("edit"));
-		dispatch(reset());
+		dispatch(resetProject());
 		setShowEditWarning(false);
 	};
 

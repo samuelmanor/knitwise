@@ -4,7 +4,7 @@ import { Button, ClickAwayListener, Grid, IconButton, Typography } from "@mui/ma
 import { useDispatch, useSelector } from "react-redux";
 import { Row } from "../Row";
 import { AddOutlined, Close, DeleteOutlined, EditOutlined, SaveOutlined } from "@mui/icons-material";
-import { updateRow, addRow } from "../../reducers/projectReducer";
+import { updateRow, addBlockRow } from "../../reducers/projectReducer";
 import { RowEditor } from "../RowEditor";
 
 interface BlockEditorProps {
@@ -21,7 +21,7 @@ export const BlockEditor: FC<BlockEditorProps> = ({ blockIndex, closeEditor }) =
 	// todo: write func to double check the stitch widths add up correctly row by row before the user closes block edit
 
 	const handleAddRow = (rowIndex: number) => {
-		dispatch(addRow({ blockIndex, rowIndex }));
+		dispatch(addBlockRow({ blockIndex, rowIndex }));
 	};
 
 	const handleDeleteRow = (rowIndex: number) => {
