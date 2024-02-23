@@ -7,7 +7,7 @@ const workspaceSlice = createSlice({
 	initialState: {
 		projects: [testProject, testProject],
 		mode: "chart",
-		customBlocks: [],
+		savedBlocks: [],
 		currentProjectId: 0,
 		// draftProject: {
 		// 	name: "",
