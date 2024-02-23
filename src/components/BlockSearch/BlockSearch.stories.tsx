@@ -17,7 +17,7 @@ const meta: Meta<typeof BlockSearch> = {
 	tags: ["autodocs"],
 	// More on argTypes: https://storybook.js.org/docs/react/api/argtypes
 	argTypes: {
-		backgroundColor: { control: "color" },
+		// backgroundColor: { control: "color" },
 	},
 };
 
@@ -32,6 +32,6 @@ export const Primary: Story = {
 		expect(element).toBeTruthy();
 	},
 	args: {
-		label: "BlockSearch",
+		// label: "BlockSearch",
 	},
 };

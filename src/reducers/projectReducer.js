@@ -31,8 +31,8 @@ const projectSlice = createSlice({
 		},
 		addBlock(state, action) {
 			const newBlock = {
-				blockName: "new block",
-				stitches: [[]],
+				blockName: action.payload.blockName,
+				stitches: action.payload.stitches,
 				currentBlockRow: 1,
 			};
 

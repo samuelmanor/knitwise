@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { EditOutlined, DeleteOutlined, AddOutlined, CancelOutlined } from "@mui/icons-material";
 import { BlockEditor } from "../BlockEditor";
 import { deleteBlock, addBlock } from "../../reducers/projectReducer";
+import { BlockSearch } from "../BlockSearch";
 
 // export interface ProjectProps {}
 
@@ -13,6 +14,7 @@ export const Project: FC<{}> = () => {
 	const currentMode = useSelector((state: any) => state.workspace.mode);
 	const blocks = useSelector((state: any) => state.projects.project.blocks);
 	const [showBlockEditor, setShowBlockEditor] = useState(false);
+	const [showBlockSearch, setShowBlockSearch] = useState(false);
 	const [showBlockMenu, setShowBlockMenu] = useState(false);
 	const [currentDraftBlock, setCurrentDraftBlock] = useState(-1);
 
@@ -47,12 +49,20 @@ export const Project: FC<{}> = () => {
 
 	/**
 	 * Adds a new block to the project at the specified position.
-	 * @param position The position to add the new block
+	 * @param blockName The name of the block, if adding a pre-existing block.
+	 * @param stitches The stitches for the block, if adding a pre-existing block.
 	 */
-	const handleAddNewBlock = (position: "start" | "end") => {
-		dispatch(addBlock({ blockIndex: position === "start" ? 0 : blocks.length }));
+	const handleAddNewBlock = (blockName?: string, stitches?: BlockProps) => {
+		const newBlock = {
+			blockName: showBlockSearch && blockName ? blockName : "new block",
+			stitches: showBlockSearch && stitches ? stitches : [[]],
+			blockIndex: currentDraftBlock === 0 ? 0 : blocks.length,
+		};
+
+		dispatch(addBlock(newBlock));
 		setShowBlockMenu(false);
-		setShowBlockEditor(true);
+		setShowBlockEditor(!showBlockSearch);
+		setShowBlockSearch(false);
 	};
 
 	const project = blocks.map((block: BlockProps, i: number) => {
@@ -95,25 +105,26 @@ export const Project: FC<{}> = () => {
 					</IconButton>
 				</Grid>
 				{showBlockMenu ? (
-					<ClickAwayListener onClickAway={() => setShowBlockMenu(false)}>
-						<Grid container sx={{ position: "absolute" }}>
-							<IconButton onClick={() => setShowBlockMenu(false)}>
-								<CancelOutlined />
-							</IconButton>
-							<Grid item>
-								<Button onClick={() => handleAddNewBlock(currentDraftBlock === 0 ? "start" : "end")}>
-									<Typography>create new block</Typography>
-								</Button>
-							</Grid>
-							<Grid item>
-								<Button>
-									<Typography>add new instance of an existing block</Typography>
-								</Button>
-							</Grid>
+					<Grid container sx={{ position: "absolute" }}>
+						<IconButton onClick={() => setShowBlockMenu(false)}>
+							<CancelOutlined />
+						</IconButton>
+						<Grid item>
+							<Button onClick={() => handleAddNewBlock()}>
+								<Typography>create new block</Typography>
+							</Button>
 						</Grid>
-					</ClickAwayListener>
+						<Grid item>
+							<Button onClick={() => setShowBlockSearch(true)}>
+								<Typography>add new instance of an existing block</Typography>
+							</Button>
+						</Grid>
+					</Grid>
 				) : null}
 				{project}
+				{showBlockSearch ? (
+					<BlockSearch closeBlockSearch={() => setShowBlockSearch(false)} addBlock={handleAddNewBlock} />
+				) : null}
 				<Grid item>
 					<IconButton
 						onClick={() => {

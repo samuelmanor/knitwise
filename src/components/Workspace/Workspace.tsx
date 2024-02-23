@@ -125,6 +125,7 @@ export const Workspace: FC<WorkspaceProps> = () => {
 		</Grid>
 	);
 
+	// put this into multiple stories/views like project
 	return (
 		<Grid
 			container
