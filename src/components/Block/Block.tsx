@@ -42,12 +42,13 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 		} else {
 			// a block's position is relative to the current row of both the tallest block and the current block
 			const tallestBlockPosition = tallestBlock.currentBlockRow * 43;
-			const currentBlockPosition = currentBlockRow * 43;
+			const currentBlockPosition = currentBlockRow * 43; // 43 is the height of a row. usually. <- todo: fix this lol
+			// use useRef to get the height of the tallest block's current row?
 			return `${tallestBlockPosition - currentBlockPosition + 50}px`;
 		}
 	};
 
-	const nameField = showNameEditor ? (
+	const nameField = showNameEditor ? ( // on save, should it update the block's name in the createdBlocks array?
 		<Grid container>
 			<Grid item>
 				<TextField value={blockNameDraft} onChange={e => setBlockNameDraft(e.target.value)} />

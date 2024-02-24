@@ -49,17 +49,18 @@ export const Project: FC<{}> = () => {
 
 	/**
 	 * Adds a new block to the project at the specified position.
-	 * @param blockName The name of the block, if adding a pre-existing block.
-	 * @param stitches The stitches for the block, if adding a pre-existing block.
+	 * @param blockName The name of the block to be added.
+	 * @param stitches The stitches for the block to be added.
 	 */
-	const handleAddNewBlock = (blockName?: string, stitches?: BlockProps) => {
-		const newBlock = {
-			blockName: showBlockSearch && blockName ? blockName : "new block",
-			stitches: showBlockSearch && stitches ? stitches : [[]],
-			blockIndex: currentDraftBlock === 0 ? 0 : blocks.length,
-		};
+	const handleAddNewBlock = (blockName: string, stitches: BlockProps | [[]]) => {
+		dispatch(
+			addBlock({
+				blockName,
+				stitches,
+				blockIndex: currentDraftBlock === 0 ? 0 : blocks.length,
+			}),
+		);
 
-		dispatch(addBlock(newBlock));
 		setShowBlockMenu(false);
 		setShowBlockEditor(!showBlockSearch);
 		setShowBlockSearch(false);
@@ -110,7 +111,7 @@ export const Project: FC<{}> = () => {
 							<CancelOutlined />
 						</IconButton>
 						<Grid item>
-							<Button onClick={() => handleAddNewBlock()}>
+							<Button onClick={() => handleAddNewBlock("new block", [[]])}>
 								<Typography>create new block</Typography>
 							</Button>
 						</Grid>
