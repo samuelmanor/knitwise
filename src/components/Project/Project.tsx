@@ -142,8 +142,23 @@ export const Project: FC<{}> = () => {
 
 	if (currentMode === "chart") {
 		return (
-			<Grid container sx={{ background: "gray", border: "2px solid black", justifyContent: "center", gap: 2 }}>
-				<Typography variant="h6">current row: {currentRow}</Typography>
+			<Grid
+				container
+				sx={{
+					background: "gray",
+					border: "2px solid black",
+					justifyContent: "center",
+					gap: 2,
+					// pl: 10,
+					// pr: 10,
+					display: "flex",
+					flexDirection: "row",
+					width: "100%",
+					overflowX: "scroll",
+					flexWrap: "nowrap",
+				}}
+			>
+				{/* <Typography variant="h6">current row: {currentRow}</Typography> */}
 				{project}
 			</Grid>
 		);

@@ -77,6 +77,12 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 		</Grid>
 	);
 
+	const getBlockWidth = (): number => {
+		let total: number = 0;
+		stitches[0].forEach(stitch => (total += stitch.width));
+		return total * 17;
+	};
+
 	if (!stitches) {
 		return null; // make error block ?
 	}
@@ -89,6 +95,7 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 				backgroundColor: "rgba(0,0,0,0.3)",
 				maxHeight: "100%",
 				mb: handlePadding(),
+				width: getBlockWidth(),
 			}}
 			data-testid={`block${index}`} // todo: change this to use the block's name
 			// onClick={() => console.log(currentBlockRow)}
@@ -99,7 +106,9 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 					flexDirection: "column-reverse",
 				}}
 			>
-				<Typography>{currentMode === "chart" ? `current row: ${currentRow}` : null}</Typography>
+				<Typography onClick={() => console.log(getBlockWidth())}>
+					{currentMode === "chart" ? `current row: ${currentRow}` : null}
+				</Typography>
 				{/* <Typography onClick={() => console.log(stitches)}>{blockName}</Typography> */}
 				{currentMode === "edit" ? (
 					// <Grid container>{blockName}</Grid>
