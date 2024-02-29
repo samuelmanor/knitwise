@@ -4,22 +4,16 @@ import { Project } from "../Project";
 import { useDispatch, useSelector } from "react-redux";
 import { nextRow, prevRow, resetProject } from "../../reducers/projectReducer.js";
 import { setMode } from "../../reducers/workspaceReducer.js";
-// import { updateProjectName } from "../../reducers/projectReducer.js";
-import { EditOutlined, SaveOutlined } from "@mui/icons-material";
 import { editProjectName } from "../../reducers/workspaceReducer.js";
+import { EditOutlined, SaveOutlined } from "@mui/icons-material";
 
-interface WorkspaceProps {
-	// project: any;
-}
+interface WorkspaceProps {}
 
 /**
  * The workspace; where the project is rendered.
  */
 export const Workspace: FC<WorkspaceProps> = () => {
-	// const [currentView, setCurrentView] = useState("chart"); // chart, edit, text?
 	const currentMode = useSelector((state: any) => state.workspace.mode);
-	// const projects = useSelector((state: any) => state.workspace.projects);
-	// const currentProjectId = useSelector((state: any) => state.workspace.currentProjectId);
 	const currentProject = useSelector((state: any) => state.workspace.projects[state.workspace.currentProjectId]);
 	const [showEditWarning, setShowEditWarning] = useState(false);
 	const [showProjectNameEditor, setShowProjectNameEditor] = useState(false);
@@ -29,21 +23,6 @@ export const Workspace: FC<WorkspaceProps> = () => {
 
 	// make no project found component?
 	// if (!project) return null;
-
-	const chartView = (
-		<Grid container>
-			<Project />
-			<Button onClick={() => dispatch(nextRow())} sx={{ backgroundColor: "white" }}>
-				next row
-			</Button>
-			<Button onClick={() => dispatch(prevRow())} sx={{ backgroundColor: "white" }}>
-				prev row
-			</Button>
-			<Button onClick={() => dispatch(resetProject())} sx={{ backgroundColor: "white" }}>
-				reset project
-			</Button>
-		</Grid>
-	);
 
 	// const selectView = ( // for selecting which project to work on?
 	// 	<Grid container>
@@ -70,18 +49,6 @@ export const Workspace: FC<WorkspaceProps> = () => {
 	};
 
 	/**
-	 * The view used to edit the project.
-	 */
-	const editView = // todo: flesh this out. or yknow make it useable
-		(
-			<Grid container>
-				<Typography variant="h6">edit mode</Typography>
-				<Button onClick={() => dispatch(setMode("chart"))}>finish editing</Button>
-				<Project />
-			</Grid>
-		);
-
-	/**
 	 * Warns the user that switching to edit mode will reset any progress made.
 	 */
 	const editWarning = (
@@ -96,58 +63,70 @@ export const Workspace: FC<WorkspaceProps> = () => {
 		</ClickAwayListener>
 	);
 
-	const projectNameEditor = showProjectNameEditor ? (
-		<Grid container>
-			<Grid item>
-				<TextField value={projectNameDraft} onChange={e => setProjectNameDraft(e.target.value)} />
-			</Grid>
-			<Grid item>
-				<IconButton
-					onClick={() => {
-						dispatch(editProjectName({ projectName: projectNameDraft }));
-						setShowProjectNameEditor(false);
-					}}
-				>
-					<SaveOutlined />
-				</IconButton>
-			</Grid>
-		</Grid>
-	) : (
-		<Grid container>
-			<Grid item>
+	if (currentMode === "chart") {
+		return (
+			<Grid container>
 				<Typography variant="h4">{currentProject.projectName}</Typography>
+				<Button onClick={() => setShowEditWarning(true)}>edit</Button>
+				{showEditWarning ? editWarning : null}
+				<Grid container>
+					<Project />
+					<Button onClick={() => dispatch(nextRow())} sx={{ backgroundColor: "white" }}>
+						next row
+					</Button>
+					<Button onClick={() => dispatch(prevRow())} sx={{ backgroundColor: "white" }}>
+						prev row
+					</Button>
+					{/* <Button onClick={() => dispatch(resetProject())} sx={{ backgroundColor: "white" }}>
+						reset project -> tools panel
+					</Button> */}
+				</Grid>
 			</Grid>
-			<Grid item>
-				<IconButton onClick={() => setShowProjectNameEditor(true)}>
-					<EditOutlined />
-				</IconButton>
-			</Grid>
-		</Grid>
-	);
+		);
+	}
 
-	// put this into multiple stories/views like project
-	return (
-		<Grid
-			container
-			// justifyContent={"center"}
-			// height={"90%"}
-			// width={"90%"}
-			border={"2px solid black"}
-			// overflow={"scroll"}
-			// overflow={"scroll"}
-		>
-			{/* <Typography variant="h6">{projects[currentProjectId].projectName}</Typography>
-			 */}
-			{currentMode === "edit" ? (
-				<Grid container>{projectNameEditor}</Grid>
-			) : (
-				<Typography variant="h4">{currentProject.projectName}</Typography>
-			)}
-			{currentMode === "chart" ? <Button onClick={() => setShowEditWarning(true)}>edit</Button> : null}
-			{showEditWarning ? editWarning : null}
-			{currentMode === "chart" ? chartView : null}
-			{/* {currentMode === "select" ? selectView : null} */}
-			{currentMode === "edit" ? editView : null}
-		</Grid>
-	);
+	if (currentMode === "edit") {
+		return (
+			<Grid container>
+				<Grid container>
+					{showProjectNameEditor ? (
+						<Grid container>
+							<Grid item>
+								<TextField
+									value={projectNameDraft}
+									onChange={e => setProjectNameDraft(e.target.value)}
+								/>
+							</Grid>
+							<Grid item>
+								<IconButton
+									onClick={() => {
+										dispatch(editProjectName({ projectName: projectNameDraft }));
+										setShowProjectNameEditor(false);
+									}}
+								>
+									<SaveOutlined />
+								</IconButton>
+							</Grid>
+						</Grid>
+					) : (
+						<Grid container>
+							<Grid item>
+								<Typography variant="h4">{currentProject.projectName}</Typography>
+							</Grid>
+							<Grid item>
+								<IconButton onClick={() => setShowProjectNameEditor(true)}>
+									<EditOutlined />
+								</IconButton>
+							</Grid>
+						</Grid>
+					)}
+				</Grid>
+				<Grid container>
+					<Typography variant="h6">edit mode</Typography>
+					<Button onClick={() => dispatch(setMode("chart"))}>finish editing</Button>
+					<Project />
+				</Grid>
+			</Grid>
+		);
+	}
 };
