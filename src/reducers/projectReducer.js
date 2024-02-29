@@ -162,6 +162,7 @@ const projectSlice = createSlice({
 			state.project.blocks.forEach(block => {
 				block.currentBlockRow = 1;
 			});
+			state.currentRow = 1;
 		},
 		toNextRow(state) {
 			state.currentRow++;
