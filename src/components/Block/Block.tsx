@@ -1,5 +1,5 @@
-import { Button, IconButton, Grid, Typography, TextField } from "@mui/material";
-import { FC, useState } from "react";
+import { Button, IconButton, Grid, Typography, TextField, Box } from "@mui/material";
+import { FC, useRef, useState } from "react";
 import { Row } from "../Row";
 import { StitchProps } from "../Stitch";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,6 +29,8 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 	const [showNameEditor, setShowNameEditor] = useState(false);
 	const [blockNameDraft, setBlockNameDraft] = useState(blockName);
 
+	const baseRowRef = useRef<HTMLDivElement>(null);
+
 	const dispatch = useDispatch();
 
 	/**
@@ -41,9 +43,9 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 			return "50px";
 		} else {
 			// a block's position is relative to the current row of both the tallest block and the current block
-			const tallestBlockPosition = tallestBlock.currentBlockRow * 43;
-			const currentBlockPosition = currentBlockRow * 43; // 43 is the height of a row. usually. <- todo: fix this lol
-			// use useRef to get the height of the tallest block's current row?
+			const tallestBlockPosition = tallestBlock.currentBlockRow * baseRowRef.current.clientHeight;
+			const currentBlockPosition = currentBlockRow * baseRowRef.current.clientHeight;
+
 			return `${tallestBlockPosition - currentBlockPosition + 50}px`;
 		}
 	};
@@ -94,11 +96,10 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 				// border: "2px solid red",
 				backgroundColor: "rgba(0,0,0,0.3)",
 				maxHeight: "100%",
-				mb: handlePadding(),
+				mb: baseRowRef.current ? handlePadding() : "50px",
 				width: getBlockWidth(),
 			}}
-			data-testid={`block${index}`} // todo: change this to use the block's name
-			// onClick={() => console.log(currentBlockRow)}
+			data-testid={`block${blockName}${index}`}
 		>
 			<Grid
 				container
@@ -114,18 +115,20 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 					// <Grid container>{blockName}</Grid>
 					<Grid container>{nameField}</Grid>
 				) : (
-					<Typography onClick={() => console.log(stitches)}>{blockName}</Typography>
+					<Typography onClick={() => console.log(baseRowRef.current.offsetHeight)}>{blockName}</Typography>
 				)}
 				{stitches.map((row, i) => {
 					return (
-						<Row
-							key={`row${i}`}
-							row={row}
-							highlightRow={currentBlockRow - 1 === i}
-							rowIndex={i}
-							showLeftRowMarker={index === 0 && currentRow % 2 === 0}
-							showRightRowMarker={index === numOfBlocks - 1 && currentRow % 2 === 1}
-						/>
+						<Box ref={i === 0 ? baseRowRef : null}>
+							<Row
+								key={`row${blockName}${i}`}
+								row={row}
+								highlightRow={currentBlockRow - 1 === i}
+								rowIndex={i}
+								showLeftRowMarker={index === 0 && currentRow % 2 === 0}
+								showRightRowMarker={index === numOfBlocks - 1 && currentRow % 2 === 1}
+							/>
+						</Box>
 					);
 				})}
 			</Grid>
