@@ -1,24 +1,17 @@
-// import logo from "./logo.svg";
-import { Box } from "@mui/material";
 import "./App.css";
 import { Workspace } from "./components/Workspace";
+import { createTheme } from "@mui/material";
+import { ThemeProvider } from "@mui/material";
+
+import lightTheme from "./components/themes/lightTheme";
+
+const light = createTheme(lightTheme);
 
 function App() {
 	return (
-		<Box
-			sx={
-				{
-					// backgroundColor: "yellow",
-					// position: "fixed",
-					// height: "100%",
-					// width: "100%",
-					// display: "flex",
-					// alignItems: "center",
-				}
-			}
-		>
+		<ThemeProvider theme={light}>
 			<Workspace />
-		</Box>
+		</ThemeProvider>
 	);
 }
 
