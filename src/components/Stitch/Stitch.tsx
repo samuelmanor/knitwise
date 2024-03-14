@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { StitchTip } from "../StitchTip";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
+import { useSelector } from "react-redux";
 
 export interface StitchProps {
 	name?: string;
@@ -22,6 +23,8 @@ export interface StitchProps {
  * @param width The width of the stitch in regards to grid columns.
  */
 export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbol, width, index, view }) => {
+	const stitchDisplaySetting = useSelector((state: any) => state.workspace.userSettings.stitchDisplay);
+
 	if (view === "chart" || view === undefined) {
 		return (
 			<StitchTip name={name} description={description}>
@@ -41,7 +44,7 @@ export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbo
 					}}
 					data-testid={`stitch${index}${name}`}
 				>
-					{symbol}
+					{stitchDisplaySetting === "symbol" ? symbol : <Typography>{abbreviation}</Typography>}
 				</Grid>
 			</StitchTip>
 		);

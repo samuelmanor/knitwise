@@ -6,6 +6,7 @@ import { nextRow, prevRow, resetProject } from "../../reducers/projectReducer.js
 import { setMode } from "../../reducers/workspaceReducer.js";
 import { editProjectName } from "../../reducers/workspaceReducer.js";
 import { EditOutlined, SaveOutlined } from "@mui/icons-material";
+import { SettingsMenu } from "../SettingsMenu";
 
 interface WorkspaceProps {}
 
@@ -16,6 +17,7 @@ export const Workspace: FC<WorkspaceProps> = () => {
 	const currentMode = useSelector((state: any) => state.workspace.mode);
 	const currentProject = useSelector((state: any) => state.workspace.projects[state.workspace.currentProjectId]);
 	const [showEditWarning, setShowEditWarning] = useState(false);
+	const [showSettingsMenu, setShowSettingsMenu] = useState(false);
 	const [showProjectNameEditor, setShowProjectNameEditor] = useState(false);
 	const [projectNameDraft, setProjectNameDraft] = useState(currentProject.projectName);
 
@@ -69,6 +71,12 @@ export const Workspace: FC<WorkspaceProps> = () => {
 				<Typography variant="h4">{currentProject.projectName}</Typography>
 				<Button onClick={() => setShowEditWarning(true)}>edit</Button>
 				{showEditWarning ? editWarning : null}
+				{showSettingsMenu ? (
+					<Grid container>
+						<SettingsMenu />
+						<Button onClick={() => setShowSettingsMenu(false)}>close settings</Button>
+					</Grid>
+				) : null}
 				<Grid container>
 					<Project />
 					<Button onClick={() => dispatch(nextRow())} sx={{ backgroundColor: "white" }}>
@@ -77,9 +85,9 @@ export const Workspace: FC<WorkspaceProps> = () => {
 					<Button onClick={() => dispatch(prevRow())} sx={{ backgroundColor: "white" }}>
 						prev row
 					</Button>
-					{/* <Button onClick={() => dispatch(resetProject())} sx={{ backgroundColor: "white" }}>
-						reset project -> tools panel
-					</Button> */}
+					<Button onClick={() => setShowSettingsMenu(true)} sx={{ backgroundColor: "white" }}>
+						settings
+					</Button>
 				</Grid>
 			</Grid>
 		);

@@ -1,5 +1,5 @@
 // handles all top-level things like the list of projects and the current project('s id)
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { testProject } from "../utils/testProject";
 
 const workspaceSlice = createSlice({
@@ -9,11 +9,11 @@ const workspaceSlice = createSlice({
 		mode: "chart",
 		savedBlocks: [testProject.blocks[1], testProject.blocks[2]],
 		currentProjectId: 0,
-		// draftProject: {
-		// 	name: "",
-		// 	blocks: [],
-		// 	currentDraftBlock: 0,
-		// }
+		userSettings: {
+			// theme: "light" | "dark",
+			stitchDisplay: "symbol", // | "abbreviation"
+			// displayMode: "detailed" | "simple"
+		},
 	},
 	reducers: {
 		// addProject(state, action) {
@@ -40,9 +40,12 @@ const workspaceSlice = createSlice({
 				}),
 			};
 		},
+		changeUserSettings(state, action) {
+			state.userSettings[action.payload.setting] = action.payload.value;
+		},
 	},
 });
 
-export const { setMode, setCurrentProjectId, editProjectName } = workspaceSlice.actions;
+export const { setMode, setCurrentProjectId, editProjectName, changeUserSettings } = workspaceSlice.actions;
 
 export default workspaceSlice.reducer;
