@@ -9,10 +9,12 @@ const workspaceSlice = createSlice({
 		mode: "chart",
 		savedBlocks: [testProject.blocks[1], testProject.blocks[2]],
 		currentProjectId: 0,
-		userSettings: {
+		settings: {
 			// theme: "light" | "dark",
 			stitchDisplay: "symbol", // | "abbreviation"
 			// displayMode: "detailed" | "simple"
+			// stitchTipMode: "onHover" | "onClick"
+			// directionsOverlay: true | false
 		},
 	},
 	reducers: {
@@ -40,12 +42,12 @@ const workspaceSlice = createSlice({
 				}),
 			};
 		},
-		changeUserSettings(state, action) {
-			state.userSettings[action.payload.setting] = action.payload.value;
+		changeSetting(state, action) {
+			state.settings[action.payload.setting] = action.payload.value;
 		},
 	},
 });
 
-export const { setMode, setCurrentProjectId, editProjectName, changeUserSettings } = workspaceSlice.actions;
+export const { setMode, setCurrentProjectId, editProjectName, changeSetting } = workspaceSlice.actions;
 
 export default workspaceSlice.reducer;

@@ -17,11 +17,13 @@ export const RowMarker: FC<RowMarkerProps> = ({ position }) => {
 			container
 			sx={{
 				position: "absolute",
-				width: 50,
-				height: 50,
-				mt: 1.5,
-				ml: position === "right" ? 20 : 0,
-				mr: position === "left" ? 20 : 0,
+				width: "50px",
+				height: "fit-content",
+				mt: "10px",
+				// ml: position === "right" ? 38 : 0,
+				// mr: position === "left" ? 38 : 0,
+				right: 0,
+				border: "1px solid red",
 			}}
 			data-testid={`rowmarker${position}`}
 		>

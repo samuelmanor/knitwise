@@ -9,9 +9,12 @@ import { BlockSearch } from "../BlockSearch";
 
 // export interface ProjectProps {}
 
+/**
+ * The project; made up of many blocks.
+ */
 export const Project: FC<{}> = () => {
-	const currentRow = useSelector((state: any) => state.projects.currentRow);
-	const currentMode = useSelector((state: any) => state.workspace.mode);
+	// const currentRow = useSelector((state: any) => state.projects.currentRow);
+	const mode = useSelector((state: any) => state.workspace.mode);
 	const blocks = useSelector((state: any) => state.projects.project.blocks);
 	const [showBlockEditor, setShowBlockEditor] = useState(false);
 	const [showBlockSearch, setShowBlockSearch] = useState(false);
@@ -48,7 +51,7 @@ export const Project: FC<{}> = () => {
 	};
 
 	/**
-	 * Adds a new block to the project at the specified position.
+	 * Adds a new block to the project at either the beginning or end of the project. //=> todo: add feat to add block between already existing blocks
 	 * @param blockName The name of the block to be added.
 	 * @param stitches The stitches for the block to be added.
 	 */
@@ -69,7 +72,7 @@ export const Project: FC<{}> = () => {
 	const project = blocks.map((block: BlockProps, i: number) => {
 		return (
 			<Box key={i} sx={{ display: "flex", alignItems: "flex-end" }}>
-				{currentMode === "edit" ? (
+				{mode === "edit" ? (
 					<Grid container position={"absolute"}>
 						<IconButton onClick={() => handleEdit(i)}>
 							<EditOutlined />
@@ -89,7 +92,7 @@ export const Project: FC<{}> = () => {
 		);
 	});
 
-	if (currentMode === "edit") {
+	if (mode === "edit") {
 		return (
 			<Grid container sx={{ background: "gray", border: "2px solid black", justifyContent: "center", gap: 2 }}>
 				{showBlockEditor ? (
@@ -140,22 +143,26 @@ export const Project: FC<{}> = () => {
 		);
 	}
 
-	if (currentMode === "chart") {
+	if (mode === "chart") {
 		return (
 			<Grid
 				container
 				sx={{
-					background: "gray",
-					border: "2px solid black",
-					justifyContent: "center",
+					// background: "gray",
+					// border: "2px solid black",
+					// justifyContent: "center",
 					gap: 2,
 					// pl: 10,
 					// pr: 10,
-					display: "flex",
-					flexDirection: "row",
-					width: "100%",
-					overflowX: "scroll",
+					// display: "flex",
+					// flexDirection: "row",
+					// width: "100%",
+					width: "fit-content",
 					flexWrap: "nowrap",
+					pr: 8,
+					pl: 8,
+					// overflowX: "scroll",
+					// flexWrap: "nowrap",
 				}}
 			>
 				{/* <Typography variant="h6">current row: {currentRow}</Typography> */}

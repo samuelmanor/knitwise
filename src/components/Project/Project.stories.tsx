@@ -5,6 +5,9 @@ import { within } from "@storybook/testing-library";
 
 import { Project } from "./Project";
 import { Stitch } from "../Stitch";
+import { Provider } from "react-redux";
+
+import store from "./../../reducers/store";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof Project> = {
@@ -17,9 +20,16 @@ const meta: Meta<typeof Project> = {
 	// This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
 	tags: ["autodocs"],
 	// More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-	argTypes: {
-		// backgroundColor: { control: 'color' },
-	},
+	// argTypes: {
+	// 	// backgroundColor: { control: 'color' },
+	// },
+	decorators: [
+		Story => (
+			<Provider store={store}>
+				<Story />
+			</Provider>
+		),
+	],
 };
 
 const testKnitStitch = <Stitch name="knit" abbreviation="k" description="knit" width={1} />;

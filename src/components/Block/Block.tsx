@@ -81,6 +81,9 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 		</Grid>
 	);
 
+	/**
+	 * Calculates the width of the block based on the sum of all stitches' widths.
+	 */
 	const getBlockWidth = (): number => {
 		let total: number = 0;
 		stitches[0].forEach(stitch => (total += stitch.width));

@@ -1,7 +1,7 @@
 import { Button, FormControl, FormControlLabel, Grid, Radio, RadioGroup, Typography } from "@mui/material";
 import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { changeUserSettings } from "../../reducers/workspaceReducer";
+import { changeSetting } from "../../reducers/workspaceReducer";
 import { resetProject } from "../../reducers/projectReducer.js";
 
 interface SettingsMenuProps {}
@@ -22,9 +22,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = () => {
 					<FormControl>
 						<RadioGroup
 							row
-							onChange={e =>
-								dispatch(changeUserSettings({ setting: "stitchDisplay", value: e.target.value }))
-							}
+							onChange={e => dispatch(changeSetting({ setting: "stitchDisplay", value: e.target.value }))}
 						>
 							<FormControlLabel
 								value="symbol"
