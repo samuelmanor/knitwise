@@ -16,16 +16,17 @@ export interface BlockProps {
 
 /**
  * A block of the pattern; made up of many rows.
+ * @param blockName The name of the block.
  * @param stitches The rows of stitches to be rendered.
  * @param index The index of the block.
  * @param tallestBlockIndex The index of the tallest block in the project - used to calculate padding for individual blocks.
  */
 export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlockIndex }) => {
+	const currentProject = useSelector((state: any) => state.projects.project);
 	const currentRow = useSelector((state: any) => state.projects.currentRow);
-	const numOfBlocks = useSelector((state: any) => state.projects.project.blocks.length);
 	const currentBlockRow = useSelector((state: any) => state.projects.project.blocks[index].currentBlockRow);
-	const tallestBlock = useSelector((state: any) => state.projects.project.blocks[tallestBlockIndex]);
-	const currentMode = useSelector((state: any) => state.workspace.mode);
+	const mode = useSelector((state: any) => state.workspace.mode);
+
 	const [showNameEditor, setShowNameEditor] = useState(false);
 	const [blockNameDraft, setBlockNameDraft] = useState(blockName);
 
@@ -43,7 +44,8 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 			return "50px";
 		} else {
 			// a block's position is relative to the current row of both the tallest block and the current block
-			const tallestBlockPosition = tallestBlock.currentBlockRow * baseRowRef.current.clientHeight;
+			const tallestBlockPosition =
+				currentProject.blocks[tallestBlockIndex].currentBlockRow * baseRowRef.current.clientHeight;
 			const currentBlockPosition = currentBlockRow * baseRowRef.current.clientHeight;
 
 			return `${tallestBlockPosition - currentBlockPosition + 50}px`;
@@ -108,10 +110,10 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 				}}
 			>
 				<Typography onClick={() => console.log(getBlockWidth())}>
-					{currentMode === "chart" ? `current row: ${currentRow}` : null}
+					{mode === "chart" ? `current row: ${currentRow}` : null}
 				</Typography>
 				{/* <Typography onClick={() => console.log(stitches)}>{blockName}</Typography> */}
-				{currentMode === "edit" ? (
+				{mode === "edit" ? (
 					// <Grid container>{blockName}</Grid>
 					<Grid container>{nameField}</Grid>
 				) : (
@@ -126,7 +128,7 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 								highlightRow={currentBlockRow - 1 === i}
 								rowIndex={i}
 								showLeftRowMarker={index === 0 && currentRow % 2 === 0}
-								showRightRowMarker={index === numOfBlocks - 1 && currentRow % 2 === 1}
+								showRightRowMarker={index === currentProject.blocks.length - 1 && currentRow % 2 === 1}
 							/>
 						</Box>
 					);
