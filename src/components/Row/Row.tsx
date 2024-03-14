@@ -37,7 +37,7 @@ export const Row: FC<RowProps> = ({ row, highlightRow, rowIndex, showLeftRowMark
 			sx={{ backgroundColor: `${highlightRow && currentMode === "chart" ? "rgba(0,0,0,0.3)" : "transparent"}` }}
 			data-testid={`row${rowIndex}`}
 		>
-			{highlightRow && showLeftRowMarker && currentMode === "chart" ? <RowMarker position="left" /> : null}
+			{/* {highlightRow && showLeftRowMarker && currentMode === "chart" ? <RowMarker position="left" /> : null} */}
 			{row.map((stitch, i) => {
 				return (
 					<Grid item display="inline">
@@ -45,7 +45,7 @@ export const Row: FC<RowProps> = ({ row, highlightRow, rowIndex, showLeftRowMark
 					</Grid>
 				);
 			})}
-			{highlightRow && showRightRowMarker && currentMode === "chart" ? <RowMarker position="right" /> : null}
+			{/* {highlightRow && showRightRowMarker && currentMode === "chart" ? <RowMarker position="right" /> : null} */}
 		</Grid>
 	);
 };

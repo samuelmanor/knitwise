@@ -7,7 +7,7 @@ import { resetProject } from "../../reducers/projectReducer.js";
 interface SettingsMenuProps {}
 
 export const SettingsMenu: FC<SettingsMenuProps> = () => {
-	const userSettings = useSelector((state: any) => state.workspace.userSettings);
+	const userSettings = useSelector((state: any) => state.workspace.settings);
 
 	const dispatch = useDispatch();
 
