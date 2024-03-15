@@ -34,7 +34,9 @@ export const Row: FC<RowProps> = ({ row, highlightRow, rowIndex, showLeftRowMark
 			justifyContent="space-evenly"
 			// border="2px solid purple"
 			// sx={{ color: `${highlightRow ? "red" : "black"}` }}
-			sx={{ backgroundColor: `${highlightRow && currentMode === "chart" ? "rgba(0,0,0,0.3)" : "transparent"}` }}
+			sx={{
+				backgroundColor: `${highlightRow && currentMode === "chart" ? "rgba(0, 48, 57, 0.5)" : "transparent"}`,
+			}}
 			data-testid={`row${rowIndex}`}
 		>
 			{/* {highlightRow && showLeftRowMarker && currentMode === "chart" ? <RowMarker position="left" /> : null} */}

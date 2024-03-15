@@ -1,4 +1,4 @@
-import { Button, IconButton, Grid, Typography, TextField, Box } from "@mui/material";
+import { Button, IconButton, Grid, Typography, TextField, Box, useTheme } from "@mui/material";
 import { FC, useRef, useState } from "react";
 import { Row } from "../Row";
 import { StitchProps } from "../Stitch";
@@ -33,6 +33,7 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 	const baseRowRef = useRef<HTMLDivElement>(null);
 
 	const dispatch = useDispatch();
+	const theme = useTheme();
 
 	/**
 	 * Calculates the padding for the block.
@@ -99,7 +100,10 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 			container
 			sx={{
 				// border: "2px solid red",
-				backgroundColor: "rgba(0,0,0,0.3)",
+				backgroundColor: theme.palette.background.paper,
+				p: 1,
+				borderTopRightRadius: "10px",
+				borderTopLeftRadius: "10px",
 				maxHeight: "100%",
 				mb: baseRowRef.current ? handlePadding() : "50px",
 				width: getBlockWidth(),

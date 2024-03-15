@@ -1,11 +1,11 @@
 import { FC, useState } from "react";
-import { Button, ClickAwayListener, Grid, IconButton, TextField, Typography } from "@mui/material";
+import { Button, ClickAwayListener, Grid, IconButton, TextField, Typography, useTheme } from "@mui/material";
 import { Project } from "../Project";
 import { useDispatch, useSelector } from "react-redux";
 import { nextRow, prevRow, resetProject } from "../../reducers/projectReducer.js";
 import { setMode } from "../../reducers/workspaceReducer.js";
 import { editProjectName } from "../../reducers/workspaceReducer.js";
-import { EditOutlined, SaveOutlined } from "@mui/icons-material";
+import { CloseOutlined, EditOutlined, SaveOutlined } from "@mui/icons-material";
 import { SettingsMenu } from "../SettingsMenu";
 
 interface WorkspaceProps {}
@@ -22,6 +22,7 @@ export const Workspace: FC<WorkspaceProps> = () => {
 	const [projectNameDraft, setProjectNameDraft] = useState(currentProject.projectName);
 
 	const dispatch = useDispatch();
+	const theme = useTheme();
 
 	// make no project found component?
 	// if (!project) return null;
@@ -55,21 +56,76 @@ export const Workspace: FC<WorkspaceProps> = () => {
 	 */
 	const editWarning = (
 		<ClickAwayListener onClickAway={() => setShowEditWarning(false)}>
-			<Grid container sx={{ backgroundColor: "red" }}>
-				<Typography>
-					Warning: switching to edit mode will reset all block rows to 1. Are you sure you want to continue?
+			<Grid
+				container
+				sx={{
+					// backgroundColor: theme.palette.background.default,
+					// border: `2px solid ${theme.palette.error.main}`,
+					backgroundColor: theme.palette.error.main,
+					border: "2px solid transparent",
+					borderRadius: "5px",
+					width: "50%",
+					position: "absolute",
+					display: "flex",
+					flexDirection: "column",
+					justifyContent: "center",
+					alignItems: "center",
+					userSelect: "none",
+				}}
+			>
+				<Typography
+					sx={{ color: theme.palette.background.default, fontSize: "35px", textDecoration: "underline" }}
+				>
+					edit warning
 				</Typography>
-				<Button onClick={handleEdit}>yes</Button>
-				<Button onClick={() => setShowEditWarning(false)}>no</Button>
+				<Typography>switching to edit mode will reset all block rows to 1.</Typography>
+				<Typography>are you sure you want to continue?</Typography>
+				<Grid container>
+					<Button onClick={handleEdit}>yes</Button>
+					<Button onClick={() => setShowEditWarning(false)}>no</Button>
+				</Grid>
+				<IconButton
+					onClick={() => setShowEditWarning(false)}
+					sx={{
+						color: theme.palette.background.default,
+						position: "absolute",
+						right: 0,
+						top: 0,
+					}}
+				>
+					<CloseOutlined />
+				</IconButton>
 			</Grid>
 		</ClickAwayListener>
 	);
 
 	if (currentMode === "chart") {
 		return (
-			<Grid container>
-				<Typography variant="h4">{currentProject.projectName}</Typography>
-				<Button onClick={() => setShowEditWarning(true)}>edit</Button>
+			<Grid container sx={{ backgroundColor: theme.palette.background.default }}>
+				<Grid
+					container
+					sx={{
+						// backgroundColor: theme.palette.text.primary,
+						color: theme.palette.text.primary,
+						width: "fit-content",
+						ml: 1,
+						mt: 1,
+						userSelect: "none",
+						gap: 3,
+						alignItems: "center",
+					}}
+				>
+					<Typography variant="h2">{currentProject.projectName}</Typography>
+					<Button
+						size="large"
+						onClick={() => setShowEditWarning(true)}
+						sx={{ color: theme.palette.text.primary, height: "fit-content" }}
+					>
+						<Typography variant="h4" fontSize="25px">
+							edit
+						</Typography>
+					</Button>
+				</Grid>
 				{showEditWarning ? editWarning : null}
 				{showSettingsMenu ? (
 					<Grid container>
@@ -77,7 +133,7 @@ export const Workspace: FC<WorkspaceProps> = () => {
 						<Button onClick={() => setShowSettingsMenu(false)}>close settings</Button>
 					</Grid>
 				) : null}
-				<Grid container>
+				<Grid container sx={{ width: "100%" }}>
 					<Project />
 					<Button onClick={() => dispatch(nextRow())} sx={{ backgroundColor: "white" }}>
 						next row
