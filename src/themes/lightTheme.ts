@@ -3,12 +3,12 @@ import { ThemeOptions } from "@mui/material";
 export const lightTheme: ThemeOptions = {
 	palette: {
 		primary: {
-			// main: "#f77f00", // orange
 			// used for main accent color
-			main: "rgb(84, 106, 118)", // dark blue
+			main: "#546a76", // dark blue
+			light: "#94a8b3", // light blue
 		},
 		// secondary: {
-		// 	main: "#fcbf49",
+		// 	main: "#fcbf49", // lighter blue here?
 		// },
 		text: {
 			primary: "#2a353c", // darker blue
