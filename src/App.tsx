@@ -3,7 +3,7 @@ import { Workspace } from "./components/Workspace";
 import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/material";
 
-import { lightTheme } from "./components/themes/lightTheme";
+import { lightTheme } from "./themes/lightTheme";
 
 const light = createTheme(lightTheme);
 

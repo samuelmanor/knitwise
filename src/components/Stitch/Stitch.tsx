@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { StitchTip } from "../StitchTip";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, useTheme } from "@mui/material";
 import { useSelector } from "react-redux";
 
 export interface StitchProps {
@@ -25,6 +25,8 @@ export interface StitchProps {
 export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbol, width, index, view }) => {
 	const stitchDisplaySetting = useSelector((state: any) => state.workspace.settings.stitchDisplay);
 
+	const theme = useTheme();
+
 	if (view === "chart" || view === undefined) {
 		return (
 			<StitchTip name={name} description={description}>
@@ -41,6 +43,8 @@ export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbo
 						justifyContent: "center",
 						letterSpacing: symbol.length * 0.5,
 						border: symbol.length > 1 ? "1px solid black" : "none",
+						color: theme.palette.text.primary,
+						cursor: "pointer",
 					}}
 					data-testid={`stitch${index}${name}`}
 				>

@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Grid, useTheme } from "@mui/material";
 import { FC } from "react";
 import { Stitch, StitchProps } from "../Stitch";
 import { RowMarker } from "../RowMarker";
@@ -23,9 +23,20 @@ export interface RowProps {
 export const Row: FC<RowProps> = ({ row, highlightRow, rowIndex, showLeftRowMarker, showRightRowMarker }) => {
 	const currentMode = useSelector((state: any) => state.workspace.mode);
 
+	const theme = useTheme();
+
 	if (!row) {
 		return null; // make error row ?
 	}
+
+	/**
+	 * Gets the background color for the row, turning the primary color from the theme into an rgba value to add transparency.
+	 */
+	const getRowBgColor = () => {
+		const rgb = theme.palette.primary.main;
+		const rgba = rgb.replace(")", ", 0.6)").replace("rgb", "rgba");
+		return rgba;
+	};
 
 	// figure something out about the width of stitches - flex-grow?
 	return (
@@ -35,7 +46,7 @@ export const Row: FC<RowProps> = ({ row, highlightRow, rowIndex, showLeftRowMark
 			// border="2px solid purple"
 			// sx={{ color: `${highlightRow ? "red" : "black"}` }}
 			sx={{
-				backgroundColor: `${highlightRow && currentMode === "chart" ? "rgba(0, 48, 57, 0.5)" : "transparent"}`,
+				backgroundColor: `${highlightRow && currentMode === "chart" ? getRowBgColor() : "transparent"}`,
 			}}
 			data-testid={`row${rowIndex}`}
 		>

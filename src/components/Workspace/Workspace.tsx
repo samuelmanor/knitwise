@@ -101,7 +101,14 @@ export const Workspace: FC<WorkspaceProps> = () => {
 
 	if (currentMode === "chart") {
 		return (
-			<Grid container sx={{ backgroundColor: theme.palette.background.default }}>
+			<Grid
+				container
+				sx={{
+					backgroundImage:
+						"linear-gradient(to right top, #f6f2df, #f5f1dc, #f5f0d9, #f4efd6, #f3eed3, #f2edd0, #f2ebce, #f1eacb, #f0e9c8, #efe8c5, #eee6c2, #ede5bf)",
+					// overflowX: "scroll",
+				}}
+			>
 				<Grid
 					container
 					sx={{

@@ -3,18 +3,20 @@ import { ThemeOptions } from "@mui/material";
 export const lightTheme: ThemeOptions = {
 	palette: {
 		primary: {
-			main: "#f77f00", // orange
+			// main: "#f77f00", // orange
+			// used for main accent color
+			main: "rgb(84, 106, 118)", // dark blue
 		},
 		// secondary: {
-		// 	main: "#fcbf49", // yellow
+		// 	main: "#fcbf49",
 		// },
 		text: {
-			primary: "#003049", // navy blue
-			secondary: "#f6f2df", // contrast text -> light tan color
+			primary: "#2a353c", // darker blue
+			// secondary: "#f6f2df", // contrast text -> light tan color
 		},
 		background: {
-			default: "#f6f2df", // light tan color
-			paper: "#77878b", // bluish gray
+			// default: "#f6f2df", // light tan color
+			paper: "#fef9ef", // light tan color
 		},
 		error: {
 			main: "#d62828", // vibrant red
@@ -27,9 +29,13 @@ export const lightTheme: ThemeOptions = {
 			letterSpacing: "1px",
 		},
 		h4: {
-			// used for button text
+			// used for button text -> delete this bc edit is moving to settings menu
 			fontFamily: "Arial",
 			textTransform: "none",
+		},
+		h5: {
+			// used for block names
+			fontFamily: "Helvetica Neue",
 		},
 		body1: {
 			// used for general text

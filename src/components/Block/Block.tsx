@@ -101,7 +101,9 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 			sx={{
 				// border: "2px solid red",
 				backgroundColor: theme.palette.background.paper,
-				p: 1,
+				filter: `drop-shadow(5px 5px 0px ${theme.palette.primary.main})`,
+				border: `2px solid ${theme.palette.primary.main}`,
+				p: 0.5,
 				borderTopRightRadius: "10px",
 				borderTopLeftRadius: "10px",
 				maxHeight: "100%",
@@ -116,16 +118,12 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 					flexDirection: "column-reverse",
 				}}
 			>
-				<Typography onClick={() => console.log(getBlockWidth())}>
+				{/* <Typography onClick={() => console.log(getBlockWidth())}>
 					{mode === "chart" ? `current row: ${currentRow}` : null}
-				</Typography>
-				{/* <Typography onClick={() => console.log(stitches)}>{blockName}</Typography> */}
-				{mode === "edit" ? (
-					// <Grid container>{blockName}</Grid>
-					<Grid container>{nameField}</Grid>
-				) : (
-					<Typography onClick={() => console.log(baseRowRef.current.offsetHeight)}>{blockName}</Typography>
-				)}
+				</Typography> */}
+				<Grid container sx={{ justifyContent: "center" }}>
+					{mode === "edit" ? nameField : <Typography variant="h5">{blockName}</Typography>}
+				</Grid>
 				{stitches.map((row, i) => {
 					return (
 						<Box ref={i === 0 ? baseRowRef : null}>
