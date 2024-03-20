@@ -42,7 +42,8 @@ export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbo
 						display: "flex",
 						justifyContent: "center",
 						letterSpacing: symbol.length * 0.5,
-						border: symbol.length > 1 ? "1px solid black" : "none",
+						border: symbol.length > 1 ? `2px solid ${theme.palette.primary.main}` : "none",
+						borderRadius: "5px",
 						color: theme.palette.text.primary,
 						cursor: "pointer",
 					}}

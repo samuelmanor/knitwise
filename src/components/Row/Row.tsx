@@ -40,8 +40,10 @@ export const Row: FC<RowProps> = ({ row, highlightRow, rowIndex, showLeftRowMark
 				backgroundColor: `${
 					highlightRow && currentMode === "chart" ? theme.palette.primary.light : "transparent"
 				}`,
+				pl: 0.5,
+				pr: 0.5,
 			}}
-			onClick={() => console.log()}
+			// onClick={() => console.log()}
 			data-testid={`row${rowIndex}`}
 		>
 			{/* {highlightRow && showLeftRowMarker && currentMode === "chart" ? <RowMarker position="left" /> : null} */}

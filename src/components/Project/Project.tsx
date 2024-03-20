@@ -71,7 +71,7 @@ export const Project: FC<{}> = () => {
 
 	const project = blocks.map((block: BlockProps, i: number) => {
 		return (
-			<Box key={i} sx={{ display: "flex", alignItems: "flex-end" }}>
+			<Box key={i} sx={{ display: "flex", alignItems: "flex-end", pb: 2 }}>
 				{mode === "edit" ? (
 					<Grid container position={"absolute"}>
 						<IconButton onClick={() => handleEdit(i)}>
@@ -158,9 +158,13 @@ export const Project: FC<{}> = () => {
 					// flexDirection: "row",
 					// width: "100%",
 					width: "fit-content",
+					backgroundImage:
+						"linear-gradient(to right, #f6f2df, #f5f1dc, #f5f0d9, #f4efd6, #f3eed3, #f2edd0, #f2ebce, #f1eacb, #f0e9c8, #efe8c5, #eee6c2, #ede5bf)",
 					flexWrap: "nowrap",
 					pr: 8,
 					pl: 8,
+					pt: 2,
+					backgroundColor: "red",
 					// overflowX: "scroll",
 					// flexWrap: "nowrap",
 				}}

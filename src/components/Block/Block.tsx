@@ -42,14 +42,14 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 		const firstRow = currentRow === 1 && currentBlockRow === 1;
 		if (index === tallestBlockIndex || firstRow) {
 			// on the first row, all blocks are aligned
-			return "50px";
+			return 0;
 		} else {
 			// a block's position is relative to the current row of both the tallest block and the current block
 			const tallestBlockPosition =
 				currentProject.blocks[tallestBlockIndex].currentBlockRow * baseRowRef.current.clientHeight;
 			const currentBlockPosition = currentBlockRow * baseRowRef.current.clientHeight;
 
-			return `${tallestBlockPosition - currentBlockPosition + 50}px`;
+			return `${tallestBlockPosition - currentBlockPosition}px`;
 		}
 	};
 
@@ -88,7 +88,7 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 	const getBlockWidth = (): number => {
 		let total: number = 0;
 		stitches[0].forEach(stitch => (total += stitch.width));
-		return total * 17;
+		return total * 18;
 	};
 
 	if (!stitches) {

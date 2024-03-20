@@ -27,12 +27,13 @@ export const lightTheme: ThemeOptions = {
 			// used for project name
 			fontFamily: "Arial",
 			letterSpacing: "1px",
+			color: "#546a76",
 		},
-		h4: {
-			// used for button text -> delete this bc edit is moving to settings menu
-			fontFamily: "Arial",
-			textTransform: "none",
-		},
+		// h4: {
+		// 	// used for button text -> delete this bc edit is moving to settings menu
+		// 	fontFamily: "Arial",
+		// 	textTransform: "none",
+		// },
 		h5: {
 			// used for block names
 			fontFamily: "Helvetica Neue",

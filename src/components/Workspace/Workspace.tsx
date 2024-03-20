@@ -7,6 +7,7 @@ import { setMode } from "../../reducers/workspaceReducer.js";
 import { editProjectName } from "../../reducers/workspaceReducer.js";
 import { CloseOutlined, EditOutlined, SaveOutlined } from "@mui/icons-material";
 import { SettingsMenu } from "../Settings";
+import { ProjectMenu } from "../ProjectMenu";
 
 interface WorkspaceProps {}
 
@@ -17,7 +18,7 @@ export const Workspace: FC<WorkspaceProps> = () => {
 	const currentMode = useSelector((state: any) => state.workspace.mode);
 	const currentProject = useSelector((state: any) => state.workspace.projects[state.workspace.currentProjectId]);
 	const [showEditWarning, setShowEditWarning] = useState(false);
-	const [showSettingsMenu, setShowSettingsMenu] = useState(false);
+	// const [showSettingsMenu, setShowSettingsMenu] = useState(false);
 	const [showProjectNameEditor, setShowProjectNameEditor] = useState(false);
 	const [projectNameDraft, setProjectNameDraft] = useState(currentProject.projectName);
 
@@ -101,57 +102,18 @@ export const Workspace: FC<WorkspaceProps> = () => {
 
 	if (currentMode === "chart") {
 		return (
-			<Grid
-				container
-				sx={{
-					backgroundImage:
-						"linear-gradient(to right top, #f6f2df, #f5f1dc, #f5f0d9, #f4efd6, #f3eed3, #f2edd0, #f2ebce, #f1eacb, #f0e9c8, #efe8c5, #eee6c2, #ede5bf)",
-					// overflowX: "scroll",
-				}}
-			>
-				<Grid
-					container
-					sx={{
-						// backgroundColor: theme.palette.text.primary,
-						color: theme.palette.text.primary,
-						width: "fit-content",
-						ml: 1,
-						mt: 1,
-						userSelect: "none",
-						gap: 3,
-						alignItems: "center",
-					}}
-				>
-					<Typography variant="h2">{currentProject.projectName}</Typography>
-					<Button
-						size="large"
-						onClick={() => setShowEditWarning(true)}
-						sx={{ color: theme.palette.text.primary, height: "fit-content" }}
-					>
-						<Typography variant="h4" fontSize="25px">
-							edit
-						</Typography>
-					</Button>
-				</Grid>
+			<Grid container>
 				{showEditWarning ? editWarning : null}
-				{showSettingsMenu ? (
+				{/* {showSettingsMenu ? (
 					<Grid container>
 						<SettingsMenu />
 						<Button onClick={() => setShowSettingsMenu(false)}>close settings</Button>
 					</Grid>
-				) : null}
-				<Grid container sx={{ width: "100%" }}>
+				) : null} */}
+				<Grid container sx={{}}>
 					<Project />
-					<Button onClick={() => dispatch(nextRow())} sx={{ backgroundColor: "white" }}>
-						next row
-					</Button>
-					<Button onClick={() => dispatch(prevRow())} sx={{ backgroundColor: "white" }}>
-						prev row
-					</Button>
-					<Button onClick={() => setShowSettingsMenu(true)} sx={{ backgroundColor: "white" }}>
-						settings
-					</Button>
 				</Grid>
+				<ProjectMenu />
 			</Grid>
 		);
 	}
