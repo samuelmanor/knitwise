@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { Button, ClickAwayListener, Grid, IconButton, TextField, Typography, useTheme } from "@mui/material";
 import { Project } from "../Project";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,6 +21,7 @@ export const Workspace: FC<WorkspaceProps> = () => {
 	// const [showSettingsMenu, setShowSettingsMenu] = useState(false);
 	const [showProjectNameEditor, setShowProjectNameEditor] = useState(false);
 	const [projectNameDraft, setProjectNameDraft] = useState(currentProject.projectName);
+	const projectMenuRef = useRef<HTMLDivElement>(null);
 
 	const dispatch = useDispatch();
 	const theme = useTheme();
@@ -102,7 +103,21 @@ export const Workspace: FC<WorkspaceProps> = () => {
 
 	if (currentMode === "chart") {
 		return (
-			<Grid container>
+			<Grid
+				container
+				sx={{
+					border: "5px solid red",
+					overflowX: "hidden",
+					// display: "flex",
+					// flexDirection: "column",
+					// justifyContent: "space-between",
+					justifyContent: "center",
+					// alignItems: "center",
+					width: "100%",
+					backgroundImage:
+						"linear-gradient(to right, #f6f2df, #f5f1dc, #f5f0d9, #f4efd6, #f3eed3, #f2edd0, #f2ebce, #f1eacb, #f0e9c8, #efe8c5, #eee6c2, #ede5bf)",
+				}}
+			>
 				{showEditWarning ? editWarning : null}
 				{/* {showSettingsMenu ? (
 					<Grid container>
@@ -110,11 +125,45 @@ export const Workspace: FC<WorkspaceProps> = () => {
 						<Button onClick={() => setShowSettingsMenu(false)}>close settings</Button>
 					</Grid>
 				) : null} */}
-				<Grid container sx={{}}>
+				{/* <Grid
+					container
+					// sx={{
+					// 	border: "2px solid blue",
+					// 	overflow: "scroll",
+					// 	width: "100%",
+					// 	display: "flex",
+					// 	justifyContent: "center",
+					// }}
+				>
 					<Project />
 				</Grid>
-				<ProjectMenu />
+				<ProjectMenu /> */}
+				{/* <Grid container sx={{ display: "flex", flexDirection: "column" }}> */}
+				<Grid
+					item
+					sx={{
+						border: "2px solid blue",
+						width: "100%",
+						height: `calc(100% - ${projectMenuRef.current?.offsetHeight + 10}px)`,
+						minHeight: `calc(100vh - ${projectMenuRef.current?.offsetHeight + 10}px)`,
+						// overflowX: "scroll",
+						// width: "100%",
+						mb: `${projectMenuRef.current?.clientHeight}px`,
+						overflowX: "scroll",
+					}}
+				>
+					<Project />
+				</Grid>
+				<Grid
+					item
+					sx={{ border: "2px solid green", position: "fixed", bottom: 0, width: "100%" }}
+					ref={projectMenuRef}
+					onClick={() => console.log(projectMenuRef.current?.clientHeight)}
+				>
+					<ProjectMenu />
+				</Grid>
 			</Grid>
+			// </Grid>
 		);
 	}
 

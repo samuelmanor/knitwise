@@ -19,15 +19,20 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 		<Grid
 			container
 			sx={{
-				display: "flex",
-				justifyContent: "space-between",
-				zIndex: 10,
-				// borderTop: "1px solid red",
-				position: "fixed",
-				bottom: 0,
+				// display: "flex",
+				// justifyContent: "space-between",
+				// zIndex: 10,
+				// // borderTop: "1px solid red",
+				// position: "fixed",
+				// bottom: 0,
+				// backgroundImage:
+				// 	"linear-gradient(to right, #f6f2df, #f5f1dc, #f5f0d9, #f4efd6, #f3eed3, #f2edd0, #f2ebce, #f1eacb, #f0e9c8, #efe8c5, #eee6c2, #ede5bf)",
+				// alignItems: "center",
+
+				// buffer
+
 				backgroundImage:
 					"linear-gradient(to right, #f6f2df, #f5f1dc, #f5f0d9, #f4efd6, #f3eed3, #f2edd0, #f2ebce, #f1eacb, #f0e9c8, #efe8c5, #eee6c2, #ede5bf)",
-				alignItems: "center",
 			}}
 		>
 			<Grid item onClick={() => console.log(currentRow)}>
