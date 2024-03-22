@@ -39,6 +39,7 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 	 * Calculates the padding for the block.
 	 */
 	const handlePadding = () => {
+		// return 2;
 		const firstRow = currentRow === 1 && currentBlockRow === 1;
 		if (index === tallestBlockIndex || firstRow) {
 			// on the first row, all blocks are aligned

@@ -103,67 +103,28 @@ export const Workspace: FC<WorkspaceProps> = () => {
 
 	if (currentMode === "chart") {
 		return (
-			<Grid
-				container
-				sx={{
-					border: "5px solid red",
-					overflowX: "hidden",
-					// display: "flex",
-					// flexDirection: "column",
-					// justifyContent: "space-between",
-					justifyContent: "center",
-					// alignItems: "center",
-					width: "100%",
-					backgroundImage:
-						"linear-gradient(to right, #f6f2df, #f5f1dc, #f5f0d9, #f4efd6, #f3eed3, #f2edd0, #f2ebce, #f1eacb, #f0e9c8, #efe8c5, #eee6c2, #ede5bf)",
-				}}
-			>
-				{showEditWarning ? editWarning : null}
-				{/* {showSettingsMenu ? (
-					<Grid container>
-						<SettingsMenu />
-						<Button onClick={() => setShowSettingsMenu(false)}>close settings</Button>
-					</Grid>
-				) : null} */}
-				{/* <Grid
-					container
-					// sx={{
-					// 	border: "2px solid blue",
-					// 	overflow: "scroll",
-					// 	width: "100%",
-					// 	display: "flex",
-					// 	justifyContent: "center",
-					// }}
-				>
-					<Project />
-				</Grid>
-				<ProjectMenu /> */}
-				{/* <Grid container sx={{ display: "flex", flexDirection: "column" }}> */}
+			<Grid container>
 				<Grid
-					item
+					container
 					sx={{
-						border: "2px solid blue",
-						width: "100%",
-						height: `calc(100% - ${projectMenuRef.current?.offsetHeight + 10}px)`,
-						minHeight: `calc(100vh - ${projectMenuRef.current?.offsetHeight + 10}px)`,
-						// overflowX: "scroll",
-						// width: "100%",
-						mb: `${projectMenuRef.current?.clientHeight}px`,
-						overflowX: "scroll",
+						border: "2px solid transparent",
+						minHeight: "calc(100vh - 72px)",
+						minWidth: "fit-content",
+						justifyContent: "center",
+						alignItems: "end",
+						backgroundImage:
+							"linear-gradient(to right, #f6f2df, #f5f1dc, #f5f0d9, #f4efd6, #f3eed3, #f2edd0, #f2ebce, #f1eacb, #f0e9c8, #efe8c5, #eee6c2, #ede5bf)",
 					}}
 				>
-					<Project />
+					{showEditWarning ? editWarning : null}
+					<Grid container sx={{ justifyContent: "center" }}>
+						<Project />
+					</Grid>
 				</Grid>
-				<Grid
-					item
-					sx={{ border: "2px solid green", position: "fixed", bottom: 0, width: "100%" }}
-					ref={projectMenuRef}
-					onClick={() => console.log(projectMenuRef.current?.clientHeight)}
-				>
+				<Grid container sx={{ position: "fixed", bottom: 0, width: "100%" }} ref={projectMenuRef}>
 					<ProjectMenu />
 				</Grid>
 			</Grid>
-			// </Grid>
 		);
 	}
 

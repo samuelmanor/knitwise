@@ -12,7 +12,7 @@ export const lightTheme: ThemeOptions = {
 		// },
 		text: {
 			primary: "#2a353c", // darker blue
-			// secondary: "#f6f2df", // contrast text -> light tan color
+			secondary: "#f6f2df", // light tan color -> contrast text for background
 		},
 		background: {
 			// default: "#f6f2df", // light tan color
@@ -27,13 +27,8 @@ export const lightTheme: ThemeOptions = {
 			// used for project name
 			fontFamily: "Arial",
 			letterSpacing: "1px",
-			color: "#546a76",
+			// color: "#f6f2df",
 		},
-		// h4: {
-		// 	// used for button text -> delete this bc edit is moving to settings menu
-		// 	fontFamily: "Arial",
-		// 	textTransform: "none",
-		// },
 		h5: {
 			// used for block names
 			fontFamily: "Helvetica Neue",

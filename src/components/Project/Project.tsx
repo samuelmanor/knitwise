@@ -148,36 +148,15 @@ export const Project: FC<{}> = () => {
 			<Grid
 				container
 				sx={{
-					// background: "gray",
-					// border: "2px solid black",
-					// justifyContent: "center",
-					gap: 2,
-					// pl: 10,
-					// pr: 10,
-					// display: "flex",
-					// flexDirection: "row",
-					// width: "100%",
-					// width: "fit-content",
-					// backgroundImage:
-					// 	"linear-gradient(to right, #f6f2df, #f5f1dc, #f5f0d9, #f4efd6, #f3eed3, #f2edd0, #f2ebce, #f1eacb, #f0e9c8, #efe8c5, #eee6c2, #ede5bf)",
-					flexWrap: "nowrap",
-					pr: 8,
-					pl: 8,
-					pt: 2,
-					border: "2px solid purple",
-					// height: "90vh",
-					// overflowX: "scroll",
-					// height: "120%",
-					// backgroundColor: "red",
-					// border: "2px solid green",
-					// height: "100%",
-					// justifyContent: "center",
-					// overflowX: "scroll",
-					// flexWrap: "nowrap",
+					width: "fit-content",
+					height: "fit-content",
+					p: 1,
 				}}
 			>
 				{/* <Typography variant="h6">current row: {currentRow}</Typography> */}
-				{project}
+				<Grid container sx={{ flexWrap: "nowrap", gap: 2 }}>
+					{project}
+				</Grid>
 			</Grid>
 		);
 	}

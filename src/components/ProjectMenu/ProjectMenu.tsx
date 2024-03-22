@@ -19,23 +19,14 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 		<Grid
 			container
 			sx={{
-				// display: "flex",
-				// justifyContent: "space-between",
-				// zIndex: 10,
-				// // borderTop: "1px solid red",
-				// position: "fixed",
-				// bottom: 0,
-				// backgroundImage:
-				// 	"linear-gradient(to right, #f6f2df, #f5f1dc, #f5f0d9, #f4efd6, #f3eed3, #f2edd0, #f2ebce, #f1eacb, #f0e9c8, #efe8c5, #eee6c2, #ede5bf)",
-				// alignItems: "center",
-
-				// buffer
-
-				backgroundImage:
-					"linear-gradient(to right, #f6f2df, #f5f1dc, #f5f0d9, #f4efd6, #f3eed3, #f2edd0, #f2ebce, #f1eacb, #f0e9c8, #efe8c5, #eee6c2, #ede5bf)",
+				backgroundColor: theme.palette.primary.main,
+				justifyContent: "space-between",
+				pl: 2,
+				pr: 2,
+				alignItems: "center",
 			}}
 		>
-			<Grid item onClick={() => console.log(currentRow)}>
+			<Grid item sx={{ color: theme.palette.text.secondary }}>
 				<Typography variant="h2">{projectName}</Typography>
 			</Grid>
 			<Grid item sx={{ display: "flex", flexDirection: "row", alignItems: "baseline", gap: 2 }}>
@@ -48,7 +39,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 					>
 						<IconButton
 							onClick={() => dispatch(prevRow())}
-							sx={{ color: theme.palette.primary.main }}
+							sx={{ color: theme.palette.text.secondary }}
 							size="large"
 						>
 							<ArrowBackIosNewOutlined />
@@ -72,7 +63,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 				>
 					<IconButton
 						onClick={() => dispatch(nextRow())}
-						sx={{ color: theme.palette.primary.main }}
+						sx={{ color: theme.palette.text.secondary }}
 						size="large"
 					>
 						<ArrowForwardIosOutlined />
@@ -80,8 +71,8 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 				</Tooltip>
 			</Grid>
 			<Grid item>
-				<IconButton>
-					<SettingsOutlined />
+				<IconButton size="large" sx={{ color: theme.palette.text.secondary, transform: "scale(1.5)" }}>
+					<SettingsOutlined sx={{}} />
 				</IconButton>
 			</Grid>
 		</Grid>
