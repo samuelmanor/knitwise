@@ -6,7 +6,6 @@ import { nextRow, prevRow, resetProject } from "../../reducers/projectReducer.js
 import { setMode } from "../../reducers/workspaceReducer.js";
 import { editProjectName } from "../../reducers/workspaceReducer.js";
 import { CloseOutlined, EditOutlined, SaveOutlined } from "@mui/icons-material";
-import { SettingsMenu } from "../Settings";
 import { ProjectMenu } from "../ProjectMenu";
 
 interface WorkspaceProps {}

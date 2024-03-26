@@ -1,12 +1,15 @@
-import { Button, FormControl, FormControlLabel, Grid, Radio, RadioGroup, Typography } from "@mui/material";
+import { Button, FormControl, FormControlLabel, Grid, IconButton, Radio, RadioGroup, Typography } from "@mui/material";
 import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeSetting } from "../../reducers/workspaceReducer";
 import { resetProject } from "../../reducers/projectReducer.js";
+import { CloseOutlined } from "@mui/icons-material";
 
-interface SettingsMenuProps {}
+interface SettingsMenuProps {
+	closeSettingsMenu: () => void;
+}
 
-export const SettingsMenu: FC<SettingsMenuProps> = () => {
+export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 	const userSettings = useSelector((state: any) => state.workspace.settings);
 
 	const dispatch = useDispatch();
@@ -42,6 +45,9 @@ export const SettingsMenu: FC<SettingsMenuProps> = () => {
 				<Grid item>
 					<Button onClick={() => dispatch(resetProject())}>reset project</Button>
 				</Grid>
+				<IconButton onClick={closeSettingsMenu}>
+					<CloseOutlined />
+				</IconButton>
 			</Grid>
 		</Grid>
 	);

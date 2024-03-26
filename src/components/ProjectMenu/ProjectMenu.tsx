@@ -1,8 +1,9 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { nextRow, prevRow, resetProject } from "../../reducers/projectReducer.js";
-import { Grid, IconButton, Tooltip, Typography, useTheme } from "@mui/material";
+import { Drawer, Grid, IconButton, Tooltip, Typography, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { ArrowBackIosNewOutlined, ArrowForwardIosOutlined, SettingsOutlined } from "@mui/icons-material";
+import { SettingsMenu } from "../SettingsMenu/";
 
 interface ProjectMenuProps {}
 
@@ -11,6 +12,15 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 		(state: any) => state.workspace.projects[state.workspace.currentProjectId].projectName,
 	);
 	const currentRow = useSelector((state: any) => state.projects.currentRow);
+	const [openSettings, setOpenSettings] = useState(false);
+
+	/**
+	 * Toggles opening/closing the settings menu.
+	 * @param newState The new state of the settings menu visibility.
+	 */
+	const toggleSettingsDrawer = (newState: boolean) => {
+		setOpenSettings(newState);
+	};
 
 	const dispatch = useDispatch();
 	const theme = useTheme();
@@ -72,9 +82,12 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 			</Grid>
 			<Grid item>
 				<IconButton size="large" sx={{ color: theme.palette.text.secondary, transform: "scale(1.5)" }}>
-					<SettingsOutlined sx={{}} />
+					<SettingsOutlined onClick={() => toggleSettingsDrawer(true)} />
 				</IconButton>
 			</Grid>
+			<Drawer anchor="bottom" open={openSettings} onClose={() => toggleSettingsDrawer(false)}>
+				<SettingsMenu closeSettingsMenu={() => toggleSettingsDrawer(false)} />
+			</Drawer>
 		</Grid>
 	);
 };

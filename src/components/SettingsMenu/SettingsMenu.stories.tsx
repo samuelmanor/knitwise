@@ -3,7 +3,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import { expect } from "@storybook/jest";
 import { within } from "@storybook/testing-library";
 
-import { SettingsMenu } from "./Settings";
+import { SettingsMenu } from "./SettingsMenu";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof SettingsMenu> = {
