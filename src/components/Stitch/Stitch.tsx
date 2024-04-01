@@ -24,7 +24,6 @@ export interface StitchProps {
  */
 export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbol, width, index, view }) => {
 	const stitchDisplaySetting = useSelector((state: any) => state.workspace.settings.stitchDisplay);
-	const stitchTipDisplayMode = useSelector((state: any) => state.workspace.settings.stitchTipMode);
 
 	const theme = useTheme();
 
@@ -38,10 +37,13 @@ export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbo
 						// cursor: "pointer",
 						mt: 0.5,
 						mb: 0.5,
+						pl: "2px",
+						pr: "2px",
 						// border: "1px solid red",
 						// width: symbol.length * 15,
-						width:
-							stitchDisplaySetting === "symbol" ? symbol.length * 15 : width * 21 + abbreviation.length,
+						// width:
+						// 	stitchDisplaySetting === "symbol" ? symbol.length * 15 : width * 21 + abbreviation.length,
+						// width: "fit-content",
 						display: "flex",
 						justifyContent: "center",
 						letterSpacing: symbol.length * 0.5,
@@ -51,12 +53,11 @@ export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbo
 						cursor: "pointer",
 					}}
 					data-testid={`stitch${index}${name}`}
-					onClick={() => console.log(stitchTipDisplayMode)}
 				>
 					{stitchDisplaySetting === "symbol" ? (
-						<Typography>{symbol}</Typography>
+						<Typography sx={{ fontSize: "28px", letterSpacing: "1px" }}>{symbol}</Typography>
 					) : (
-						<Typography>{abbreviation}</Typography>
+						<Typography sx={{ fontSize: "20px" }}>{abbreviation}</Typography>
 					)}
 				</Grid>
 			</StitchTip>

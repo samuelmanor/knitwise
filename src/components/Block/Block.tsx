@@ -89,10 +89,11 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 	 */
 	const getBlockWidth = (): number => {
 		let total: number = 0;
-		stitches[0].forEach(stitch => (total += stitch.width));
+		stitches[0].forEach(stitch => {
+			total += stitch.width;
+		});
 
-		return stitchDisplaySetting === "symbol" ? total * 18 : total * 25;
-		// return total * 18;
+		return stitchDisplaySetting === "symbol" ? total * 18 : total * 30; // abbreviations need more space than symbols
 	};
 
 	if (!stitches) {

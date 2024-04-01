@@ -33,7 +33,7 @@ export const Row: FC<RowProps> = ({ row, highlightRow, rowIndex, showLeftRowMark
 	return (
 		<Grid
 			container
-			justifyContent="space-evenly"
+			justifyContent="space-between"
 			// border="2px solid purple"
 			// sx={{ color: `${highlightRow ? "red" : "black"}` }}
 			sx={{
