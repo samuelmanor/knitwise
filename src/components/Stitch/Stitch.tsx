@@ -73,11 +73,45 @@ export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbo
 
 	if (view === "search") {
 		return (
+			// backgroundColor: theme.palette.background.paper,
+			// filter: `drop-shadow(5px 5px 0px ${theme.palette.primary.main})`,
+			// border: `2px solid ${theme.palette.primary.main}`,
+			// p: 0.5,
+			// borderTopRightRadius: "10px",
+			// borderTopLeftRadius: "10px",
+			// maxHeight: "100%",
+			// mb: baseRowRef.current ? handlePadding() : "50px",
+			// width: getBlockWidth(),
+			// <Grid
+			// 	container
+			// 	sx={{ border: "2px solid red", flexDirection: "column", alignItems: "center", cursor: "pointer" }}
+			// >
+			// 	{/* <Grid item>{symbol}</Grid> */}
+			// 	<Grid item>{name}</Grid>
+			// </Grid>
 			<Grid
 				container
-				sx={{ border: "2px solid red", flexDirection: "column", alignItems: "center", cursor: "pointer" }}
+				sx={
+					{
+						// flexDirection: "column",
+						// backgroundColor: theme.palette.background.paper,
+						// filter: `drop-shadow(5px 5px 0px ${theme.palette.primary.main})`,
+						// border: `2px solid ${theme.palette.primary.main}`,
+						// p: 0.5,
+						// borderRadius: "5px",
+						// width: "fit-content",
+						// alignItems: "center",
+						// cursor: "pointer",
+						// userSelect: "none",
+					}
+				}
 			>
-				{/* <Grid item>{symbol}</Grid> */}
+				<Grid item>
+					<Typography>{stitchDisplaySetting === "symbol" ? symbol : abbreviation}</Typography>
+				</Grid>
+				<Grid item>
+					<Typography>{stitchDisplaySetting === "symbol" ? abbreviation : symbol}</Typography>
+				</Grid>
 				<Grid item>{name}</Grid>
 			</Grid>
 		);

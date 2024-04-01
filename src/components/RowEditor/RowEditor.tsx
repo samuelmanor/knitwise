@@ -49,10 +49,10 @@ export const RowEditor: FC<RowEditorProps> = ({ row, blockIndex, rowIndex }) => 
 
 	const stitchSelect = (
 		<ClickAwayListener onClickAway={() => setShowStitchSelect(false)}>
-			<Grid container>
+			<Grid container sx={{ position: "absolute" }}>
 				available stitches:
-				<Grid container>
-					{Object.keys(availableStitches).map((stitch, index) => {
+				<Grid container sx={{ border: "2px solid green" }}>
+					{/* {Object.keys(availableStitches).map((stitch, index) => {
 						// remove underscore from stitch names that begin with numbers
 						const cleanedStitchName = stitch.replace(/_/g, " ");
 						return (
@@ -64,6 +64,19 @@ export const RowEditor: FC<RowEditorProps> = ({ row, blockIndex, rowIndex }) => 
 								}
 							>
 								{cleanedStitchName}
+							</Grid>
+						);
+					})} */}
+					{Object.keys(availableStitches).map((stitch, i) => {
+						return (
+							<Grid
+								item
+								key={`${stitch}${i}`}
+								onClick={() =>
+									handleRowEdit(availableStitches[stitch], selectedStitch ? "edit" : "add")
+								}
+							>
+								<Stitch view="search" {...availableStitches[stitch]} />
 							</Grid>
 						);
 					})}
@@ -86,6 +99,7 @@ export const RowEditor: FC<RowEditorProps> = ({ row, blockIndex, rowIndex }) => 
 					setShowStitchOptions(!showStitchOptions);
 					setSelectedStitch(i);
 				}}
+				sx={{ background: "green" }}
 			>
 				<Stitch view="edit" {...stitch} />
 				{showStitchOptions && selectedStitch === i ? (

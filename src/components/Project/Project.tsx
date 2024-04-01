@@ -98,16 +98,18 @@ export const Project: FC<{}> = () => {
 				{showBlockEditor ? (
 					<BlockEditor blockIndex={currentDraftBlock} closeEditor={() => setShowBlockEditor(false)} />
 				) : null}
-				<Grid item>
-					<IconButton
-						onClick={() => {
-							setShowBlockMenu(true);
-							setCurrentDraftBlock(0);
-						}}
-					>
-						<AddOutlined />
-					</IconButton>
-				</Grid>
+				{!showBlockEditor ? (
+					<Grid item>
+						<IconButton
+							onClick={() => {
+								setShowBlockMenu(true);
+								setCurrentDraftBlock(0);
+							}}
+						>
+							<AddOutlined />
+						</IconButton>
+					</Grid>
+				) : null}
 				{showBlockMenu ? (
 					<Grid container sx={{ position: "absolute" }}>
 						<IconButton onClick={() => setShowBlockMenu(false)}>
@@ -125,20 +127,22 @@ export const Project: FC<{}> = () => {
 						</Grid>
 					</Grid>
 				) : null}
-				{project}
+				{!showBlockEditor ? project : null}
 				{showBlockSearch ? (
 					<BlockSearch closeBlockSearch={() => setShowBlockSearch(false)} addBlock={handleAddNewBlock} />
 				) : null}
-				<Grid item>
-					<IconButton
-						onClick={() => {
-							setShowBlockMenu(true);
-							setCurrentDraftBlock(blocks.length);
-						}}
-					>
-						<AddOutlined />
-					</IconButton>
-				</Grid>
+				{!showBlockEditor ? (
+					<Grid item>
+						<IconButton
+							onClick={() => {
+								setShowBlockMenu(true);
+								setCurrentDraftBlock(blocks.length);
+							}}
+						>
+							<AddOutlined />
+						</IconButton>
+					</Grid>
+				) : null}
 			</Grid>
 		);
 	}
