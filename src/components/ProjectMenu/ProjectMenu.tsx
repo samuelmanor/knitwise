@@ -25,6 +25,11 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 	const dispatch = useDispatch();
 	const theme = useTheme();
 
+	/*
+	add edit button to the left of settings button
+	make row controls a separate component? or at least center it
+	 */
+
 	return (
 		<Grid
 			container

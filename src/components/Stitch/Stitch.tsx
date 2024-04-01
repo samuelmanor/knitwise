@@ -53,7 +53,11 @@ export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbo
 					data-testid={`stitch${index}${name}`}
 					onClick={() => console.log(stitchTipDisplayMode)}
 				>
-					{stitchDisplaySetting === "symbol" ? symbol : <Typography>{abbreviation}</Typography>}
+					{stitchDisplaySetting === "symbol" ? (
+						<Typography>{symbol}</Typography>
+					) : (
+						<Typography>{abbreviation}</Typography>
+					)}
 				</Grid>
 			</StitchTip>
 		);
