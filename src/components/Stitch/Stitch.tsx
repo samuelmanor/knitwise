@@ -24,6 +24,7 @@ export interface StitchProps {
  */
 export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbol, width, index, view }) => {
 	const stitchDisplaySetting = useSelector((state: any) => state.workspace.settings.stitchDisplay);
+	const stitchTipDisplayMode = useSelector((state: any) => state.workspace.settings.stitchTipMode);
 
 	const theme = useTheme();
 
@@ -38,7 +39,9 @@ export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbo
 						mt: 0.5,
 						mb: 0.5,
 						// border: "1px solid red",
-						width: symbol.length * 15,
+						// width: symbol.length * 15,
+						width:
+							stitchDisplaySetting === "symbol" ? symbol.length * 15 : width * 21 + abbreviation.length,
 						display: "flex",
 						justifyContent: "center",
 						letterSpacing: symbol.length * 0.5,
@@ -48,6 +51,7 @@ export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbo
 						cursor: "pointer",
 					}}
 					data-testid={`stitch${index}${name}`}
+					onClick={() => console.log(stitchTipDisplayMode)}
 				>
 					{stitchDisplaySetting === "symbol" ? symbol : <Typography>{abbreviation}</Typography>}
 				</Grid>

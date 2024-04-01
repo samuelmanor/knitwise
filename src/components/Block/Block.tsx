@@ -26,6 +26,7 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 	const currentRow = useSelector((state: any) => state.projects.currentRow);
 	const currentBlockRow = useSelector((state: any) => state.projects.project.blocks[index].currentBlockRow);
 	const mode = useSelector((state: any) => state.workspace.mode);
+	const stitchDisplaySetting = useSelector((state: any) => state.workspace.settings.stitchDisplay);
 
 	const [showNameEditor, setShowNameEditor] = useState(false);
 	const [blockNameDraft, setBlockNameDraft] = useState(blockName);
@@ -89,7 +90,9 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 	const getBlockWidth = (): number => {
 		let total: number = 0;
 		stitches[0].forEach(stitch => (total += stitch.width));
-		return total * 18;
+
+		return stitchDisplaySetting === "symbol" ? total * 18 : total * 25;
+		// return total * 18;
 	};
 
 	if (!stitches) {

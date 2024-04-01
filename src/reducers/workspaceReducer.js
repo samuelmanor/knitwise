@@ -13,7 +13,6 @@ const workspaceSlice = createSlice({
 			// theme: "light" | "dark",
 			stitchDisplay: "symbol", // | "abbreviation"
 			// displayMode: "detailed" | "simple"
-			// stitchTipMode: "onHover" | "onClick"
 			// directionsOverlay: true | false
 		},
 	},

@@ -52,54 +52,6 @@ export const Workspace: FC<WorkspaceProps> = () => {
 		setShowEditWarning(false);
 	};
 
-	/**
-	 * Warns the user that switching to edit mode will reset any progress made.
-	 */
-	const editWarning = (
-		<ClickAwayListener onClickAway={() => setShowEditWarning(false)}>
-			<Grid
-				container
-				sx={{
-					// backgroundColor: theme.palette.background.default,
-					// border: `2px solid ${theme.palette.error.main}`,
-					backgroundColor: theme.palette.error.main,
-					border: "2px solid transparent",
-					borderRadius: "5px",
-					width: "50%",
-					position: "absolute",
-					display: "flex",
-					flexDirection: "column",
-					justifyContent: "center",
-					alignItems: "center",
-					userSelect: "none",
-				}}
-			>
-				<Typography
-					sx={{ color: theme.palette.background.default, fontSize: "35px", textDecoration: "underline" }}
-				>
-					edit warning
-				</Typography>
-				<Typography>switching to edit mode will reset all block rows to 1.</Typography>
-				<Typography>are you sure you want to continue?</Typography>
-				<Grid container>
-					<Button onClick={handleEdit}>yes</Button>
-					<Button onClick={() => setShowEditWarning(false)}>no</Button>
-				</Grid>
-				<IconButton
-					onClick={() => setShowEditWarning(false)}
-					sx={{
-						color: theme.palette.background.default,
-						position: "absolute",
-						right: 0,
-						top: 0,
-					}}
-				>
-					<CloseOutlined />
-				</IconButton>
-			</Grid>
-		</ClickAwayListener>
-	);
-
 	if (currentMode === "chart") {
 		return (
 			<Grid container>
@@ -115,7 +67,6 @@ export const Workspace: FC<WorkspaceProps> = () => {
 							"linear-gradient(to right, #f6f2df, #f5f1dc, #f5f0d9, #f4efd6, #f3eed3, #f2edd0, #f2ebce, #f1eacb, #f0e9c8, #efe8c5, #eee6c2, #ede5bf)",
 					}}
 				>
-					{showEditWarning ? editWarning : null}
 					<Grid container sx={{ justifyContent: "center" }}>
 						<Project />
 					</Grid>
