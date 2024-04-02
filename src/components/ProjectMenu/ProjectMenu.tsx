@@ -1,9 +1,16 @@
-import { FC, useState } from "react";
+import { FC, ReactElement, useState } from "react";
 import { nextRow, prevRow, resetProject } from "../../reducers/projectReducer.js";
 import { Drawer, Grid, IconButton, Tooltip, Typography, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { ArrowBackIosNewOutlined, ArrowForwardIosOutlined, SettingsOutlined } from "@mui/icons-material";
+import {
+	ArrowBackIosNewOutlined,
+	ArrowForwardIosOutlined,
+	DarkModeOutlined,
+	LightModeOutlined,
+	SettingsOutlined,
+} from "@mui/icons-material";
 import { SettingsMenu } from "../SettingsMenu/";
+import { changeSetting } from "../../reducers/workspaceReducer";
 
 interface ProjectMenuProps {}
 
@@ -12,6 +19,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 		(state: any) => state.workspace.projects[state.workspace.currentProjectId].projectName,
 	);
 	const currentRow = useSelector((state: any) => state.projects.currentRow);
+	const themeSetting = useSelector((state: any) => state.workspace.settings.theme);
 	const [openSettings, setOpenSettings] = useState(false);
 
 	/**
@@ -26,9 +34,35 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 	const theme = useTheme();
 
 	/*
-	add edit button to the left of settings button
 	make row controls a separate component? or at least center it
 	 */
+
+	const ButtonTip = ({ title, children }) => {
+		return (
+			<Tooltip
+				title={title}
+				placement="top"
+				arrow
+				componentsProps={{
+					tooltip: {
+						sx: {
+							"fontSize": "15px",
+							"p": 1,
+							"letterSpacing": "1px",
+							"backgroundColor": theme.palette.primary.main,
+							"color": theme.palette.text.secondary,
+							"fontWeight": "bold",
+							"& .MuiTooltip-arrow": {
+								color: theme.palette.primary.main,
+							},
+						},
+					},
+				}}
+			>
+				{children}
+			</Tooltip>
+		);
+	};
 
 	return (
 		<Grid
@@ -87,10 +121,25 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 					</IconButton>
 				</Tooltip>
 			</Grid>
-			<Grid item>
-				<IconButton size="large" sx={{ color: theme.palette.text.secondary, transform: "scale(1.5)" }}>
-					<SettingsOutlined onClick={() => toggleSettingsDrawer(true)} />
-				</IconButton>
+			<Grid item sx={{ display: "flex", gap: 3 }}>
+				<ButtonTip title="change theme">
+					<IconButton size="large" sx={{ color: theme.palette.text.secondary, transform: "scale(1.5)" }}>
+						{themeSetting === "light" ? (
+							<DarkModeOutlined
+								onClick={() => dispatch(changeSetting({ setting: "theme", value: "dark" }))}
+							/>
+						) : (
+							<LightModeOutlined
+								onClick={() => dispatch(changeSetting({ setting: "theme", value: "light" }))}
+							/>
+						)}
+					</IconButton>
+				</ButtonTip>
+				<ButtonTip title="settings">
+					<IconButton size="large" sx={{ color: theme.palette.text.secondary, transform: "scale(1.5)" }}>
+						<SettingsOutlined onClick={() => toggleSettingsDrawer(true)} />
+					</IconButton>
+				</ButtonTip>
 			</Grid>
 			<Drawer anchor="bottom" open={openSettings} onClose={() => toggleSettingsDrawer(false)}>
 				<SettingsMenu closeSettingsMenu={() => toggleSettingsDrawer(false)} />
