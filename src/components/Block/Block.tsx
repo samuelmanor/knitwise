@@ -127,7 +127,13 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 					{mode === "chart" ? `current row: ${currentRow}` : null}
 				</Typography> */}
 				<Grid container sx={{ justifyContent: "center" }}>
-					{mode === "edit" ? nameField : <Typography variant="h5">{blockName}</Typography>}
+					{mode === "edit" ? (
+						nameField
+					) : (
+						<Typography variant="h5" sx={{ color: theme.palette.text.primary }}>
+							{blockName}
+						</Typography>
+					)}
 				</Grid>
 				{stitches.map((row, i) => {
 					return (

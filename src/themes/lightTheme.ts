@@ -16,26 +16,12 @@ export const lightTheme: ThemeOptions = {
 		},
 		background: {
 			// default: "#f6f2df", // light tan color
+			default:
+				"linear-gradient(to right, #f6f2df, #f5f1dc, #f5f0d9, #f4efd6, #f3eed3, #f2edd0, #f2ebce, #f1eacb, #f0e9c8, #efe8c5, #eee6c2, #ede5bf)",
 			paper: "#fef9ef", // light tan color
 		},
-		error: {
-			main: "#d62828", // vibrant red
-		},
-	},
-	typography: {
-		h2: {
-			// used for project name
-			fontFamily: "Arial",
-			letterSpacing: "1px",
-			// color: "#f6f2df",
-		},
-		h5: {
-			// used for block names
-			fontFamily: "Helvetica Neue",
-		},
-		body1: {
-			// used for general text
-			fontFamily: "Helvetica Neue",
-		},
+		// error: {
+		// 	main: "#d62828", // vibrant red
+		// },
 	},
 };

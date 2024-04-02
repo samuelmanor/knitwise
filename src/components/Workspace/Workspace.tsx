@@ -64,7 +64,8 @@ export const Workspace: FC<WorkspaceProps> = () => {
 						justifyContent: "center",
 						alignItems: "end",
 						backgroundImage:
-							"linear-gradient(to right, #f6f2df, #f5f1dc, #f5f0d9, #f4efd6, #f3eed3, #f2edd0, #f2ebce, #f1eacb, #f0e9c8, #efe8c5, #eee6c2, #ede5bf)",
+							// "linear-gradient(to right, #f6f2df, #f5f1dc, #f5f0d9, #f4efd6, #f3eed3, #f2edd0, #f2ebce, #f1eacb, #f0e9c8, #efe8c5, #eee6c2, #ede5bf)",
+							theme.palette.background.default,
 					}}
 				>
 					<Grid container sx={{ justifyContent: "center" }}>

@@ -10,7 +10,7 @@ const workspaceSlice = createSlice({
 		savedBlocks: [testProject.blocks[1], testProject.blocks[2]],
 		currentProjectId: 0,
 		settings: {
-			// theme: "light" | "dark",
+			theme: "light", // | "dark"
 			stitchDisplay: "symbol", // | "abbreviation"
 			// displayMode: "detailed" | "simple"
 			// directionsOverlay: true | false

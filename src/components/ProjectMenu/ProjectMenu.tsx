@@ -42,7 +42,9 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 			}}
 		>
 			<Grid item sx={{ color: theme.palette.text.secondary }}>
-				<Typography variant="h2">{projectName}</Typography>
+				<Typography variant="h2" sx={{ letterSpacing: "1px" }}>
+					{projectName}
+				</Typography>
 			</Grid>
 			<Grid item sx={{ display: "flex", flexDirection: "row", alignItems: "baseline", gap: 2 }}>
 				{currentRow !== 1 ? (
