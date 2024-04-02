@@ -92,6 +92,32 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 						</RadioGroup>
 					</FormControl>
 				</Grid>
+				<Grid item>
+					<Typography>show stitch tips</Typography>
+					<FormControl>
+						<RadioGroup
+							row
+							onChange={e => dispatch(changeSetting({ setting: "stitchTipMode", value: e.target.value }))}
+						>
+							<FormControlLabel
+								value="click"
+								control={
+									<Radio sx={{ "&, &.MuiRadio-root": { color: theme.palette.text.secondary } }} />
+								}
+								label="when clicked"
+								checked={userSettings.stitchTipMode === "click"}
+							/>
+							<FormControlLabel
+								value="hover"
+								control={
+									<Radio sx={{ "&, &.MuiRadio-root": { color: theme.palette.text.secondary } }} />
+								}
+								label="when hovered over"
+								checked={userSettings.stitchTipMode === "hover"}
+							/>
+						</RadioGroup>
+					</FormControl>
+				</Grid>
 				{/*  directions overlay on/off */}
 				<Grid item>
 					<Button onClick={() => dispatch(resetProject())}>reset project</Button>

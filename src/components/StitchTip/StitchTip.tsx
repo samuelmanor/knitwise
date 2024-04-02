@@ -1,5 +1,6 @@
 import { Grid, Tooltip, Typography, useTheme } from "@mui/material";
-import { FC } from "react";
+import { FC, useState } from "react";
+import { useSelector } from "react-redux";
 
 interface StitchTipProps {
 	children: React.ReactNode;
@@ -15,6 +16,9 @@ interface StitchTipProps {
  */
 export const StitchTip: FC<StitchTipProps> = ({ children, name, description }) => {
 	const theme = useTheme();
+	const [open, setOpen] = useState(false);
+
+	const stitchTipMode = useSelector((state: any) => state.workspace.settings.stitchTipMode);
 
 	const tooltipText = (
 		<Grid container direction="column">
@@ -36,6 +40,13 @@ export const StitchTip: FC<StitchTipProps> = ({ children, name, description }) =
 		<Tooltip
 			title={tooltipText}
 			arrow
+			PopperProps={{ disablePortal: true }}
+			open={open}
+			disableFocusListener={stitchTipMode === "click"}
+			disableHoverListener={stitchTipMode === "click"}
+			disableTouchListener={stitchTipMode === "click"}
+			onClose={stitchTipMode === "hover" ? () => setOpen(false) : undefined}
+			onOpen={stitchTipMode === "hover" ? () => setOpen(true) : undefined}
 			componentsProps={{
 				tooltip: {
 					sx: {
@@ -51,7 +62,9 @@ export const StitchTip: FC<StitchTipProps> = ({ children, name, description }) =
 				},
 			}}
 		>
-			<Grid container>{children}</Grid>
+			<Grid container onClick={() => setOpen(!open)}>
+				{children}
+			</Grid>
 		</Tooltip>
 	);
 };
