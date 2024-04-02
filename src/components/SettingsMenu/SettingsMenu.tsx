@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeSetting } from "../../reducers/workspaceReducer";
 import { resetProject } from "../../reducers/projectReducer.js";
 import { CloseOutlined, SaveOutlined } from "@mui/icons-material";
-import { setMode } from "../../reducers/workspaceReducer.js";
+import { getSystemTheme } from "../../reducers/workspaceReducer.js";
 
 interface SettingsMenuProps {
 	closeSettingsMenu: () => void;
@@ -32,6 +32,40 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 				Settings
 			</Typography>
 			<Grid container flexDirection={"column"}>
+				<Grid item>
+					<Typography>theme</Typography>
+					<FormControl>
+						<RadioGroup
+							row
+							onChange={e => dispatch(changeSetting({ setting: "theme", value: e.target.value }))}
+						>
+							<FormControlLabel
+								value="light"
+								control={
+									<Radio sx={{ "&, &.MuiRadio-root": { color: theme.palette.text.secondary } }} />
+								}
+								label="light"
+								checked={userSettings.theme === "light"}
+							/>
+							<FormControlLabel
+								value="dark"
+								control={
+									<Radio sx={{ "&, &.MuiRadio-root": { color: theme.palette.text.secondary } }} />
+								}
+								label="dark"
+								checked={userSettings.theme === "dark"}
+							/>
+							<FormControlLabel
+								value="system"
+								control={
+									<Radio sx={{ "&, &.MuiRadio-root": { color: theme.palette.text.secondary } }} />
+								}
+								label="system"
+								checked={userSettings.theme === "system"}
+							/>
+						</RadioGroup>
+					</FormControl>
+				</Grid>
 				<Grid item>
 					<Typography>stitch display</Typography>
 					<FormControl>
@@ -58,14 +92,11 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 						</RadioGroup>
 					</FormControl>
 				</Grid>
-				theme light/dark/system directions overlay on/off
+				{/*  directions overlay on/off */}
 				<Grid item>
 					<Button onClick={() => dispatch(resetProject())}>reset project</Button>
 				</Grid>
-				{/* <Button onClick={() => dispatch(setMode("edit"))}>edit project</Button>  --> move to project menu, to the left of settings button*/}
-				{/* <IconButton onClick={closeSettingsMenu} sx={{ position: "absolute", color: "red", right: 5, top: 5 }}>
-					<CloseOutlined />
-				</IconButton> */}
+
 				<IconButton
 					onClick={closeSettingsMenu}
 					sx={{ color: theme.palette.text.secondary, width: "fit-content", margin: "0 auto", p: 2 }}

@@ -13,6 +13,15 @@ const light = createTheme(lightTheme);
 function App() {
 	const themeSetting = useSelector((state: any) => state.workspace.settings.theme);
 	// const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
+	const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+
+	const theme = React.useMemo(() => {
+		if (themeSetting === "system") {
+			return createTheme(systemTheme === "dark" ? darkTheme : lightTheme);
+		} else {
+			return createTheme(themeSetting === "light" ? lightTheme : darkTheme);
+		}
+	}, [themeSetting]);
 
 	// const theme = React.useMemo(() => {
 	// 	if (prefersDarkMode) {
@@ -22,8 +31,13 @@ function App() {
 	// 	}
 	// }, [prefersDarkMode]);
 
+	// getSystemTheme(state) {
+	// 	const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+	// 	state.settings.theme = systemTheme;
+	// },
+
 	return (
-		<ThemeProvider theme={themeSetting === "light" ? createTheme(lightTheme) : createTheme(darkTheme)}>
+		<ThemeProvider theme={theme}>
 			<Workspace />
 		</ThemeProvider>
 	);
