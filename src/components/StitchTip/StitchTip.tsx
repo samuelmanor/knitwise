@@ -12,7 +12,7 @@ interface StitchTipProps {
  * A tooltip that displays the name, abbreviation, and description of a stitch.
  * @param children The content to be wrapped by the tooltip.
  * @param name The name of the stitch.
- * @param description A description of the stitch that describes how to work it.
+ * @param description An explanation of how to work the stitch.
  */
 export const StitchTip: FC<StitchTipProps> = ({ children, name, description }) => {
 	const theme = useTheme();
