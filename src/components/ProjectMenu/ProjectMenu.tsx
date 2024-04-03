@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ArrowBackIosNewOutlined, ArrowForwardIosOutlined, EditOutlined, SettingsOutlined } from "@mui/icons-material";
 import { SettingsMenu } from "../SettingsMenu/";
 import { setMode } from "../../reducers/workspaceReducer";
+import { RowControls } from "../RowControls";
 
 interface ProjectMenuProps {}
 
@@ -46,7 +47,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 					{projectName}
 				</Typography>
 			</Grid>
-			<Grid item sx={{ display: "flex", flexDirection: "row", alignItems: "baseline", gap: 2 }}>
+			{/* <Grid item sx={{ display: "flex", flexDirection: "row", alignItems: "baseline", gap: 2 }}>
 				{currentRow !== 1 ? (
 					<Tooltip
 						title={<Typography variant="body1">previous row</Typography>}
@@ -86,7 +87,8 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 						<ArrowForwardIosOutlined />
 					</IconButton>
 				</Tooltip>
-			</Grid>
+			</Grid> */}
+			<RowControls />
 			<Grid item sx={{ display: "flex", gap: 3 }}>
 				<Tooltip
 					title="edit project"

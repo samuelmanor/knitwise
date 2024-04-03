@@ -40,7 +40,6 @@ export const StitchTip: FC<StitchTipProps> = ({ children, name, description }) =
 		<Tooltip
 			title={tooltipText}
 			arrow
-			PopperProps={{ disablePortal: true }}
 			open={open}
 			disableFocusListener={stitchTipMode === "click"}
 			disableHoverListener={stitchTipMode === "click"}
@@ -58,6 +57,7 @@ export const StitchTip: FC<StitchTipProps> = ({ children, name, description }) =
 						"& .MuiTooltip-arrow": {
 							color: theme.palette.primary.main,
 						},
+						"zIndex": "100",
 					},
 				},
 			}}
