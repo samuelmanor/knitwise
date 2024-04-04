@@ -1,30 +1,47 @@
 import { ThemeOptions } from "@mui/material";
 
-const componentOverrides: ThemeOptions = {
-	components: {
-		MuiTypography: {
-			styleOverrides: {
-				h2: {
-					// used for project name and settings menu title
-					letterSpacing: "1px",
-				},
-				h3: {
-					// used for settings menu section titles
-					letterSpacing: "1px",
-					fontSize: "24px",
-					marginBottom: "3px",
-				},
-				h4: {
-					fontSize: "15px",
-					letterSpacing: "1px",
-					paddingLeft: "10px",
-				},
+const componentOverrides: ThemeOptions["components"] = {
+	MuiTypography: {
+		styleOverrides: {
+			h2: {
+				// used for project name and settings menu title
+				letterSpacing: "1px",
+			},
+			h3: {
+				// used for settings menu section titles
+				letterSpacing: "1px",
+				fontSize: "24px",
+				marginBottom: "3px",
+			},
+			h4: {
+				fontSize: "15px",
+				letterSpacing: "1px",
+				paddingLeft: "10px",
 			},
 		},
-		MuiFormControl: {
-			styleOverrides: {
-				root: {
-					marginBottom: "15px",
+	},
+	MuiFormControl: {
+		styleOverrides: {
+			root: {
+				marginBottom: "15px",
+			},
+		},
+	},
+	MuiRadio: {
+		styleOverrides: {
+			root: {
+				marginLeft: "10px",
+			},
+			colorPrimary: {
+				"color": "#f6f2df",
+				"&.Mui-checked": {
+					color: "#f6f2df",
+				},
+			},
+			colorSecondary: {
+				"color": "#f6f2df",
+				"&.Mui-checked": {
+					color: "#f6f2df",
 				},
 			},
 		},
@@ -55,7 +72,7 @@ export const lightTheme: ThemeOptions = {
 		// 	main: "#d62828", // vibrant red
 		// },
 	},
-	...componentOverrides,
+	components: componentOverrides,
 };
 
 export const darkTheme: ThemeOptions = {
@@ -74,5 +91,5 @@ export const darkTheme: ThemeOptions = {
 			paper: "#3b4b54",
 		},
 	},
-	...componentOverrides,
+	components: componentOverrides,
 };
