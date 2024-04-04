@@ -27,12 +27,12 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 
 	return (
 		<Grid container sx={{ backgroundColor: theme.palette.primary.main, color: theme.palette.text.secondary, p: 2 }}>
-			<Typography variant="h2" onClick={() => console.log(userSettings)}>
-				Settings
+			<Typography variant="h2" sx={{ mb: 1 }}>
+				settings
 			</Typography>
 			<Grid container flexDirection={"column"}>
 				<Grid item>
-					<Typography>theme</Typography>
+					<Typography variant="h3">theme</Typography>
 					<FormControl>
 						<RadioGroup
 							row
@@ -66,8 +66,8 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 					</FormControl>
 				</Grid>
 				<Grid item>
-					<Typography>stitch display</Typography>
-					<Typography>how stitches are displayed in the chart</Typography>
+					<Typography variant="h3">stitch display</Typography>
+					<Typography variant="h4">how stitches are displayed in the chart</Typography>
 					<FormControl>
 						<RadioGroup
 							row
@@ -93,8 +93,8 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 					</FormControl>
 				</Grid>
 				<Grid item>
-					<Typography>show stitch tips</Typography>
-					<Typography>how the stitch information popup is triggered</Typography>
+					<Typography variant="h3">show stitch tips</Typography>
+					<Typography variant="h4">how the stitch information popup is triggered</Typography>
 					<FormControl>
 						<RadioGroup
 							row

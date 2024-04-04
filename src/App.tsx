@@ -3,8 +3,8 @@ import { Workspace } from "./components/Workspace";
 import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/material";
 
-import { lightTheme } from "./themes/lightTheme";
-import { darkTheme } from "./themes/darkTheme";
+import { lightTheme, darkTheme } from "./theme";
+// import { darkTheme } from "./themes/darkTheme";
 
 import * as React from "react";
 import { useSelector } from "react-redux";
