@@ -12,9 +12,8 @@ import {
 import { FC } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeSetting } from "../../reducers/workspaceReducer";
-import { resetProject } from "../../reducers/projectReducer.js";
-import { CloseOutlined, SaveOutlined } from "@mui/icons-material";
-import { getSystemTheme } from "../../reducers/workspaceReducer.js";
+import { resetRows } from "../../reducers/projectReducer.js";
+import { SaveOutlined } from "@mui/icons-material";
 
 interface SettingsMenuProps {
 	closeSettingsMenu: () => void;
@@ -68,6 +67,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 				</Grid>
 				<Grid item>
 					<Typography>stitch display</Typography>
+					<Typography>how stitches are displayed in the chart</Typography>
 					<FormControl>
 						<RadioGroup
 							row
@@ -94,6 +94,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 				</Grid>
 				<Grid item>
 					<Typography>show stitch tips</Typography>
+					<Typography>how the stitch information popup is triggered</Typography>
 					<FormControl>
 						<RadioGroup
 							row
@@ -119,10 +120,26 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 					</FormControl>
 				</Grid>
 				{/*  directions overlay on/off */}
+				{/* directions overlay simple/detailed - simple: just stitch names, detailed: stitch directions */}
 				<Grid item>
-					<Button onClick={() => dispatch(resetProject())}>reset project</Button>
+					{/* <Button onClick={() => dispatch(resetProject())}>reset project</Button> */}
+					<Button
+						sx={{
+							"backgroundColor": theme.palette.text.secondary,
+							"fontWeight": "bold",
+							"letterSpacing": "1px",
+							"border": "2px solid transparent",
+							"&:hover": {
+								border: `2px solid ${theme.palette.text.secondary}`,
+								color: theme.palette.text.secondary,
+							},
+						}}
+						onClick={() => dispatch(resetRows())}
+					>
+						reset row count
+					</Button>
+					{/* reset project, meaning delete all blocks and rows; optionally keeping saved blocks */}
 				</Grid>
-
 				<IconButton
 					onClick={closeSettingsMenu}
 					sx={{ color: theme.palette.text.secondary, width: "fit-content", margin: "0 auto", p: 2 }}
