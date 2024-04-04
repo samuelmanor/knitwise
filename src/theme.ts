@@ -14,6 +14,7 @@ const componentOverrides: ThemeOptions["components"] = {
 				marginBottom: "3px",
 			},
 			h4: {
+				// used for settings menu subsection titles
 				fontSize: "15px",
 				letterSpacing: "1px",
 				paddingLeft: "10px",

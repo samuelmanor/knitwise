@@ -21,18 +21,17 @@ export const StitchTip: FC<StitchTipProps> = ({ children, name, description }) =
 	const stitchTipMode = useSelector((state: any) => state.workspace.settings.stitchTipMode);
 
 	const tooltipText = (
-		<Grid container direction="column">
+		<Grid container direction="column" padding="4px" color={theme.palette.text.secondary}>
 			<Typography
-				variant="h6"
+				variant="h3"
 				sx={{
 					fontWeight: "bold",
 					width: "fit-content",
-					mb: 1,
 				}}
 			>
 				{name}
 			</Typography>
-			<Typography variant="body2">{description}</Typography>
+			<Typography variant="h4">{description}</Typography>
 		</Grid>
 	);
 
@@ -51,7 +50,6 @@ export const StitchTip: FC<StitchTipProps> = ({ children, name, description }) =
 					sx: {
 						"fontSize": "15px",
 						"maxWidth": "200px",
-						"p": 1,
 						"backgroundColor": theme.palette.primary.main,
 						"letterSpacing": "1px",
 						"& .MuiTooltip-arrow": {
@@ -62,7 +60,7 @@ export const StitchTip: FC<StitchTipProps> = ({ children, name, description }) =
 				},
 			}}
 		>
-			<Grid container onClick={() => setOpen(!open)}>
+			<Grid container onClick={() => stitchTipMode === "click" ?? setOpen(!open)}>
 				{children}
 			</Grid>
 		</Tooltip>
