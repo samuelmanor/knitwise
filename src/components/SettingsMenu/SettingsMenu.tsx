@@ -9,7 +9,7 @@ import {
 	Typography,
 	useTheme,
 } from "@mui/material";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeSetting } from "../../reducers/workspaceReducer";
 import { resetRows } from "../../reducers/projectReducer.js";
@@ -21,9 +21,24 @@ interface SettingsMenuProps {
 
 export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 	const userSettings = useSelector((state: any) => state.workspace.settings);
+	const [showResetRowCountWarning, setShowResetRowCountWarning] = useState(false);
 
 	const dispatch = useDispatch();
 	const theme = useTheme();
+
+	/**
+	 * Resets the row count for the project's current row and all block rows.
+	 */
+	const handleResetRowCount = () => {
+		dispatch(resetRows());
+		setShowResetRowCountWarning(false);
+	};
+
+	// /**
+	//  * Warns the user that the project will be reset.
+	//  */
+	// const resetProjectWarning = <div>hi</div>;
+	// // are you sure? this will delete all blocks and rows, except for those saved in the editor.
 
 	return (
 		<Grid
@@ -94,7 +109,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 						</FormControl>
 					</Grid>
 					<Grid item>
-						<Typography variant="h3">show stitch tips</Typography>
+						<Typography variant="h3">show stitch info</Typography>
 						<Typography variant="h4">how the stitch information popup is triggered</Typography>
 						<FormControl>
 							<RadioGroup
@@ -121,21 +136,22 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 					{/*  directions overlay on/off */}
 					{/* directions overlay simple/detailed - simple: just stitch names, detailed: stitch directions */}
 					<Grid item>
-						{/* <Button onClick={() => dispatch(resetProject())}>reset project</Button> */}
 						<Button
 							sx={{
 								"backgroundColor": theme.palette.text.secondary,
-								"fontWeight": "bold",
-								"letterSpacing": "1px",
 								"border": "2px solid transparent",
 								"&:hover": {
 									border: `2px solid ${theme.palette.text.secondary}`,
 									color: theme.palette.text.secondary,
 								},
+								"fontSize": "18px",
 							}}
-							onClick={() => dispatch(resetRows())}
+							onClick={() =>
+								showResetRowCountWarning ? handleResetRowCount() : setShowResetRowCountWarning(true)
+							}
 						>
-							reset row counts
+							{showResetRowCountWarning ? "are you sure?" : "reset row count"}
+							{/* todo: make this nicer to use/look at */}
 						</Button>
 					</Grid>
 					{/* reset project, meaning delete all blocks and rows; optionally keeping saved blocks */}

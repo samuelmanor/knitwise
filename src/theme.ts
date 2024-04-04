@@ -8,13 +8,13 @@ const componentOverrides: ThemeOptions["components"] = {
 				letterSpacing: "1px",
 			},
 			h3: {
-				// used for settings menu section titles
+				// used for settings menu section titles and stitch names
 				letterSpacing: "1px",
 				fontSize: "24px",
 				marginBottom: "3px",
 			},
 			h4: {
-				// used for settings menu subsection titles
+				// used for settings menu subsection titles and stitch descriptions
 				fontSize: "15px",
 				letterSpacing: "1px",
 				paddingLeft: "10px",
@@ -44,6 +44,15 @@ const componentOverrides: ThemeOptions["components"] = {
 				"&.Mui-checked": {
 					color: "#f6f2df",
 				},
+			},
+		},
+	},
+	MuiButton: {
+		styleOverrides: {
+			root: {
+				letterSpacing: "1px",
+				fontWeight: "bold",
+				textTransform: "none",
 			},
 		},
 	},
