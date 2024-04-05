@@ -78,9 +78,9 @@ export const lightTheme: ThemeOptions = {
 				"linear-gradient(to right, #f6f2df, #f5f1dc, #f5f0d9, #f4efd6, #f3eed3, #f2edd0, #f2ebce, #f1eacb, #f0e9c8, #efe8c5, #eee6c2, #ede5bf)",
 			paper: "#fef9ef", // light tan color
 		},
-		// error: {
-		// 	main: "#d62828", // vibrant red
-		// },
+		error: {
+			main: "#b80c09", // dark red
+		},
 	},
 	components: componentOverrides,
 };
@@ -99,6 +99,9 @@ export const darkTheme: ThemeOptions = {
 			default:
 				"linear-gradient(to right, #324048, #303e46, #2f3c43, #2d3a41, #2c383f, #29363c, #27343a, #243237, #203033, #1c2e2e, #1a2b29, #192924);",
 			paper: "#3b4b54",
+		},
+		error: {
+			main: "#d62828",
 		},
 	},
 	components: componentOverrides,
