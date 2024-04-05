@@ -95,10 +95,24 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 				justifyContent: "center",
 			}}
 		>
-			<Grid container sx={{ width: "60%" }}>
-				<Typography variant="h2" sx={{ mb: 1 }}>
-					settings
-				</Typography>
+			<Grid container sx={{ width: "50%" }}>
+				<Grid container sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+					<Typography variant="h2" sx={{ mb: 1 }}>
+						settings
+					</Typography>
+					<IconButton
+						onClick={closeSettingsMenu}
+						// should also save user settings to cookies
+						sx={{
+							color: theme.palette.text.secondary,
+							p: 2,
+							width: "fit-content",
+							height: "fit-content",
+						}}
+					>
+						<SaveOutlined sx={{ transform: "scale(2)" }} />
+					</IconButton>
+				</Grid>
 				{showResetRowCountWarning || showResetProjectWarning ? resetWarning : null}
 				<Grid container flexDirection={"column"} paddingLeft="20px">
 					<Grid item>
@@ -155,8 +169,8 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 						</FormControl>
 					</Grid>
 					<Grid item>
-						<Typography variant="h3">stitch info display</Typography>
-						<Typography variant="h4">how the stitch details popup is triggered</Typography>
+						<Typography variant="h3">stitch info</Typography>
+						<Typography variant="h4">how the stitch details pop-up is triggered</Typography>
 						<FormControl>
 							<RadioGroup
 								row
@@ -179,8 +193,39 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 							</RadioGroup>
 						</FormControl>
 					</Grid>
-					{/*  directions overlay on/off */}
-					{/* directions overlay simple/detailed - simple: just stitch names, detailed: stitch directions */}
+					<Grid item>
+						<Typography variant="h3">directions overlay</Typography>
+						<Typography variant="h4">
+							display stitch names or directions in the chart, or not at all
+						</Typography>
+						<FormControl>
+							<RadioGroup
+								row
+								onChange={e =>
+									dispatch(changeSetting({ setting: "directionsOverlayMode", value: e.target.value }))
+								}
+							>
+								<FormControlLabel
+									value="simple"
+									control={<Radio />}
+									label="just names"
+									checked={userSettings.directionsOverlayMode === "simple"}
+								/>
+								<FormControlLabel
+									value="detailed"
+									control={<Radio />}
+									label="full directions"
+									checked={userSettings.directionsOverlayMode === "detailed"}
+								/>
+								<FormControlLabel
+									value="none"
+									control={<Radio />}
+									label="don't show"
+									checked={userSettings.directionsOverlayMode === "none"}
+								/>
+							</RadioGroup>
+						</FormControl>
+					</Grid>
 					<Grid container sx={{ display: "flex", gap: 4 }}>
 						<Grid item>
 							<Button
@@ -217,13 +262,6 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 							</Button>
 						</Grid>
 					</Grid>
-					<IconButton
-						onClick={closeSettingsMenu}
-						// should also save user settings to cookies
-						sx={{ color: theme.palette.text.secondary, p: 2, width: "fit-content" }}
-					>
-						<SaveOutlined sx={{ transform: "scale(2)" }} />
-					</IconButton>
 				</Grid>
 			</Grid>
 		</Grid>

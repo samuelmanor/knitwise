@@ -12,8 +12,7 @@ const workspaceSlice = createSlice({
 			theme: "system", // | "light" | "dark"
 			stitchDisplay: "symbol", // | "abbreviation"
 			stitchTipMode: "hover", // | "click"
-			showDirectionsOverlay: true, // | false
-			directionsOverlayMode: "simple", // | "detailed"
+			directionsOverlayMode: "simple", // | "detailed" | "none"
 		},
 	},
 	reducers: {

@@ -16,7 +16,7 @@ interface DirectionsOverlayProps {
  */
 export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockIndex, row }) => {
 	const project = useSelector((state: any) => state.projects.project);
-	const showOverlay = useSelector((state: any) => state.workspace.settings.showDirectionsOverlay);
+	// const showOverlay = useSelector((state: any) => state.workspace.settings.showDirectionsOverlay);
 	const mode = useSelector((state: any) => state.workspace.settings.directionsOverlayMode);
 
 	const theme = useTheme();
@@ -70,11 +70,13 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockI
 
 	return (
 		<Tooltip
-			open={showOverlay}
+			// refactor to make grid container again? lol. would fix the tooltip overflow issue wrt window size
+			open={mode !== "none"}
 			placement="top"
 			disableFocusListener
 			disableHoverListener
 			disableTouchListener
+			describeChild={false}
 			title={
 				<Grid container>
 					<Grid item>
