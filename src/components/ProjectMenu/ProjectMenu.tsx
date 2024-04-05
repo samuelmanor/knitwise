@@ -1,19 +1,18 @@
-import { FC, ReactElement, useState } from "react";
-import { nextRow, prevRow, resetProject } from "../../reducers/projectReducer.js";
+import { FC, useState } from "react";
 import { Drawer, Grid, IconButton, Tooltip, Typography, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { ArrowBackIosNewOutlined, ArrowForwardIosOutlined, EditOutlined, SettingsOutlined } from "@mui/icons-material";
+import { EditOutlined, SettingsOutlined } from "@mui/icons-material";
 import { SettingsMenu } from "../SettingsMenu/";
 import { setMode } from "../../reducers/workspaceReducer";
 import { RowControls } from "../RowControls";
 
 interface ProjectMenuProps {}
 
+/**
+ * The menu that displays the project name and provides access to project settings, editing, and row navigation.
+ */
 export const ProjectMenu: FC<ProjectMenuProps> = () => {
-	const projectName = useSelector(
-		(state: any) => state.workspace.projects[state.workspace.currentProjectId].projectName,
-	);
-	const currentRow = useSelector((state: any) => state.projects.currentRow);
+	const projectName = useSelector((state: any) => state.projects.name);
 	const [openSettings, setOpenSettings] = useState(false);
 
 	/**
@@ -26,10 +25,6 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 
 	const dispatch = useDispatch();
 	const theme = useTheme();
-
-	/*
-	make row controls a separate component? or at least center it
-	 */
 
 	return (
 		<Grid
@@ -47,47 +42,6 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 					{projectName}
 				</Typography>
 			</Grid>
-			{/* <Grid item sx={{ display: "flex", flexDirection: "row", alignItems: "baseline", gap: 2 }}>
-				{currentRow !== 1 ? (
-					<Tooltip
-						title={<Typography variant="body1">previous row</Typography>}
-						placement="top-end"
-						slotProps={{ popper: { modifiers: [{ name: "offset", options: { offset: [0, -10] } }] } }}
-						sx={{ fontSize: "15px" }}
-					>
-						<IconButton
-							onClick={() => dispatch(prevRow())}
-							sx={{ color: theme.palette.text.secondary }}
-							size="large"
-						>
-							<ArrowBackIosNewOutlined />
-						</IconButton>
-					</Tooltip>
-				) : (
-					<IconButton disabled size="large">
-						<ArrowBackIosNewOutlined />
-					</IconButton>
-				)}
-
-				<Typography variant="h5" fontFamily={"Arial"}>
-					{currentRow}
-				</Typography>
-
-				<Tooltip
-					title={<Typography variant="body1">next row</Typography>}
-					placement="top-start"
-					slotProps={{ popper: { modifiers: [{ name: "offset", options: { offset: [0, -10] } }] } }}
-					sx={{ fontSize: "15px" }}
-				>
-					<IconButton
-						onClick={() => dispatch(nextRow())}
-						sx={{ color: theme.palette.text.secondary }}
-						size="large"
-					>
-						<ArrowForwardIosOutlined />
-					</IconButton>
-				</Tooltip>
-			</Grid> */}
 			<RowControls />
 			<Grid item sx={{ display: "flex", gap: 3 }}>
 				<Tooltip

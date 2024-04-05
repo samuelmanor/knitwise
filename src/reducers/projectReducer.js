@@ -1,15 +1,21 @@
 // handles things just within a single project like the current row and all the blocks
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { testProject } from "../utils/testProject";
-import { stitches } from "../utils/stitches";
 
 const projectSlice = createSlice({
 	name: "project",
 	initialState: {
+		name: "test project 1",
 		project: testProject,
 		currentRow: 1,
 	},
 	reducers: {
+		editProjectName(state, action) {
+			return {
+				...state,
+				name: action.payload,
+			};
+		},
 		editBlockName(state, action) {
 			return {
 				...state,
@@ -174,6 +180,7 @@ const projectSlice = createSlice({
 });
 
 export const {
+	editProjectName,
 	editBlockName,
 	addBlock,
 	deleteBlock,
