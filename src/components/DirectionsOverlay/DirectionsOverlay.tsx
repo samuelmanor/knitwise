@@ -3,12 +3,11 @@ import { FC } from "react";
 import { useSelector } from "react-redux";
 
 interface DirectionsOverlayProps {
-	children: React.ReactNode;
 	rowIndex: number;
 	blockIndex: number;
 }
 
-export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ children, rowIndex, blockIndex }) => {
+export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockIndex }) => {
 	const project = useSelector((state: any) => state.projects.project);
 	const showOverlay = useSelector((state: any) => state.workspace.settings.showDirectionsOverlay);
 	const mode = useSelector((state: any) => state.workspace.settings.directionsOverlayMode);
@@ -22,61 +21,31 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ children, rowInd
 	};
 
 	const getDirections = () => {
-		// const stitches = project.blocks[blockIndex].stitches[rowIndex];
-		// let directions = "";
-		// let count = 1;
-		// for (let i = 1; i < stitches.length; i++) {
-		// 	if (
-		// 		mode === "simple"
-		// 			? stitches[i].name === stitches[i - 1].name
-		// 			: stitches[i].description === stitches[i - 1].description
-		// 	) {
-		// 		count++;
-		// 	} else {
-		// 		const isKnitOrPurl = stitches[i - 1].name === "knit" || stitches[i - 1].name === "purl";
-		// 		directions += `${mode === "simple" ? stitches[i - 1].name : stitches[i - 1].description}`;
-		// 		if (count > 1 && isKnitOrPurl) {
-		// 			directions += ` ${count}, `;
-		// 		} else {
-		// 			directions += `, `;
-		// 		}
-		// 		count = 1;
-		// 	}
-		// }
-		// directions += `${
-		// 	mode === "simple" ? stitches[stitches.length - 1].name : stitches[stitches.length - 1].description
-		// } ${count}`;
-		// return directions;
+		const stitches = project.blocks[blockIndex].stitches[rowIndex];
 
-		// ----------------------------
+		let directions = "";
+		let count = 1;
 
-		// const stitches = project.blocks[blockIndex].stitches[rowIndex];
-		// const isKnitOrPurl = (stitch: any) => stitch.name === "knit" || stitch.name === "purl";
-
-		// let directions = "";
-		// let count = 1;
-		// for (let i = 1; i < stitches.length; i++) {
-		// 	if (
-		// 		stitches[i].name === stitches[i - 1].name &&
-		// 		isKnitOrPurl(stitches[i] && isKnitOrPurl(stitches[i - 1]))
-		// 	) {
-		// 		count++;
-		// 	} else {
-		// 		directions += `${stitches[i - 1].name}`;
-		// 		if (count > 1 && isKnitOrPurl(stitches[i - 1])) {
-		// 			directions += ` ${count}, `;
-		// 		} else {
-		// 			directions += `, `;
-		// 		}
-		// 		count = 1;
-		// 	}
-		// }
-		// directions += `${stitches[stitches.length - 1].name} ${
-		// 	!isKnitOrPurl(stitches[stitches.length - 1]) ? "" : count
-		// }`;
-		// return directions;
-
-		return "test";
+		for (let i = 1; i < stitches.length; i++) {
+			const checkName = stitches[i].name === stitches[i - 1].name;
+			const checkDescription = stitches[i].description === stitches[i - 1].description;
+			if (checkName && checkDescription) {
+				count++;
+			} else {
+				if (count > 1) {
+					directions += `${
+						mode === "simple" ? stitches[i - 1].name : stitches[i - 1].description
+					} ${count}, `;
+				} else {
+					directions += `${mode === "simple" ? stitches[i - 1].name : stitches[i - 1].description}, `;
+				}
+				count = 1;
+			}
+		}
+		directions += `${
+			mode === "simple" ? stitches[stitches.length - 1].name : stitches[stitches.length - 1].description
+		}`;
+		return directions;
 	};
 
 	return (
@@ -92,6 +61,7 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ children, rowInd
 				zIndex: 200,
 				borderRadius: "5px",
 				width: getWidth() * 15,
+				// bottom: 100,
 			}}
 		>
 			<Grid item>
