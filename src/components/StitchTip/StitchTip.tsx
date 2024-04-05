@@ -56,6 +56,7 @@ export const StitchTip: FC<StitchTipProps> = ({ children, name, description }) =
 							color: theme.palette.primary.main,
 						},
 						"zIndex": "100",
+						// add border
 					},
 				},
 			}}

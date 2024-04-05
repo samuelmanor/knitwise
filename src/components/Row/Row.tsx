@@ -92,9 +92,11 @@ export const Row: FC<RowProps> = ({
 
 	if (highlightRow) {
 		return (
-			<DirectionsOverlay rowIndex={rowIndex} blockIndex={blockIndex}>
-				{row}
-			</DirectionsOverlay>
+			// <Grid container>
+			// 	<DirectionsOverlay rowIndex={rowIndex} blockIndex={blockIndex} />
+			// 	{row}
+			// </Grid>
+			<DirectionsOverlay rowIndex={rowIndex} blockIndex={blockIndex} children={row} />
 		);
 	} else {
 		return row;

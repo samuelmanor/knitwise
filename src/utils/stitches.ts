@@ -4,14 +4,14 @@ export const stitches = {
 		abbreviation: "k",
 		width: 1,
 		symbol: "*",
-		description: "knit one",
+		description: "knit",
 	},
 	p: {
 		name: "purl",
 		abbreviation: "p",
 		width: 1,
 		symbol: "-",
-		description: "purl one",
+		description: "purl",
 	},
 	ktbl: {
 		name: "knit through back loop",
