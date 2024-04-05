@@ -140,9 +140,10 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 						<Box ref={i === 0 ? baseRowRef : null}>
 							<Row
 								key={`row${blockName}${i}`}
-								row={row}
+								stitches={row}
 								highlightRow={currentBlockRow - 1 === i}
 								rowIndex={i}
+								blockIndex={index}
 								showLeftRowMarker={index === 0 && currentRow % 2 === 0}
 								showRightRowMarker={index === currentProject.blocks.length - 1 && currentRow % 2 === 1}
 							/>

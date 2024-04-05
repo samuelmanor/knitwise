@@ -123,7 +123,7 @@ export const BlockEditor: FC<BlockEditorProps> = ({ blockIndex, closeEditor }) =
 				) : (
 					<Grid container onClick={() => setDraftRow(i)}>
 						<Grid item>
-							<Row row={row} />
+							<Row stitches={row} />
 						</Grid>
 						<Grid item sx={{ display: draftRow !== -1 ? "none" : "inherit" }}>
 							<IconButton onClick={() => setDraftRow(i)}>

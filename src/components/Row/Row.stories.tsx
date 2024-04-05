@@ -34,7 +34,7 @@ export const Primary: Story = {
 		expect(element).toBeTruthy();
 	},
 	args: {
-		row: [
+		stitches: [
 			testProject.blocks[0].stitches[0][0],
 			testProject.blocks[0].stitches[0][1],
 			testProject.blocks[0].stitches[0][0],
