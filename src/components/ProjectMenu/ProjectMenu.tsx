@@ -13,15 +13,8 @@ interface ProjectMenuProps {}
  */
 export const ProjectMenu: FC<ProjectMenuProps> = () => {
 	const projectName = useSelector((state: any) => state.projects.name);
+	const mode = useSelector((state: any) => state.workspace.mode);
 	const [openSettings, setOpenSettings] = useState(false);
-
-	/**
-	 * Toggles opening/closing the settings menu.
-	 * @param newState The new state of the settings menu visibility; true for open, false for closed.
-	 */
-	const toggleSettingsDrawer = (newState: boolean) => {
-		setOpenSettings(newState);
-	};
 
 	const dispatch = useDispatch();
 	const theme = useTheme();
@@ -38,9 +31,13 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 			}}
 		>
 			<Grid item sx={{ color: theme.palette.text.secondary }}>
-				<Typography variant="h2" sx={{ letterSpacing: "1px" }}>
-					{projectName}
-				</Typography>
+				{mode === "chart" ? (
+					<Typography variant="h2" sx={{ letterSpacing: "1px" }}>
+						{projectName}
+					</Typography>
+				) : (
+					<Grid container>editable text</Grid>
+				)}
 			</Grid>
 			<RowControls />
 			<Grid item sx={{ display: "flex", gap: 3 }}>
@@ -93,12 +90,12 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 					}}
 				>
 					<IconButton size="large" sx={{ color: theme.palette.text.secondary, transform: "scale(1.5)" }}>
-						<SettingsOutlined onClick={() => toggleSettingsDrawer(true)} />
+						<SettingsOutlined onClick={() => setOpenSettings(true)} />
 					</IconButton>
 				</Tooltip>
 			</Grid>
-			<Drawer anchor="bottom" open={openSettings} onClose={() => toggleSettingsDrawer(false)}>
-				<SettingsMenu closeSettingsMenu={() => toggleSettingsDrawer(false)} />
+			<Drawer anchor="bottom" open={openSettings} onClose={() => setOpenSettings(false)}>
+				<SettingsMenu closeSettingsMenu={() => setOpenSettings(false)} />
 			</Drawer>
 		</Grid>
 	);

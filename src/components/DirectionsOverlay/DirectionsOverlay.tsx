@@ -17,6 +17,7 @@ interface DirectionsOverlayProps {
 export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockIndex, row }) => {
 	const project = useSelector((state: any) => state.projects.project);
 	const mode = useSelector((state: any) => state.workspace.settings.directionsOverlayMode);
+	const show = useSelector((state: any) => state.workspace.mode === "chart");
 
 	const theme = useTheme();
 
@@ -81,9 +82,7 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockI
 						<Typography variant="h3">row {rowIndex + 1}</Typography>
 					</Grid>
 					<Grid item>
-						<Typography variant="h4" onClick={() => console.log(getDirections())}>
-							{getDirections()}
-						</Typography>
+						<Typography variant="h4">{getDirections()}</Typography>
 					</Grid>
 				</Grid>
 			}
@@ -95,6 +94,7 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockI
 						color: theme.palette.text.secondary,
 						p: 1.5,
 						borderRadius: "5px",
+						display: show ? "flex" : "none",
 					},
 				},
 			}}
