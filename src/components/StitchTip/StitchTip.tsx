@@ -56,12 +56,11 @@ export const StitchTip: FC<StitchTipProps> = ({ children, name, description }) =
 							color: theme.palette.primary.main,
 						},
 						"zIndex": "100",
-						// add border
 					},
 				},
 			}}
 		>
-			<Grid container onClick={() => stitchTipMode === "click" ?? setOpen(!open)}>
+			<Grid container onClick={() => (stitchTipMode === "click" ? setOpen(!open) : null)}>
 				{children}
 			</Grid>
 		</Tooltip>

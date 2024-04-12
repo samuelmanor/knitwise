@@ -13,13 +13,13 @@ interface WorkspaceProps {}
  * The workspace; where the project is rendered.
  */
 export const Workspace: FC<WorkspaceProps> = () => {
-	const currentMode = useSelector((state: any) => state.workspace.mode);
-	const projectName = useSelector((state: any) => state.projects.name);
+	// const currentMode = useSelector((state: any) => state.workspace.mode);
+	// const projectName = useSelector((state: any) => state.projects.name);
 
-	const [showProjectNameEditor, setShowProjectNameEditor] = useState(false);
-	const [projectNameDraft, setProjectNameDraft] = useState(projectName);
+	// const [showProjectNameEditor, setShowProjectNameEditor] = useState(false);
+	// const [projectNameDraft, setProjectNameDraft] = useState(projectName);
 
-	const dispatch = useDispatch();
+	// const dispatch = useDispatch();
 	const theme = useTheme();
 
 	// make no project found component?
