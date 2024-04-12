@@ -26,7 +26,6 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 	const currentRow = useSelector((state: any) => state.projects.currentRow);
 	const currentBlockRow = useSelector((state: any) => state.projects.project.blocks[index].currentBlockRow);
 	const mode = useSelector((state: any) => state.workspace.mode);
-	const stitchDisplaySetting = useSelector((state: any) => state.workspace.settings.stitchDisplay);
 
 	const [showNameEditor, setShowNameEditor] = useState(false);
 	const [blockNameDraft, setBlockNameDraft] = useState(blockName);
@@ -40,18 +39,17 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 	 * Calculates the padding for the block.
 	 */
 	const handlePadding = () => {
-		// return 2;
 		const firstRow = currentRow === 1 && currentBlockRow === 1;
 		if (index === tallestBlockIndex || firstRow) {
 			// on the first row, all blocks are aligned
-			return "50px";
+			return "5px";
 		} else {
 			// a block's position is relative to the current row of both the tallest block and the current block
 			const tallestBlockPosition =
 				currentProject.blocks[tallestBlockIndex].currentBlockRow * baseRowRef.current.clientHeight;
 			const currentBlockPosition = currentBlockRow * baseRowRef.current.clientHeight;
 
-			return `${tallestBlockPosition - currentBlockPosition + 50}px`;
+			return `${tallestBlockPosition - currentBlockPosition + 5}px`;
 		}
 	};
 
@@ -84,18 +82,6 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 		</Grid>
 	);
 
-	/**
-	 * Calculates the width of the block based on the sum of all stitches' widths.
-	 */
-	const getBlockWidth = (): number => {
-		let total: number = 0;
-		stitches[0].forEach(stitch => {
-			total += stitch.width;
-		});
-
-		return stitchDisplaySetting === "symbol" ? total * 18 : total * 30; // abbreviations need more space than symbols
-	};
-
 	if (!stitches) {
 		return null; // make error block ?
 	}
@@ -112,8 +98,7 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 				borderTopRightRadius: "10px",
 				borderTopLeftRadius: "10px",
 				maxHeight: "100%",
-				mb: baseRowRef.current ? handlePadding() : "50px",
-				width: getBlockWidth(),
+				mb: baseRowRef.current && mode !== "edit" ? handlePadding() : "5px",
 			}}
 			data-testid={`block${blockName}${index}`}
 		>

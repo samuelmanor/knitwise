@@ -32,12 +32,25 @@ export const Row: FC<RowProps> = ({
 	showRightRowMarker,
 }) => {
 	const currentMode = useSelector((state: any) => state.workspace.mode);
+	const stitchDisplaySetting = useSelector((state: any) => state.workspace.settings.stitchDisplay);
 
 	const theme = useTheme();
 
 	if (!stitches) {
 		return null; // make error row ?
 	}
+
+	/**
+	 * Calculates the width of the row based on the sum of all stitches' widths.
+	 */
+	const calcWidth = (): number => {
+		let total: number = 0;
+		stitches.forEach(stitch => {
+			total += stitch.width;
+		});
+
+		return stitchDisplaySetting === "symbol" ? total * 18 : total * 30; // abbreviations need more space than symbols
+	};
 
 	const row = (
 		<Grid
@@ -49,6 +62,7 @@ export const Row: FC<RowProps> = ({
 				}`,
 				pl: 0.5,
 				pr: 0.5,
+				width: calcWidth(),
 			}}
 			data-testid={`row${rowIndex}`}
 		>

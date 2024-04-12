@@ -103,8 +103,17 @@ export const BlockEditor: FC<BlockEditorProps> = ({ blockIndex, closeEditor }) =
 
 	const rows = block.stitches.map((row, i) => {
 		return (
-			<Grid container sx={{ width: "fit-content", flexWrap: "nowrap" }}>
-				<Grid item>
+			<Grid
+				container
+				sx={{
+					// width: "fit-content",
+					display: "flex",
+					flexWrap: "nowrap",
+					border: "2px solid red",
+					alignItems: "center",
+				}}
+			>
+				{/* <Grid item>
 					<Typography>{i + 1}</Typography>
 				</Grid>
 				{draftRow === i ? (
@@ -131,13 +140,33 @@ export const BlockEditor: FC<BlockEditorProps> = ({ blockIndex, closeEditor }) =
 							</IconButton>
 						</Grid>
 					</Grid>
-				)}
+				)} */}
+				<Grid item sx={{ flexGrow: 1 }}>
+					<Typography>{i + 1}</Typography>
+				</Grid>
+				<Grid item sx={{ flexGrow: 2 }}>
+					<Row stitches={row} />
+				</Grid>
+				<Grid item sx={{ flexGrow: 1 }}>
+					<IconButton>
+						<EditOutlined />
+					</IconButton>
+				</Grid>
 			</Grid>
 		);
 	});
 
 	return (
-		<Grid container>
+		<Grid
+			container
+			sx={{
+				border: "2px solid green",
+				// position: "absolute",
+				// top: 0,
+				// left: 0,
+				// backgroundImage: theme.palette.background.default,
+			}}
+		>
 			<Grid
 				container
 				sx={{
@@ -147,7 +176,9 @@ export const BlockEditor: FC<BlockEditorProps> = ({ blockIndex, closeEditor }) =
 					p: 0.5,
 					borderTopRightRadius: "10px",
 					borderTopLeftRadius: "10px",
-					flexDirection: "column",
+					flexDirection: "column-reverse",
+					width: "fit-content",
+					height: "fit-content",
 				}}
 			>
 				{rows}

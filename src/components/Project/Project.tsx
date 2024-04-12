@@ -1,4 +1,4 @@
-import { Box, Button, ClickAwayListener, Grid, IconButton, Typography } from "@mui/material";
+import { Box, Button, ClickAwayListener, Grid, IconButton, Typography, useTheme } from "@mui/material";
 import { FC, useState } from "react";
 import { Block, BlockProps } from "../Block";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,6 +22,7 @@ export const Project: FC<{}> = () => {
 	const [currentDraftBlock, setCurrentDraftBlock] = useState(-1);
 
 	const dispatch = useDispatch();
+	const theme = useTheme();
 
 	if (!blocks) return <div>no blocks found</div>;
 
@@ -71,97 +72,162 @@ export const Project: FC<{}> = () => {
 
 	const project = blocks.map((block: BlockProps, i: number) => {
 		return (
-			<Box key={i} sx={{ display: "flex", alignItems: "flex-end", pb: 2 }}>
-				{mode === "edit" ? (
-					<Grid container position={"absolute"}>
-						<IconButton onClick={() => handleEdit(i)}>
-							<EditOutlined />
-						</IconButton>
-						<IconButton onClick={() => dispatch(deleteBlock({ blockIndex: i }))}>
-							<DeleteOutlined />
-						</IconButton>
-					</Grid>
-				) : null}
+			// <Box key={i} sx={{ display: "flex", alignItems: "flex-end", pb: 2 }}>
+			// 	{mode === "edit" ? (
+			// 		<Grid container sx={{ border: "2px solid red", position: "absolute" }}>
+			// 			<Grid item>
+			// 				<IconButton onClick={() => handleEdit(i)}>
+			// 					<EditOutlined />
+			// 				</IconButton>
+			// 			</Grid>
+			// 			<Grid item>
+			// 				<IconButton onClick={() => dispatch(deleteBlock({ blockIndex: i }))}>
+			// 					<DeleteOutlined />
+			// 				</IconButton>
+			// 			</Grid>
+			// 		</Grid>
+			// 	) : null}
+			// 	<Block
+			// 		stitches={block.stitches}
+			// 		blockName={block.blockName}
+			// 		index={i}
+			// 		tallestBlockIndex={getTallestBlock()}
+			// 	/>
+			// </Box>
+			<Grid container sx={{ height: "fit-content", border: "2px solid red", flexDirection: "column" }}>
 				<Block
 					stitches={block.stitches}
 					blockName={block.blockName}
 					index={i}
 					tallestBlockIndex={getTallestBlock()}
 				/>
-			</Box>
+				{mode === "edit" ? (
+					<Grid container sx={{ border: "2px solid blue", justifyContent: "center", gap: 3 }}>
+						<Grid item>
+							<IconButton
+								sx={{
+									color: theme.palette.primary.main,
+									transform: "scale(1.5)",
+									height: "fit-content",
+									width: "fit-content",
+								}}
+								onClick={() => handleEdit(i)}
+							>
+								<EditOutlined />
+							</IconButton>
+						</Grid>
+						<Grid item>
+							<IconButton
+								sx={{
+									color: theme.palette.primary.main,
+									transform: "scale(1.5)",
+									height: "fit-content",
+									width: "fit-content",
+								}}
+							>
+								<DeleteOutlined />
+							</IconButton>
+						</Grid>
+					</Grid>
+				) : null}
+			</Grid>
 		);
 	});
 
-	if (mode === "edit") {
-		return (
-			<Grid container sx={{ background: "gray", border: "2px solid black", justifyContent: "center", gap: 2 }}>
-				{showBlockEditor ? (
-					<BlockEditor blockIndex={currentDraftBlock} closeEditor={() => setShowBlockEditor(false)} />
-				) : null}
-				{!showBlockEditor ? (
-					<Grid item>
-						<IconButton
-							onClick={() => {
-								setShowBlockMenu(true);
-								setCurrentDraftBlock(0);
-							}}
-						>
-							<AddOutlined />
-						</IconButton>
-					</Grid>
-				) : null}
-				{showBlockMenu ? (
-					<Grid container sx={{ position: "absolute" }}>
-						<IconButton onClick={() => setShowBlockMenu(false)}>
-							<CancelOutlined />
-						</IconButton>
-						<Grid item>
-							<Button onClick={() => handleAddNewBlock("new block", [[]])}>
-								<Typography>create new block</Typography>
-							</Button>
-						</Grid>
-						<Grid item>
-							<Button onClick={() => setShowBlockSearch(true)}>
-								<Typography>add new instance of an existing block</Typography>
-							</Button>
-						</Grid>
-					</Grid>
-				) : null}
-				{!showBlockEditor ? project : null}
-				{showBlockSearch ? (
-					<BlockSearch closeBlockSearch={() => setShowBlockSearch(false)} addBlock={handleAddNewBlock} />
-				) : null}
-				{!showBlockEditor ? (
-					<Grid item>
-						<IconButton
-							onClick={() => {
-								setShowBlockMenu(true);
-								setCurrentDraftBlock(blocks.length);
-							}}
-						>
-							<AddOutlined />
-						</IconButton>
-					</Grid>
-				) : null}
-			</Grid>
-		);
-	}
+	// if (mode === "edit") {
+	// 	return (
+	// 		<Grid container sx={{ background: "gray", border: "2px solid black", justifyContent: "center", gap: 2 }}>
+	// 			{showBlockEditor ? (
+	// 				<BlockEditor blockIndex={currentDraftBlock} closeEditor={() => setShowBlockEditor(false)} />
+	// 			) : null}
+	// 			{!showBlockEditor ? (
+	// 				<Grid item>
+	// 					<IconButton
+	// 						onClick={() => {
+	// 							setShowBlockMenu(true);
+	// 							setCurrentDraftBlock(0);
+	// 						}}
+	// 					>
+	// 						<AddOutlined />
+	// 					</IconButton>
+	// 				</Grid>
+	// 			) : null}
+	// 			{showBlockMenu ? (
+	// 				<Grid container sx={{ position: "absolute" }}>
+	// 					<IconButton onClick={() => setShowBlockMenu(false)}>
+	// 						<CancelOutlined />
+	// 					</IconButton>
+	// 					<Grid item>
+	// 						<Button onClick={() => handleAddNewBlock("new block", [[]])}>
+	// 							<Typography>create new block</Typography>
+	// 						</Button>
+	// 					</Grid>
+	// 					<Grid item>
+	// 						<Button onClick={() => setShowBlockSearch(true)}>
+	// 							<Typography>add new instance of an existing block</Typography>
+	// 						</Button>
+	// 					</Grid>
+	// 				</Grid>
+	// 			) : null}
+	// 			{!showBlockEditor ? project : null}
+	// 			{showBlockSearch ? (
+	// 				<BlockSearch closeBlockSearch={() => setShowBlockSearch(false)} addBlock={handleAddNewBlock} />
+	// 			) : null}
+	// 			{!showBlockEditor ? (
+	// 				<Grid item>
+	// 					<IconButton
+	// 						onClick={() => {
+	// 							setShowBlockMenu(true);
+	// 							setCurrentDraftBlock(blocks.length);
+	// 						}}
+	// 					>
+	// 						<AddOutlined />
+	// 					</IconButton>
+	// 				</Grid>
+	// 			) : null}
+	// 		</Grid>
+	// 	);
+	// }
 
-	if (mode === "chart") {
-		return (
-			<Grid
-				container
-				sx={{
-					width: "fit-content",
-					height: "fit-content",
-					p: 1,
-				}}
-			>
-				{/* <Typography variant="h6">current row: {currentRow}</Typography> */}
-				<Grid container sx={{ flexWrap: "nowrap", gap: 2 }}>
-					{project}
-				</Grid>
-			</Grid>
-		);
-	}
+	// if (mode === "edit") {
+	return (
+		<Grid
+			container
+			sx={{
+				width: "fit-content",
+				height: "fit-content",
+				p: 1,
+				flexWrap: "nowrap",
+				gap: 2,
+				border: "2px solid green",
+				alignItems: "flex-end",
+			}}
+		>
+			{/* {project} */}
+			{showBlockEditor ? (
+				<BlockEditor blockIndex={currentDraftBlock} closeEditor={() => setShowBlockEditor(false)} />
+			) : (
+				project
+			)}
+		</Grid>
+	);
+	// }
+
+	// if (mode === "chart") {
+	// 	return (
+	// 		<Grid
+	// 			container
+	// 			sx={{
+	// 				width: "fit-content",
+	// 				height: "fit-content",
+	// 				p: 1,
+	// 			}}
+	// 		>
+	// 			{/* <Typography variant="h6">current row: {currentRow}</Typography> */}
+	// 			<Grid container sx={{ flexWrap: "nowrap", gap: 2, border: "2px solid green" }}>
+	// 				{project}
+	// 			</Grid>
+	// 		</Grid>
+	// 	);
+	// }
 };
