@@ -1,5 +1,5 @@
 import { IconButton, Grid, Typography, TextField, Box, useTheme, ClickAwayListener } from "@mui/material";
-import { FC, useRef, useState } from "react";
+import { FC, ReactElement, useRef, useState } from "react";
 import { Row } from "../Row";
 import { useDispatch, useSelector } from "react-redux";
 import { EditOutlined, DeleteOutlined, SaveOutlined } from "@mui/icons-material";
@@ -7,10 +7,10 @@ import { BlockEditor } from "../BlockEditor";
 import { editBlockName, deleteBlock } from "../../reducers/projectReducer";
 
 export interface BlockProps {
-	// blockName: string;
-	// stitches: StitchProps[][];
-	index?: number;
-	tallestBlockIndex?: number;
+	index: number;
+	tallestBlockIndex: number;
+	draftBlockIndex: number | null;
+	setDraftBlockIndex: (index: number) => void;
 }
 
 /**
@@ -18,7 +18,7 @@ export interface BlockProps {
  * @param index The index of the block.
  * @param tallestBlockIndex The index of the tallest block in the project - used to calculate padding for individual blocks.
  */
-export const Block: FC<BlockProps> = ({ index, tallestBlockIndex }) => {
+export const Block: FC<BlockProps> = ({ index, tallestBlockIndex, draftBlockIndex, setDraftBlockIndex }) => {
 	const project = useSelector((state: any) => state.projects.project);
 	const projectRow = useSelector((state: any) => state.projects.projectRow);
 	const block = useSelector((state: any) => state.projects.project.blocks[index]);
@@ -27,7 +27,7 @@ export const Block: FC<BlockProps> = ({ index, tallestBlockIndex }) => {
 	const [blockNameDraft, setBlockNameDraft] = useState(block.blockName);
 	const [blockNameError, setBlockNameError] = useState(false);
 	const [blockNameHelperText, setBlockNameHelperText] = useState("");
-	const [draftBlockIndex, setDraftBlockIndex] = useState<number | null>(null); // the index of the block that is being edited
+	// const [draftBlockIndex, setDraftBlockIndex] = useState<number | null>(null); // the index of the block that is being edited
 
 	const baseRowRef = useRef<HTMLDivElement>(null);
 
@@ -65,12 +65,24 @@ export const Block: FC<BlockProps> = ({ index, tallestBlockIndex }) => {
 		}
 	};
 
-	return (
-		<Grid
-			container
-			data-testid={`block${block.blockName}${index}`}
-			sx={{ flexDirection: "column", alignItems: "center" }}
-		>
+	const rows = block.stitches.map((row, i) => {
+		return (
+			<Box ref={i === 0 ? baseRowRef : null}>
+				<Row
+					key={`row${block.blockName}${i}`}
+					stitches={row}
+					highlightRow={block.currentBlockRow - 1 === i}
+					rowIndex={i}
+					blockIndex={index}
+					showLeftRowMarker={index === 0 && projectRow % 2 === 0}
+					showRightRowMarker={index === project.blocks.length - 1 && projectRow % 2 === 1}
+				/>
+			</Box>
+		);
+	});
+
+	const BlockContainer = ({ children }) => {
+		return (
 			<Grid
 				container
 				sx={{
@@ -86,8 +98,40 @@ export const Block: FC<BlockProps> = ({ index, tallestBlockIndex }) => {
 					width: "fit-content",
 				}}
 			>
+				{children}
+			</Grid>
+		);
+	};
+
+	// chart mode
+	if (mode === "chart") {
+		return (
+			<BlockContainer>
 				<Grid container sx={{ justifyContent: "center" }}>
-					{mode === "edit" ? (
+					<Typography variant="h5" sx={{ color: theme.palette.text.primary }}>
+						{block.blockName}
+					</Typography>
+				</Grid>
+				{rows}
+			</BlockContainer>
+		);
+	}
+
+	// specific block is being edited
+	if (mode === "edit" && draftBlockIndex === index) {
+		console.log(index, "is being edited");
+	}
+
+	// edit mode, but block is not being edited
+	if (mode === "edit") {
+		return (
+			<Grid
+				container
+				data-testid={`block${block.blockName}${index}`}
+				sx={{ flexDirection: "column", alignItems: "center" }}
+			>
+				<BlockContainer>
+					<Grid container sx={{ justifyContent: "center" }}>
 						<ClickAwayListener
 							onClickAway={() =>
 								dispatch(editBlockName({ blockName: blockNameDraft, blockIndex: index }))
@@ -120,29 +164,9 @@ export const Block: FC<BlockProps> = ({ index, tallestBlockIndex }) => {
 								helperText={blockNameHelperText}
 							/>
 						</ClickAwayListener>
-					) : (
-						<Typography variant="h5" sx={{ color: theme.palette.text.primary }}>
-							{block.blockName}
-						</Typography>
-					)}
-				</Grid>
-				{block.stitches.map((row, i) => {
-					return (
-						<Box ref={i === 0 ? baseRowRef : null}>
-							<Row
-								key={`row${block.blockName}${i}`}
-								stitches={row}
-								highlightRow={block.currentBlockRow - 1 === i}
-								rowIndex={i}
-								blockIndex={index}
-								showLeftRowMarker={index === 0 && projectRow % 2 === 0}
-								showRightRowMarker={index === project.blocks.length - 1 && projectRow % 2 === 1}
-							/>
-						</Box>
-					);
-				})}
-			</Grid>
-			{mode === "edit" ? (
+					</Grid>
+					{rows}
+				</BlockContainer>
 				<Grid
 					container
 					sx={{ border: "2px solid blue", justifyContent: "center", gap: 3, width: "fit-content" }}
@@ -174,7 +198,7 @@ export const Block: FC<BlockProps> = ({ index, tallestBlockIndex }) => {
 						</IconButton>
 					</Grid>
 				</Grid>
-			) : null}
-		</Grid>
-	);
+			</Grid>
+		);
+	}
 };

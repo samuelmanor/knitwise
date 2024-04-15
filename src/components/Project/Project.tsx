@@ -19,7 +19,9 @@ export const Project: FC<{}> = () => {
 	const [showBlockEditor, setShowBlockEditor] = useState(false);
 	const [showBlockSearch, setShowBlockSearch] = useState(false);
 	const [showBlockMenu, setShowBlockMenu] = useState(false);
-	const [currentDraftBlock, setCurrentDraftBlock] = useState(-1);
+	// const [currentDraftBlock, setCurrentDraftBlock] = useState(-1);
+
+	const [draftBlockIndex, setDraftBlockIndex] = useState<number | null>(null); // the index of the block that is being edited
 
 	const dispatch = useDispatch();
 	const theme = useTheme();
@@ -102,7 +104,12 @@ export const Project: FC<{}> = () => {
 					flexDirection: "column",
 				}}
 			>
-				<Block index={i} tallestBlockIndex={getTallestBlock()} />
+				<Block
+					index={i}
+					tallestBlockIndex={getTallestBlock()}
+					draftBlockIndex={draftBlockIndex}
+					setDraftBlockIndex={setDraftBlockIndex}
+				/>
 				{/* {mode === "edit" ? (
 					<Grid container sx={{ border: "2px solid blue", justifyContent: "center", gap: 3 }}>
 						<Grid item>
