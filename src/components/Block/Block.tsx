@@ -1,7 +1,6 @@
-import { Button, IconButton, Grid, Typography, TextField, Box, useTheme } from "@mui/material";
+import { IconButton, Grid, Typography, TextField, Box, useTheme, ClickAwayListener } from "@mui/material";
 import { FC, useRef, useState } from "react";
 import { Row } from "../Row";
-import { StitchProps } from "../Stitch";
 import { useDispatch, useSelector } from "react-redux";
 import { EditOutlined, DeleteOutlined, SaveOutlined } from "@mui/icons-material";
 import { BlockEditor } from "../BlockEditor";
@@ -25,7 +24,6 @@ export const Block: FC<BlockProps> = ({ index, tallestBlockIndex }) => {
 	const block = useSelector((state: any) => state.projects.project.blocks[index]);
 	const mode = useSelector((state: any) => state.workspace.mode);
 
-	// const [showNameEditor, setShowNameEditor] = useState(false);
 	const [blockNameDraft, setBlockNameDraft] = useState(block.blockName);
 	const [blockNameError, setBlockNameError] = useState(false);
 	const [blockNameHelperText, setBlockNameHelperText] = useState("");
@@ -90,29 +88,38 @@ export const Block: FC<BlockProps> = ({ index, tallestBlockIndex }) => {
 			>
 				<Grid container sx={{ justifyContent: "center" }}>
 					{mode === "edit" ? (
-						<TextField
-							value={blockNameDraft}
-							onChange={e => handleBlockNameChange(e)}
-							variant="standard"
-							InputProps={{
-								style: {
-									fontSize: "18px",
-									borderColor: theme.palette.text.secondary,
-								},
-								endAdornment: (
-									<IconButton
-										onClick={() =>
-											dispatch(editBlockName({ blockName: blockNameDraft, blockIndex: index }))
-										}
-									>
-										<SaveOutlined />
-									</IconButton>
-								),
-							}}
-							placeholder="block name"
-							error={blockNameError}
-							helperText={blockNameHelperText}
-						/>
+						<ClickAwayListener
+							onClickAway={() =>
+								dispatch(editBlockName({ blockName: blockNameDraft, blockIndex: index }))
+							}
+						>
+							<TextField
+								value={blockNameDraft}
+								onChange={e => handleBlockNameChange(e)}
+								variant="standard"
+								InputProps={{
+									style: {
+										fontSize: "18px",
+										borderColor: theme.palette.text.secondary,
+									},
+									endAdornment:
+										blockNameDraft !== block.blockName ? (
+											<IconButton
+												onClick={() =>
+													dispatch(
+														editBlockName({ blockName: blockNameDraft, blockIndex: index }),
+													)
+												}
+											>
+												<SaveOutlined />
+											</IconButton>
+										) : null,
+								}}
+								placeholder="block name"
+								error={blockNameError}
+								helperText={blockNameHelperText}
+							/>
+						</ClickAwayListener>
 					) : (
 						<Typography variant="h5" sx={{ color: theme.palette.text.primary }}>
 							{block.blockName}
@@ -148,6 +155,7 @@ export const Block: FC<BlockProps> = ({ index, tallestBlockIndex }) => {
 								height: "fit-content",
 								width: "fit-content",
 							}}
+							onClick={() => setDraftBlock(block)}
 						>
 							<EditOutlined />
 						</IconButton>
