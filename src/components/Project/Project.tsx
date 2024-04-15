@@ -34,7 +34,7 @@ export const Project: FC<{}> = () => {
 		// move to block component?
 		let tallestBlock = 0;
 		let index = 0;
-		blocks.forEach((block: BlockProps, i: number) => {
+		blocks.forEach((block, i) => {
 			if (block.stitches.length > tallestBlock) {
 				tallestBlock = block.stitches.length;
 				index = i;
@@ -94,14 +94,16 @@ export const Project: FC<{}> = () => {
 			// 		tallestBlockIndex={getTallestBlock()}
 			// 	/>
 			// </Box>
-			<Grid container sx={{ height: "fit-content", border: "2px solid red", flexDirection: "column" }}>
-				<Block
-					stitches={block.stitches}
-					blockName={block.blockName}
-					index={i}
-					tallestBlockIndex={getTallestBlock()}
-				/>
-				{mode === "edit" ? (
+			<Grid
+				container
+				sx={{
+					height: "fit-content",
+					border: "2px solid red",
+					flexDirection: "column",
+				}}
+			>
+				<Block index={i} tallestBlockIndex={getTallestBlock()} />
+				{/* {mode === "edit" ? (
 					<Grid container sx={{ border: "2px solid blue", justifyContent: "center", gap: 3 }}>
 						<Grid item>
 							<IconButton
@@ -129,7 +131,7 @@ export const Project: FC<{}> = () => {
 							</IconButton>
 						</Grid>
 					</Grid>
-				) : null}
+				) : null} */}
 			</Grid>
 		);
 	});
@@ -196,7 +198,10 @@ export const Project: FC<{}> = () => {
 			sx={{
 				width: "fit-content",
 				height: "fit-content",
-				p: 1,
+				mt: 2,
+				mb: mode === "chart" ? 5 : 10,
+				pl: mode === "chart" ? 5 : 10,
+				pr: mode === "chart" ? 5 : 10,
 				flexWrap: "nowrap",
 				gap: 2,
 				border: "2px solid green",
@@ -204,11 +209,12 @@ export const Project: FC<{}> = () => {
 			}}
 		>
 			{/* {project} */}
-			{showBlockEditor ? (
+			{/* {showBlockEditor ? (
 				<BlockEditor blockIndex={currentDraftBlock} closeEditor={() => setShowBlockEditor(false)} />
 			) : (
 				project
-			)}
+			)} */}
+			{project}
 		</Grid>
 	);
 	// }

@@ -5,30 +5,31 @@ import { StitchProps } from "../Stitch";
 import { useDispatch, useSelector } from "react-redux";
 import { EditOutlined, DeleteOutlined, SaveOutlined } from "@mui/icons-material";
 import { BlockEditor } from "../BlockEditor";
-import { editBlockName } from "../../reducers/projectReducer";
+import { editBlockName, deleteBlock } from "../../reducers/projectReducer";
 
 export interface BlockProps {
-	blockName: string;
-	stitches: StitchProps[][];
+	// blockName: string;
+	// stitches: StitchProps[][];
 	index?: number;
 	tallestBlockIndex?: number;
 }
 
 /**
  * A block of the pattern; made up of many rows.
- * @param blockName The name of the block.
- * @param stitches The rows of stitches to be rendered.
  * @param index The index of the block.
  * @param tallestBlockIndex The index of the tallest block in the project - used to calculate padding for individual blocks.
  */
-export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlockIndex }) => {
-	const currentProject = useSelector((state: any) => state.projects.project);
-	const currentRow = useSelector((state: any) => state.projects.currentRow);
-	const currentBlockRow = useSelector((state: any) => state.projects.project.blocks[index].currentBlockRow);
+export const Block: FC<BlockProps> = ({ index, tallestBlockIndex }) => {
+	const project = useSelector((state: any) => state.projects.project);
+	const projectRow = useSelector((state: any) => state.projects.projectRow);
+	const block = useSelector((state: any) => state.projects.project.blocks[index]);
 	const mode = useSelector((state: any) => state.workspace.mode);
 
-	const [showNameEditor, setShowNameEditor] = useState(false);
-	const [blockNameDraft, setBlockNameDraft] = useState(blockName);
+	// const [showNameEditor, setShowNameEditor] = useState(false);
+	const [blockNameDraft, setBlockNameDraft] = useState(block.blockName);
+	const [blockNameError, setBlockNameError] = useState(false);
+	const [blockNameHelperText, setBlockNameHelperText] = useState("");
+	const [draftBlock, setDraftBlock] = useState<BlockProps | null>(null); // the block that is being edited
 
 	const baseRowRef = useRef<HTMLDivElement>(null);
 
@@ -39,103 +40,133 @@ export const Block: FC<BlockProps> = ({ blockName, stitches, index, tallestBlock
 	 * Calculates the padding for the block.
 	 */
 	const handlePadding = () => {
-		const firstRow = currentRow === 1 && currentBlockRow === 1;
+		const firstRow = projectRow === 1 && block.currentBlockRow === 1;
 		if (index === tallestBlockIndex || firstRow) {
 			// on the first row, all blocks are aligned
 			return "5px";
 		} else {
 			// a block's position is relative to the current row of both the tallest block and the current block
 			const tallestBlockPosition =
-				currentProject.blocks[tallestBlockIndex].currentBlockRow * baseRowRef.current.clientHeight;
-			const currentBlockPosition = currentBlockRow * baseRowRef.current.clientHeight;
+				project.blocks[tallestBlockIndex].currentBlockRow * baseRowRef.current.clientHeight;
+			const currentBlockPosition = block.currentBlockRow * baseRowRef.current.clientHeight;
 
 			return `${tallestBlockPosition - currentBlockPosition + 5}px`;
 		}
 	};
 
-	const nameField = showNameEditor ? ( // on save, should it update the block's name in the createdBlocks array?
-		<Grid container>
-			<Grid item>
-				<TextField value={blockNameDraft} onChange={e => setBlockNameDraft(e.target.value)} />
-			</Grid>
-			<Grid item>
-				<IconButton
-					onClick={() => {
-						setShowNameEditor(false);
-						dispatch(editBlockName({ blockIndex: index, blockName: blockNameDraft }));
-					}}
-				>
-					<SaveOutlined />
-				</IconButton>
-			</Grid>
-		</Grid>
-	) : (
-		<Grid container>
-			<Grid item>
-				<Typography>{blockName}</Typography>
-			</Grid>
-			<Grid item>
-				<IconButton onClick={() => setShowNameEditor(true)}>
-					<EditOutlined />
-				</IconButton>
-			</Grid>
-		</Grid>
-	);
+	/**
+	 * Handles changes to the block name and checks for errors.
+	 * @param e The event object.
+	 */
+	const handleBlockNameChange = e => {
+		setBlockNameDraft(e.target.value);
 
-	if (!stitches) {
-		return null; // make error block ?
-	}
+		if (e.target.value.length === 0) {
+			setBlockNameError(true);
+			setBlockNameHelperText("cannot be empty");
+		}
+	};
 
 	return (
 		<Grid
 			container
-			sx={{
-				// border: "2px solid red",
-				backgroundColor: theme.palette.background.paper,
-				filter: `drop-shadow(5px 5px 0px ${theme.palette.primary.main})`,
-				border: `2px solid ${theme.palette.primary.main}`,
-				p: 0.5,
-				borderTopRightRadius: "10px",
-				borderTopLeftRadius: "10px",
-				maxHeight: "100%",
-				mb: baseRowRef.current && mode !== "edit" ? handlePadding() : "5px",
-			}}
-			data-testid={`block${blockName}${index}`}
+			data-testid={`block${block.blockName}${index}`}
+			sx={{ flexDirection: "column", alignItems: "center" }}
 		>
 			<Grid
 				container
 				sx={{
 					flexDirection: "column-reverse",
+					backgroundColor: theme.palette.background.paper,
+					filter: `drop-shadow(5px 5px 0px ${theme.palette.primary.main})`,
+					border: `2px solid ${theme.palette.primary.main}`,
+					p: 0.5,
+					borderTopRightRadius: "10px",
+					borderTopLeftRadius: "10px",
+					maxHeight: "100%",
+					mb: baseRowRef.current && mode !== "edit" ? handlePadding() : "5px",
+					width: "fit-content",
 				}}
 			>
-				{/* <Typography onClick={() => console.log(getBlockWidth())}>
-					{mode === "chart" ? `current row: ${currentRow}` : null}
-				</Typography> */}
 				<Grid container sx={{ justifyContent: "center" }}>
 					{mode === "edit" ? (
-						nameField
+						<TextField
+							value={blockNameDraft}
+							onChange={e => handleBlockNameChange(e)}
+							variant="standard"
+							InputProps={{
+								style: {
+									fontSize: "18px",
+									borderColor: theme.palette.text.secondary,
+								},
+								endAdornment: (
+									<IconButton
+										onClick={() =>
+											dispatch(editBlockName({ blockName: blockNameDraft, blockIndex: index }))
+										}
+									>
+										<SaveOutlined />
+									</IconButton>
+								),
+							}}
+							placeholder="block name"
+							error={blockNameError}
+							helperText={blockNameHelperText}
+						/>
 					) : (
 						<Typography variant="h5" sx={{ color: theme.palette.text.primary }}>
-							{blockName}
+							{block.blockName}
 						</Typography>
 					)}
 				</Grid>
-				{stitches.map((row, i) => {
+				{block.stitches.map((row, i) => {
 					return (
 						<Box ref={i === 0 ? baseRowRef : null}>
 							<Row
-								key={`row${blockName}${i}`}
+								key={`row${block.blockName}${i}`}
 								stitches={row}
-								highlightRow={currentBlockRow - 1 === i}
+								highlightRow={block.currentBlockRow - 1 === i}
 								rowIndex={i}
 								blockIndex={index}
-								showLeftRowMarker={index === 0 && currentRow % 2 === 0}
-								showRightRowMarker={index === currentProject.blocks.length - 1 && currentRow % 2 === 1}
+								showLeftRowMarker={index === 0 && projectRow % 2 === 0}
+								showRightRowMarker={index === project.blocks.length - 1 && projectRow % 2 === 1}
 							/>
 						</Box>
 					);
 				})}
 			</Grid>
+			{mode === "edit" ? (
+				<Grid
+					container
+					sx={{ border: "2px solid blue", justifyContent: "center", gap: 3, width: "fit-content" }}
+				>
+					<Grid item>
+						<IconButton
+							sx={{
+								color: theme.palette.primary.main,
+								transform: "scale(1.5)",
+								height: "fit-content",
+								width: "fit-content",
+							}}
+						>
+							<EditOutlined />
+						</IconButton>
+					</Grid>
+					<Grid item>
+						<IconButton
+							sx={{
+								color: theme.palette.primary.main,
+								transform: "scale(1.5)",
+								height: "fit-content",
+								width: "fit-content",
+							}}
+							onClick={() => dispatch(deleteBlock({ blockIndex: index }))}
+						>
+							<DeleteOutlined />
+						</IconButton>
+					</Grid>
+				</Grid>
+			) : null}
 		</Grid>
 	);
 };

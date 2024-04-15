@@ -34,13 +34,13 @@ export const Primary: Story = {
 		expect(element).toBeTruthy();
 	},
 	args: {
-		stitches: [
-			testProject.blocks[0].stitches[0],
-			testProject.blocks[0].stitches[1],
-			testProject.blocks[0].stitches[0],
-		],
+		// stitches: [
+		// 	testProject.blocks[0].stitches[0],
+		// 	testProject.blocks[0].stitches[1],
+		// 	testProject.blocks[0].stitches[0],
+		// ],
 		index: 1,
-		blockName: "block1",
+		// blockName: "block1",
 		tallestBlockIndex: 1,
 	},
 };
