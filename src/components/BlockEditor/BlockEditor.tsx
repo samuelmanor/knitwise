@@ -8,11 +8,12 @@ import { updateRow, addBlockRow } from "../../reducers/projectReducer";
 import { RowEditor } from "../RowEditor";
 
 interface BlockEditorProps {
-	blockIndex: number;
-	closeEditor: () => void;
+	blockIndex?: number;
+	testBlock?: any;
+	closeEditor?: () => void;
 }
 
-export const BlockEditor: FC<BlockEditorProps> = ({ blockIndex, closeEditor }) => {
+export const BlockEditor: FC<BlockEditorProps> = ({ blockIndex, testBlock, closeEditor }) => {
 	const block = useSelector((state: any) => state.projects.project.blocks[blockIndex]);
 	const [draftRow, setDraftRow] = useState(-1);
 
@@ -101,103 +102,109 @@ export const BlockEditor: FC<BlockEditorProps> = ({ blockIndex, closeEditor }) =
 	// 	);
 	// });
 
-	const rows = block.stitches.map((row, i) => {
-		return (
-			<Grid
-				container
-				sx={{
-					// width: "fit-content",
-					display: "flex",
-					flexWrap: "nowrap",
-					border: "2px solid red",
-					alignItems: "center",
-				}}
-			>
-				{/* <Grid item>
-					<Typography>{i + 1}</Typography>
-				</Grid>
-				{draftRow === i ? (
-					<ClickAwayListener onClickAway={() => setDraftRow(-1)}>
-						<Grid container>
-							<Grid item>
-								<RowEditor row={block.stitches[draftRow]} blockIndex={blockIndex} rowIndex={i} />
-							</Grid>
-							<Grid item>
-								<IconButton onClick={() => setDraftRow(-1)}>
-									<SaveOutlined />
-								</IconButton>
-							</Grid>
-						</Grid>
-					</ClickAwayListener>
-				) : (
-					<Grid container onClick={() => setDraftRow(i)}>
-						<Grid item>
-							<Row stitches={row} />
-						</Grid>
-						<Grid item sx={{ display: draftRow !== -1 ? "none" : "inherit" }}>
-							<IconButton onClick={() => setDraftRow(i)}>
-								<EditOutlined />
-							</IconButton>
-						</Grid>
-					</Grid>
-				)} */}
-				<Grid item sx={{ flexGrow: 1 }}>
-					<Typography>{i + 1}</Typography>
-				</Grid>
-				<Grid item sx={{ flexGrow: 2 }}>
-					<Row stitches={row} />
-				</Grid>
-				<Grid item sx={{ flexGrow: 1 }}>
-					<IconButton>
-						<EditOutlined />
-					</IconButton>
-				</Grid>
-			</Grid>
-		);
-	});
+	// const rows = block.stitches.map((row, i) => {
+	// 	return (
+	// 		<Grid
+	// 			container
+	// 			sx={{
+	// 				// width: "fit-content",
+	// 				display: "flex",
+	// 				flexWrap: "nowrap",
+	// 				border: "2px solid red",
+	// 				alignItems: "center",
+	// 			}}
+	// 		>
+	// 			{/* <Grid item>
+	// 				<Typography>{i + 1}</Typography>
+	// 			</Grid>
+	// 			{draftRow === i ? (
+	// 				<ClickAwayListener onClickAway={() => setDraftRow(-1)}>
+	// 					<Grid container>
+	// 						<Grid item>
+	// 							<RowEditor row={block.stitches[draftRow]} blockIndex={blockIndex} rowIndex={i} />
+	// 						</Grid>
+	// 						<Grid item>
+	// 							<IconButton onClick={() => setDraftRow(-1)}>
+	// 								<SaveOutlined />
+	// 							</IconButton>
+	// 						</Grid>
+	// 					</Grid>
+	// 				</ClickAwayListener>
+	// 			) : (
+	// 				<Grid container onClick={() => setDraftRow(i)}>
+	// 					<Grid item>
+	// 						<Row stitches={row} />
+	// 					</Grid>
+	// 					<Grid item sx={{ display: draftRow !== -1 ? "none" : "inherit" }}>
+	// 						<IconButton onClick={() => setDraftRow(i)}>
+	// 							<EditOutlined />
+	// 						</IconButton>
+	// 					</Grid>
+	// 				</Grid>
+	// 			)} */}
+	// 			<Grid item sx={{ flexGrow: 1 }}>
+	// 				<Typography>{i + 1}</Typography>
+	// 			</Grid>
+	// 			<Grid item sx={{ flexGrow: 2 }}>
+	// 				<Row stitches={row} />
+	// 			</Grid>
+	// 			<Grid item sx={{ flexGrow: 1 }}>
+	// 				<IconButton>
+	// 					<EditOutlined />
+	// 				</IconButton>
+	// 			</Grid>
+	// 		</Grid>
+	// 	);
+	// });
 
 	return (
-		<Grid
-			container
-			sx={{
-				border: "2px solid green",
-				// position: "absolute",
-				// top: 0,
-				// left: 0,
-				// backgroundImage: theme.palette.background.default,
-			}}
-		>
-			<Grid
-				container
-				sx={{
-					backgroundColor: theme.palette.background.paper,
-					filter: `drop-shadow(5px 5px 0px ${theme.palette.primary.main})`,
-					border: `2px solid ${theme.palette.primary.main}`,
-					p: 0.5,
-					borderTopRightRadius: "10px",
-					borderTopLeftRadius: "10px",
-					flexDirection: "column-reverse",
-					width: "fit-content",
-					height: "fit-content",
-				}}
-			>
-				{rows}
-			</Grid>
-			{block.stitches.length === 0 ? (
-				<Grid container sx={{ flexDirection: "column" }}>
-					<Grid item>
-						<Typography>this block doesn't have any rows added yet. click below to add one!</Typography>
-					</Grid>
-					<Grid item>
-						<IconButton onClick={() => handleAddRow(0)}>
-							<AddOutlined />
-						</IconButton>
-					</Grid>
-				</Grid>
-			) : null}
-			<Grid item>
-				<Button onClick={closeEditor}>close</Button>
-			</Grid>
+		<Grid container sx={{ position: "absolute" }} onClick={() => console.log(testBlock)}>
+			test
 		</Grid>
 	);
+
+	// return (
+	// 	<Grid
+	// 		container
+	// 		sx={{
+	// 			border: "2px solid green",
+	// 			// position: "absolute",
+	// 			// top: 0,
+	// 			// left: 0,
+	// 			// backgroundImage: theme.palette.background.default,
+	// 		}}
+	// 	>
+	// 		<Grid
+	// 			container
+	// 			sx={{
+	// 				backgroundColor: theme.palette.background.paper,
+	// 				filter: `drop-shadow(5px 5px 0px ${theme.palette.primary.main})`,
+	// 				border: `2px solid ${theme.palette.primary.main}`,
+	// 				p: 0.5,
+	// 				borderTopRightRadius: "10px",
+	// 				borderTopLeftRadius: "10px",
+	// 				flexDirection: "column-reverse",
+	// 				width: "fit-content",
+	// 				height: "fit-content",
+	// 			}}
+	// 		>
+	// 			{rows}
+	// 		</Grid>
+	// 		{block.stitches.length === 0 ? (
+	// 			<Grid container sx={{ flexDirection: "column" }}>
+	// 				<Grid item>
+	// 					<Typography>this block doesn't have any rows added yet. click below to add one!</Typography>
+	// 				</Grid>
+	// 				<Grid item>
+	// 					<IconButton onClick={() => handleAddRow(0)}>
+	// 						<AddOutlined />
+	// 					</IconButton>
+	// 				</Grid>
+	// 			</Grid>
+	// 		) : null}
+	// 		<Grid item>
+	// 			<Button onClick={closeEditor}>close</Button>
+	// 		</Grid>
+	// 	</Grid>
+	// );
 };

@@ -27,7 +27,7 @@ export const Block: FC<BlockProps> = ({ index, tallestBlockIndex }) => {
 	const [blockNameDraft, setBlockNameDraft] = useState(block.blockName);
 	const [blockNameError, setBlockNameError] = useState(false);
 	const [blockNameHelperText, setBlockNameHelperText] = useState("");
-	const [draftBlock, setDraftBlock] = useState<BlockProps | null>(null); // the block that is being edited
+	const [draftBlockIndex, setDraftBlockIndex] = useState<number | null>(null); // the index of the block that is being edited
 
 	const baseRowRef = useRef<HTMLDivElement>(null);
 
@@ -155,7 +155,7 @@ export const Block: FC<BlockProps> = ({ index, tallestBlockIndex }) => {
 								height: "fit-content",
 								width: "fit-content",
 							}}
-							onClick={() => setDraftBlock(block)}
+							onClick={() => setDraftBlockIndex(index)}
 						>
 							<EditOutlined />
 						</IconButton>

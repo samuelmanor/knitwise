@@ -46,29 +46,29 @@ export const Project: FC<{}> = () => {
 	/**
 	 * Opens the block editor.
 	 */
-	const handleEdit = (blockIndex: number) => {
-		setShowBlockEditor(true);
-		setCurrentDraftBlock(blockIndex);
-	};
+	// const handleEdit = (blockIndex: number) => {
+	// 	setShowBlockEditor(true);
+	// 	setCurrentDraftBlock(blockIndex);
+	// };
 
 	/**
 	 * Adds a new block to the project at either the beginning or end of the project. //=> todo: add feat to add block between already existing blocks
 	 * @param blockName The name of the block to be added.
 	 * @param stitches The stitches for the block to be added.
 	 */
-	const handleAddNewBlock = (blockName: string, stitches: BlockProps | [[]]) => {
-		dispatch(
-			addBlock({
-				blockName,
-				stitches,
-				blockIndex: currentDraftBlock === 0 ? 0 : blocks.length,
-			}),
-		);
+	// const handleAddNewBlock = (blockName: string, stitches: BlockProps | [[]]) => {
+	// 	dispatch(
+	// 		addBlock({
+	// 			blockName,
+	// 			stitches,
+	// 			blockIndex: currentDraftBlock === 0 ? 0 : blocks.length,
+	// 		}),
+	// 	);
 
-		setShowBlockMenu(false);
-		setShowBlockEditor(!showBlockSearch);
-		setShowBlockSearch(false);
-	};
+	// 	setShowBlockMenu(false);
+	// 	setShowBlockEditor(!showBlockSearch);
+	// 	setShowBlockSearch(false);
+	// };
 
 	const project = blocks.map((block: BlockProps, i: number) => {
 		return (
