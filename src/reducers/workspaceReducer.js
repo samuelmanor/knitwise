@@ -6,7 +6,7 @@ const workspaceSlice = createSlice({
 	name: "workspace",
 	initialState: {
 		project: testProject,
-		mode: "chart",
+		mode: "chart", // "edit" | "editBlock"
 		savedBlocks: [testProject.blocks[1], testProject.blocks[2]],
 		settings: {
 			theme: "system", // | "light" | "dark"

@@ -114,7 +114,7 @@ export const Row: FC<RowProps> = ({
 		);
 	}
 
-	if (mode === "edit" && editingBlock) {
+	if (mode === "editBlock" && editingBlock) {
 		return (
 			<Grid container sx={{ flexWrap: "nowrap" }}>
 				<Grid item>{row}</Grid>

@@ -6,6 +6,7 @@ import { EditOutlined, DeleteOutlined, SaveOutlined } from "@mui/icons-material"
 import { BlockEditor } from "../BlockEditor";
 import { editBlockName, deleteBlock } from "../../reducers/projectReducer";
 import { StitchProps } from "../Stitch";
+import { setMode } from "../../reducers/workspaceReducer";
 
 export interface BlockProps {
 	index: number;
@@ -81,6 +82,11 @@ export const Block: FC<BlockProps> = ({
 		}
 	};
 
+	const handleEditBlock = (index: number | null) => {
+		setDraftBlockIndex(index);
+		dispatch(setMode(index === null ? "edit" : "editBlock"));
+	};
+
 	const rows = stitches.map((row, i) => {
 		return (
 			<Box ref={i === 0 ? baseRowRef : null}>
@@ -97,10 +103,6 @@ export const Block: FC<BlockProps> = ({
 			</Box>
 		);
 	});
-
-	// height: "fit-content",
-	// 				border: "2px solid red",
-	// 				flexDirection: "column",
 
 	const BlockContainer = ({ children }) => {
 		return (
@@ -139,7 +141,7 @@ export const Block: FC<BlockProps> = ({
 	}
 
 	// this block is being edited
-	if (mode === "edit" && draftBlockIndex === index) {
+	if (mode === "editBlock" && draftBlockIndex === index) {
 		// move name field editor to here?
 		return (
 			<Grid
@@ -156,7 +158,7 @@ export const Block: FC<BlockProps> = ({
 				</Grid>
 				<Grid item sx={{}}>
 					<Typography variant="h5">{blockName}</Typography>
-					<div onClick={() => setDraftBlockIndex(null)}>close</div>
+					<div onClick={() => handleEditBlock(null)}>close</div>
 				</Grid>
 			</Grid>
 		);
@@ -216,7 +218,7 @@ export const Block: FC<BlockProps> = ({
 								height: "fit-content",
 								width: "fit-content",
 							}}
-							onClick={() => setDraftBlockIndex(index)}
+							onClick={() => handleEditBlock(index)}
 						>
 							<EditOutlined />
 						</IconButton>

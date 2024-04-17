@@ -74,7 +74,7 @@ export const Project: FC<{}> = () => {
 
 	const project = blocks.map((block: BlockProps, i: number) => {
 		// when a specific block is being edited, only show that block
-		if (mode === "edit" && draftBlockIndex !== null && draftBlockIndex !== i) return null;
+		if (mode === "editBlock" && draftBlockIndex !== null && draftBlockIndex !== i) return null;
 
 		return (
 			<Block
