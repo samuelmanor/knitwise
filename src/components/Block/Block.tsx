@@ -44,7 +44,7 @@ export const Block: FC<BlockProps> = ({
 	const [blockNameDraft, setBlockNameDraft] = useState(blockName);
 	const [blockNameError, setBlockNameError] = useState(false);
 	const [blockNameHelperText, setBlockNameHelperText] = useState("");
-	// const [draftBlockIndex, setDraftBlockIndex] = useState<number | null>(null); // the index of the block that is being edited
+	const [draftRow, setDraftRow] = useState<number | null>(null);
 
 	const baseRowRef = useRef<HTMLDivElement>(null);
 
@@ -97,6 +97,8 @@ export const Block: FC<BlockProps> = ({
 					editingBlock={draftBlockIndex === index}
 					rowIndex={i}
 					blockIndex={index}
+					draftRow={draftRow}
+					setDraftRow={setDraftRow}
 					showLeftRowMarker={index === 0 && projectRow % 2 === 0}
 					showRightRowMarker={index === project.blocks.length - 1 && projectRow % 2 === 1}
 				/>
@@ -149,7 +151,7 @@ export const Block: FC<BlockProps> = ({
 				sx={{
 					flexDirection: "row",
 					flexWrap: "nowrap",
-					gap: 5,
+					gap: 8,
 					height: "fit-content",
 				}}
 			>
@@ -158,7 +160,8 @@ export const Block: FC<BlockProps> = ({
 				</Grid>
 				<Grid item sx={{}}>
 					<Typography variant="h5">{blockName}</Typography>
-					<div onClick={() => handleEditBlock(null)}>close</div>
+					{draftRow !== null ? <div onClick={() => setDraftRow(null)}>save</div> : null}
+					{draftRow === null ? <div onClick={() => handleEditBlock(null)}>close</div> : null}
 				</Grid>
 			</Grid>
 		);

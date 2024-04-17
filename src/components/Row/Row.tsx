@@ -1,9 +1,10 @@
-import { Grid, useTheme } from "@mui/material";
+import { Button, Grid, IconButton, Tooltip, useTheme } from "@mui/material";
 import { FC } from "react";
 import { Stitch, StitchProps } from "../Stitch";
 import { RowMarker } from "../RowMarker";
 import { useSelector } from "react-redux";
 import { DirectionsOverlay } from "../DirectionsOverlay";
+import { EditOutlined } from "@mui/icons-material";
 
 export interface RowProps {
 	stitches: StitchProps[];
@@ -11,6 +12,8 @@ export interface RowProps {
 	rowIndex: number;
 	blockIndex: number;
 	editingBlock: boolean;
+	draftRow: number | null;
+	setDraftRow?: (row: number) => void;
 	showLeftRowMarker?: boolean;
 	showRightRowMarker?: boolean;
 }
@@ -22,6 +25,7 @@ export interface RowProps {
  * @param rowIndex The index of the row.
  * @param blockIndex The index of the block that the row is in.
  * @param editingBlock Whether or not the block that contains the row is currently being edited.
+ * @param draftRow The index of the row that is currently being edited.
  * @param showLeftRowMarker Whether or not to show the wrong side marker on the left side of the row.
  * @param showRightRowMarker Whether or not to show the right side marker on the right side of the row.
  */
@@ -31,6 +35,8 @@ export const Row: FC<RowProps> = ({
 	rowIndex,
 	blockIndex,
 	editingBlock,
+	draftRow,
+	setDraftRow,
 	showLeftRowMarker,
 	showRightRowMarker,
 }) => {
@@ -60,7 +66,11 @@ export const Row: FC<RowProps> = ({
 			container
 			justifyContent="space-between"
 			sx={{
-				backgroundColor: `${highlightRow && mode === "chart" ? theme.palette.primary.light : "transparent"}`,
+				backgroundColor: `${
+					(highlightRow && mode === "chart") || (draftRow === rowIndex && mode === "editBlock")
+						? theme.palette.primary.light
+						: "transparent"
+				}`,
 				pl: 0.5,
 				pr: 0.5,
 				width: calcWidth(),
@@ -109,7 +119,6 @@ export const Row: FC<RowProps> = ({
 		return (
 			<Grid container>
 				<DirectionsOverlay rowIndex={rowIndex} blockIndex={blockIndex} row={row} />
-				{/* {row} */}
 			</Grid>
 		);
 	}
@@ -117,8 +126,25 @@ export const Row: FC<RowProps> = ({
 	if (mode === "editBlock" && editingBlock) {
 		return (
 			<Grid container sx={{ flexWrap: "nowrap" }}>
-				<Grid item>{row}</Grid>
-				<Grid item>edit</Grid>
+				<Tooltip
+					title={
+						<IconButton onClick={() => setDraftRow(rowIndex)}>
+							<EditOutlined />
+						</IconButton>
+					}
+					placement="right"
+					open={draftRow === null}
+					componentsProps={{
+						tooltip: {
+							sx: {
+								backgroundColor: "transparent",
+							},
+						},
+					}}
+					slotProps={{ popper: { modifiers: [{ name: "offset", options: { offset: [0, -10] } }] } }}
+				>
+					<Grid item>{row}</Grid>
+				</Tooltip>
 			</Grid>
 		);
 	}
