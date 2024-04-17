@@ -73,73 +73,19 @@ export const Project: FC<{}> = () => {
 	// };
 
 	const project = blocks.map((block: BlockProps, i: number) => {
+		// when a specific block is being edited, only show that block
+		if (mode === "edit" && draftBlockIndex !== null && draftBlockIndex !== i) return null;
+
 		return (
-			// <Box key={i} sx={{ display: "flex", alignItems: "flex-end", pb: 2 }}>
-			// 	{mode === "edit" ? (
-			// 		<Grid container sx={{ border: "2px solid red", position: "absolute" }}>
-			// 			<Grid item>
-			// 				<IconButton onClick={() => handleEdit(i)}>
-			// 					<EditOutlined />
-			// 				</IconButton>
-			// 			</Grid>
-			// 			<Grid item>
-			// 				<IconButton onClick={() => dispatch(deleteBlock({ blockIndex: i }))}>
-			// 					<DeleteOutlined />
-			// 				</IconButton>
-			// 			</Grid>
-			// 		</Grid>
-			// 	) : null}
-			// 	<Block
-			// 		stitches={block.stitches}
-			// 		blockName={block.blockName}
-			// 		index={i}
-			// 		tallestBlockIndex={getTallestBlock()}
-			// 	/>
-			// </Box>
-			<Grid
-				container
-				sx={{
-					height: "fit-content",
-					border: "2px solid red",
-					flexDirection: "column",
-				}}
-			>
-				<Block
-					index={i}
-					tallestBlockIndex={getTallestBlock()}
-					draftBlockIndex={draftBlockIndex}
-					setDraftBlockIndex={setDraftBlockIndex}
-				/>
-				{/* {mode === "edit" ? (
-					<Grid container sx={{ border: "2px solid blue", justifyContent: "center", gap: 3 }}>
-						<Grid item>
-							<IconButton
-								sx={{
-									color: theme.palette.primary.main,
-									transform: "scale(1.5)",
-									height: "fit-content",
-									width: "fit-content",
-								}}
-								onClick={() => handleEdit(i)}
-							>
-								<EditOutlined />
-							</IconButton>
-						</Grid>
-						<Grid item>
-							<IconButton
-								sx={{
-									color: theme.palette.primary.main,
-									transform: "scale(1.5)",
-									height: "fit-content",
-									width: "fit-content",
-								}}
-							>
-								<DeleteOutlined />
-							</IconButton>
-						</Grid>
-					</Grid>
-				) : null} */}
-			</Grid>
+			<Block
+				index={i}
+				currentBlockRow={block.currentBlockRow}
+				blockName={block.blockName}
+				stitches={block.stitches}
+				tallestBlockIndex={getTallestBlock()}
+				draftBlockIndex={draftBlockIndex}
+				setDraftBlockIndex={setDraftBlockIndex}
+			/>
 		);
 	});
 

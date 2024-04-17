@@ -7,9 +7,10 @@ import { DirectionsOverlay } from "../DirectionsOverlay";
 
 export interface RowProps {
 	stitches: StitchProps[];
-	highlightRow?: boolean;
-	rowIndex?: number;
-	blockIndex?: number;
+	highlightRow: boolean;
+	rowIndex: number;
+	blockIndex: number;
+	editingBlock: boolean;
 	showLeftRowMarker?: boolean;
 	showRightRowMarker?: boolean;
 }
@@ -20,6 +21,7 @@ export interface RowProps {
  * @param highlightRow Whether or not to highlight the row to indicate that it's currently being worked.
  * @param rowIndex The index of the row.
  * @param blockIndex The index of the block that the row is in.
+ * @param editingBlock Whether or not the block that contains the row is currently being edited.
  * @param showLeftRowMarker Whether or not to show the wrong side marker on the left side of the row.
  * @param showRightRowMarker Whether or not to show the right side marker on the right side of the row.
  */
@@ -28,10 +30,11 @@ export const Row: FC<RowProps> = ({
 	highlightRow,
 	rowIndex,
 	blockIndex,
+	editingBlock,
 	showLeftRowMarker,
 	showRightRowMarker,
 }) => {
-	const currentMode = useSelector((state: any) => state.workspace.mode);
+	const mode = useSelector((state: any) => state.workspace.mode);
 	const stitchDisplaySetting = useSelector((state: any) => state.workspace.settings.stitchDisplay);
 
 	const theme = useTheme();
@@ -57,9 +60,7 @@ export const Row: FC<RowProps> = ({
 			container
 			justifyContent="space-between"
 			sx={{
-				backgroundColor: `${
-					highlightRow && currentMode === "chart" ? theme.palette.primary.light : "transparent"
-				}`,
+				backgroundColor: `${highlightRow && mode === "chart" ? theme.palette.primary.light : "transparent"}`,
 				pl: 0.5,
 				pr: 0.5,
 				width: calcWidth(),
@@ -104,14 +105,23 @@ export const Row: FC<RowProps> = ({
 
 	// );
 
-	if (highlightRow) {
+	if (mode === "chart" && highlightRow) {
 		return (
 			<Grid container>
 				<DirectionsOverlay rowIndex={rowIndex} blockIndex={blockIndex} row={row} />
 				{/* {row} */}
 			</Grid>
 		);
-	} else {
-		return row;
 	}
+
+	if (mode === "edit" && editingBlock) {
+		return (
+			<Grid container sx={{ flexWrap: "nowrap" }}>
+				<Grid item>{row}</Grid>
+				<Grid item>edit</Grid>
+			</Grid>
+		);
+	}
+
+	return row;
 };
