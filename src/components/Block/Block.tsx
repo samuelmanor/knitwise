@@ -99,8 +99,8 @@ export const Block: FC<BlockProps> = ({
 					blockIndex={index}
 					draftRow={draftRow}
 					setDraftRow={setDraftRow}
-					showLeftRowMarker={index === 0 && projectRow % 2 === 0}
-					showRightRowMarker={index === project.blocks.length - 1 && projectRow % 2 === 1}
+					// showLeftRowMarker={index === 0 && projectRow % 2 === 0}
+					// showRightRowMarker={index === project.blocks.length - 1 && projectRow % 2 === 1}
 				/>
 			</Box>
 		);

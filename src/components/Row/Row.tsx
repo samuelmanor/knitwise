@@ -1,7 +1,6 @@
 import { Button, Grid, IconButton, Tooltip, useTheme } from "@mui/material";
 import { FC } from "react";
 import { Stitch, StitchProps } from "../Stitch";
-import { RowMarker } from "../RowMarker";
 import { useSelector } from "react-redux";
 import { DirectionsOverlay } from "../DirectionsOverlay";
 import { EditOutlined } from "@mui/icons-material";
@@ -14,8 +13,8 @@ export interface RowProps {
 	editingBlock: boolean;
 	draftRow: number | null;
 	setDraftRow?: (row: number) => void;
-	showLeftRowMarker?: boolean;
-	showRightRowMarker?: boolean;
+	// showLeftRowMarker?: boolean;
+	// showRightRowMarker?: boolean;
 }
 
 /**
@@ -37,8 +36,8 @@ export const Row: FC<RowProps> = ({
 	editingBlock,
 	draftRow,
 	setDraftRow,
-	showLeftRowMarker,
-	showRightRowMarker,
+	// showLeftRowMarker,
+	// showRightRowMarker,
 }) => {
 	const mode = useSelector((state: any) => state.workspace.mode);
 	const stitchDisplaySetting = useSelector((state: any) => state.workspace.settings.stitchDisplay);

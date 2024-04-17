@@ -16,8 +16,14 @@ interface DirectionsOverlayProps {
  */
 export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockIndex, row }) => {
 	const project = useSelector((state: any) => state.projects.project);
+	const blocksTotal = useSelector((state: any) => state.projects.project.blocks.length);
+	const currentRow = useSelector((state: any) => state.projects.currentRow);
 	const mode = useSelector((state: any) => state.workspace.settings.directionsOverlayMode);
 	const show = useSelector((state: any) => state.workspace.mode === "chart");
+
+	const showLeftRowMarker = blockIndex === 0 && currentRow % 2 === 0;
+	const showRightRowMarker = blockIndex === blocksTotal - 1 && currentRow % 2 === 1;
+	const rowMarkerLabel = showLeftRowMarker ? "WS →" : "← RS";
 
 	const theme = useTheme();
 
@@ -68,6 +74,15 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockI
 		return directions;
 	};
 
+	// showLeftRowMarker={index === 0 && projectRow % 2 === 0}
+	// 				showRightRowMarker={index === project.blocks.length - 1 && projectRow % 2 === 1}
+
+	const rowMarkerPlacement = (): "left" | "right" => {
+		if (showLeftRowMarker || showRightRowMarker) {
+			return currentRow % 2 === 0 ? "left" : "right";
+		}
+	};
+
 	return (
 		<Tooltip
 			open={mode !== "none"}
@@ -114,7 +129,13 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockI
 				},
 			}}
 		>
-			<Grid container>{row}</Grid>
+			<Tooltip
+				title={rowMarkerLabel}
+				open={showLeftRowMarker || showRightRowMarker}
+				placement={rowMarkerPlacement()}
+			>
+				<Grid container>{row}</Grid>
+			</Tooltip>
 		</Tooltip>
 	);
 };
