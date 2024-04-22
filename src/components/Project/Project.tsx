@@ -3,7 +3,6 @@ import { FC, useState } from "react";
 import { Block, BlockProps } from "../Block";
 import { useDispatch, useSelector } from "react-redux";
 import { EditOutlined, DeleteOutlined, AddOutlined, CancelOutlined } from "@mui/icons-material";
-import { BlockEditor } from "../BlockEditor";
 import { deleteBlock, addBlock } from "../../reducers/projectReducer";
 import { BlockSearch } from "../BlockSearch";
 

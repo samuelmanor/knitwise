@@ -1,9 +1,8 @@
 import { IconButton, Grid, Typography, TextField, Box, useTheme, ClickAwayListener } from "@mui/material";
-import { FC, ReactElement, useRef, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { Row } from "../Row";
 import { useDispatch, useSelector } from "react-redux";
 import { EditOutlined, DeleteOutlined, SaveOutlined } from "@mui/icons-material";
-import { BlockEditor } from "../BlockEditor";
 import { editBlockName, deleteBlock } from "../../reducers/projectReducer";
 import { StitchProps } from "../Stitch";
 import { setMode } from "../../reducers/workspaceReducer";
@@ -69,6 +68,40 @@ export const Block: FC<BlockProps> = ({
 		}
 	};
 
+	// const handleAddRow = (rowIndex: number) => {
+	// 	dispatch(addBlockRow({ blockIndex, rowIndex }));
+	// };
+
+	// const handleDeleteRow = (rowIndex: number) => {
+	// 	setDraftRow(-1);
+	// 	dispatch(updateRow({ blockIndex, rowIndex, stitches: [] }));
+	// };
+
+	// const handleRowEdit = (newStitch: StitchProps, action: "edit" | "add") => {
+	// 	if (action === "add") {
+	// 		setShowStitchSelect(false);
+	// 		dispatch(updateRow({ blockIndex, rowIndex, stitches: [...row, newStitch] }));
+	// 		setSelectedStitch(null);
+	// 	} else if (action === "edit") {
+	// 		setShowStitchSelect(false);
+	// 		const newRow = row.map((stitch, i) => {
+	// 			if (i === selectedStitch) {
+	// 				return newStitch;
+	// 			} else {
+	// 				return stitch;
+	// 			}
+	// 		});
+	// 		dispatch(updateRow({ blockIndex, rowIndex, stitches: newRow }));
+	// 		setSelectedStitch(null);
+	// 	}
+	// };
+
+	// const handleDeleteStitch = (index: number) => {
+	// 	const updatedRow = row.filter((stitch, i) => i !== index);
+	// 	dispatch(updateRow({ blockIndex, rowIndex, stitches: updatedRow }));
+	// 	setSelectedStitch(null);
+	// };
+
 	/**
 	 * Handles changes to the block name and checks for errors.
 	 * @param e The event object.
@@ -99,8 +132,6 @@ export const Block: FC<BlockProps> = ({
 					blockIndex={index}
 					draftRow={draftRow}
 					setDraftRow={setDraftRow}
-					// showLeftRowMarker={index === 0 && projectRow % 2 === 0}
-					// showRightRowMarker={index === project.blocks.length - 1 && projectRow % 2 === 1}
 				/>
 			</Box>
 		);

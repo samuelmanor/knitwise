@@ -147,7 +147,11 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 						},
 					}}
 				>
-					<IconButton size="large" sx={{ color: theme.palette.text.secondary, transform: "scale(1.5)" }}>
+					<IconButton
+						size="large"
+						sx={{ color: theme.palette.text.secondary, transform: "scale(1.5)" }}
+						disabled={mode === "editBlock"} // tempfix; row edit buttons in block editor show over settings menu
+					>
 						<SettingsOutlined onClick={() => setOpenSettings(true)} />
 					</IconButton>
 				</Tooltip>
