@@ -1,10 +1,7 @@
-import { Box, Button, ClickAwayListener, Grid, IconButton, Typography, useTheme } from "@mui/material";
+import { Grid, useTheme } from "@mui/material";
 import { FC, useState } from "react";
 import { Block, BlockProps } from "../Block";
 import { useDispatch, useSelector } from "react-redux";
-import { EditOutlined, DeleteOutlined, AddOutlined, CancelOutlined } from "@mui/icons-material";
-import { deleteBlock, addBlock } from "../../reducers/projectReducer";
-import { BlockSearch } from "../BlockSearch";
 
 // export interface ProjectProps {}
 
@@ -152,8 +149,8 @@ export const Project: FC<{}> = () => {
 				height: "fit-content",
 				mt: 2,
 				mb: mode === "chart" ? 5 : 10,
-				pl: mode === "chart" ? 5 : 10,
-				pr: mode === "chart" ? 5 : 10,
+				pl: 5,
+				pr: 5,
 				flexWrap: "nowrap",
 				gap: 2,
 				border: "2px solid green",

@@ -96,20 +96,18 @@ export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbo
 			// </Grid>
 			<Grid
 				container
-				sx={
-					{
-						// flexDirection: "column",
-						// backgroundColor: theme.palette.background.paper,
-						// filter: `drop-shadow(5px 5px 0px ${theme.palette.primary.main})`,
-						// border: `2px solid ${theme.palette.primary.main}`,
-						// p: 0.5,
-						// borderRadius: "5px",
-						// width: "fit-content",
-						// alignItems: "center",
-						// cursor: "pointer",
-						// userSelect: "none",
-					}
-				}
+				sx={{
+					flexDirection: "column",
+					// backgroundColor: theme.palette.background.paper,
+					// filter: `drop-shadow(5px 5px 0px ${theme.palette.primary.main})`,
+					border: `2px solid ${theme.palette.primary.main}`,
+					// p: 0.5,
+					// borderRadius: "5px",
+					// width: "fit-content",
+					// alignItems: "center",
+					// cursor: "pointer",
+					// userSelect: "none",
+				}}
 			>
 				<Grid item>
 					<Typography>{stitchDisplaySetting === "symbol" ? symbol : abbreviation}</Typography>

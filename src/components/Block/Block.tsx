@@ -2,10 +2,11 @@ import { IconButton, Grid, Typography, TextField, Box, useTheme, ClickAwayListen
 import { FC, useRef, useState } from "react";
 import { Row } from "../Row";
 import { useDispatch, useSelector } from "react-redux";
-import { EditOutlined, DeleteOutlined, SaveOutlined } from "@mui/icons-material";
+import { EditOutlined, DeleteOutlined, SaveOutlined, CloseOutlined } from "@mui/icons-material";
 import { editBlockName, deleteBlock } from "../../reducers/projectReducer";
 import { StitchProps } from "../Stitch";
 import { setMode } from "../../reducers/workspaceReducer";
+import { Search } from "../Search";
 
 export interface BlockProps {
 	index: number;
@@ -183,16 +184,30 @@ export const Block: FC<BlockProps> = ({
 					flexDirection: "row",
 					flexWrap: "nowrap",
 					gap: 8,
-					height: "fit-content",
 				}}
 			>
 				<Grid item>
 					<BlockContainer>{rows}</BlockContainer>
 				</Grid>
-				<Grid item sx={{}}>
-					<Typography variant="h5">{blockName}</Typography>
-					{draftRow !== null ? <div onClick={() => setDraftRow(null)}>save</div> : null}
-					{draftRow === null ? <div onClick={() => handleEditBlock(null)}>close</div> : null}
+				<Grid container sx={{ border: "2px solid blue", flexDirection: "column", flexWrap: "nowrap" }}>
+					<Grid
+						container
+						sx={{ border: "2px solid red", height: "fit-content", justifyContent: "space-between", gap: 3 }}
+					>
+						<Grid item>
+							<Typography variant="h5">
+								{draftRow === null ? blockName : `${blockName}, row ${draftRow + 1}`}
+							</Typography>
+						</Grid>
+						<Grid item>
+							<IconButton onClick={() => (draftRow === null ? handleEditBlock(null) : setDraftRow(null))}>
+								{draftRow === null ? <CloseOutlined /> : <SaveOutlined />}
+							</IconButton>
+						</Grid>
+					</Grid>
+					<Grid container sx={{ border: "2px solid green", height: "100%" }}>
+						<Search content="stitches" select={() => console.log("stitch select")} />
+					</Grid>
 				</Grid>
 			</Grid>
 		);

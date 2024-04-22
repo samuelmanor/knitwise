@@ -65,11 +65,7 @@ export const Row: FC<RowProps> = ({
 			container
 			justifyContent="space-between"
 			sx={{
-				backgroundColor: `${
-					(highlightRow && mode === "chart") || (draftRow === rowIndex && mode === "editBlock")
-						? theme.palette.primary.light
-						: "transparent"
-				}`,
+				backgroundColor: `${highlightRow && mode === "chart" ? theme.palette.primary.light : "transparent"}`,
 				pl: 0.5,
 				pr: 0.5,
 				width: calcWidth(),
@@ -80,7 +76,12 @@ export const Row: FC<RowProps> = ({
 			{stitches.map((stitch, i) => {
 				return (
 					<Grid item display="inline">
-						<Stitch key={i} index={i} view={"chart"} {...stitch} />
+						<Stitch
+							key={i}
+							index={i}
+							view={mode === "editBlock" && editingBlock && draftRow === rowIndex ? "edit" : "chart"}
+							{...stitch}
+						/>
 					</Grid>
 				);
 			})}
@@ -121,6 +122,8 @@ export const Row: FC<RowProps> = ({
 			</Grid>
 		);
 	}
+
+	// (draftRow === rowIndex && mode === "editBlock")
 
 	if (mode === "editBlock" && editingBlock) {
 		return (

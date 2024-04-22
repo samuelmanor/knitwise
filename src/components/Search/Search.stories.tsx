@@ -3,12 +3,12 @@ import { Meta, StoryObj } from "@storybook/react";
 import { expect } from "@storybook/jest";
 import { within } from "@storybook/testing-library";
 
-import { BlockSearch } from "./BlockSearch";
+import { Search } from "./Search";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-const meta: Meta<typeof BlockSearch> = {
+const meta: Meta<typeof Search> = {
 	title: "BlockSearch",
-	component: BlockSearch,
+	component: Search,
 	parameters: {
 		// Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
 		layout: "centered",
@@ -22,7 +22,7 @@ const meta: Meta<typeof BlockSearch> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof BlockSearch>;
+type Story = StoryObj<typeof Search>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Primary: Story = {
