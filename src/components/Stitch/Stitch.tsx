@@ -24,6 +24,7 @@ export interface StitchProps {
  */
 export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbol, width, index, view }) => {
 	const stitchDisplaySetting = useSelector((state: any) => state.workspace.settings.stitchDisplay);
+	const mode = useSelector((state: any) => state.workspace.mode);
 
 	const theme = useTheme();
 
@@ -51,6 +52,7 @@ export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbo
 						borderRadius: "5px",
 						color: theme.palette.text.primary,
 						cursor: "pointer",
+						userSelect: "none",
 					}}
 					data-testid={`stitch${index}${name}`}
 				>

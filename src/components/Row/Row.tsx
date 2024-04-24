@@ -1,9 +1,9 @@
-import { Button, Grid, IconButton, Tooltip, useTheme } from "@mui/material";
+import { Grid, IconButton, Tooltip, useTheme } from "@mui/material";
 import { FC } from "react";
 import { Stitch, StitchProps } from "../Stitch";
 import { useSelector } from "react-redux";
 import { DirectionsOverlay } from "../DirectionsOverlay";
-import { EditOutlined } from "@mui/icons-material";
+import { EditOutlined, SaveOutlined } from "@mui/icons-material";
 
 export interface RowProps {
 	stitches: StitchProps[];
@@ -68,7 +68,9 @@ export const Row: FC<RowProps> = ({
 				backgroundColor: `${highlightRow && mode === "chart" ? theme.palette.primary.light : "transparent"}`,
 				pl: 0.5,
 				pr: 0.5,
-				width: calcWidth(),
+				minWidth: calcWidth(),
+				flexWrap: "nowrap",
+				// border: "2px solid red",
 			}}
 			data-testid={`row${rowIndex}`}
 		>
@@ -130,12 +132,12 @@ export const Row: FC<RowProps> = ({
 			<Grid container sx={{ flexWrap: "nowrap" }}>
 				<Tooltip
 					title={
-						<IconButton onClick={() => setDraftRow(rowIndex)}>
-							<EditOutlined />
+						<IconButton onClick={() => (draftRow === rowIndex ? setDraftRow(null) : setDraftRow(rowIndex))}>
+							{draftRow === rowIndex ? <SaveOutlined /> : <EditOutlined />}
 						</IconButton>
 					}
 					placement="right"
-					open={draftRow === null}
+					open={draftRow === null || draftRow === rowIndex}
 					componentsProps={{
 						tooltip: {
 							sx: {

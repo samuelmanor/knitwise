@@ -200,9 +200,11 @@ export const Block: FC<BlockProps> = ({
 							</Typography>
 						</Grid>
 						<Grid item>
-							<IconButton onClick={() => (draftRow === null ? handleEditBlock(null) : setDraftRow(null))}>
-								{draftRow === null ? <CloseOutlined /> : <SaveOutlined />}
-							</IconButton>
+							{handleEditBlock !== null && draftRow === null ? (
+								<IconButton onClick={() => handleEditBlock(null)}>
+									<CloseOutlined />
+								</IconButton>
+							) : null}
 						</Grid>
 					</Grid>
 					<Grid container sx={{ border: "2px solid green", height: "100%" }}>
