@@ -3,7 +3,7 @@ import { FC } from "react";
 import { Stitch, StitchProps } from "../Stitch";
 import { useSelector } from "react-redux";
 import { DirectionsOverlay } from "../DirectionsOverlay";
-import { EditOutlined, SaveOutlined } from "@mui/icons-material";
+import { EditOutlined, SaveOutlined, SwapVertOutlined } from "@mui/icons-material";
 
 export interface RowProps {
 	stitches: StitchProps[];
@@ -130,11 +130,23 @@ export const Row: FC<RowProps> = ({
 	if (mode === "editBlock" && editingBlock) {
 		return (
 			<Grid container sx={{ flexWrap: "nowrap" }}>
+				{/* somehow make this something other than a tooltip? */}
 				<Tooltip
 					title={
-						<IconButton onClick={() => (draftRow === rowIndex ? setDraftRow(null) : setDraftRow(rowIndex))}>
-							{draftRow === rowIndex ? <SaveOutlined /> : <EditOutlined />}
-						</IconButton>
+						<Grid container>
+							<Grid item>
+								<IconButton
+									onClick={() => (draftRow === rowIndex ? setDraftRow(null) : setDraftRow(rowIndex))}
+								>
+									{draftRow === rowIndex ? <SaveOutlined /> : <EditOutlined />}
+								</IconButton>
+							</Grid>
+							<Grid item>
+								<IconButton>
+									<SwapVertOutlined />
+								</IconButton>
+							</Grid>
+						</Grid>
 					}
 					placement="right"
 					open={draftRow === null || draftRow === rowIndex}

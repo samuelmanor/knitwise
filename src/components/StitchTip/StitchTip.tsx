@@ -39,7 +39,8 @@ export const StitchTip: FC<StitchTipProps> = ({ children, name, description }) =
 	const handleShow = () => {
 		if (mode === "chart") {
 			return open;
-		} else if (mode === "edit") {
+		} else if (mode === "edit" || mode === "editBlock") {
+			// todo: come up with a better way to handle this
 			return false;
 		}
 	};

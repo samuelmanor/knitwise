@@ -2,11 +2,12 @@ import { IconButton, Grid, Typography, TextField, Box, useTheme, ClickAwayListen
 import { FC, useRef, useState } from "react";
 import { Row } from "../Row";
 import { useDispatch, useSelector } from "react-redux";
-import { EditOutlined, DeleteOutlined, SaveOutlined, CloseOutlined } from "@mui/icons-material";
+import { EditOutlined, DeleteOutlined, SaveOutlined, CloseOutlined, SwapHorizOutlined } from "@mui/icons-material";
 import { editBlockName, deleteBlock } from "../../reducers/projectReducer";
 import { StitchProps } from "../Stitch";
 import { setMode } from "../../reducers/workspaceReducer";
 import { Search } from "../Search";
+import { SortableList } from "../Sortable/SortableList";
 
 export interface BlockProps {
 	index: number;
@@ -187,7 +188,26 @@ export const Block: FC<BlockProps> = ({
 				}}
 			>
 				<Grid item>
-					<BlockContainer>{rows}</BlockContainer>
+					<BlockContainer>
+						<SortableList
+							items={stitches.map((item, i) => ({
+								id: i + 1,
+								item: (
+									<Row
+										key={`row${blockName}${i}`}
+										stitches={item}
+										highlightRow={currentBlockRow - 1 === i}
+										editingBlock={draftBlockIndex === index}
+										rowIndex={i}
+										blockIndex={index}
+										draftRow={draftRow}
+										setDraftRow={setDraftRow}
+									/>
+								),
+							}))}
+							direction="vertical"
+						/>
+					</BlockContainer>
 				</Grid>
 				<Grid container sx={{ border: "2px solid blue", flexDirection: "column", flexWrap: "nowrap" }}>
 					<Grid
@@ -273,6 +293,18 @@ export const Block: FC<BlockProps> = ({
 							onClick={() => handleEditBlock(index)}
 						>
 							<EditOutlined />
+						</IconButton>
+					</Grid>
+					<Grid item>
+						<IconButton
+							sx={{
+								color: theme.palette.primary.main,
+								transform: "scale(1.5)",
+								height: "fit-content",
+								width: "fit-content",
+							}}
+						>
+							<SwapHorizOutlined />
 						</IconButton>
 					</Grid>
 					<Grid item>

@@ -173,6 +173,24 @@ const projectSlice = createSlice({
 				},
 			};
 		},
+		reorderRows(state, action) {
+			return {
+				...state,
+				project: {
+					...state.project,
+					blocks: state.project.blocks.map((block, index) => {
+						if (index === action.payload.blockIndex) {
+							return {
+								...block,
+								stitches: action.payload.stitches,
+							};
+						} else {
+							return block;
+						}
+					}),
+				},
+			};
+		},
 		resetRows(state) {
 			state.project.blocks.forEach(block => {
 				block.currentBlockRow = 1;
@@ -198,6 +216,7 @@ export const {
 	updateBlockRowStitches,
 	addBlockRow,
 	removeBlockRow,
+	reorderRows,
 	toNextRow,
 	toPrevRow,
 	resetRows,
