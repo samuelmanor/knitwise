@@ -19,6 +19,7 @@ export const StitchTip: FC<StitchTipProps> = ({ children, name, description }) =
 	const [open, setOpen] = useState(false);
 
 	const stitchTipMode = useSelector((state: any) => state.workspace.settings.stitchTipMode);
+	const mode = useSelector((state: any) => state.workspace.mode);
 
 	const tooltipText = (
 		<Grid container direction="column" padding="4px" color={theme.palette.text.secondary}>
@@ -35,11 +36,19 @@ export const StitchTip: FC<StitchTipProps> = ({ children, name, description }) =
 		</Grid>
 	);
 
+	const handleShow = () => {
+		if (mode === "chart") {
+			return open;
+		} else if (mode === "edit") {
+			return false;
+		}
+	};
+
 	return (
 		<Tooltip
 			title={tooltipText}
 			arrow
-			open={open}
+			open={handleShow()}
 			disableFocusListener={stitchTipMode === "click"}
 			disableHoverListener={stitchTipMode === "click"}
 			disableTouchListener={stitchTipMode === "click"}

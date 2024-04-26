@@ -2,6 +2,7 @@ import { Grid, useTheme } from "@mui/material";
 import { FC, useState } from "react";
 import { Block, BlockProps } from "../Block";
 import { useDispatch, useSelector } from "react-redux";
+import { SortableList } from "../Sortable/SortableList";
 
 // export interface ProjectProps {}
 
@@ -12,10 +13,12 @@ export const Project: FC<{}> = () => {
 	// const currentRow = useSelector((state: any) => state.projects.currentRow);
 	const mode = useSelector((state: any) => state.workspace.mode);
 	const blocks = useSelector((state: any) => state.projects.project.blocks);
-	const [showBlockEditor, setShowBlockEditor] = useState(false);
-	const [showBlockSearch, setShowBlockSearch] = useState(false);
-	const [showBlockMenu, setShowBlockMenu] = useState(false);
-	// const [currentDraftBlock, setCurrentDraftBlock] = useState(-1);
+
+	// const [items, setItems] = useState(blocks);
+
+	// useEffect(() => {
+	// 	setItems(blocks);
+	// }, [blocks]);
 
 	const [draftBlockIndex, setDraftBlockIndex] = useState<number | null>(null); // the index of the block that is being edited
 
@@ -85,62 +88,6 @@ export const Project: FC<{}> = () => {
 		);
 	});
 
-	// if (mode === "edit") {
-	// 	return (
-	// 		<Grid container sx={{ background: "gray", border: "2px solid black", justifyContent: "center", gap: 2 }}>
-	// 			{showBlockEditor ? (
-	// 				<BlockEditor blockIndex={currentDraftBlock} closeEditor={() => setShowBlockEditor(false)} />
-	// 			) : null}
-	// 			{!showBlockEditor ? (
-	// 				<Grid item>
-	// 					<IconButton
-	// 						onClick={() => {
-	// 							setShowBlockMenu(true);
-	// 							setCurrentDraftBlock(0);
-	// 						}}
-	// 					>
-	// 						<AddOutlined />
-	// 					</IconButton>
-	// 				</Grid>
-	// 			) : null}
-	// 			{showBlockMenu ? (
-	// 				<Grid container sx={{ position: "absolute" }}>
-	// 					<IconButton onClick={() => setShowBlockMenu(false)}>
-	// 						<CancelOutlined />
-	// 					</IconButton>
-	// 					<Grid item>
-	// 						<Button onClick={() => handleAddNewBlock("new block", [[]])}>
-	// 							<Typography>create new block</Typography>
-	// 						</Button>
-	// 					</Grid>
-	// 					<Grid item>
-	// 						<Button onClick={() => setShowBlockSearch(true)}>
-	// 							<Typography>add new instance of an existing block</Typography>
-	// 						</Button>
-	// 					</Grid>
-	// 				</Grid>
-	// 			) : null}
-	// 			{!showBlockEditor ? project : null}
-	// 			{showBlockSearch ? (
-	// 				<BlockSearch closeBlockSearch={() => setShowBlockSearch(false)} addBlock={handleAddNewBlock} />
-	// 			) : null}
-	// 			{!showBlockEditor ? (
-	// 				<Grid item>
-	// 					<IconButton
-	// 						onClick={() => {
-	// 							setShowBlockMenu(true);
-	// 							setCurrentDraftBlock(blocks.length);
-	// 						}}
-	// 					>
-	// 						<AddOutlined />
-	// 					</IconButton>
-	// 				</Grid>
-	// 			) : null}
-	// 		</Grid>
-	// 	);
-	// }
-
-	// if (mode === "edit") {
 	return (
 		<Grid
 			container
@@ -157,32 +104,24 @@ export const Project: FC<{}> = () => {
 				alignItems: "flex-end",
 			}}
 		>
-			{/* {project} */}
-			{/* {showBlockEditor ? (
-				<BlockEditor blockIndex={currentDraftBlock} closeEditor={() => setShowBlockEditor(false)} />
-			) : (
-				project
-			)} */}
-			{project}
+			{mode === "chart" ? project : null}
+			{mode === "edit" ? (
+				<SortableList
+					items={blocks.map((item, i) => ({
+						id: `${i}`,
+						item: (
+							<Block
+								index={i}
+								currentBlockRow={item.currentBlockRow}
+								blockName={item.blockName}
+								stitches={item.stitches}
+							/>
+						),
+					}))}
+					direction="horizontal"
+					itemType="block"
+				/>
+			) : null}
 		</Grid>
 	);
-	// }
-
-	// if (mode === "chart") {
-	// 	return (
-	// 		<Grid
-	// 			container
-	// 			sx={{
-	// 				width: "fit-content",
-	// 				height: "fit-content",
-	// 				p: 1,
-	// 			}}
-	// 		>
-	// 			{/* <Typography variant="h6">current row: {currentRow}</Typography> */}
-	// 			<Grid container sx={{ flexWrap: "nowrap", gap: 2, border: "2px solid green" }}>
-	// 				{project}
-	// 			</Grid>
-	// 		</Grid>
-	// 	);
-	// }
 };

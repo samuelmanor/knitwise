@@ -13,9 +13,9 @@ export interface BlockProps {
 	currentBlockRow: number;
 	stitches: StitchProps[][];
 	blockName: string;
-	tallestBlockIndex: number;
-	draftBlockIndex: number | null;
-	setDraftBlockIndex: (index: number) => void;
+	tallestBlockIndex?: number;
+	draftBlockIndex?: number | null;
+	setDraftBlockIndex?: (index: number) => void;
 }
 
 /**
@@ -41,9 +41,9 @@ export const Block: FC<BlockProps> = ({
 	const projectRow = useSelector((state: any) => state.projects.projectRow);
 	const mode = useSelector((state: any) => state.workspace.mode);
 
-	const [blockNameDraft, setBlockNameDraft] = useState(blockName);
-	const [blockNameError, setBlockNameError] = useState(false);
-	const [blockNameHelperText, setBlockNameHelperText] = useState("");
+	// const [blockNameDraft, setBlockNameDraft] = useState(blockName);
+	// const [blockNameError, setBlockNameError] = useState(false);
+	// const [blockNameHelperText, setBlockNameHelperText] = useState("");
 	const [draftRow, setDraftRow] = useState<number | null>(null);
 
 	const baseRowRef = useRef<HTMLDivElement>(null);
@@ -107,14 +107,14 @@ export const Block: FC<BlockProps> = ({
 	 * Handles changes to the block name and checks for errors.
 	 * @param e The event object.
 	 */
-	const handleBlockNameChange = e => {
-		setBlockNameDraft(e.target.value);
+	// const handleBlockNameChange = e => {
+	// 	setBlockNameDraft(e.target.value);
 
-		if (e.target.value.length === 0) {
-			setBlockNameError(true);
-			setBlockNameHelperText("cannot be empty");
-		}
-	};
+	// 	if (e.target.value.length === 0) {
+	// 		setBlockNameError(true);
+	// 		setBlockNameHelperText("cannot be empty");
+	// 	}
+	// };
 
 	const handleEditBlock = (index: number | null) => {
 		setDraftBlockIndex(index);
@@ -225,7 +225,7 @@ export const Block: FC<BlockProps> = ({
 			>
 				<BlockContainer>
 					<Grid container sx={{ justifyContent: "center" }}>
-						<ClickAwayListener
+						{/* <ClickAwayListener
 							onClickAway={() =>
 								dispatch(editBlockName({ blockName: blockNameDraft, blockIndex: index }))
 							}
@@ -256,7 +256,8 @@ export const Block: FC<BlockProps> = ({
 								error={blockNameError}
 								helperText={blockNameHelperText}
 							/>
-						</ClickAwayListener>
+						</ClickAwayListener> */}
+						{blockName}
 					</Grid>
 					{rows}
 				</BlockContainer>

@@ -35,6 +35,15 @@ const projectSlice = createSlice({
 				},
 			};
 		},
+		reorderBlocks(state, action) {
+			return {
+				...state,
+				project: {
+					...state.project,
+					blocks: action.payload,
+				},
+			};
+		},
 		addBlock(state, action) {
 			const newBlock = {
 				blockName: action.payload.blockName,
@@ -182,6 +191,7 @@ const projectSlice = createSlice({
 export const {
 	editProjectName,
 	editBlockName,
+	reorderBlocks,
 	addBlock,
 	deleteBlock,
 	updateBlockRowPosition,
