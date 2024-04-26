@@ -5,20 +5,16 @@ import {
 	horizontalListSortingStrategy,
 	verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { SortableItem } from "./SortableItem";
+import { SortableItem, SortableItemProps } from "./SortableItem";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import { reorderBlocks } from "../../reducers/projectReducer";
 import { useDispatch } from "react-redux";
 
-export interface SortableListItem {
-	id: number;
-	item: any;
-}
-
 interface SortableListProps {
-	items: SortableListItem[];
+	items: SortableItemProps[];
 	direction: "horizontal" | "vertical";
 	itemType: "block" | "row" | "stitch";
+	controls?: React.ReactNode;
 }
 
 /**
@@ -27,7 +23,7 @@ interface SortableListProps {
  * @param direction The direction in which the items should be displayed.
  * @param itemType The type of item being sorted.
  */
-export const SortableList: FC<SortableListProps> = ({ items, direction, itemType }) => {
+export const SortableList: FC<SortableListProps> = ({ items, direction, itemType, controls }) => {
 	const dispatch = useDispatch();
 
 	/**
@@ -71,7 +67,7 @@ export const SortableList: FC<SortableListProps> = ({ items, direction, itemType
 				strategy={direction === "vertical" ? verticalListSortingStrategy : horizontalListSortingStrategy}
 			>
 				{items.map((item, i) => (
-					<SortableItem key={i} {...item} />
+					<SortableItem key={i} {...item} controls={controls} />
 				))}
 			</SortableContext>
 		</DndContext>

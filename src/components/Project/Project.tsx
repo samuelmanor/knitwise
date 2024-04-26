@@ -1,8 +1,10 @@
-import { Grid, useTheme } from "@mui/material";
+import { Grid, IconButton, useTheme } from "@mui/material";
 import { FC, useState } from "react";
 import { Block, BlockProps } from "../Block";
 import { useDispatch, useSelector } from "react-redux";
 import { SortableList } from "../Sortable/SortableList";
+import { DeleteOutlined, EditOutlined } from "@mui/icons-material";
+import { deleteBlock } from "../../reducers/projectReducer";
 
 // export interface ProjectProps {}
 
@@ -120,6 +122,37 @@ export const Project: FC<{}> = () => {
 					}))}
 					direction="horizontal"
 					itemType="block"
+					controls={
+						<Grid container sx={{ justifyContent: "center", gap: 3, width: "fit-content" }}>
+							<Grid item>
+								<IconButton
+									sx={{
+										color: theme.palette.primary.main,
+										transform: "scale(1.5)",
+										height: "fit-content",
+										width: "fit-content",
+									}}
+									// onClick={() => handleEditBlock(index)}
+									onClick={() => console.log("hi", 0)}
+								>
+									<EditOutlined />
+								</IconButton>
+							</Grid>
+							<Grid item>
+								<IconButton
+									sx={{
+										color: theme.palette.primary.main,
+										transform: "scale(1.5)",
+										height: "fit-content",
+										width: "fit-content",
+									}}
+									// onClick={() => dispatch(deleteBlock({ blockIndex: 0 }))}
+								>
+									<DeleteOutlined />
+								</IconButton>
+							</Grid>
+						</Grid>
+					}
 				/>
 			) : null}
 		</Grid>
