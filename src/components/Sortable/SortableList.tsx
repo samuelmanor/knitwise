@@ -13,7 +13,6 @@ import { useDispatch } from "react-redux";
 interface SortableListProps {
 	items: SortableItemProps[];
 	direction: "horizontal" | "vertical";
-	itemType: "block" | "row" | "stitch";
 }
 
 /**
@@ -22,7 +21,7 @@ interface SortableListProps {
  * @param direction The direction in which the items should be displayed.
  * @param itemType The type of item being sorted.
  */
-export const SortableList: FC<SortableListProps> = ({ items, direction, itemType }) => {
+export const SortableList: FC<SortableListProps> = ({ items, direction }) => {
 	const dispatch = useDispatch();
 
 	const sensors = useSensors(
@@ -32,6 +31,19 @@ export const SortableList: FC<SortableListProps> = ({ items, direction, itemType
 			},
 		}),
 	);
+
+	/**
+	 * Determines the type of item being sorted.
+	 */
+	const testItemType = (): "block" | "row" | "stitch" => {
+		if (items[0].item.props.hasOwnProperty("currentBlockRow")) {
+			return "block";
+		} else if (items[0].item.props.hasOwnProperty("rowIndex")) {
+			return "row";
+		} else if (items[0].item.props.hasOwnProperty("abbreviation")) {
+			return "stitch";
+		}
+	};
 
 	/**
 	 * Reorders the blocks to match the new positions.
@@ -53,7 +65,7 @@ export const SortableList: FC<SortableListProps> = ({ items, direction, itemType
 		);
 
 		// extract the relevant props from the items and update the store
-		if (itemType === "block") {
+		if (testItemType() === "block") {
 			dispatch(
 				reorderBlocks(
 					reorderedItems.map(item => {

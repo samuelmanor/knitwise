@@ -124,7 +124,6 @@ export const Project: FC<{}> = () => {
 						),
 					}))}
 					direction="horizontal"
-					itemType="block"
 				/>
 			) : (
 				project
