@@ -6,7 +6,6 @@ import { useSortable } from "@dnd-kit/sortable";
 export interface SortableItemProps {
 	id: number;
 	item: any;
-	controls?: React.ReactNode;
 }
 
 /**
@@ -14,7 +13,7 @@ export interface SortableItemProps {
  * @param id The id of the item.
  * @param item The item to be rendered.
  */
-export const SortableItem: FC<SortableItemProps> = ({ id, item, controls }) => {
+export const SortableItem: FC<SortableItemProps> = ({ id, item }) => {
 	const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
 		id: id,
 		transition: { duration: 400, easing: "cubic-bezier(0.25, 1, 0.5, 1)" },
@@ -27,11 +26,8 @@ export const SortableItem: FC<SortableItemProps> = ({ id, item, controls }) => {
 	};
 
 	return (
-		<>
-			<div ref={setNodeRef} {...attributes} {...listeners} style={style}>
-				{item}
-			</div>
-			{controls}
-		</>
+		<div ref={setNodeRef} {...attributes} {...listeners} style={style}>
+			{item}
+		</div>
 	);
 };

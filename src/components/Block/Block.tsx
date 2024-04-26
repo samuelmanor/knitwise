@@ -261,7 +261,7 @@ export const Block: FC<BlockProps> = ({
 					</Grid>
 					{rows}
 				</BlockContainer>
-				{/* <Grid container sx={{ justifyContent: "center", gap: 3, width: "fit-content" }}>
+				<Grid container sx={{ justifyContent: "center", gap: 3, width: "fit-content" }}>
 					<Grid item>
 						<IconButton
 							sx={{
@@ -270,8 +270,7 @@ export const Block: FC<BlockProps> = ({
 								height: "fit-content",
 								width: "fit-content",
 							}}
-							// onClick={() => handleEditBlock(index)}
-							onClick={() => console.log("hi", index)}
+							onClick={() => handleEditBlock(index)}
 						>
 							<EditOutlined />
 						</IconButton>
@@ -289,7 +288,7 @@ export const Block: FC<BlockProps> = ({
 							<DeleteOutlined />
 						</IconButton>
 					</Grid>
-				</Grid> */}
+				</Grid>
 			</Grid>
 		);
 	}

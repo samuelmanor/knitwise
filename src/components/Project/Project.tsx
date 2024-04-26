@@ -1,4 +1,4 @@
-import { Grid, IconButton, useTheme } from "@mui/material";
+import { Grid, IconButton, Tooltip, useTheme } from "@mui/material";
 import { FC, useState } from "react";
 import { Block, BlockProps } from "../Block";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +23,7 @@ export const Project: FC<{}> = () => {
 	// }, [blocks]);
 
 	const [draftBlockIndex, setDraftBlockIndex] = useState<number | null>(null); // the index of the block that is being edited
+	const [dragBlocksEnabled, setDragBlocksEnabled] = useState(false);
 
 	const dispatch = useDispatch();
 	const theme = useTheme();
@@ -106,7 +107,6 @@ export const Project: FC<{}> = () => {
 				alignItems: "flex-end",
 			}}
 		>
-			{mode === "chart" ? project : null}
 			{mode === "edit" ? (
 				<SortableList
 					items={blocks.map((item, i) => ({
@@ -117,44 +117,18 @@ export const Project: FC<{}> = () => {
 								currentBlockRow={item.currentBlockRow}
 								blockName={item.blockName}
 								stitches={item.stitches}
+								tallestBlockIndex={getTallestBlock()}
+								draftBlockIndex={draftBlockIndex}
+								setDraftBlockIndex={setDraftBlockIndex}
 							/>
 						),
 					}))}
 					direction="horizontal"
 					itemType="block"
-					controls={
-						<Grid container sx={{ justifyContent: "center", gap: 3, width: "fit-content" }}>
-							<Grid item>
-								<IconButton
-									sx={{
-										color: theme.palette.primary.main,
-										transform: "scale(1.5)",
-										height: "fit-content",
-										width: "fit-content",
-									}}
-									// onClick={() => handleEditBlock(index)}
-									onClick={() => console.log("hi", 0)}
-								>
-									<EditOutlined />
-								</IconButton>
-							</Grid>
-							<Grid item>
-								<IconButton
-									sx={{
-										color: theme.palette.primary.main,
-										transform: "scale(1.5)",
-										height: "fit-content",
-										width: "fit-content",
-									}}
-									// onClick={() => dispatch(deleteBlock({ blockIndex: 0 }))}
-								>
-									<DeleteOutlined />
-								</IconButton>
-							</Grid>
-						</Grid>
-					}
 				/>
-			) : null}
+			) : (
+				project
+			)}
 		</Grid>
 	);
 };

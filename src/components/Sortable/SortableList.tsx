@@ -6,7 +6,7 @@ import {
 	verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { SortableItem, SortableItemProps } from "./SortableItem";
-import { DndContext, closestCenter } from "@dnd-kit/core";
+import { DndContext, MouseSensor, closestCenter, useSensor, useSensors } from "@dnd-kit/core";
 import { reorderBlocks } from "../../reducers/projectReducer";
 import { useDispatch } from "react-redux";
 
@@ -14,7 +14,6 @@ interface SortableListProps {
 	items: SortableItemProps[];
 	direction: "horizontal" | "vertical";
 	itemType: "block" | "row" | "stitch";
-	controls?: React.ReactNode;
 }
 
 /**
@@ -23,8 +22,16 @@ interface SortableListProps {
  * @param direction The direction in which the items should be displayed.
  * @param itemType The type of item being sorted.
  */
-export const SortableList: FC<SortableListProps> = ({ items, direction, itemType, controls }) => {
+export const SortableList: FC<SortableListProps> = ({ items, direction, itemType }) => {
 	const dispatch = useDispatch();
+
+	const sensors = useSensors(
+		useSensor(MouseSensor, {
+			activationConstraint: {
+				distance: 5,
+			},
+		}),
+	);
 
 	/**
 	 * Reorders the blocks to match the new positions.
@@ -45,6 +52,7 @@ export const SortableList: FC<SortableListProps> = ({ items, direction, itemType
 			items.findIndex(item => item.id === over.id),
 		);
 
+		// extract the relevant props from the items and update the store
 		if (itemType === "block") {
 			dispatch(
 				reorderBlocks(
@@ -61,13 +69,13 @@ export const SortableList: FC<SortableListProps> = ({ items, direction, itemType
 	};
 
 	return (
-		<DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+		<DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd} sensors={sensors}>
 			<SortableContext
 				items={items}
 				strategy={direction === "vertical" ? verticalListSortingStrategy : horizontalListSortingStrategy}
 			>
 				{items.map((item, i) => (
-					<SortableItem key={i} {...item} controls={controls} />
+					<SortableItem key={i} {...item} />
 				))}
 			</SortableContext>
 		</DndContext>
