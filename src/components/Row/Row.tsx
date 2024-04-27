@@ -1,17 +1,18 @@
 import { Grid, IconButton, Tooltip, useTheme } from "@mui/material";
 import { FC } from "react";
 import { Stitch, StitchProps } from "../Stitch";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { DirectionsOverlay } from "../DirectionsOverlay";
-import { EditOutlined, SaveOutlined, SwapVertOutlined } from "@mui/icons-material";
+import { DeleteOutlined, EditOutlined, SaveOutlined, SwapVertOutlined } from "@mui/icons-material";
+import { removeBlockRow } from "../../reducers/projectReducer";
 
 export interface RowProps {
 	stitches: StitchProps[];
-	highlightRow: boolean;
+	highlightRow?: boolean;
 	rowIndex: number;
 	blockIndex: number;
 	editingBlock: boolean;
-	draftRow: number | null;
+	draftRow?: number | null;
 	setDraftRow?: (row: number) => void;
 	// showLeftRowMarker?: boolean;
 	// showRightRowMarker?: boolean;
@@ -43,6 +44,7 @@ export const Row: FC<RowProps> = ({
 	const stitchDisplaySetting = useSelector((state: any) => state.workspace.settings.stitchDisplay);
 
 	const theme = useTheme();
+	const dispatch = useDispatch();
 
 	if (!stitches) {
 		return null; // make error row ?
@@ -91,32 +93,6 @@ export const Row: FC<RowProps> = ({
 		</Grid>
 	);
 
-	// return (
-	// 	// <Grid
-	// 	// 	container
-	// 	// 	justifyContent="space-between"
-	// 	// 	sx={{
-	// 	// 		backgroundColor: `${
-	// 	// 			highlightRow && currentMode === "chart" ? theme.palette.primary.light : "transparent"
-	// 	// 		}`,
-	// 	// 		pl: 0.5,
-	// 	// 		pr: 0.5,
-	// 	// 	}}
-	// 	// 	data-testid={`row${rowIndex}`}
-	// 	// >
-	// 	// 	{/* {highlightRow && showLeftRowMarker && currentMode === "chart" ? <RowMarker position="left" /> : null} */}
-	// 	// 	{stitches.map((stitch, i) => {
-	// 	// 		return (
-	// 	// 			<Grid item display="inline">
-	// 	// 				<Stitch key={i} index={i} view={"chart"} {...stitch} />
-	// 	// 			</Grid>
-	// 	// 		);
-	// 	// 	})}
-	// 	// 	{/* {highlightRow && showRightRowMarker && currentMode === "chart" ? <RowMarker position="right" /> : null} */}
-	// 	// </Grid>
-
-	// );
-
 	if (mode === "chart" && highlightRow) {
 		return (
 			<Grid container>
@@ -127,40 +103,120 @@ export const Row: FC<RowProps> = ({
 
 	// (draftRow === rowIndex && mode === "editBlock")
 
+	// if (mode === "editBlock" && editingBlock && draftRow === rowIndex) {
+	// 	return <div onClick={() => setDraftRow(null)}>test</div>;
+	// }
+
 	if (mode === "editBlock" && editingBlock) {
+		// return (
+		// 	<Grid container sx={{ flexWrap: "nowrap" }}>
+		// 		{/* somehow make this something other than a tooltip? */}
+		// 		<Tooltip
+		// 			title={
+		// 				<Grid container>
+		// 					<Grid item>
+		// 						<IconButton
+		// 							onClick={() => (draftRow === rowIndex ? setDraftRow(null) : setDraftRow(rowIndex))}
+		// 						>
+		// 							{draftRow === rowIndex ? <SaveOutlined /> : <EditOutlined />}
+		// 						</IconButton>
+		// 					</Grid>
+		// 					<Grid item>
+		// 						<IconButton>
+		// 							<SwapVertOutlined />
+		// 						</IconButton>
+		// 					</Grid>
+		// 				</Grid>
+		// 			}
+		// 			placement="right"
+		// 			open={draftRow === null || draftRow === rowIndex}
+		// 			componentsProps={{
+		// 				tooltip: {
+		// 					sx: {
+		// 						backgroundColor: "transparent",
+		// 					},
+		// 				},
+		// 			}}
+		// 			slotProps={{ popper: { modifiers: [{ name: "offset", options: { offset: [0, -10] } }] } }}
+		// 		>
+		// 			<Grid item>{row}</Grid>
+		// 		</Tooltip>
+		// 	</Grid>
+		// );
 		return (
-			<Grid container sx={{ flexWrap: "nowrap" }}>
-				{/* somehow make this something other than a tooltip? */}
-				<Tooltip
-					title={
-						<Grid container>
+			<Grid container sx={{ flexWrap: "nowrap", gap: 1, alignItems: "center" }}>
+				<Grid item sx={{ border: `2px solid ${theme.palette.primary.main}`, borderRadius: "5px" }}>
+					{row}
+				</Grid>
+				<Grid
+					item
+					container
+					sx={{
+						flexDirection: "row",
+						flexWrap: "nowrap",
+						gap: 0.5,
+					}}
+				>
+					{draftRow === null ? (
+						<>
 							<Grid item>
 								<IconButton
-									onClick={() => (draftRow === rowIndex ? setDraftRow(null) : setDraftRow(rowIndex))}
+									sx={{
+										color: theme.palette.primary.main,
+										transform: "scale(1.5)",
+										height: "fit-content",
+										width: "fit-content",
+									}}
+									onClick={() => setDraftRow(rowIndex)}
 								>
-									{draftRow === rowIndex ? <SaveOutlined /> : <EditOutlined />}
+									<EditOutlined />
 								</IconButton>
 							</Grid>
 							<Grid item>
-								<IconButton>
+								<IconButton
+									disableRipple
+									sx={{
+										color: theme.palette.primary.main,
+										transform: "scale(1.5)",
+										height: "fit-content",
+										width: "fit-content",
+									}}
+									onClick={() => console.log(draftRow)}
+								>
 									<SwapVertOutlined />
 								</IconButton>
 							</Grid>
+							<Grid item>
+								<IconButton
+									sx={{
+										color: theme.palette.primary.main,
+										transform: "scale(1.5)",
+										height: "fit-content",
+										width: "fit-content",
+									}}
+									onClick={() => dispatch(removeBlockRow({ blockIndex, rowIndex }))}
+								>
+									<DeleteOutlined />
+								</IconButton>
+							</Grid>
+						</>
+					) : null}
+					{draftRow === rowIndex ? (
+						<Grid item>
+							<IconButton
+								sx={{
+									color: theme.palette.primary.main,
+									transform: "scale(1.5)",
+									height: "fit-content",
+									width: "fit-content",
+								}}
+								onClick={() => setDraftRow(null)}
+							>
+								<SaveOutlined />
+							</IconButton>
 						</Grid>
-					}
-					placement="right"
-					open={draftRow === null || draftRow === rowIndex}
-					componentsProps={{
-						tooltip: {
-							sx: {
-								backgroundColor: "transparent",
-							},
-						},
-					}}
-					slotProps={{ popper: { modifiers: [{ name: "offset", options: { offset: [0, -10] } }] } }}
-				>
-					<Grid item>{row}</Grid>
-				</Tooltip>
+					) : null}
+				</Grid>
 			</Grid>
 		);
 	}
