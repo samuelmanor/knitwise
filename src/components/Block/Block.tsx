@@ -305,6 +305,7 @@ export const Block: FC<BlockProps> = ({
 								transform: "scale(1.5)",
 								height: "fit-content",
 								width: "fit-content",
+								cursor: "grab",
 							}}
 							disableRipple
 						>

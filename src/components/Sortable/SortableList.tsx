@@ -7,7 +7,7 @@ import {
 } from "@dnd-kit/sortable";
 import { SortableItem, SortableItemProps } from "./SortableItem";
 import { DndContext, MouseSensor, closestCenter, useSensor, useSensors } from "@dnd-kit/core";
-import { reorderBlocks, reorderRows } from "../../reducers/projectReducer";
+import { reorderBlocks, reorderRows, updateBlockRowStitches } from "../../reducers/projectReducer";
 import { useDispatch } from "react-redux";
 
 interface SortableListProps {
@@ -80,6 +80,15 @@ export const SortableList: FC<SortableListProps> = ({ items, direction }) => {
 		} else if (testItemType() === "row") {
 			const stitches = reorderedItems.map(item => item.item.props.stitches);
 			dispatch(reorderRows({ stitches, blockIndex: reorderedItems[0].item.props.blockIndex }));
+		} else if (testItemType() === "stitch") {
+			const stitches = reorderedItems.map(item => item.item.props);
+			dispatch(
+				updateBlockRowStitches({
+					stitches,
+					blockIndex: reorderedItems[0].item.props.placement.blockIndex,
+					rowIndex: reorderedItems[0].item.props.placement.rowIndex,
+				}),
+			);
 		}
 	};
 

@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DirectionsOverlay } from "../DirectionsOverlay";
 import { DeleteOutlined, EditOutlined, SaveOutlined, SwapVertOutlined } from "@mui/icons-material";
 import { removeBlockRow } from "../../reducers/projectReducer";
+import { SortableList } from "../Sortable/SortableList";
 
 export interface RowProps {
 	stitches: StitchProps[];
@@ -107,45 +108,67 @@ export const Row: FC<RowProps> = ({
 	// 	return <div onClick={() => setDraftRow(null)}>test</div>;
 	// }
 
-	if (mode === "editBlock" && editingBlock) {
-		// return (
-		// 	<Grid container sx={{ flexWrap: "nowrap" }}>
-		// 		{/* somehow make this something other than a tooltip? */}
-		// 		<Tooltip
-		// 			title={
-		// 				<Grid container>
-		// 					<Grid item>
-		// 						<IconButton
-		// 							onClick={() => (draftRow === rowIndex ? setDraftRow(null) : setDraftRow(rowIndex))}
-		// 						>
-		// 							{draftRow === rowIndex ? <SaveOutlined /> : <EditOutlined />}
-		// 						</IconButton>
-		// 					</Grid>
-		// 					<Grid item>
-		// 						<IconButton>
-		// 							<SwapVertOutlined />
-		// 						</IconButton>
-		// 					</Grid>
-		// 				</Grid>
-		// 			}
-		// 			placement="right"
-		// 			open={draftRow === null || draftRow === rowIndex}
-		// 			componentsProps={{
-		// 				tooltip: {
-		// 					sx: {
-		// 						backgroundColor: "transparent",
-		// 					},
-		// 				},
-		// 			}}
-		// 			slotProps={{ popper: { modifiers: [{ name: "offset", options: { offset: [0, -10] } }] } }}
-		// 		>
-		// 			<Grid item>{row}</Grid>
-		// 		</Tooltip>
-		// 	</Grid>
-		// );
+	// this row is being edited
+	if (mode === "editBlock" && editingBlock && draftRow === rowIndex) {
 		return (
 			<Grid container sx={{ flexWrap: "nowrap", gap: 1, alignItems: "center" }}>
-				<Grid item sx={{ border: `2px solid ${theme.palette.primary.main}`, borderRadius: "5px" }}>
+				<Grid
+					container
+					sx={{
+						border: `2px solid ${theme.palette.primary.main}`,
+						borderRadius: "5px",
+						backgroundColor: theme.palette.background.paper,
+						flexWrap: "nowrap",
+					}}
+					onClick={() => console.log(rowIndex, blockIndex)}
+				>
+					{/* {row} */}
+					<SortableList
+						items={stitches.map((item, i) => ({
+							id: i,
+							item: <Stitch {...item} view="edit" placement={{ rowIndex, blockIndex }} />,
+						}))}
+						direction="horizontal"
+					/>
+				</Grid>
+				<Grid
+					container
+					sx={{
+						flexDirection: "row",
+						flexWrap: "nowrap",
+						gap: 0.5,
+					}}
+				>
+					<Grid item>
+						<IconButton
+							sx={{
+								color: theme.palette.primary.main,
+								transform: "scale(1.5)",
+								height: "fit-content",
+								width: "fit-content",
+							}}
+							onClick={() => setDraftRow(null)}
+						>
+							<SaveOutlined />
+						</IconButton>
+					</Grid>
+				</Grid>
+			</Grid>
+		);
+	}
+
+	// block is being edited, but this specific row is not
+	if (mode === "editBlock" && editingBlock) {
+		return (
+			<Grid container sx={{ flexWrap: "nowrap", gap: 1, alignItems: "center" }}>
+				<Grid
+					item
+					sx={{
+						border: `2px solid ${theme.palette.primary.main}`,
+						borderRadius: "5px",
+						backgroundColor: theme.palette.background.paper,
+					}}
+				>
 					{row}
 				</Grid>
 				<Grid
@@ -180,6 +203,7 @@ export const Row: FC<RowProps> = ({
 										transform: "scale(1.5)",
 										height: "fit-content",
 										width: "fit-content",
+										cursor: "grab",
 									}}
 									onClick={() => console.log(draftRow)}
 								>
@@ -200,21 +224,6 @@ export const Row: FC<RowProps> = ({
 								</IconButton>
 							</Grid>
 						</>
-					) : null}
-					{draftRow === rowIndex ? (
-						<Grid item>
-							<IconButton
-								sx={{
-									color: theme.palette.primary.main,
-									transform: "scale(1.5)",
-									height: "fit-content",
-									width: "fit-content",
-								}}
-								onClick={() => setDraftRow(null)}
-							>
-								<SaveOutlined />
-							</IconButton>
-						</Grid>
 					) : null}
 				</Grid>
 			</Grid>

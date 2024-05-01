@@ -23,50 +23,41 @@ export const BlockEditor: FC<BlockEditorProps> = ({ block, blockIndex, finishEdi
 				sx={{
 					display: "flex",
 					flexDirection: "column-reverse",
-					// border: `2px solid ${theme.palette.primary.main}`,
 					gap: 1,
 				}}
 			>
-				<SortableList
-					items={block.stitches.map((item, i) => ({
-						id: i + 1,
-						item: (
-							// <Grid container sx={{ display: "flex", flexWrap: "nowrap" }}>
-							// 	<Grid
-							// 		container
-							// 		sx={{
-							// 			border: `2px solid ${theme.palette.primary.main}`,
-							// 			backgroundColor: theme.palette.background.paper,
-							// 			borderRadius: "5px",
-							// 		}}
-							// 	>
-							// 		<Row stitches={item} editingBlock={true} rowIndex={i} blockIndex={blockIndex} />
-							// 	</Grid>
-							// 	<Grid container>
-							// 		<Grid item>
-							// 			<IconButton>
-							// 				<EditOutlined />
-							// 			</IconButton>
-							// 		</Grid>
-							// 		<Grid item>
-							// 			<IconButton>
-							// 				<SwapVertOutlined />
-							// 			</IconButton>
-							// 		</Grid>
-							// 	</Grid>
-							// </Grid>
+				{draftRow === null ? (
+					<SortableList
+						items={block.stitches.map((item, i) => ({
+							id: i + 1,
+							item: (
+								<Row
+									stitches={item}
+									editingBlock={true}
+									rowIndex={i}
+									blockIndex={blockIndex}
+									draftRow={draftRow}
+									setDraftRow={setDraftRow}
+								/>
+							),
+						}))}
+						direction="vertical"
+					/>
+				) : (
+					block.stitches.map((row, i) => {
+						return (
 							<Row
-								stitches={item}
+								stitches={row}
 								editingBlock={true}
 								rowIndex={i}
 								blockIndex={blockIndex}
 								draftRow={draftRow}
 								setDraftRow={setDraftRow}
+								key={`row${block.blockName}${i}`}
 							/>
-						),
-					}))}
-					direction="vertical"
-				/>
+						);
+					})
+				)}
 			</Grid>
 			<Grid item onClick={() => finishEditing(null)}>
 				close
