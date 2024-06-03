@@ -32,7 +32,41 @@ export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbo
 
 	const theme = useTheme();
 
-	if (view === "chart" || view === undefined) {
+	// now refactor row because post-rearrange stitch bug still exists
+
+	return (
+		<StitchTip name={name} description={description}>
+			<Grid
+				item
+				sx={{
+					marginY: 0.5,
+					paddingX: 0.5,
+					display: "flex",
+					justifyContent: "center",
+					letterSpacing: symbol.length * 0.5,
+					border: symbol.length > 1 ? `2px solid ${theme.palette.primary.main}` : null,
+					borderRadius: "5px",
+					color: theme.palette.text.primary,
+				}}
+			>
+				{view === "search" ? "test" : null}
+				{mode !== "chart" && view === "edit" ? (
+					<Grid container>
+						<Typography>{symbol}</Typography>
+						<Typography>{abbreviation}</Typography>
+						penis
+					</Grid>
+				) : (
+					<Typography>{stitchDisplaySetting === "symbol" ? symbol : abbreviation}</Typography>
+				)}
+			</Grid>
+		</StitchTip>
+	);
+};
+
+/*
+
+if (mode === "chart" || view === "chart") {
 		return (
 			<StitchTip name={name} description={description}>
 				<Grid
@@ -70,7 +104,7 @@ export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbo
 		);
 	}
 
-	if (view === "edit") {
+	if (view === "edit" && placement) {
 		return (
 			<Grid
 				onClick={() => console.log(placement)}
@@ -98,7 +132,7 @@ export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbo
 			// 	container
 			// 	sx={{ border: "2px solid red", flexDirection: "column", alignItems: "center", cursor: "pointer" }}
 			// >
-			// 	{/* <Grid item>{symbol}</Grid> */}
+			// 	<Grid item>{symbol}</Grid>
 			// 	<Grid item>{name}</Grid>
 			// </Grid>
 			<Grid
@@ -126,4 +160,6 @@ export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbo
 			</Grid>
 		);
 	}
-};
+
+
+*/

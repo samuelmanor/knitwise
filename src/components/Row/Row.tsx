@@ -147,7 +147,10 @@ export const Row: FC<RowProps> = ({
 								height: "fit-content",
 								width: "fit-content",
 							}}
-							onClick={() => setDraftRow(null)}
+							onClick={() => {
+								setDraftRow(null);
+								console.log("hi");
+							}}
 						>
 							<SaveOutlined />
 						</IconButton>
@@ -205,7 +208,6 @@ export const Row: FC<RowProps> = ({
 										width: "fit-content",
 										cursor: "grab",
 									}}
-									onClick={() => console.log(draftRow)}
 								>
 									<SwapVertOutlined />
 								</IconButton>

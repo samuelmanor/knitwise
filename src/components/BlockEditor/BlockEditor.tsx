@@ -15,8 +15,6 @@ export const BlockEditor: FC<BlockEditorProps> = ({ block, blockIndex, finishEdi
 	const [draftRow, setDraftRow] = useState<number | null>(null);
 	const theme = useTheme();
 
-	// because finishEditing saves the entire block to the redux store, we don't need to have rows or stitches have their own actions ?
-
 	return (
 		<Grid container sx={{ flexDirection: "column" }}>
 			<Grid item>{block.blockName}</Grid>
