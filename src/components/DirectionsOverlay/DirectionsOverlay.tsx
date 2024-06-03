@@ -47,8 +47,8 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockI
 		let directions = "";
 		let count = 1;
 
-		// This combines the stitches in the row into a single string of directions.
-		// If the stitch is the same as the previous stitch, it's combined into a single instruction.
+		// This combines the stitches in the row into a single string.
+		// If the current stitch is the same as the previous stitch, it's combined into a single instruction.
 		// ex. "knit 2, purl 2, knit 2" instead of "k, k, p, p, k, k"
 		for (let i = 1; i < stitches.length; i++) {
 			const repeat = stitches[i].name === stitches[i - 1].name;
@@ -72,15 +72,6 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockI
 			mode === "simple" ? stitches[stitches.length - 1].name : stitches[stitches.length - 1].description
 		}`;
 		return directions;
-	};
-
-	// showLeftRowMarker={index === 0 && projectRow % 2 === 0}
-	// 				showRightRowMarker={index === project.blocks.length - 1 && projectRow % 2 === 1}
-
-	const rowMarkerPlacement = (): "left" | "right" => {
-		if (showLeftRowMarker || showRightRowMarker) {
-			return currentRow % 2 === 0 ? "left" : "right";
-		}
 	};
 
 	return (
@@ -132,7 +123,17 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockI
 			<Tooltip
 				title={rowMarkerLabel}
 				open={showLeftRowMarker || showRightRowMarker}
-				placement={rowMarkerPlacement()}
+				placement={showLeftRowMarker ? "left" : "right"}
+				PopperProps={{
+					popperOptions: {
+						modifiers: [
+							{
+								name: "flip",
+								enabled: false,
+							},
+						],
+					},
+				}}
 			>
 				<Grid container>{row}</Grid>
 			</Tooltip>
