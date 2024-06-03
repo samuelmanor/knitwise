@@ -24,6 +24,8 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 	const [showResetRowCountWarning, setShowResetRowCountWarning] = useState(false);
 	const [showResetProjectWarning, setShowResetProjectWarning] = useState(false);
 
+	const disableSettings = showResetProjectWarning || showResetRowCountWarning;
+
 	const dispatch = useDispatch();
 	const theme = useTheme();
 
@@ -61,8 +63,8 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 			<Typography variant="h4">are you sure?</Typography>
 			<Typography variant="h4">
 				{showResetRowCountWarning
-					? "this will reset the row count for the project and all its blocks."
-					: "this will reset the project, deleting all blocks and rows, except for those saved in the editor."}
+					? "this will reset the row counter for the project and all its blocks."
+					: "this will reset the project, deleting all the current blocks and their rows."}
 			</Typography>
 			<Grid item sx={{ pt: 2, display: "flex", gap: 4, justifyContent: "center" }}>
 				<Button
@@ -113,11 +115,11 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 						<SaveOutlined sx={{ transform: "scale(2)" }} />
 					</IconButton>
 				</Grid>
-				{showResetRowCountWarning || showResetProjectWarning ? resetWarning : null}
+				{disableSettings ? resetWarning : null}
 				<Grid container flexDirection={"column"} paddingLeft="20px">
 					<Grid item>
 						<Typography variant="h3">theme</Typography>
-						<FormControl>
+						<FormControl disabled={disableSettings}>
 							<RadioGroup
 								row
 								onChange={e => dispatch(changeSetting({ setting: "theme", value: e.target.value }))}
@@ -146,7 +148,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 					<Grid item>
 						<Typography variant="h3">stitch display</Typography>
 						<Typography variant="h4">how stitches are displayed in the chart</Typography>
-						<FormControl>
+						<FormControl disabled={disableSettings}>
 							<RadioGroup
 								row
 								onChange={e =>
@@ -171,7 +173,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 					<Grid item>
 						<Typography variant="h3">stitch info</Typography>
 						<Typography variant="h4">how the stitch details pop-up is triggered</Typography>
-						<FormControl>
+						<FormControl disabled={disableSettings}>
 							<RadioGroup
 								row
 								onChange={e =>
@@ -198,7 +200,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 						<Typography variant="h4">
 							display stitch names or directions in the chart, or not at all
 						</Typography>
-						<FormControl>
+						<FormControl disabled={disableSettings}>
 							<RadioGroup
 								row
 								onChange={e =>
@@ -239,7 +241,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 									"fontSize": "18px",
 								}}
 								onClick={() => setShowResetRowCountWarning(true)}
-								disabled={showResetRowCountWarning}
+								disabled={showResetRowCountWarning || showResetProjectWarning}
 							>
 								reset row count
 							</Button>
@@ -256,7 +258,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 									"fontSize": "18px",
 								}}
 								onClick={() => setShowResetProjectWarning(true)}
-								disabled={showResetProjectWarning}
+								disabled={showResetProjectWarning || showResetRowCountWarning}
 							>
 								reset project
 							</Button>

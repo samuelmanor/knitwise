@@ -125,6 +125,7 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockI
 				open={showLeftRowMarker || showRightRowMarker}
 				placement={showLeftRowMarker ? "left" : "right"}
 				PopperProps={{
+					disablePortal: true,
 					popperOptions: {
 						modifiers: [
 							{
