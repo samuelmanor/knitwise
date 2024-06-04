@@ -56,6 +56,15 @@ const componentOverrides: ThemeOptions["components"] = {
 			},
 		},
 	},
+	MuiIconButton: {
+		styleOverrides: {
+			root: {
+				transform: "scale(1.5)",
+				height: "fit-content",
+				width: "fit-content",
+			},
+		},
+	},
 };
 
 export const lightTheme: ThemeOptions = {

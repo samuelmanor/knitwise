@@ -1,7 +1,8 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { StitchTip } from "../StitchTip";
 import { Grid, Typography, useTheme } from "@mui/material";
 import { useSelector } from "react-redux";
+import { DeleteOutlined, EditOutlined } from "@mui/icons-material";
 
 export interface StitchProps {
 	name?: string;
@@ -10,7 +11,7 @@ export interface StitchProps {
 	description?: string;
 	width?: number;
 	index?: number;
-	view?: "chart" | "search" | "edit";
+	view?: "chart" | "search" | "edit"; // make obsolete
 	placement?: {
 		blockIndex: number;
 		rowIndex: number;
@@ -30,35 +31,60 @@ export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbo
 	const stitchDisplaySetting = useSelector((state: any) => state.workspace.settings.stitchDisplay);
 	const mode = useSelector((state: any) => state.workspace.mode);
 
+	const [selected, setSelected] = useState(false);
+
 	const theme = useTheme();
 
-	// now refactor row because post-rearrange stitch bug still exists
+	const cursor = () => {
+		if (mode === "chart") {
+			return "pointer";
+		} else if (mode === "editBlock" && placement !== undefined && !selected) {
+			return "grab";
+		} else {
+			return "default";
+		}
+	};
 
 	return (
 		<StitchTip name={name} description={description}>
 			<Grid
-				item
+				container
+				onClick={() => setSelected(!selected)}
 				sx={{
-					marginY: 0.5,
-					paddingX: 0.5,
-					display: "flex",
-					justifyContent: "center",
-					letterSpacing: symbol.length * 0.5,
-					border: symbol.length > 1 ? `2px solid ${theme.palette.primary.main}` : null,
-					borderRadius: "5px",
-					color: theme.palette.text.primary,
+					flexDirection: "vertical",
+					border: selected ? `2px solid ${theme.palette.primary.main}` : "none",
 				}}
 			>
-				{view === "search" ? "test" : null}
-				{mode !== "chart" && view === "edit" ? (
-					<Grid container>
-						<Typography>{symbol}</Typography>
-						<Typography>{abbreviation}</Typography>
-						penis
-					</Grid>
-				) : (
-					<Typography>{stitchDisplaySetting === "symbol" ? symbol : abbreviation}</Typography>
-				)}
+				<Grid
+					item
+					sx={{
+						marginY: 0.5,
+						paddingX: 0.5,
+						display: "flex",
+						justifyContent: "center",
+						letterSpacing: symbol.length * 0.5,
+						border: symbol.length > 1 ? `2px solid ${theme.palette.primary.main}` : null,
+						borderRadius: "5px",
+						color: theme.palette.text.primary,
+						cursor: cursor(),
+					}}
+					onClick={() => console.log(placement)}
+				>
+					{view === "search" ? "test" : null}
+					{mode !== "chart" && view === "edit" ? (
+						<Grid container>
+							<Typography>{symbol}</Typography>
+							<Typography>{abbreviation}</Typography>
+							penis
+						</Grid>
+					) : (
+						<Typography>{stitchDisplaySetting === "symbol" ? symbol : abbreviation}</Typography>
+					)}
+				</Grid>
+				<Grid item sx={{ display: selected ? "inline" : "none" }}>
+					<EditOutlined />
+					<DeleteOutlined />
+				</Grid>
 			</Grid>
 		</StitchTip>
 	);

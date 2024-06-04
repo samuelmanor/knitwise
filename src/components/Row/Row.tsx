@@ -1,9 +1,9 @@
 import { Grid, IconButton, Tooltip, useTheme } from "@mui/material";
-import { FC } from "react";
+import { FC, ReactNode } from "react";
 import { Stitch, StitchProps } from "../Stitch";
 import { useDispatch, useSelector } from "react-redux";
 import { DirectionsOverlay } from "../DirectionsOverlay";
-import { DeleteOutlined, EditOutlined, SaveOutlined, SwapVertOutlined } from "@mui/icons-material";
+import { AddOutlined, DeleteOutlined, EditOutlined, SaveOutlined, SwapVertOutlined } from "@mui/icons-material";
 import { removeBlockRow } from "../../reducers/projectReducer";
 import { SortableList } from "../Sortable/SortableList";
 
@@ -66,6 +66,97 @@ export const Row: FC<RowProps> = ({
 	const row = (
 		<Grid
 			container
+			sx={{
+				backgroundColor:
+					highlightRow && mode === "chart" ? theme.palette.primary.light : theme.palette.background.paper,
+				borderRadius: highlightRow && mode === "chart" ? "none" : "5px",
+				paddingX: 0.5,
+				minWidth: calcWidth(),
+				flexWrap: "nowrap",
+				justifyContent: "space-between",
+			}}
+		>
+			{stitches.map((stitch, i) => {
+				return (
+					<Grid item display="inline">
+						<Stitch key={i} index={i} {...stitch} placement={undefined} />
+					</Grid>
+				);
+			})}
+		</Grid>
+	);
+
+	// this row is being worked in the chart
+	if (mode === "chart" && highlightRow) {
+		return <DirectionsOverlay rowIndex={rowIndex} blockIndex={blockIndex} row={row} />;
+	}
+
+	// this row is being edited
+	if (mode === "editBlock" && editingBlock && draftRow === rowIndex) {
+		return (
+			<Grid container sx={{ border: "2px solid red" }}>
+				<Grid
+					container
+					sx={{
+						backgroundColor: highlightRow && mode === "chart" ? theme.palette.primary.light : "transparent",
+						paddingX: 0.5,
+						flexWrap: "nowrap",
+						justifyContent: "space-between",
+						minWidth: calcWidth(),
+					}}
+				>
+					<SortableList
+						items={stitches.map((item, i) => ({
+							id: i,
+							item: <Stitch {...item} placement={{ rowIndex, blockIndex }} />,
+						}))}
+						direction="horizontal"
+					/>
+				</Grid>
+				<Grid>
+					<IconButton sx={{ color: theme.palette.primary.main }}>
+						<AddOutlined />
+					</IconButton>
+					<IconButton sx={{ color: theme.palette.primary.main }} onClick={() => setDraftRow(null)}>
+						<SaveOutlined />
+					</IconButton>
+				</Grid>
+			</Grid>
+		);
+	}
+
+	// block is being edited, but this specific row is not
+	if (mode === "editBlock" && editingBlock) {
+		return (
+			<Grid container sx={{ flexWrap: "nowrap", alignItems: "center", gap: 1.5 }}>
+				{row}
+				<Grid container display={draftRow !== null ? "none" : undefined} sx={{ gap: 0.5, flexWrap: "nowrap" }}>
+					<IconButton sx={{ color: theme.palette.primary.main }} onClick={() => setDraftRow(rowIndex)}>
+						<EditOutlined />
+					</IconButton>
+					<IconButton sx={{ color: theme.palette.primary.main, cursor: "grab" }}>
+						<SwapVertOutlined />
+					</IconButton>
+					<IconButton
+						sx={{ color: theme.palette.primary.main }}
+						onClick={() => dispatch(removeBlockRow({ blockIndex, rowIndex }))}
+					>
+						<DeleteOutlined />
+					</IconButton>
+				</Grid>
+			</Grid>
+		);
+	}
+
+	// base state; this row is not being worked or edited
+	return row;
+};
+
+/*
+
+	const row = (
+		<Grid
+			container
 			justifyContent="space-between"
 			sx={{
 				backgroundColor: `${highlightRow && mode === "chart" ? theme.palette.primary.light : "transparent"}`,
@@ -77,7 +168,7 @@ export const Row: FC<RowProps> = ({
 			}}
 			data-testid={`row${rowIndex}`}
 		>
-			{/* {highlightRow && showLeftRowMarker && currentMode === "chart" ? <RowMarker position="left" /> : null} */}
+
 			{stitches.map((stitch, i) => {
 				return (
 					<Grid item display="inline">
@@ -90,11 +181,10 @@ export const Row: FC<RowProps> = ({
 					</Grid>
 				);
 			})}
-			{/* {highlightRow && showRightRowMarker && currentMode === "chart" ? <RowMarker position="right" /> : null} */}
 		</Grid>
 	);
 
-	if (mode === "chart" && highlightRow) {
+		if (mode === "chart" && highlightRow) {
 		return (
 			<Grid container>
 				<DirectionsOverlay rowIndex={rowIndex} blockIndex={blockIndex} row={row} />
@@ -102,13 +192,13 @@ export const Row: FC<RowProps> = ({
 		);
 	}
 
-	// (draftRow === rowIndex && mode === "editBlock")
+		// (draftRow === rowIndex && mode === "editBlock")
 
 	// if (mode === "editBlock" && editingBlock && draftRow === rowIndex) {
 	// 	return <div onClick={() => setDraftRow(null)}>test</div>;
 	// }
 
-	// this row is being edited
+		// this row is being edited
 	if (mode === "editBlock" && editingBlock && draftRow === rowIndex) {
 		return (
 			<Grid container sx={{ flexWrap: "nowrap", gap: 1, alignItems: "center" }}>
@@ -122,7 +212,6 @@ export const Row: FC<RowProps> = ({
 					}}
 					onClick={() => console.log(rowIndex, blockIndex)}
 				>
-					{/* {row} */}
 					<SortableList
 						items={stitches.map((item, i) => ({
 							id: i,
@@ -160,7 +249,7 @@ export const Row: FC<RowProps> = ({
 		);
 	}
 
-	// block is being edited, but this specific row is not
+		// block is being edited, but this specific row is not
 	if (mode === "editBlock" && editingBlock) {
 		return (
 			<Grid container sx={{ flexWrap: "nowrap", gap: 1, alignItems: "center" }}>
@@ -232,5 +321,5 @@ export const Row: FC<RowProps> = ({
 		);
 	}
 
-	return row;
-};
+
+*/
