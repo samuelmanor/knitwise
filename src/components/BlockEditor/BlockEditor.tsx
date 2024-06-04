@@ -59,6 +59,7 @@ export const BlockEditor: FC<BlockEditorProps> = ({ block, blockIndex, finishEdi
 					})
 				)}
 			</Grid>
+			{/* disable this if any kind of editing is happening */}
 			<Grid item onClick={() => finishEditing(null)}>
 				close
 			</Grid>

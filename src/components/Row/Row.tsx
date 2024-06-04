@@ -1,5 +1,5 @@
-import { Grid, IconButton, Tooltip, useTheme } from "@mui/material";
-import { FC, ReactNode } from "react";
+import { Box, Grid, IconButton, Tooltip, useTheme } from "@mui/material";
+import { FC, ReactNode, useState } from "react";
 import { Stitch, StitchProps } from "../Stitch";
 import { useDispatch, useSelector } from "react-redux";
 import { DirectionsOverlay } from "../DirectionsOverlay";
@@ -15,8 +15,6 @@ export interface RowProps {
 	editingBlock: boolean;
 	draftRow?: number | null;
 	setDraftRow?: (row: number) => void;
-	// showLeftRowMarker?: boolean;
-	// showRightRowMarker?: boolean;
 }
 
 /**
@@ -27,8 +25,6 @@ export interface RowProps {
  * @param blockIndex The index of the block that the row is in.
  * @param editingBlock Whether or not the block that contains the row is currently being edited.
  * @param draftRow The index of the row that is currently being edited.
- * @param showLeftRowMarker Whether or not to show the wrong side marker on the left side of the row.
- * @param showRightRowMarker Whether or not to show the right side marker on the right side of the row.
  */
 export const Row: FC<RowProps> = ({
 	stitches,
@@ -38,11 +34,21 @@ export const Row: FC<RowProps> = ({
 	editingBlock,
 	draftRow,
 	setDraftRow,
-	// showLeftRowMarker,
-	// showRightRowMarker,
 }) => {
+	// all available stitches from the db
+	const stitchDatabase = require("../../utils/stitches").stitches;
 	const mode = useSelector((state: any) => state.workspace.mode);
 	const stitchDisplaySetting = useSelector((state: any) => state.workspace.settings.stitchDisplay);
+
+	// toggles display of stitch select grid
+	const [showStitchSelect, setShowStitchSelect] = useState(false);
+	// the stitch currently selected, but not yet editing
+	const [selectedStitch, setSelectedStitch] = useState(null);
+	// the currently being edited
+	const [draftStitch, setDraftStitch] = useState(null);
+
+	// whether or not a stitch is currently being edited
+	const currentlyEditing = selectedStitch !== null || draftStitch !== null || showStitchSelect === true;
 
 	const theme = useTheme();
 	const dispatch = useDispatch();
@@ -63,6 +69,9 @@ export const Row: FC<RowProps> = ({
 		return stitchDisplaySetting === "symbol" ? total * 18 : total * 30; // abbreviations need more space than symbols
 	};
 
+	/**
+	 * A static row of stitches.
+	 */
 	const row = (
 		<Grid
 			container
@@ -83,6 +92,24 @@ export const Row: FC<RowProps> = ({
 					</Grid>
 				);
 			})}
+		</Grid>
+	);
+
+	/**
+	 * Displays all available stitches to be added to the row.
+	 */
+	const stitchSelect = (
+		<Grid container>
+			available stitches:
+			<Grid container>
+				{Object.keys(stitchDatabase).map((stitch, i) => {
+					return (
+						<Grid item>
+							<Stitch {...stitchDatabase[stitch]} placement={undefined} />
+						</Grid>
+					);
+				})}
+			</Grid>
 		</Grid>
 	);
 
@@ -108,16 +135,46 @@ export const Row: FC<RowProps> = ({
 					<SortableList
 						items={stitches.map((item, i) => ({
 							id: i,
-							item: <Stitch {...item} placement={{ rowIndex, blockIndex }} />,
+							item: (
+								<Grid
+									container
+									sx={{
+										flexDirection: "column",
+									}}
+								>
+									<Grid
+										item
+										onClick={() =>
+											selectedStitch === null || selectedStitch !== i
+												? setSelectedStitch(i)
+												: setSelectedStitch(null)
+										}
+									>
+										<Stitch
+											{...item}
+											placement={{ rowIndex, blockIndex }}
+											// selected={selectedStitch === i}
+										/>
+									</Grid>
+									<Grid item sx={{ display: selectedStitch === i ? "" : "none" }}>
+										<EditOutlined />
+										<DeleteOutlined />
+									</Grid>
+								</Grid>
+							),
 						}))}
 						direction="horizontal"
 					/>
 				</Grid>
 				<Grid>
-					<IconButton sx={{ color: theme.palette.primary.main }}>
+					<IconButton sx={{ color: theme.palette.primary.main }} disabled={currentlyEditing}>
 						<AddOutlined />
 					</IconButton>
-					<IconButton sx={{ color: theme.palette.primary.main }} onClick={() => setDraftRow(null)}>
+					<IconButton
+						sx={{ color: theme.palette.primary.main }}
+						onClick={() => setDraftRow(null)}
+						disabled={currentlyEditing}
+					>
 						<SaveOutlined />
 					</IconButton>
 				</Grid>
