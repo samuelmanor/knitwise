@@ -16,6 +16,7 @@ export interface StitchProps {
 		blockIndex: number;
 		rowIndex: number;
 	};
+	selected?: boolean;
 	// userGenerated?: boolean; -> future feature ?
 }
 
@@ -27,24 +28,34 @@ export interface StitchProps {
  * @param description A description of the stitch that describes how to work it.
  * @param width The width of the stitch in regards to grid columns.
  */
-export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbol, width, index, view, placement }) => {
+export const Stitch: FC<StitchProps> = ({
+	name,
+	abbreviation,
+	description,
+	symbol,
+	width,
+	index,
+	view,
+	placement,
+	// selected,
+}) => {
 	const stitchDisplaySetting = useSelector((state: any) => state.workspace.settings.stitchDisplay);
 	const mode = useSelector((state: any) => state.workspace.mode);
 
 	const theme = useTheme();
 
-	/**
-	 * Determines the cursor style based on the current mode and placement of the stitch.
-	 */
-	const cursor = () => {
-		if (mode === "chart") {
-			return "pointer";
-		} else if (mode === "editBlock" && placement !== undefined) {
-			return "grab";
-		} else {
-			return "default";
-		}
-	};
+	// /**
+	//  * Determines the cursor style based on the current mode and placement of the stitch.
+	//  */
+	// const cursor = () => {
+	// 	if (mode === "chart") {
+	// 		return "pointer";
+	// 	} else if (mode === "editBlock" && placement !== undefined) {
+	// 		return "grab";
+	// 	} else {
+	// 		return "default";
+	// 	}
+	// };
 
 	return (
 		<StitchTip name={name} description={description}>
@@ -56,13 +67,15 @@ export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbo
 					display: "flex",
 					justifyContent: "center",
 					letterSpacing: symbol.length * 0.5,
-					border: symbol.length > 1 ? `2px solid ${theme.palette.primary.main}` : null,
+					// border: symbol.length > 1 ? `2px solid ${theme.palette.primary.main}` : null,
+					border: "2px solid green",
 					borderRadius: "5px",
 					color: theme.palette.text.primary,
-					cursor: cursor(),
+					// cursor: cursor(),
 					userSelect: "none",
+					// backgroundColor: selected ? "red" : "transparent",
 				}}
-				onClick={() => console.log(placement)}
+				// onClick={() => console.log(placement, selected)}
 			>
 				{view === "search" ? "test" : null}
 				{mode !== "chart" && view === "edit" ? (
