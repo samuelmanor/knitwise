@@ -44,19 +44,6 @@ export const Stitch: FC<StitchProps> = ({
 
 	const theme = useTheme();
 
-	// /**
-	//  * Determines the cursor style based on the current mode and placement of the stitch.
-	//  */
-	// const cursor = () => {
-	// 	if (mode === "chart") {
-	// 		return "pointer";
-	// 	} else if (mode === "editBlock" && placement !== undefined) {
-	// 		return "grab";
-	// 	} else {
-	// 		return "default";
-	// 	}
-	// };
-
 	return (
 		<StitchTip name={name} description={description}>
 			<Grid
@@ -67,13 +54,10 @@ export const Stitch: FC<StitchProps> = ({
 					display: "flex",
 					justifyContent: "center",
 					letterSpacing: symbol.length * 0.5,
-					// border: symbol.length > 1 ? `2px solid ${theme.palette.primary.main}` : null,
-					border: "2px solid green",
+					border: symbol.length > 1 ? `2px solid ${theme.palette.primary.main}` : null,
 					borderRadius: "5px",
 					color: theme.palette.text.primary,
-					// cursor: cursor(),
 					userSelect: "none",
-					// backgroundColor: selected ? "red" : "transparent",
 				}}
 				// onClick={() => console.log(placement, selected)}
 			>

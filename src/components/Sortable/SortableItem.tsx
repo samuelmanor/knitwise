@@ -23,6 +23,7 @@ export const SortableItem: FC<SortableItemProps> = ({ id, item }) => {
 	const style = {
 		transition,
 		transform: CSS.Translate.toString(transform),
+		cursor: "grab",
 	};
 
 	return (

@@ -14,6 +14,7 @@ import {
 } from "@mui/icons-material";
 import { removeBlockRow } from "../../reducers/projectReducer";
 import { SortableList } from "../Sortable/SortableList";
+import { updateRow } from "../../reducers/projectReducer";
 
 export interface RowProps {
 	stitches: StitchProps[];
@@ -50,11 +51,10 @@ export const Row: FC<RowProps> = ({
 
 	// toggles the ability to reorder stitches
 	const [dragStitchesEnabled, setDragStitchesEnabled] = useState(false);
-
+	// toggles the display of the stitch select menu
+	const [showStitchSelect, setShowStitchSelect] = useState(false);
+	// the index of the currently selected stitch
 	const [selectedStitch, setSelectedStitch] = useState<number | null>(null);
-
-	// // whether or not a stitch is currently being edited
-	// const currentlyEditing = selectedStitch !== null || draftStitch !== null || showStitchSelect === true;
 
 	const theme = useTheme();
 	const dispatch = useDispatch();
@@ -73,6 +73,10 @@ export const Row: FC<RowProps> = ({
 		});
 
 		return stitchDisplaySetting === "symbol" ? total * 20 : total * 32; // abbreviations need more space than symbols
+	};
+
+	const handleAddStitch = (stitch: StitchProps) => {
+		dispatch(updateRow({ blockIndex, rowIndex, stitches: [...stitches, stitch] }));
 	};
 
 	/**
@@ -131,11 +135,10 @@ export const Row: FC<RowProps> = ({
 				<Grid
 					container
 					sx={{
-						backgroundColor: highlightRow && mode === "chart" ? theme.palette.primary.light : "transparent",
-						paddingX: 0.5,
-						flexWrap: "nowrap",
-						justifyContent: "space-between",
 						minWidth: calcWidth(),
+						backgroundColor: theme.palette.primary.light,
+						borderRadius: "5px",
+						justifyContent: "space-between",
 					}}
 				>
 					{dragStitchesEnabled ? (
@@ -150,15 +153,7 @@ export const Row: FC<RowProps> = ({
 						<Grid
 							container
 							sx={{
-								// backgroundColor:
-								// 	highlightRow && mode === "chart"
-								// 		? theme.palette.primary.light
-								// 		: theme.palette.background.paper,
-								border: `4px solid ${theme.palette.background.paper}`,
-								borderRadius: highlightRow && mode === "chart" ? "none" : "5px",
-								paddingX: 0.5,
 								flexWrap: "nowrap",
-								// justifyContent: "space-between",
 							}}
 						>
 							{stitches.map((stitch, i) => {
@@ -168,28 +163,41 @@ export const Row: FC<RowProps> = ({
 										display="inline"
 										sx={{
 											flexDirection: "column",
-											// cursor: selectedStitch === null && dragStitchesEnabled ? "grab" : "pointer", <- not working
-											backgroundColor:
-												selectedStitch === i ? theme.palette.primary.light : "transparent",
+											border:
+												selectedStitch === i
+													? `2px solid ${theme.palette.primary.main}`
+													: "none",
+											borderRadius: "5px",
 										}}
 									>
 										<Grid
 											item
+											container
 											onClick={() =>
 												selectedStitch === null || selectedStitch !== i
 													? setSelectedStitch(i)
 													: setSelectedStitch(null)
 											}
-											sx={{ border: "2px solid red", display: "flex", justifyContent: "center" }}
+											sx={{
+												justifyContent: "center",
+												cursor: !dragStitchesEnabled ? "pointer" : "",
+											}}
 										>
-											<Stitch key={i} index={i} {...stitch} placement={undefined} />
+											<Grid item>
+												<Stitch key={i} index={i} {...stitch} placement={undefined} />
+											</Grid>
 										</Grid>
 										<Grid
 											item
 											container
 											sx={{ display: selectedStitch === i ? "" : "none", flexWrap: "nowrap" }}
 										>
-											<EditOutlined /> <DeleteOutlined />
+											<IconButton sx={{ color: theme.palette.primary.main }}>
+												<EditOutlined />
+											</IconButton>
+											<IconButton sx={{ color: theme.palette.primary.main }}>
+												<DeleteOutlined />
+											</IconButton>
 										</Grid>
 									</Grid>
 								);
@@ -201,6 +209,7 @@ export const Row: FC<RowProps> = ({
 					<IconButton
 						sx={{ color: theme.palette.primary.main }}
 						disabled={dragStitchesEnabled || selectedStitch !== null}
+						onClick={() => setShowStitchSelect(true)}
 					>
 						<AddOutlined />
 					</IconButton>
@@ -221,6 +230,8 @@ export const Row: FC<RowProps> = ({
 						<SaveOutlined />
 					</IconButton>
 				</Grid>
+				{showStitchSelect ? stitchSelect : null}
+				{/* instead show stitch select instead of add/move/save buttons */}
 			</Grid>
 		);
 	}
