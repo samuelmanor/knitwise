@@ -26,12 +26,13 @@ export interface RowProps {
 
 /**
  * A row of stitches.
- * @param stitches The stitches to be rendered.
- * @param highlightRow Whether or not to highlight the row to indicate that it's currently being worked.
+ * @param stitches The stitches in the row.
+ * @param highlightRow Whether the row should be highlighted to show it is being worked.
  * @param rowIndex The index of the row.
- * @param blockIndex The index of the block that the row is in.
- * @param editingBlock Whether or not the block that contains the row is currently being edited.
- * @param draftRow The index of the row that is currently being edited.
+ * @param blockIndex The index of the block the row is in.
+ * @param editingBlock Whether the block is being edited.
+ * @param draftRow The index of the row being edited, if any.
+ * @param setDraftRow A function to set the row being edited.
  */
 export const Row: FC<RowProps> = ({
 	stitches,
@@ -42,23 +43,19 @@ export const Row: FC<RowProps> = ({
 	draftRow,
 	setDraftRow,
 }) => {
-	// all available stitches from the db
 	const stitchDatabase = require("../../utils/stitches").stitches;
 	const mode = useSelector((state: any) => state.workspace.mode);
 	const stitchDisplaySetting = useSelector((state: any) => state.workspace.settings.stitchDisplay);
 
-	// toggles the ability to reorder stitches
-	const [dragStitchesEnabled, setDragStitchesEnabled] = useState(false);
-	// toggles the display of the stitch select menu
-	const [showStitchSelect, setShowStitchSelect] = useState(false);
-	// the index of the currently selected stitch
-	const [selectedStitch, setSelectedStitch] = useState<number | null>(null);
+	const [dragStitchesEnabled, setDragStitchesEnabled] = useState(false); // toggles the ability to reorder stitches
+	const [showStitchMenu, setShowStitchMenu] = useState(false); // toggles the display of the stitch select menu
+	const [selectedStitch, setSelectedStitch] = useState<number | null>(null); // the index of the stitch currently being edited
 
 	const theme = useTheme();
 	const dispatch = useDispatch();
 
 	if (!stitches) {
-		return null; // make error row ?
+		return null; // TODO: make error row ?
 	}
 
 	/**
@@ -79,7 +76,7 @@ export const Row: FC<RowProps> = ({
 	 */
 	const handleAddStitch = (stitch: StitchProps) => {
 		dispatch(updateRow({ blockIndex, rowIndex, stitches: [...stitches, stitch] }));
-		setShowStitchSelect(false);
+		setShowStitchMenu(false);
 	};
 
 	/**
@@ -97,7 +94,7 @@ export const Row: FC<RowProps> = ({
 		});
 		dispatch(updateRow({ blockIndex, rowIndex, stitches: updatedRow }));
 		setSelectedStitch(null);
-		setShowStitchSelect(false);
+		setShowStitchMenu(false);
 	};
 
 	/**
@@ -129,7 +126,7 @@ export const Row: FC<RowProps> = ({
 	/**
 	 * Displays all available stitches to be added to the row.
 	 */
-	const stitchSelect = (
+	const stitchMenu = (
 		<Grid container>
 			available stitches:
 			<Grid container>
@@ -150,7 +147,7 @@ export const Row: FC<RowProps> = ({
 			</Grid>
 			<Button
 				onClick={() => {
-					setShowStitchSelect(false);
+					setShowStitchMenu(false);
 					setSelectedStitch(null);
 				}}
 			>
@@ -170,7 +167,7 @@ export const Row: FC<RowProps> = ({
 			setSelectedStitch(null);
 		}
 
-		setShowStitchSelect(false);
+		setShowStitchMenu(false);
 	};
 
 	// this row is being worked in the chart
@@ -243,15 +240,15 @@ export const Row: FC<RowProps> = ({
 											<IconButton
 												sx={{ color: theme.palette.primary.main }}
 												onClick={() => {
-													setShowStitchSelect(true);
+													setShowStitchMenu(true);
 												}}
-												disabled={showStitchSelect}
+												disabled={showStitchMenu}
 											>
 												<EditOutlined />
 											</IconButton>
 											<IconButton
 												sx={{ color: theme.palette.primary.main }}
-												disabled={showStitchSelect}
+												disabled={showStitchMenu}
 											>
 												<DeleteOutlined />
 											</IconButton>
@@ -263,15 +260,15 @@ export const Row: FC<RowProps> = ({
 					)}
 				</Grid>
 				<Grid>
-					{showStitchSelect ? (
-						stitchSelect
+					{showStitchMenu ? (
+						stitchMenu
 					) : (
 						<>
 							<IconButton
 								sx={{ color: theme.palette.primary.main }}
 								disabled={dragStitchesEnabled || selectedStitch !== null}
 								onClick={() => {
-									setShowStitchSelect(true);
+									setShowStitchMenu(true);
 									setSelectedStitch(null);
 								}}
 							>
