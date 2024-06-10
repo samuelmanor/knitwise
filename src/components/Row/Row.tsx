@@ -1,5 +1,5 @@
-import { Box, Button, Grid, IconButton, Tooltip, useTheme } from "@mui/material";
-import { FC, ReactNode, useState } from "react";
+import { Button, Grid, IconButton, useTheme } from "@mui/material";
+import { FC, useState } from "react";
 import { Stitch, StitchProps } from "../Stitch";
 import { useDispatch, useSelector } from "react-redux";
 import { DirectionsOverlay } from "../DirectionsOverlay";
@@ -9,7 +9,6 @@ import {
 	EditOutlined,
 	SaveOutlined,
 	SwapHorizOutlined,
-	SwapHorizTwoTone,
 	SwapVertOutlined,
 } from "@mui/icons-material";
 import { removeBlockRow, updateRow } from "../../reducers/projectReducer";
