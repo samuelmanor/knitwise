@@ -98,6 +98,16 @@ export const Row: FC<RowProps> = ({
 	};
 
 	/**
+	 * Deletes a stitch from the row.
+	 * @param index The index of the stitch to be deleted.
+	 */
+	const handleDeleteStitch = (index: number) => {
+		const updatedRow = stitches.filter((stitch, i) => i !== index);
+		dispatch(updateRow({ blockIndex, rowIndex, stitches: updatedRow }));
+		setSelectedStitch(null);
+	};
+
+	/**
 	 * A static row of stitches.
 	 */
 	const row = (
@@ -249,6 +259,7 @@ export const Row: FC<RowProps> = ({
 											<IconButton
 												sx={{ color: theme.palette.primary.main }}
 												disabled={showStitchMenu}
+												onClick={() => handleDeleteStitch(i)}
 											>
 												<DeleteOutlined />
 											</IconButton>
