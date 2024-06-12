@@ -76,6 +76,7 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockI
 
 	return (
 		<Tooltip
+			data-testid={`directionsOverlay${rowIndex}`}
 			open={mode !== "none"}
 			placement="top"
 			disableFocusListener

@@ -122,6 +122,7 @@ export const Row: FC<RowProps> = ({
 				flexWrap: "nowrap",
 				justifyContent: "space-between",
 			}}
+			data-testid={`row${rowIndex}`}
 		>
 			{stitches.map((stitch, i) => {
 				return (
@@ -186,9 +187,9 @@ export const Row: FC<RowProps> = ({
 	}
 
 	// this row is being edited
-	if (mode === "editBlock" && editingBlock && draftRow === rowIndex) {
+	if (editingBlock && draftRow === rowIndex) {
 		return (
-			<Grid container>
+			<Grid container data-testid={`editingRow${rowIndex}`}>
 				<Grid
 					container
 					sx={{
@@ -298,7 +299,11 @@ export const Row: FC<RowProps> = ({
 							>
 								<SwapHorizOutlined />
 							</IconButton>
-							<IconButton sx={{ color: theme.palette.primary.main }} onClick={() => setDraftRow(null)}>
+							<IconButton
+								sx={{ color: theme.palette.primary.main }}
+								onClick={() => setDraftRow(null)}
+								data-testid={`saveRow${rowIndex}`}
+							>
 								<SaveOutlined />
 							</IconButton>
 						</>
@@ -309,7 +314,7 @@ export const Row: FC<RowProps> = ({
 	}
 
 	// block is being edited, but this specific row is not
-	if (mode === "editBlock" && editingBlock) {
+	if (editingBlock) {
 		return (
 			<Grid container sx={{ flexWrap: "nowrap", alignItems: "center", gap: 1.5 }}>
 				{row}
