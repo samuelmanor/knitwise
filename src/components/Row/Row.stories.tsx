@@ -1,16 +1,10 @@
 import { Meta, StoryObj } from "@storybook/react";
-
 import { expect } from "@storybook/jest";
 import { userEvent, within } from "@storybook/testing-library";
-
 import { Row } from "./Row";
 import { Provider } from "react-redux";
 import store from "./../../reducers/store";
 import { testProject } from "../../utils/testProject";
-import { usePreloadedState } from "../../reducers/store";
-import { configureStore } from "@reduxjs/toolkit";
-import projectReducer from "../../reducers/projectReducer";
-import workspaceReducer from "../../reducers/workspaceReducer";
 
 const meta: Meta<typeof Row> = {
 	title: "Row",
