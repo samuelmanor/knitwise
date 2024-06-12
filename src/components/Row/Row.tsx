@@ -138,7 +138,7 @@ export const Row: FC<RowProps> = ({
 	 * Displays all available stitches to be added to the row.
 	 */
 	const stitchMenu = (
-		<Grid container>
+		<Grid container data-testid={`stitchSelect${rowIndex}`}>
 			available stitches:
 			<Grid container>
 				{Object.keys(stitchDatabase).map((stitch, i) => {
@@ -161,6 +161,7 @@ export const Row: FC<RowProps> = ({
 					setShowStitchMenu(false);
 					setSelectedStitch(null);
 				}}
+				data-testid={`cancelBtn${rowIndex}`}
 			>
 				cancel
 			</Button>
@@ -283,6 +284,7 @@ export const Row: FC<RowProps> = ({
 									setShowStitchMenu(true);
 									setSelectedStitch(null);
 								}}
+								data-testid={`addBtn${rowIndex}`}
 							>
 								<AddOutlined />
 							</IconButton>
@@ -319,15 +321,23 @@ export const Row: FC<RowProps> = ({
 			<Grid container sx={{ flexWrap: "nowrap", alignItems: "center", gap: 1.5 }}>
 				{row}
 				<Grid container display={draftRow !== null ? "none" : undefined} sx={{ gap: 0.5, flexWrap: "nowrap" }}>
-					<IconButton sx={{ color: theme.palette.primary.main }} onClick={() => setDraftRow(rowIndex)}>
+					<IconButton
+						sx={{ color: theme.palette.primary.main }}
+						onClick={() => setDraftRow(rowIndex)}
+						data-testid={`editBtn${rowIndex}`}
+					>
 						<EditOutlined />
 					</IconButton>
-					<IconButton sx={{ color: theme.palette.primary.main, cursor: "grab" }}>
+					<IconButton
+						sx={{ color: theme.palette.primary.main, cursor: "grab" }}
+						data-testid={`sortBtn${rowIndex}`}
+					>
 						<SwapVertOutlined />
 					</IconButton>
 					<IconButton
 						sx={{ color: theme.palette.primary.main }}
 						onClick={() => dispatch(removeBlockRow({ blockIndex, rowIndex }))}
+						data-testid={`delBtn${rowIndex}`}
 					>
 						<DeleteOutlined />
 					</IconButton>
