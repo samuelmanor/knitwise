@@ -1,5 +1,5 @@
 import { Button, Grid, IconButton, useTheme } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Stitch, StitchProps } from "../Stitch";
 import { useDispatch, useSelector } from "react-redux";
 import { DirectionsOverlay } from "../DirectionsOverlay";
@@ -53,6 +53,13 @@ export const Row: FC<RowProps> = ({
 
 	const theme = useTheme();
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		// opens the stitch menu if the row is empty
+		if (stitches.length === 0) {
+			setShowStitchMenu(true);
+		}
+	}, [stitches, setShowStitchMenu]);
 
 	if (!stitches) {
 		return null; // TODO: make error row ?
@@ -124,13 +131,22 @@ export const Row: FC<RowProps> = ({
 			}}
 			data-testid={`row${rowIndex}`}
 		>
-			{stitches.map((stitch, i) => {
+			{/* {stitches.map((stitch, i) => {
 				return (
 					<Grid item display="inline">
 						<Stitch key={i} index={i} {...stitch} placement={undefined} />
 					</Grid>
 				);
-			})}
+			})} */}
+			{stitches.length === 0
+				? "this row doesn't have stitches yet!"
+				: stitches.map((stitch, i) => {
+						return (
+							<Grid item display="inline">
+								<Stitch key={i} index={i} {...stitch} placement={undefined} />
+							</Grid>
+						);
+				  })}
 		</Grid>
 	);
 
@@ -297,7 +313,7 @@ export const Row: FC<RowProps> = ({
 									setDragStitchesEnabled(!dragStitchesEnabled);
 									setSelectedStitch(null);
 								}}
-								disabled={selectedStitch !== null}
+								disabled={selectedStitch !== null || stitches.length < 2}
 							>
 								<SwapHorizOutlined />
 							</IconButton>

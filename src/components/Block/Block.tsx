@@ -2,13 +2,21 @@ import { IconButton, Grid, Typography, TextField, Box, useTheme, ClickAwayListen
 import { FC, useRef, useState } from "react";
 import { Row } from "../Row";
 import { useDispatch, useSelector } from "react-redux";
-import { EditOutlined, DeleteOutlined, SaveOutlined, CloseOutlined, SwapHorizOutlined } from "@mui/icons-material";
+import {
+	EditOutlined,
+	DeleteOutlined,
+	SaveOutlined,
+	CloseOutlined,
+	SwapHorizOutlined,
+	AddOutlined,
+} from "@mui/icons-material";
 import { editBlockName, deleteBlock } from "../../reducers/projectReducer";
 import { StitchProps } from "../Stitch";
 import { setMode } from "../../reducers/workspaceReducer";
 import { Search } from "../Search";
 import { SortableList } from "../Sortable/SortableList";
 import { BlockEditor } from "../BlockEditor";
+import { addBlockRow } from "../../reducers/projectReducer";
 
 export interface BlockProps {
 	index: number;
@@ -43,10 +51,7 @@ export const Block: FC<BlockProps> = ({
 	const projectRow = useSelector((state: any) => state.projects.projectRow);
 	const mode = useSelector((state: any) => state.workspace.mode);
 
-	// const [blockNameDraft, setBlockNameDraft] = useState(blockName);
-	// const [blockNameError, setBlockNameError] = useState(false);
-	// const [blockNameHelperText, setBlockNameHelperText] = useState("");
-	// const [draftRow, setDraftRow] = useState<number | null>(null);
+	const [draftRow, setDraftRow] = useState<number | null>(null);
 
 	const baseRowRef = useRef<HTMLDivElement>(null);
 
@@ -71,39 +76,9 @@ export const Block: FC<BlockProps> = ({
 		}
 	};
 
-	// const handleAddRow = (rowIndex: number) => {
-	// 	dispatch(addBlockRow({ blockIndex, rowIndex }));
-	// };
-
-	// const handleDeleteRow = (rowIndex: number) => {
-	// 	setDraftRow(-1);
-	// 	dispatch(updateRow({ blockIndex, rowIndex, stitches: [] }));
-	// };
-
-	// const handleRowEdit = (newStitch: StitchProps, action: "edit" | "add") => {
-	// 	if (action === "add") {
-	// 		setShowStitchSelect(false);
-	// 		dispatch(updateRow({ blockIndex, rowIndex, stitches: [...row, newStitch] }));
-	// 		setSelectedStitch(null);
-	// 	} else if (action === "edit") {
-	// 		setShowStitchSelect(false);
-	// 		const newRow = row.map((stitch, i) => {
-	// 			if (i === selectedStitch) {
-	// 				return newStitch;
-	// 			} else {
-	// 				return stitch;
-	// 			}
-	// 		});
-	// 		dispatch(updateRow({ blockIndex, rowIndex, stitches: newRow }));
-	// 		setSelectedStitch(null);
-	// 	}
-	// };
-
-	// const handleDeleteStitch = (index: number) => {
-	// 	const updatedRow = row.filter((stitch, i) => i !== index);
-	// 	dispatch(updateRow({ blockIndex, rowIndex, stitches: updatedRow }));
-	// 	setSelectedStitch(null);
-	// };
+	const handleAddRow = (rowIndex: number) => {
+		dispatch(addBlockRow({ blockIndex: index, rowIndex }));
+	};
 
 	/**
 	 * Handles changes to the block name and checks for errors.
@@ -179,73 +154,64 @@ export const Block: FC<BlockProps> = ({
 	// this block is being edited
 	if (mode === "editBlock" && draftBlockIndex === index) {
 		// move name field editor to here?
-		// get rid of editBlock mode?
 		return (
-			// <Grid
-			// 	container
-			// 	sx={{
-			// 		flexDirection: "row",
-			// 		flexWrap: "nowrap",
-			// 		gap: 8,
-			// 	}}
-			// >
-			// 	<Grid item>
-			// 		<BlockContainer>
-			// 			<SortableList
-			// 				items={stitches.map((item, i) => ({
-			// 					id: i + 1,
-			// 					item: (
-			// 						<Row
-			// 							key={`row${blockName}${i}`}
-			// 							stitches={item}
-			// 							highlightRow={currentBlockRow - 1 === i}
-			// 							editingBlock={draftBlockIndex === index}
-			// 							rowIndex={i}
-			// 							blockIndex={index}
-			// 							draftRow={draftRow}
-			// 							setDraftRow={setDraftRow}
-			// 						/>
-			// 					),
-			// 				}))}
-			// 				direction="vertical"
-			// 			/>
-			// 		</BlockContainer>
-			// 	</Grid>
-			// 	<Grid container sx={{ border: "2px solid blue", flexDirection: "column", flexWrap: "nowrap" }}>
-			// 		<Grid
-			// 			container
-			// 			sx={{ border: "2px solid red", height: "fit-content", justifyContent: "space-between", gap: 3 }}
-			// 		>
-			// 			<Grid item>
-			// 				<Typography variant="h5">
-			// 					{draftRow === null ? blockName : `${blockName}, row ${draftRow + 1}`}
-			// 				</Typography>
-			// 			</Grid>
-			// 			<Grid item>
-			// 				{handleEditBlock !== null && draftRow === null ? (
-			// 					<IconButton onClick={() => handleEditBlock(null)}>
-			// 						<CloseOutlined />
-			// 					</IconButton>
-			// 				) : null}
-			// 			</Grid>
-			// 		</Grid>
-			// 		<Grid container sx={{ border: "2px solid green", height: "100%" }}>
-			// 			<Search content="stitches" select={() => console.log("stitch select")} />
-			// 		</Grid>
-			// 	</Grid>
-			// </Grid>
-			<BlockEditor block={project.blocks[index]} finishEditing={handleEditBlock} blockIndex={index} />
+			<Grid container sx={{ flexDirection: "column" }}>
+				<Grid item>{blockName}</Grid>
+				<Grid item sx={{ display: "flex", flexDirection: "column-reverse", gap: 1 }}>
+					{draftRow === null ? (
+						<SortableList
+							items={stitches.map((item, i) => ({
+								id: i + 1,
+								item: (
+									<Row
+										stitches={item}
+										editingBlock={true}
+										rowIndex={i}
+										blockIndex={index}
+										draftRow={draftRow}
+										setDraftRow={setDraftRow}
+									/>
+								),
+							}))}
+							direction="vertical"
+						/>
+					) : (
+						stitches.map((row, i) => {
+							return (
+								<Row
+									stitches={stitches[i]}
+									editingBlock={true}
+									rowIndex={i}
+									blockIndex={index}
+									draftRow={draftRow}
+									setDraftRow={setDraftRow}
+								/>
+							);
+						})
+					)}
+				</Grid>
+				<IconButton
+					onClick={() => handleAddRow(stitches.length + 1)}
+					disabled={draftRow !== null}
+					data-testid={`block${index}AddRowBtn`}
+				>
+					<AddOutlined />
+				</IconButton>
+				<IconButton
+					onClick={() => handleEditBlock(null)}
+					disabled={draftRow !== null}
+					data-testid={`block${index}SaveBtn`}
+				>
+					<SaveOutlined />
+				</IconButton>
+			</Grid>
 		);
 	}
 
 	// edit mode, but no block is being edited
 	if (mode === "edit") {
 		return (
-			<Grid
-				container
-				data-testid={`block${blockName}${index}`}
-				sx={{ flexDirection: "column", alignItems: "center" }}
-			>
+			<Grid container sx={{ flexDirection: "column", alignItems: "center" }}>
 				<BlockContainer>
 					<Grid container sx={{ justifyContent: "center" }}>
 						{/* <ClickAwayListener
@@ -294,6 +260,7 @@ export const Block: FC<BlockProps> = ({
 								width: "fit-content",
 							}}
 							onClick={() => handleEditBlock(index)}
+							data-testid={`block${index}EditBtn`}
 						>
 							<EditOutlined />
 						</IconButton>
