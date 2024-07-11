@@ -8,6 +8,8 @@ import { StitchProps } from "../Stitch";
 import { setMode } from "../../reducers/workspaceReducer";
 import { SortableList } from "../Sortable/SortableList";
 import { addBlockRow } from "../../reducers/projectReducer";
+import { NameEditor } from "../NameEditor";
+import { editBlockName } from "../../reducers/projectReducer";
 
 export interface BlockProps {
 	index: number;
@@ -144,10 +146,12 @@ export const Block: FC<BlockProps> = ({
 
 	// this block is being edited
 	if (mode === "editBlock" && draftBlockIndex === index) {
-		// move name field editor to here?
 		return (
 			<Grid container sx={{ flexDirection: "column" }}>
-				<Grid item>{blockName}</Grid>
+				<NameEditor
+					name={blockName}
+					onSave={name => dispatch(editBlockName({ blockName: name, blockIndex: index }))}
+				/>
 				<Grid item sx={{ display: "flex", flexDirection: "column-reverse", gap: 1 }}>
 					{draftRow === null ? (
 						<SortableList

@@ -1,11 +1,12 @@
 import { FC, useState } from "react";
-import { Drawer, Grid, IconButton, TextField, Tooltip, Typography, useTheme } from "@mui/material";
+import { Drawer, Grid, IconButton, Tooltip, Typography, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { EditOutlined, SaveOutlined, SettingsOutlined } from "@mui/icons-material";
 import { SettingsMenu } from "../SettingsMenu/";
 import { setMode } from "../../reducers/workspaceReducer";
 import { editProjectName } from "../../reducers/projectReducer";
 import { RowControls } from "../RowControls";
+import { NameEditor } from "../NameEditor";
 
 interface ProjectMenuProps {}
 
@@ -16,8 +17,6 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 	const projectName = useSelector((state: any) => state.projects.name);
 	const mode = useSelector((state: any) => state.workspace.mode);
 	const [openSettings, setOpenSettings] = useState(false);
-	const [showProjectNameEditor, setShowProjectNameEditor] = useState(false);
-	const [projectNameDraft, setProjectNameDraft] = useState(projectName);
 
 	const dispatch = useDispatch();
 	const theme = useTheme();
@@ -43,58 +42,13 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 					gap: 1.5,
 				}}
 			>
-				{!showProjectNameEditor ? (
-					<>
-						<Typography variant="h2" sx={{ letterSpacing: "1px" }}>
-							{projectName}
-						</Typography>
-						{mode === "edit" ? (
-							<IconButton
-								size="large"
-								sx={{
-									transform: "scale(1.5)",
-									color: theme.palette.text.secondary,
-									height: "fit-content",
-								}}
-								onClick={() => setShowProjectNameEditor(true)}
-							>
-								<EditOutlined />
-							</IconButton>
-						) : null}
-					</>
-				) : null}
-				{mode === "edit" && showProjectNameEditor ? (
-					<TextField
-						value={projectNameDraft}
-						onChange={e => setProjectNameDraft(e.target.value)}
-						variant="standard"
-						autoFocus
-						InputProps={{
-							style: {
-								fontSize: "40px",
-								border: "none",
-								borderBottom: `2px solid ${theme.palette.text.secondary}`,
-							},
-							disableUnderline: true,
-							endAdornment: (
-								<IconButton
-									size="large"
-									sx={{
-										transform: "scale(1.5)",
-										color: theme.palette.text.secondary,
-										height: "fit-content",
-									}}
-									onClick={() => {
-										dispatch(editProjectName(projectNameDraft));
-										setShowProjectNameEditor(false);
-									}}
-								>
-									<SaveOutlined />
-								</IconButton>
-							),
-						}}
-					/>
-				) : null}
+				{mode === "edit" ? (
+					<NameEditor name={projectName} onSave={name => dispatch(editProjectName(name))} type="project" />
+				) : (
+					<Typography variant="h2" sx={{ letterSpacing: "1px" }}>
+						{projectName}
+					</Typography>
+				)}
 			</Grid>
 			{mode === "chart" ? <RowControls /> : null}
 			<Grid item sx={{ display: "flex", gap: 3 }}>
