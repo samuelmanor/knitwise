@@ -1,21 +1,12 @@
-import { IconButton, Grid, Typography, TextField, Box, useTheme, ClickAwayListener } from "@mui/material";
+import { IconButton, Grid, Typography, Box, useTheme } from "@mui/material";
 import { FC, useRef, useState } from "react";
 import { Row } from "../Row";
 import { useDispatch, useSelector } from "react-redux";
-import {
-	EditOutlined,
-	DeleteOutlined,
-	SaveOutlined,
-	CloseOutlined,
-	SwapHorizOutlined,
-	AddOutlined,
-} from "@mui/icons-material";
-import { editBlockName, deleteBlock } from "../../reducers/projectReducer";
+import { EditOutlined, DeleteOutlined, SaveOutlined, SwapHorizOutlined, AddOutlined } from "@mui/icons-material";
+import { deleteBlock } from "../../reducers/projectReducer";
 import { StitchProps } from "../Stitch";
 import { setMode } from "../../reducers/workspaceReducer";
-import { Search } from "../Search";
 import { SortableList } from "../Sortable/SortableList";
-import { BlockEditor } from "../BlockEditor";
 import { addBlockRow } from "../../reducers/projectReducer";
 
 export interface BlockProps {
