@@ -13,6 +13,8 @@ const workspaceSlice = createSlice({
 			stitchDisplay: "symbol", // | "abbreviation"
 			stitchTipMode: "hover", // | "click"
 			directionsOverlayMode: "simple", // | "detailed" | "none"
+			showDeleteRowConfirmation: true,
+			// showDeleteBlockConfirmation: true,
 		},
 	},
 	reducers: {

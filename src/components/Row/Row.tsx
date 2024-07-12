@@ -13,6 +13,7 @@ import {
 } from "@mui/icons-material";
 import { removeBlockRow, updateRow } from "../../reducers/projectReducer";
 import { SortableList } from "../Sortable/SortableList";
+import { Warning } from "../Warning";
 
 export interface RowProps {
 	stitches: StitchProps[];
@@ -50,6 +51,7 @@ export const Row: FC<RowProps> = ({
 	const [dragStitchesEnabled, setDragStitchesEnabled] = useState(false); // toggles the ability to reorder stitches
 	const [showStitchMenu, setShowStitchMenu] = useState(false); // toggles the display of the stitch select menu
 	const [selectedStitch, setSelectedStitch] = useState<number | null>(null); // the index of the stitch currently being edited
+	const [warning, setWarning] = useState<string | null>(null);
 
 	const theme = useTheme();
 	const dispatch = useDispatch();
@@ -112,6 +114,11 @@ export const Row: FC<RowProps> = ({
 		const updatedRow = stitches.filter((stitch, i) => i !== index);
 		dispatch(updateRow({ blockIndex, rowIndex, stitches: updatedRow }));
 		setSelectedStitch(null);
+	};
+
+	const handleDeleteRow = () => {
+		// dispatch(removeBlockRow({ blockIndex, rowIndex }));
+		setWarning("this row will be permanently deleted.");
 	};
 
 	/**
@@ -352,11 +359,19 @@ export const Row: FC<RowProps> = ({
 					</IconButton>
 					<IconButton
 						sx={{ color: theme.palette.primary.main }}
-						onClick={() => dispatch(removeBlockRow({ blockIndex, rowIndex }))}
+						onClick={() => handleDeleteRow()}
 						data-testid={`delBtn${rowIndex}`}
+						disabled={warning !== null}
 					>
 						<DeleteOutlined />
 					</IconButton>
+					{warning !== null ? (
+						<Warning
+							text={warning}
+							action={() => dispatch(removeBlockRow({ blockIndex, rowIndex }))}
+							close={() => setWarning(null)}
+						/>
+					) : null}
 				</Grid>
 			</Grid>
 		);

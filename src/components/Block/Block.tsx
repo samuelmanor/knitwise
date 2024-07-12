@@ -10,6 +10,7 @@ import { SortableList } from "../Sortable/SortableList";
 import { addBlockRow } from "../../reducers/projectReducer";
 import { NameEditor } from "../NameEditor";
 import { editBlockName } from "../../reducers/projectReducer";
+import { Warning } from "../Warning";
 
 export interface BlockProps {
 	index: number;
@@ -45,6 +46,7 @@ export const Block: FC<BlockProps> = ({
 	const mode = useSelector((state: any) => state.workspace.mode);
 
 	const [draftRow, setDraftRow] = useState<number | null>(null);
+	const [warning, setWarning] = useState<string | null>(null);
 
 	const baseRowRef = useRef<HTMLDivElement>(null);
 
@@ -73,22 +75,23 @@ export const Block: FC<BlockProps> = ({
 		dispatch(addBlockRow({ blockIndex: index, rowIndex }));
 	};
 
-	/**
-	 * Handles changes to the block name and checks for errors.
-	 * @param e The event object.
-	 */
-	// const handleBlockNameChange = e => {
-	// 	setBlockNameDraft(e.target.value);
-
-	// 	if (e.target.value.length === 0) {
-	// 		setBlockNameError(true);
-	// 		setBlockNameHelperText("cannot be empty");
-	// 	}
-	// };
-
 	const handleEditBlock = (index: number | null) => {
 		setDraftBlockIndex(index);
 		dispatch(setMode(index === null ? "edit" : "editBlock"));
+	};
+
+	const checkRows = () => {
+		let error = false;
+		stitches.forEach((row, i) => {
+			if (row.length === 0) {
+				setWarning("one or more rows are empty.");
+				error = true;
+			}
+		});
+
+		if (!error) {
+			handleEditBlock(null);
+		}
 	};
 
 	const rows = stitches.map((row, i) => {
@@ -193,12 +196,15 @@ export const Block: FC<BlockProps> = ({
 					<AddOutlined />
 				</IconButton>
 				<IconButton
-					onClick={() => handleEditBlock(null)}
-					disabled={draftRow !== null}
+					onClick={checkRows}
+					disabled={draftRow !== null || warning !== null}
 					data-testid={`block${index}SaveBtn`}
 				>
 					<SaveOutlined />
 				</IconButton>
+				{warning !== null ? (
+					<Warning text={warning} action={() => handleEditBlock(null)} close={() => setWarning(null)} />
+				) : null}
 			</Grid>
 		);
 	}
@@ -209,38 +215,6 @@ export const Block: FC<BlockProps> = ({
 			<Grid container sx={{ flexDirection: "column", alignItems: "center" }}>
 				<BlockContainer>
 					<Grid container sx={{ justifyContent: "center" }}>
-						{/* <ClickAwayListener
-							onClickAway={() =>
-								dispatch(editBlockName({ blockName: blockNameDraft, blockIndex: index }))
-							}
-						>
-							<TextField
-								value={blockNameDraft}
-								onChange={e => handleBlockNameChange(e)}
-								variant="standard"
-								InputProps={{
-									style: {
-										fontSize: "18px",
-										borderColor: theme.palette.text.secondary,
-									},
-									endAdornment:
-										blockNameDraft !== blockName ? (
-											<IconButton
-												onClick={() =>
-													dispatch(
-														editBlockName({ blockName: blockNameDraft, blockIndex: index }),
-													)
-												}
-											>
-												<SaveOutlined />
-											</IconButton>
-										) : null,
-								}}
-								placeholder="block name"
-								error={blockNameError}
-								helperText={blockNameHelperText}
-							/>
-						</ClickAwayListener> */}
 						{blockName}
 					</Grid>
 					{rows}
