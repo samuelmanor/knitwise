@@ -1,4 +1,4 @@
-import { Button, Grid, IconButton, useTheme } from "@mui/material";
+import { Box, Button, Grid, IconButton, useTheme } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import { Stitch, StitchProps } from "../Stitch";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +12,7 @@ import {
 	SwapVertOutlined,
 } from "@mui/icons-material";
 import { removeBlockRow, updateRow } from "../../reducers/projectReducer";
+import { changeSetting } from "../../reducers/workspaceReducer";
 import { SortableList } from "../Sortable/SortableList";
 import { Warning } from "../Warning";
 
@@ -47,6 +48,7 @@ export const Row: FC<RowProps> = ({
 	const stitchDatabase = require("../../utils/stitches").stitches;
 	const mode = useSelector((state: any) => state.workspace.mode);
 	const stitchDisplaySetting = useSelector((state: any) => state.workspace.settings.stitchDisplay);
+	const showDeleteRowConfirmation = useSelector((state: any) => state.workspace.settings.showDeleteRowConfirmation);
 
 	const [dragStitchesEnabled, setDragStitchesEnabled] = useState(false); // toggles the ability to reorder stitches
 	const [showStitchMenu, setShowStitchMenu] = useState(false); // toggles the display of the stitch select menu
@@ -116,9 +118,13 @@ export const Row: FC<RowProps> = ({
 		setSelectedStitch(null);
 	};
 
+	/**
+	 * Warns the user that the row will be deleted, or deletes the row if the warning was toggled off.
+	 */
 	const handleDeleteRow = () => {
-		// dispatch(removeBlockRow({ blockIndex, rowIndex }));
-		setWarning("this row will be permanently deleted.");
+		showDeleteRowConfirmation
+			? setWarning("this row will be deleted.")
+			: dispatch(removeBlockRow({ blockIndex, rowIndex }));
 	};
 
 	/**
@@ -138,13 +144,6 @@ export const Row: FC<RowProps> = ({
 			}}
 			data-testid={`row${rowIndex}`}
 		>
-			{/* {stitches.map((stitch, i) => {
-				return (
-					<Grid item display="inline">
-						<Stitch key={i} index={i} {...stitch} placement={undefined} />
-					</Grid>
-				);
-			})} */}
 			{stitches.length === 0
 				? "this row doesn't have stitches yet!"
 				: stitches.map((stitch, i) => {
@@ -341,39 +340,69 @@ export const Row: FC<RowProps> = ({
 	// block is being edited, but this specific row is not
 	if (editingBlock) {
 		return (
-			<Grid container sx={{ flexWrap: "nowrap", alignItems: "center", gap: 1.5 }}>
-				{row}
-				<Grid container display={draftRow !== null ? "none" : undefined} sx={{ gap: 0.5, flexWrap: "nowrap" }}>
-					<IconButton
-						sx={{ color: theme.palette.primary.main }}
-						onClick={() => setDraftRow(rowIndex)}
-						data-testid={`editBtn${rowIndex}`}
+			<Box
+				sx={{
+					border: warning !== null ? `2px solid ${theme.palette.primary.main}` : "none",
+					backgroundColor: warning !== null ? theme.palette.primary.light : "transparent",
+					borderRadius: "5px",
+					width: "fit-content",
+					p: 0.5,
+				}}
+			>
+				<Grid
+					container
+					sx={{
+						flexWrap: "nowrap",
+						alignItems: "center",
+						gap: 1.5,
+					}}
+				>
+					{row}
+					<Grid
+						container
+						display={draftRow !== null ? "none" : undefined}
+						sx={{ gap: 0.5, flexWrap: "nowrap" }}
 					>
-						<EditOutlined />
-					</IconButton>
-					<IconButton
-						sx={{ color: theme.palette.primary.main, cursor: "grab" }}
-						data-testid={`sortBtn${rowIndex}`}
-					>
-						<SwapVertOutlined />
-					</IconButton>
-					<IconButton
-						sx={{ color: theme.palette.primary.main }}
-						onClick={() => handleDeleteRow()}
-						data-testid={`delBtn${rowIndex}`}
-						disabled={warning !== null}
-					>
-						<DeleteOutlined />
-					</IconButton>
+						<IconButton
+							sx={{ color: theme.palette.primary.main }}
+							onClick={() => setDraftRow(rowIndex)}
+							data-testid={`editBtn${rowIndex}`}
+						>
+							<EditOutlined />
+						</IconButton>
+						<IconButton
+							sx={{ color: theme.palette.primary.main, cursor: "grab" }}
+							data-testid={`sortBtn${rowIndex}`}
+						>
+							<SwapVertOutlined />
+						</IconButton>
+						<IconButton
+							sx={{ color: theme.palette.primary.main }}
+							onClick={() => handleDeleteRow()}
+							data-testid={`delBtn${rowIndex}`}
+							disabled={warning !== null}
+						>
+							<DeleteOutlined />
+						</IconButton>
+					</Grid>
+				</Grid>
+				<Grid container sx={{ justifyContent: "center" }}>
 					{warning !== null ? (
 						<Warning
 							text={warning}
-							action={() => dispatch(removeBlockRow({ blockIndex, rowIndex }))}
+							action={() => {
+								dispatch(removeBlockRow({ blockIndex, rowIndex }));
+								setWarning(null);
+							}}
 							close={() => setWarning(null)}
+							setting={showDeleteRowConfirmation}
+							updateSetting={() =>
+								dispatch(changeSetting({ setting: "showDeleteRowConfirmation", value: false }))
+							}
 						/>
 					) : null}
 				</Grid>
-			</Grid>
+			</Box>
 		);
 	}
 
