@@ -124,9 +124,9 @@ export const Row: FC<RowProps> = ({
 	const handleDeleteRow = () => {
 		// setWarning("this row will be deleted.");
 		// setDraftRow(rowIndex);
-		// showDeleteRowConfirmation
-		// 	? setWarning("this row will be deleted.")
-		// 	: dispatch(removeBlockRow({ blockIndex, rowIndex }));
+		showDeleteRowConfirmation
+			? setWarning("this row will be deleted.")
+			: dispatch(removeBlockRow({ blockIndex, rowIndex }));
 	};
 
 	/**
@@ -211,33 +211,58 @@ export const Row: FC<RowProps> = ({
 		return <DirectionsOverlay rowIndex={rowIndex} blockIndex={blockIndex} row={row} />;
 	}
 
-	// 	<Grid container sx={{ justifyContent: "center" }}>
-	// 	{warning !== null ? (
-	// <Warning
-	// 	text={warning}
-	// 	action={() => {
-	// 		dispatch(removeBlockRow({ blockIndex, rowIndex }));
-	// 		setWarning(null);
-	// 	}}
-	// 	close={() => setWarning(null)}
-	// 	setting={showDeleteRowConfirmation}
-	// 	updateSetting={() =>
-	// 		dispatch(changeSetting({ setting: "showDeleteRowConfirmation", value: false }))
-	// 	}
-	// />
-	// 	) : null}
-	// </Grid>
-
 	// this row is being edited
-	// show warning here, like
-	// set draftrow to rowindex on delete button click, then change the conditions here to see if warning !== null
-	// then if warning !== null, just show warning not edit menu
-	// if warning === null, show edit menu
 	if (editingBlock && draftRow === rowIndex) {
 		return (
-			// <Grid container>{warning !== null ? <div>warnign</div> : <div>edit menu</div>}</Grid>
-			<Grid container>
-				{row}
+			<Grid
+				container
+				sx={{
+					backgroundColor: theme.palette.primary.light,
+					p: 1,
+					borderRadius: "5px",
+					border: `2px solid ${theme.palette.primary.main}`,
+					flexDirection: "column",
+					flexWrap: "nowrap",
+					alignItems: "center",
+				}}
+			>
+				{/* {row} */}
+				<Grid container sx={{ gap: 1, width: "fit-content" }}>
+					<Grid item>
+						{dragStitchesEnabled ? (
+							<Grid
+								container
+								sx={{
+									minWidth: calcWidth(),
+									backgroundColor: theme.palette.primary.light,
+									borderRadius: "5px",
+									justifyContent: "space-between",
+								}}
+							>
+								<SortableList
+									items={stitches.map((item, i) => ({
+										id: i + 1,
+										item: <Stitch {...item} placement={{ rowIndex, blockIndex }} />,
+									}))}
+									direction="horizontal"
+								/>
+							</Grid>
+						) : (
+							row
+						)}
+					</Grid>
+					<Grid item>
+						{/* <IconButton onClick={handleDeleteRow} disabled={warning !== null || dragStitchesEnabled}>
+							<DeleteOutlined />
+						</IconButton> */}
+						<IconButton onClick={() => setDraftRow(null)} disabled={warning !== null}>
+							<SaveOutlined />
+						</IconButton>
+						<IconButton onClick={handleDeleteRow} disabled={warning !== null || dragStitchesEnabled}>
+							<DeleteOutlined />
+						</IconButton>
+					</Grid>
+				</Grid>
 				{/* {warning !== null ? (
 					<Warning
 						text={warning}
@@ -256,9 +281,45 @@ export const Row: FC<RowProps> = ({
 						save
 					</Grid>
 				)} */}
-
-				<Grid container onClick={() => setDraftRow(null)}>
-					<Grid item>save</Grid>
+				{warning === null ? null : (
+					<Warning
+						text={warning}
+						action={() => {
+							setWarning(null);
+							setDraftRow(null);
+							dispatch(removeBlockRow({ blockIndex, rowIndex }));
+						}}
+						close={() => setWarning(null)}
+						setting={showDeleteRowConfirmation}
+						updateSetting={() =>
+							dispatch(changeSetting({ setting: "showDeleteRowConfirmation", value: false }))
+						}
+					/>
+				)}
+				<Grid container sx={{ width: "fit-content" }}>
+					<IconButton disabled={dragStitchesEnabled || selectedStitch !== null || warning !== null}>
+						<AddOutlined />
+					</IconButton>
+					<IconButton
+						onClick={() => {
+							setDragStitchesEnabled(!dragStitchesEnabled);
+							setSelectedStitch(null);
+						}}
+						disabled={selectedStitch !== null || stitches.length < 2 || warning !== null}
+						sx={{
+							backgroundColor: dragStitchesEnabled ? theme.palette.primary.main : "transparent",
+							color: dragStitchesEnabled ? theme.palette.primary.light : "default",
+						}}
+						disableRipple={true}
+					>
+						<SwapHorizOutlined />
+					</IconButton>
+					{/* <IconButton onClick={() => setDraftRow(null)} disabled={warning !== null}>
+						<SaveOutlined />
+					</IconButton> */}
+					{/* <IconButton onClick={handleDeleteRow} disabled={warning !== null || dragStitchesEnabled}>
+						<DeleteOutlined />
+					</IconButton> */}
 				</Grid>
 			</Grid>
 			// <Grid container data-testid={`editingRow${rowIndex}`}>
