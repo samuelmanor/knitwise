@@ -1,4 +1,4 @@
-import { Box, Button, Grid, IconButton, useTheme } from "@mui/material";
+import { Box, Button, ClickAwayListener, Grid, IconButton, Tooltip, useTheme } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import { Stitch, StitchProps } from "../Stitch";
 import { useDispatch, useSelector } from "react-redux";
@@ -130,6 +130,24 @@ export const Row: FC<RowProps> = ({
 	};
 
 	/**
+	 * Handles the selection of a specific stitch and toggles the display of the stitch select menu.
+	 * @param i The index of the stitch.
+	 */
+	const handleSelectStitch = (i: number) => {
+		if (selectedStitch === null || selectedStitch !== i) {
+			setSelectedStitch(i);
+		} else {
+			setSelectedStitch(null);
+		}
+
+		setShowStitchMenu(false);
+	};
+
+	// disableFocusListener={stitchTipMode === "click"}
+	// disableHoverListener={stitchTipMode === "click"}
+	// disableTouchListener={stitchTipMode === "click"}
+
+	/**
 	 * A static row of stitches.
 	 */
 	const row = (
@@ -150,8 +168,39 @@ export const Row: FC<RowProps> = ({
 				? "this row doesn't have stitches yet!"
 				: stitches.map((stitch, i) => {
 						return (
-							<Grid item display="inline">
-								<Stitch key={i} index={i} {...stitch} placement={undefined} />
+							<Grid
+								container
+								sx={{ flexDirection: "column", justifyContent: "center", alignItems: "center" }}
+							>
+								<Tooltip
+									title={
+										<Grid container>
+											<Grid item>
+												<IconButton onClick={() => console.log("edit stitch")}>
+													<EditOutlined />
+												</IconButton>
+											</Grid>
+											<Grid item>
+												<IconButton onClick={() => console.log("delete stitch")}>
+													<DeleteOutlined />
+												</IconButton>
+											</Grid>
+										</Grid>
+									}
+									arrow
+									disableFocusListener
+									disableHoverListener
+									disableTouchListener
+									open={selectedStitch === i}
+								>
+									<Grid
+										item
+										display="inline"
+										onClick={() => (draftRow === rowIndex ? handleSelectStitch(i) : null)}
+									>
+										<Stitch key={i} index={i} {...stitch} placement={undefined} />
+									</Grid>
+								</Tooltip>
 							</Grid>
 						);
 				  })}
@@ -191,20 +240,6 @@ export const Row: FC<RowProps> = ({
 			</Button>
 		</Grid>
 	);
-
-	/**
-	 * Handles the selection of a specific stitch and toggles the display of the stitch select menu.
-	 * @param i The index of the stitch.
-	 */
-	const handleSelectStitch = (i: number) => {
-		if (selectedStitch === null || selectedStitch !== i) {
-			setSelectedStitch(i);
-		} else {
-			setSelectedStitch(null);
-		}
-
-		setShowStitchMenu(false);
-	};
 
 	// this row is being worked in the chart
 	if (mode === "chart" && highlightRow) {
@@ -252,9 +287,6 @@ export const Row: FC<RowProps> = ({
 						)}
 					</Grid>
 					<Grid item>
-						{/* <IconButton onClick={handleDeleteRow} disabled={warning !== null || dragStitchesEnabled}>
-							<DeleteOutlined />
-						</IconButton> */}
 						<IconButton onClick={() => setDraftRow(null)} disabled={warning !== null}>
 							<SaveOutlined />
 						</IconButton>
@@ -263,24 +295,6 @@ export const Row: FC<RowProps> = ({
 						</IconButton>
 					</Grid>
 				</Grid>
-				{/* {warning !== null ? (
-					<Warning
-						text={warning}
-						action={() => {
-							dispatch(removeBlockRow({ blockIndex, rowIndex }));
-							setWarning(null);
-						}}
-						close={() => setWarning(null)}
-						setting={showDeleteRowConfirmation}
-						updateSetting={() =>
-							dispatch(changeSetting({ setting: "showDeleteRowConfirmation", value: false }))
-						}
-					/>
-				) : (
-					<Grid container onClick={() => console.log(warning)}>
-						save
-					</Grid>
-				)} */}
 				{warning === null ? null : (
 					<Warning
 						text={warning}
@@ -314,12 +328,6 @@ export const Row: FC<RowProps> = ({
 					>
 						<SwapHorizOutlined />
 					</IconButton>
-					{/* <IconButton onClick={() => setDraftRow(null)} disabled={warning !== null}>
-						<SaveOutlined />
-					</IconButton> */}
-					{/* <IconButton onClick={handleDeleteRow} disabled={warning !== null || dragStitchesEnabled}>
-						<DeleteOutlined />
-					</IconButton> */}
 				</Grid>
 			</Grid>
 			// <Grid container data-testid={`editingRow${rowIndex}`}>
