@@ -260,8 +260,8 @@ export const Row: FC<RowProps> = ({
 					flexWrap: "nowrap",
 					alignItems: "center",
 				}}
+				data-testid={`editingRow${rowIndex}`}
 			>
-				{/* {row} */}
 				<Grid container sx={{ gap: 1, width: "fit-content" }}>
 					<Grid item>
 						{dragStitchesEnabled ? (
@@ -287,7 +287,11 @@ export const Row: FC<RowProps> = ({
 						)}
 					</Grid>
 					<Grid item>
-						<IconButton onClick={() => setDraftRow(null)} disabled={warning !== null}>
+						<IconButton
+							onClick={() => setDraftRow(null)}
+							disabled={warning !== null}
+							data-testid={`saveRow${rowIndex}`}
+						>
 							<SaveOutlined />
 						</IconButton>
 						<IconButton onClick={handleDeleteRow} disabled={warning !== null || dragStitchesEnabled}>
@@ -317,6 +321,7 @@ export const Row: FC<RowProps> = ({
 						<IconButton
 							onClick={() => setShowStitchMenu(true)}
 							disabled={dragStitchesEnabled || selectedStitch !== null || warning !== null}
+							data-testId={`addBtn${rowIndex}`}
 						>
 							<AddOutlined />
 						</IconButton>

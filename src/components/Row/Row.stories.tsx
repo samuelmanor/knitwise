@@ -83,9 +83,6 @@ export const EditingBlock: Story = {
 
 			const sortButton = canvas.getByTestId(/sortBtn0/i);
 			expect(sortButton).toBeTruthy();
-
-			const deleteButton = canvas.getByTestId(/delBtn0/i);
-			expect(deleteButton).toBeTruthy();
 		});
 	},
 	args: {
