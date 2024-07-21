@@ -176,12 +176,12 @@ export const Row: FC<RowProps> = ({
 									title={
 										<Grid container>
 											<Grid item>
-												<IconButton onClick={() => console.log("edit stitch")}>
+												<IconButton onClick={() => setShowStitchMenu(true)}>
 													<EditOutlined />
 												</IconButton>
 											</Grid>
 											<Grid item>
-												<IconButton onClick={() => console.log("delete stitch")}>
+												<IconButton onClick={() => handleDeleteStitch(i)}>
 													<DeleteOutlined />
 												</IconButton>
 											</Grid>
@@ -191,7 +191,7 @@ export const Row: FC<RowProps> = ({
 									disableFocusListener
 									disableHoverListener
 									disableTouchListener
-									open={selectedStitch === i}
+									open={selectedStitch === i && !showStitchMenu}
 								>
 									<Grid
 										item
@@ -310,25 +310,32 @@ export const Row: FC<RowProps> = ({
 						}
 					/>
 				)}
-				<Grid container sx={{ width: "fit-content" }}>
-					<IconButton disabled={dragStitchesEnabled || selectedStitch !== null || warning !== null}>
-						<AddOutlined />
-					</IconButton>
-					<IconButton
-						onClick={() => {
-							setDragStitchesEnabled(!dragStitchesEnabled);
-							setSelectedStitch(null);
-						}}
-						disabled={selectedStitch !== null || stitches.length < 2 || warning !== null}
-						sx={{
-							backgroundColor: dragStitchesEnabled ? theme.palette.primary.main : "transparent",
-							color: dragStitchesEnabled ? theme.palette.primary.light : "default",
-						}}
-						disableRipple={true}
-					>
-						<SwapHorizOutlined />
-					</IconButton>
-				</Grid>
+				{showStitchMenu ? (
+					stitchMenu
+				) : (
+					<Grid container sx={{ width: "fit-content" }}>
+						<IconButton
+							onClick={() => setShowStitchMenu(true)}
+							disabled={dragStitchesEnabled || selectedStitch !== null || warning !== null}
+						>
+							<AddOutlined />
+						</IconButton>
+						<IconButton
+							onClick={() => {
+								setDragStitchesEnabled(!dragStitchesEnabled);
+								setSelectedStitch(null);
+							}}
+							disabled={selectedStitch !== null || stitches.length < 2 || warning !== null}
+							sx={{
+								backgroundColor: dragStitchesEnabled ? theme.palette.primary.main : "transparent",
+								color: dragStitchesEnabled ? theme.palette.primary.light : "default",
+							}}
+							disableRipple={true}
+						>
+							<SwapHorizOutlined />
+						</IconButton>
+					</Grid>
+				)}
 			</Grid>
 			// <Grid container data-testid={`editingRow${rowIndex}`}>
 			// 	<Grid
