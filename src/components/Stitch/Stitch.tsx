@@ -5,18 +5,18 @@ import { useSelector } from "react-redux";
 import { DeleteOutlined, EditOutlined } from "@mui/icons-material";
 
 export interface StitchProps {
-	name?: string;
-	abbreviation?: string;
-	symbol?: string;
-	description?: string;
-	width?: number;
+	name: string;
+	abbreviation: string;
+	symbol: string;
+	description: string;
+	width: number;
 	index?: number;
-	view?: "chart" | "search" | "edit"; // make obsolete
+	// view?: "chart" | "search" | "edit"; // make obsolete
 	placement?: {
 		blockIndex: number;
 		rowIndex: number;
 	};
-	selected?: boolean;
+	// selected?: boolean;
 	// userGenerated?: boolean; -> future feature ?
 }
 
@@ -35,7 +35,7 @@ export const Stitch: FC<StitchProps> = ({
 	symbol,
 	width,
 	index,
-	view,
+	// view,
 	placement,
 	// selected,
 }) => {
@@ -61,8 +61,8 @@ export const Stitch: FC<StitchProps> = ({
 				}}
 				// onClick={() => console.log(placement, selected)}
 			>
-				{view === "search" ? "test" : null}
-				{mode !== "chart" && view === "edit" ? (
+				{/* {view === "search" ? "test" : null} */}
+				{/* {mode !== "chart" && view === "edit" ? (
 					<Grid container>
 						<Typography>{symbol}</Typography>
 						<Typography>{abbreviation}</Typography>
@@ -70,7 +70,8 @@ export const Stitch: FC<StitchProps> = ({
 					</Grid>
 				) : (
 					<Typography>{stitchDisplaySetting === "symbol" ? symbol : abbreviation}</Typography>
-				)}
+				)} */}
+				<Typography>{stitchDisplaySetting === "symbol" ? symbol : abbreviation}</Typography>
 			</Grid>
 		</StitchTip>
 	);

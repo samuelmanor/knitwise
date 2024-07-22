@@ -32,8 +32,8 @@ const meta: Meta<typeof Project> = {
 	],
 };
 
-const testKnitStitch = <Stitch name="knit" abbreviation="k" description="knit" width={1} />;
-const testPurlStitch = <Stitch name="purl" abbreviation="p" description="purl" width={1} />;
+const testKnitStitch = <Stitch name="knit" abbreviation="k" description="knit" width={1} symbol={"*"} />;
+const testPurlStitch = <Stitch name="purl" abbreviation="p" description="purl" width={1} symbol={"-"} />;
 
 export const testArgs = {
 	stitches: {

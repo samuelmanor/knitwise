@@ -103,7 +103,7 @@ export const Project: FC<{}> = () => {
 				pr: 8,
 				flexWrap: "nowrap",
 				gap: 2,
-				border: "2px solid green",
+				// border: "2px solid green",
 				alignItems: "flex-end",
 			}}
 		>
