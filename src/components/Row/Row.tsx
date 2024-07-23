@@ -1,4 +1,14 @@
-import { Box, Button, ClickAwayListener, Grid, IconButton, Tooltip, useTheme } from "@mui/material";
+import {
+	Box,
+	Button,
+	Checkbox,
+	ClickAwayListener,
+	Grid,
+	IconButton,
+	Tooltip,
+	Typography,
+	useTheme,
+} from "@mui/material";
 import { FC, useEffect, useState } from "react";
 import { Stitch, StitchProps } from "../Stitch";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,12 +39,12 @@ export interface RowProps {
 /**
  * A row of stitches.
  * @param stitches The stitches in the row.
- * @param highlightRow Whether the row should be highlighted to show it is being worked.
+ * @param highlightRow Whether the row is currently being worked in the chart.
  * @param rowIndex The index of the row.
- * @param blockIndex The index of the block the row is in.
- * @param editingBlock Whether the block is being edited.
- * @param draftRow The index of the row being edited, if any.
- * @param setDraftRow A function to set the row being edited.
+ * @param blockIndex The index of the block the row belongs to.
+ * @param editingBlock Whether the block is currently being edited.
+ * @param draftRow The index of the row that is currently being edited.
+ * @param setDraftRow A function to set the index of the row that is currently being edited.
  */
 export const Row: FC<RowProps> = ({
 	stitches,
@@ -79,6 +89,7 @@ export const Row: FC<RowProps> = ({
 		});
 
 		return stitchDisplaySetting === "symbol" ? total * 20 : total * 32; // abbreviations need more space than symbols
+		// todo: make this more dynamic
 	};
 
 	/**
@@ -122,8 +133,6 @@ export const Row: FC<RowProps> = ({
 	 * Warns the user that the row will be deleted, or deletes the row if the warning was toggled off.
 	 */
 	const handleDeleteRow = () => {
-		// setWarning("this row will be deleted.");
-		// setDraftRow(rowIndex);
 		showDeleteRowConfirmation
 			? setWarning("this row will be deleted.")
 			: dispatch(removeBlockRow({ blockIndex, rowIndex }));
@@ -170,7 +179,6 @@ export const Row: FC<RowProps> = ({
 									flexDirection: "column",
 									justifyContent: "center",
 									alignItems: "center",
-									// paddingY: 0.5,
 								}}
 							>
 								<Tooltip
@@ -218,14 +226,11 @@ export const Row: FC<RowProps> = ({
 											draftRow === rowIndex && !showStitchMenu ? handleSelectStitch(i) : null
 										}
 										sx={{
-											// backgroundColor:
-											// 	selectedStitch === i ? theme.palette.primary.light : "transparent",
 											border:
 												selectedStitch === i
 													? `2px dashed ${theme.palette.primary.light}`
 													: "2px solid transparent",
 											borderRadius: "5px",
-											// padding: 0.5,
 										}}
 									>
 										<Stitch key={i} index={i} {...stitch} placement={undefined} />
@@ -241,7 +246,7 @@ export const Row: FC<RowProps> = ({
 	 * Displays all available stitches to be added to the row.
 	 */
 	const stitchMenu = (
-		<Grid container data-testid={`stitchSelect${rowIndex}`}>
+		<Grid container data-testid={`stitchSelect${rowIndex}`} sx={{ flexDirection: "column" }}>
 			{selectedStitch === null ? "add a stitch to this row:" : "replace this stitch with:"}
 			<Grid container>
 				{Object.keys(stitchDatabase).map((stitch, i) => {
@@ -259,15 +264,17 @@ export const Row: FC<RowProps> = ({
 					);
 				})}
 			</Grid>
-			<Button
-				onClick={() => {
-					setShowStitchMenu(false);
-					setSelectedStitch(null);
-				}}
-				data-testid={`cancelBtn${rowIndex}`}
-			>
-				cancel
-			</Button>
+			<Grid item>
+				<Button
+					onClick={() => {
+						setShowStitchMenu(false);
+						setSelectedStitch(null);
+					}}
+					data-testid={`cancelBtn${rowIndex}`}
+				>
+					cancel
+				</Button>
+			</Grid>
 		</Grid>
 	);
 
@@ -285,7 +292,6 @@ export const Row: FC<RowProps> = ({
 					backgroundColor: theme.palette.primary.light,
 					p: 1,
 					borderRadius: "5px",
-					// border: `2px solid ${theme.palette.primary.main}`,
 					flexDirection: "column",
 					flexWrap: "nowrap",
 					alignItems: "center",
@@ -301,7 +307,7 @@ export const Row: FC<RowProps> = ({
 										container
 										sx={{
 											minWidth: calcWidth(),
-											backgroundColor: theme.palette.primary.light,
+											backgroundColor: theme.palette.background.paper,
 											borderRadius: "5px",
 											justifyContent: "space-between",
 										}}
