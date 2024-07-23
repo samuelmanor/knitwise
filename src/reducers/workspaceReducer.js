@@ -15,6 +15,7 @@ const workspaceSlice = createSlice({
 			directionsOverlayMode: "simple", // | "detailed" | "none"
 			showDeleteRowConfirmation: true, // | "false"
 			// showDeleteBlockConfirmation: true,
+			autoCloseStitchMenu: true, // | "false"
 		},
 	},
 	reducers: {

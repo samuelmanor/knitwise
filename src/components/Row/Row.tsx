@@ -59,11 +59,13 @@ export const Row: FC<RowProps> = ({
 	const mode = useSelector((state: any) => state.workspace.mode);
 	const stitchDisplaySetting = useSelector((state: any) => state.workspace.settings.stitchDisplay);
 	const showDeleteRowConfirmation = useSelector((state: any) => state.workspace.settings.showDeleteRowConfirmation);
+	const autoCloseStitchMenu = useSelector((state: any) => state.workspace.settings.autoCloseStitchMenu);
 
 	const [dragStitchesEnabled, setDragStitchesEnabled] = useState(false); // toggles the ability to reorder stitches
 	const [showStitchMenu, setShowStitchMenu] = useState(false); // toggles the display of the stitch select menu
 	const [selectedStitch, setSelectedStitch] = useState<number | null>(null); // the index of the stitch currently being edited
 	const [warning, setWarning] = useState<string | null>(null);
+	// const [autoCloseStitchMenu, setAutoCloseStitchMenu] = useState(true);
 
 	const theme = useTheme();
 	const dispatch = useDispatch();
@@ -98,7 +100,9 @@ export const Row: FC<RowProps> = ({
 	 */
 	const handleAddStitch = (stitch: StitchProps) => {
 		dispatch(updateRow({ blockIndex, rowIndex, stitches: [...stitches, stitch] }));
-		setShowStitchMenu(false);
+		if (autoCloseStitchMenu) {
+			setShowStitchMenu(false);
+		}
 	};
 
 	/**
@@ -246,9 +250,11 @@ export const Row: FC<RowProps> = ({
 	 * Displays all available stitches to be added to the row.
 	 */
 	const stitchMenu = (
-		<Grid container data-testid={`stitchSelect${rowIndex}`} sx={{ flexDirection: "column" }}>
-			{selectedStitch === null ? "add a stitch to this row:" : "replace this stitch with:"}
-			<Grid container>
+		<Grid container data-testid={`stitchSelect${rowIndex}`} sx={{ flexDirection: "column", alignItems: "center" }}>
+			<Typography>
+				{selectedStitch === null ? "add a stitch to this row:" : "replace this stitch with:"}
+			</Typography>
+			<Grid container sx={{ gap: 1.5, justifyContent: "space-between" }}>
 				{Object.keys(stitchDatabase).map((stitch, i) => {
 					return (
 						<Grid
@@ -259,10 +265,23 @@ export const Row: FC<RowProps> = ({
 									: handleEditStitch(stitchDatabase[stitch], selectedStitch)
 							}
 						>
-							<Stitch {...stitchDatabase[stitch]} placement={undefined} />
+							<Stitch {...stitchDatabase[stitch]} placement={undefined} showInfo={true} />
 						</Grid>
 					);
 				})}
+			</Grid>
+			<Grid
+				item
+				container
+				sx={{ display: selectedStitch === null ? "" : "none", alignItems: "center", width: "fit-content" }}
+			>
+				<Checkbox
+					checked={autoCloseStitchMenu}
+					onChange={() =>
+						dispatch(changeSetting({ setting: "autoCloseStitchMenu", value: !autoCloseStitchMenu }))
+					}
+				/>
+				<Typography>auto-close this menu after adding a stitch</Typography>
 			</Grid>
 			<Grid item>
 				<Button
@@ -272,7 +291,7 @@ export const Row: FC<RowProps> = ({
 					}}
 					data-testid={`cancelBtn${rowIndex}`}
 				>
-					cancel
+					close
 				</Button>
 			</Grid>
 		</Grid>
@@ -295,6 +314,7 @@ export const Row: FC<RowProps> = ({
 					flexDirection: "column",
 					flexWrap: "nowrap",
 					alignItems: "center",
+					// maxWidth: "fit-content",
 				}}
 				data-testid={`editingRow${rowIndex}`}
 			>
