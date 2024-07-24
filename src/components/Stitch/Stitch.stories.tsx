@@ -30,7 +30,7 @@ type Story = StoryObj<typeof Stitch>;
 export const SingleWidthStitch: Story = {
 	play: async ({ canvasElement, step }) => {
 		const canvas = within(canvasElement);
-		const element = canvas.getByTestId(/stitch1knit/i);
+		const element = canvas.getByTestId(/stitch1k/i);
 		expect(element).toBeTruthy();
 	},
 	args: {
@@ -42,7 +42,7 @@ export const SingleWidthStitch: Story = {
 export const MultiWidthStitch: Story = {
 	play: async ({ canvasElement, step }) => {
 		const canvas = within(canvasElement);
-		const element = canvas.getByTestId(/stitch1knit/i);
+		const element = canvas.getByTestId("stitch11/1lc");
 		expect(element).toBeTruthy();
 	},
 	args: {
