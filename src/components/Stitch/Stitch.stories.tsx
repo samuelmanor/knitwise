@@ -6,7 +6,7 @@ import { within } from "@storybook/testing-library";
 import { Stitch } from "./Stitch";
 import { Provider } from "react-redux";
 import store from "./../../reducers/store";
-import { testProject } from "../../utils/testProject";
+import { stitches } from "../../utils/stitches";
 
 const meta: Meta<typeof Stitch> = {
 	title: "Stitch",
@@ -27,29 +27,26 @@ const meta: Meta<typeof Stitch> = {
 export default meta;
 type Story = StoryObj<typeof Stitch>;
 
-const knitStitch = testProject.blocks[0].stitches[0][0];
-const purlStitch = testProject.blocks[0].stitches[0][1];
-
-export const Knit: Story = {
-	play: async ({ canvasElement }) => {
+export const SingleWidthStitch: Story = {
+	play: async ({ canvasElement, step }) => {
 		const canvas = within(canvasElement);
 		const element = canvas.getByTestId(/stitch1knit/i);
 		expect(element).toBeTruthy();
 	},
 	args: {
-		...knitStitch,
+		...stitches.k,
 		index: 1,
 	},
 };
 
-export const Purl: Story = {
-	play: async ({ canvasElement }) => {
+export const MultiWidthStitch: Story = {
+	play: async ({ canvasElement, step }) => {
 		const canvas = within(canvasElement);
-		const element = canvas.getByTestId(/stitch1purl/i);
+		const element = canvas.getByTestId(/stitch1knit/i);
 		expect(element).toBeTruthy();
 	},
 	args: {
-		...purlStitch,
+		...stitches._1x1lc,
 		index: 1,
 	},
 };

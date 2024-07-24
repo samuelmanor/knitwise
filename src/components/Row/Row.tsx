@@ -265,7 +265,7 @@ export const Row: FC<RowProps> = ({
 									: handleEditStitch(stitchDatabase[stitch], selectedStitch)
 							}
 						>
-							<Stitch {...stitchDatabase[stitch]} placement={undefined} showInfo={true} />
+							<Stitch {...stitchDatabase[stitch]} placement={undefined} />
 						</Grid>
 					);
 				})}

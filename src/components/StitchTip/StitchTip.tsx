@@ -36,20 +36,11 @@ export const StitchTip: FC<StitchTipProps> = ({ children, name, description }) =
 		</Grid>
 	);
 
-	const handleShow = () => {
-		if (mode === "chart") {
-			return open;
-		} else if (mode === "edit" || mode === "editBlock") {
-			// todo: come up with a better way to handle this
-			return false;
-		}
-	};
-
 	return (
 		<Tooltip
 			title={tooltipText}
 			arrow
-			open={handleShow()}
+			open={mode !== "edit" ? open : false}
 			disableFocusListener={stitchTipMode === "click"}
 			disableHoverListener={stitchTipMode === "click"}
 			disableTouchListener={stitchTipMode === "click"}

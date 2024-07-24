@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { StitchTip } from "../StitchTip";
-import { Grid, Tooltip, Typography, useTheme } from "@mui/material";
+import { Grid, Typography, useTheme } from "@mui/material";
 import { useSelector } from "react-redux";
 
 export interface StitchProps {
@@ -14,60 +14,14 @@ export interface StitchProps {
 		blockIndex: number;
 		rowIndex: number;
 	};
-	showInfo?: boolean;
 	// selected?: boolean;
 	// userGenerated?: boolean; -> future feature ?
 }
 
-export const Stitch: FC<StitchProps> = ({
-	name,
-	abbreviation,
-	description,
-	symbol,
-	width,
-	index,
-	placement,
-	showInfo,
-}) => {
+export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbol, width, index, placement }) => {
 	const stitchDisplaySetting = useSelector((state: any) => state.workspace.settings.stitchDisplay);
-	const mode = useSelector((state: any) => state.workspace.mode);
 
 	const theme = useTheme();
-
-	if (showInfo) {
-		return (
-			<Tooltip
-				title={name}
-				arrow
-				componentsProps={{
-					tooltip: {
-						sx: {
-							"color": theme.palette.primary.main,
-							"zIndex": "100",
-							"backgroundColor": theme.palette.background.paper,
-							"& .MuiTooltip-arrow": {
-								color: theme.palette.background.paper,
-							},
-						},
-					},
-				}}
-			>
-				<Grid
-					container
-					sx={{
-						border: `2px solid ${theme.palette.primary.main}`,
-						borderRadius: "5px",
-						flexDirection: "column",
-						alignItems: "center",
-						padding: 1,
-						cursor: "pointer",
-					}}
-				>
-					<Typography>{symbol}</Typography>
-				</Grid>
-			</Tooltip>
-		);
-	}
 
 	return (
 		<StitchTip name={name} description={description}>
