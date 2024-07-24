@@ -30,22 +30,23 @@ export const RowControls: FC<RowControlsProps> = () => {
 					<Tooltip
 						title="previous row"
 						placement="top-end"
-						arrow
-						slotProps={{ popper: { modifiers: [{ name: "offset", options: { offset: [0, 10] } }] } }}
 						componentsProps={{
 							tooltip: {
 								sx: {
-									"fontSize": "15px",
-									"maxWidth": "200px",
-									"p": 1,
-									"backgroundColor": theme.palette.primary.main,
-									"letterSpacing": "1px",
-									"fontWeight": "bold",
-									"& .MuiTooltip-arrow": {
-										color: theme.palette.primary.main,
-									},
+									color: theme.palette.primary.main,
+									fontSize: "1.2rem",
 								},
 							},
+						}}
+						PopperProps={{
+							modifiers: [
+								{
+									name: "offset",
+									options: {
+										offset: [0, 1.5],
+									},
+								},
+							],
 						}}
 					>
 						<IconButton
@@ -69,22 +70,23 @@ export const RowControls: FC<RowControlsProps> = () => {
 				<Tooltip
 					title="next row"
 					placement="top-start"
-					arrow
-					slotProps={{ popper: { modifiers: [{ name: "offset", options: { offset: [0, 10] } }] } }}
 					componentsProps={{
 						tooltip: {
 							sx: {
-								"fontSize": "15px",
-								"maxWidth": "200px",
-								"p": 1,
-								"backgroundColor": theme.palette.primary.main,
-								"letterSpacing": "1px",
-								"fontWeight": "bold",
-								"& .MuiTooltip-arrow": {
-									color: theme.palette.primary.main,
-								},
+								color: theme.palette.primary.main,
+								fontSize: "1.2rem",
 							},
 						},
+					}}
+					PopperProps={{
+						modifiers: [
+							{
+								name: "offset",
+								options: {
+									offset: [0, 1.5],
+								},
+							},
+						],
 					}}
 				>
 					<IconButton

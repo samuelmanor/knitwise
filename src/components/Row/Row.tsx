@@ -454,7 +454,19 @@ export const Row: FC<RowProps> = ({
 								<SwapVertOutlined />
 							</IconButton>
 						) : (
-							<Tooltip title={`edit row ${rowIndex + 1}`}>
+							<Tooltip
+								title={`edit row ${rowIndex + 1}`}
+								placement="right"
+								componentsProps={{
+									tooltip: {
+										sx: {
+											backgroundColor: "transparent",
+											color: theme.palette.primary.main,
+											fontSize: "1rem",
+										},
+									},
+								}}
+							>
 								<IconButton
 									sx={{ color: theme.palette.primary.main }}
 									onClick={() => setDraftRow(rowIndex)}

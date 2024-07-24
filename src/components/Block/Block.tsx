@@ -156,7 +156,7 @@ export const Block: FC<BlockProps> = ({
 	// this block is being edited
 	if (mode === "editBlock" && draftBlockIndex === index) {
 		return (
-			<Grid container sx={{ flexDirection: "column" }}>
+			<Grid container sx={{ flexDirection: "column", pb: 4 }}>
 				<NameEditor
 					name={blockName}
 					onSave={name => dispatch(editBlockName({ blockName: name, blockIndex: index }))}
@@ -195,33 +195,79 @@ export const Block: FC<BlockProps> = ({
 						})
 					)}
 				</Grid>
-				<Tooltip title="add row">
-					<IconButton
-						onClick={() => handleAddRow(stitches.length + 1)}
-						disabled={draftRow !== null || dragRowsEnabled || warning !== null}
-						data-testid={`block${index}AddRowBtn`}
+				{dragRowsEnabled ? <Typography>click and drag rows to reorder them!</Typography> : null}
+				<Grid
+					container
+					sx={{
+						justifyContent: "center",
+						gap: 3,
+						mt: 2,
+					}}
+				>
+					<Tooltip
+						title="add row"
+						placement="bottom"
+						componentsProps={{
+							tooltip: {
+								sx: {
+									color: theme.palette.primary.main,
+								},
+							},
+						}}
 					>
-						<AddOutlined />
-					</IconButton>
-				</Tooltip>
-				<Tooltip title="reorder rows">
-					<IconButton
-						onClick={() => setDragRowsEnabled(!dragRowsEnabled)}
-						sx={{ backgroundColor: dragRowsEnabled ? theme.palette.primary.main : "default" }}
-						disableRipple
+						<IconButton
+							onClick={() => handleAddRow(stitches.length + 1)}
+							disabled={draftRow !== null || dragRowsEnabled || warning !== null}
+							data-testid={`block${index}AddRowBtn`}
+							sx={{ color: theme.palette.primary.main }}
+						>
+							<AddOutlined />
+						</IconButton>
+					</Tooltip>
+					<Tooltip
+						title={dragRowsEnabled ? "finish reordering" : "reorder rows"}
+						placement="bottom"
+						componentsProps={{
+							tooltip: {
+								sx: {
+									color: theme.palette.primary.main,
+								},
+							},
+						}}
 					>
-						<SwapVertOutlined />
-					</IconButton>
-				</Tooltip>
-				<Tooltip title="save block">
-					<IconButton
-						onClick={checkRows}
-						disabled={draftRow !== null || warning !== null}
-						data-testid={`block${index}SaveBtn`}
+						<IconButton
+							onClick={() => setDragRowsEnabled(!dragRowsEnabled)}
+							sx={{
+								backgroundColor: dragRowsEnabled ? theme.palette.primary.main : "default",
+								color: dragRowsEnabled ? theme.palette.text.secondary : theme.palette.primary.main,
+							}}
+							disableRipple
+							disabled={draftRow !== null || warning !== null || stitches.length < 2}
+						>
+							<SwapVertOutlined />
+						</IconButton>
+					</Tooltip>
+					<Tooltip
+						title="save block"
+						placement="bottom"
+						componentsProps={{
+							tooltip: {
+								sx: {
+									color: theme.palette.primary.main,
+								},
+							},
+						}}
 					>
-						<SaveOutlined />
-					</IconButton>
-				</Tooltip>
+						<IconButton
+							onClick={checkRows}
+							disabled={draftRow !== null || warning !== null}
+							data-testid={`block${index}SaveBtn`}
+							sx={{ color: theme.palette.primary.main }}
+						>
+							<SaveOutlined />
+						</IconButton>
+					</Tooltip>
+				</Grid>
 				{warning !== null ? (
 					<Warning text={warning} action={() => handleEditBlock(null)} close={() => setWarning(null)} />
 				) : null}
@@ -241,18 +287,40 @@ export const Block: FC<BlockProps> = ({
 				</BlockContainer>
 				<Grid container sx={{ justifyContent: "center", gap: 3, width: "fit-content" }}>
 					<Grid item>
-						<IconButton
-							sx={{
-								color: theme.palette.primary.main,
-								transform: "scale(1.5)",
-								height: "fit-content",
-								width: "fit-content",
+						<Tooltip
+							title="edit block"
+							placement="bottom"
+							componentsProps={{
+								tooltip: {
+									sx: {
+										color: theme.palette.primary.main,
+									},
+								},
 							}}
-							onClick={() => handleEditBlock(index)}
-							data-testid={`block${index}EditBtn`}
+							PopperProps={{
+								modifiers: [
+									{
+										name: "offset",
+										options: {
+											offset: [0, -10],
+										},
+									},
+								],
+							}}
 						>
-							<EditOutlined />
-						</IconButton>
+							<IconButton
+								sx={{
+									color: theme.palette.primary.main,
+									transform: "scale(1.5)",
+									height: "fit-content",
+									width: "fit-content",
+								}}
+								onClick={() => handleEditBlock(index)}
+								data-testid={`block${index}EditBtn`}
+							>
+								<EditOutlined />
+							</IconButton>
+						</Tooltip>
 					</Grid>
 					<Grid item>
 						<IconButton
@@ -269,17 +337,39 @@ export const Block: FC<BlockProps> = ({
 						</IconButton>
 					</Grid>
 					<Grid item>
-						<IconButton
-							sx={{
-								color: theme.palette.primary.main,
-								transform: "scale(1.5)",
-								height: "fit-content",
-								width: "fit-content",
+						<Tooltip
+							title="delete block"
+							placement="bottom"
+							componentsProps={{
+								tooltip: {
+									sx: {
+										color: theme.palette.primary.main,
+									},
+								},
 							}}
-							onClick={() => dispatch(deleteBlock({ blockIndex: index }))}
+							PopperProps={{
+								modifiers: [
+									{
+										name: "offset",
+										options: {
+											offset: [0, -10],
+										},
+									},
+								],
+							}}
 						>
-							<DeleteOutlined />
-						</IconButton>
+							<IconButton
+								sx={{
+									color: theme.palette.primary.main,
+									transform: "scale(1.5)",
+									height: "fit-content",
+									width: "fit-content",
+								}}
+								onClick={() => dispatch(deleteBlock({ blockIndex: index }))}
+							>
+								<DeleteOutlined />
+							</IconButton>
+						</Tooltip>
 					</Grid>
 				</Grid>
 			</Grid>

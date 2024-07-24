@@ -59,9 +59,17 @@ const componentOverrides: ThemeOptions["components"] = {
 	MuiIconButton: {
 		styleOverrides: {
 			root: {
-				// transform: "scale(1.5)",
 				height: "fit-content",
 				width: "fit-content",
+			},
+		},
+	},
+	MuiTooltip: {
+		styleOverrides: {
+			tooltip: {
+				backgroundColor: "transparent",
+				fontSize: "1rem",
+				fontWeight: "bold",
 			},
 		},
 	},

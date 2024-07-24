@@ -1,5 +1,5 @@
 import { EditOutlined, SaveOutlined } from "@mui/icons-material";
-import { ClickAwayListener, IconButton, TextField, useTheme } from "@mui/material";
+import { ClickAwayListener, IconButton, TextField, Tooltip, useTheme } from "@mui/material";
 import { FC, useState } from "react";
 
 interface NameEditorProps {
@@ -58,13 +58,37 @@ export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type }) => {
 				sx={{ input: { cursor: editing ? "text" : "default" } }}
 				InputProps={{
 					endAdornment: editing ? (
-						<IconButton onClick={handleSave} aria-label={"name-editor-save"}>
-							<SaveOutlined />
-						</IconButton>
+						<Tooltip
+							title="save block name"
+							placement="right"
+							componentsProps={{
+								tooltip: {
+									sx: {
+										color: theme.palette.primary.main,
+									},
+								},
+							}}
+						>
+							<IconButton onClick={handleSave} aria-label={"name-editor-save"}>
+								<SaveOutlined />
+							</IconButton>
+						</Tooltip>
 					) : (
-						<IconButton onClick={() => setEditing(true)} aria-label={"name-editor-edit"}>
-							<EditOutlined />
-						</IconButton>
+						<Tooltip
+							title="edit block name"
+							placement="right"
+							componentsProps={{
+								tooltip: {
+									sx: {
+										color: theme.palette.primary.main,
+									},
+								},
+							}}
+						>
+							<IconButton onClick={() => setEditing(true)} aria-label={"name-editor-edit"}>
+								<EditOutlined />
+							</IconButton>
+						</Tooltip>
 					),
 					readOnly: !editing,
 					disableUnderline: true,

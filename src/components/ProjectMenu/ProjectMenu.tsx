@@ -55,21 +55,23 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 				<Tooltip
 					title={mode === "chart" ? "edit project" : "save project"}
 					placement="top"
-					arrow
 					componentsProps={{
 						tooltip: {
 							sx: {
-								"fontSize": "15px",
-								"p": 1,
-								"letterSpacing": "1px",
-								"backgroundColor": theme.palette.primary.main,
-								"color": theme.palette.text.secondary,
-								"fontWeight": "bold",
-								"& .MuiTooltip-arrow": {
-									color: theme.palette.primary.main,
-								},
+								color: theme.palette.primary.main,
+								fontSize: "1.2rem",
 							},
 						},
+					}}
+					PopperProps={{
+						modifiers: [
+							{
+								name: "offset",
+								options: {
+									offset: [0, -8],
+								},
+							},
+						],
 					}}
 				>
 					<IconButton
@@ -84,21 +86,24 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 				<Tooltip
 					title="settings"
 					placement="top"
-					arrow
 					componentsProps={{
 						tooltip: {
 							sx: {
-								"fontSize": "15px",
-								"p": 1,
-								"letterSpacing": "1px",
-								"backgroundColor": theme.palette.primary.main,
-								"color": theme.palette.text.secondary,
-								"fontWeight": "bold",
-								"& .MuiTooltip-arrow": {
-									color: theme.palette.primary.main,
-								},
+								color: theme.palette.primary.main,
+								// fontWeight: "bold",
+								fontSize: "1.2rem",
 							},
 						},
+					}}
+					PopperProps={{
+						modifiers: [
+							{
+								name: "offset",
+								options: {
+									offset: [0, -8],
+								},
+							},
+						],
 					}}
 				>
 					<IconButton
