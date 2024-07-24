@@ -16,6 +16,7 @@ export interface StitchProps {
 	width: number;
 	index?: number;
 	placement?: StitchPlacement;
+	disableStitchTip?: boolean;
 	// userGenerated?: boolean; -> future feature ?
 }
 
@@ -28,14 +29,23 @@ export interface StitchProps {
  * @param width The number of stitches the stitch takes up.
  * @param index The index of the stitch.
  * @param placement The placement of the stitch in the pattern.
+ * @param disableStitchTip Whether or not to disable the stitch tip.
  */
-export const Stitch: FC<StitchProps> = ({ name, abbreviation, description, symbol, width, index }) => {
+export const Stitch: FC<StitchProps> = ({
+	name,
+	abbreviation,
+	description,
+	symbol,
+	width,
+	index,
+	disableStitchTip,
+}) => {
 	const stitchDisplaySetting = useSelector((state: any) => state.workspace.settings.stitchDisplay);
 
 	const theme = useTheme();
 
 	return (
-		<StitchTip name={name} description={description}>
+		<StitchTip name={name} description={description} disabled={disableStitchTip}>
 			<Grid
 				item
 				sx={{

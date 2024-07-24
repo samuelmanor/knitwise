@@ -1,8 +1,15 @@
-import { IconButton, Grid, Typography, Box, useTheme } from "@mui/material";
+import { IconButton, Grid, Typography, Box, useTheme, Tooltip } from "@mui/material";
 import { FC, useRef, useState } from "react";
 import { Row } from "../Row";
 import { useDispatch, useSelector } from "react-redux";
-import { EditOutlined, DeleteOutlined, SaveOutlined, SwapHorizOutlined, AddOutlined } from "@mui/icons-material";
+import {
+	EditOutlined,
+	DeleteOutlined,
+	SaveOutlined,
+	SwapHorizOutlined,
+	AddOutlined,
+	SwapVertOutlined,
+} from "@mui/icons-material";
 import { deleteBlock } from "../../reducers/projectReducer";
 import { StitchProps } from "../Stitch";
 import { setMode } from "../../reducers/workspaceReducer";
@@ -46,6 +53,7 @@ export const Block: FC<BlockProps> = ({
 	const mode = useSelector((state: any) => state.workspace.mode);
 
 	const [draftRow, setDraftRow] = useState<number | null>(null);
+	const [dragRowsEnabled, setDragRowsEnabled] = useState(false);
 	const [warning, setWarning] = useState<string | null>(null);
 
 	const baseRowRef = useRef<HTMLDivElement>(null);
@@ -104,8 +112,6 @@ export const Block: FC<BlockProps> = ({
 					editingBlock={draftBlockIndex === index}
 					rowIndex={i}
 					blockIndex={index}
-					// draftRow={draftRow}
-					// setDraftRow={setDraftRow}
 				/>
 			</Box>
 		);
@@ -156,7 +162,7 @@ export const Block: FC<BlockProps> = ({
 					onSave={name => dispatch(editBlockName({ blockName: name, blockIndex: index }))}
 				/>
 				<Grid item sx={{ display: "flex", flexDirection: "column-reverse", gap: 1 }}>
-					{draftRow === null ? (
+					{dragRowsEnabled ? (
 						<SortableList
 							items={stitches.map((item, i) => ({
 								id: i + 1,
@@ -168,6 +174,7 @@ export const Block: FC<BlockProps> = ({
 										blockIndex={index}
 										draftRow={draftRow}
 										setDraftRow={setDraftRow}
+										dragRowsEnabled={dragRowsEnabled}
 									/>
 								),
 							}))}
@@ -188,20 +195,33 @@ export const Block: FC<BlockProps> = ({
 						})
 					)}
 				</Grid>
-				<IconButton
-					onClick={() => handleAddRow(stitches.length + 1)}
-					disabled={draftRow !== null}
-					data-testid={`block${index}AddRowBtn`}
-				>
-					<AddOutlined />
-				</IconButton>
-				<IconButton
-					onClick={checkRows}
-					disabled={draftRow !== null || warning !== null}
-					data-testid={`block${index}SaveBtn`}
-				>
-					<SaveOutlined />
-				</IconButton>
+				<Tooltip title="add row">
+					<IconButton
+						onClick={() => handleAddRow(stitches.length + 1)}
+						disabled={draftRow !== null || dragRowsEnabled || warning !== null}
+						data-testid={`block${index}AddRowBtn`}
+					>
+						<AddOutlined />
+					</IconButton>
+				</Tooltip>
+				<Tooltip title="reorder rows">
+					<IconButton
+						onClick={() => setDragRowsEnabled(!dragRowsEnabled)}
+						sx={{ backgroundColor: dragRowsEnabled ? theme.palette.primary.main : "default" }}
+						disableRipple
+					>
+						<SwapVertOutlined />
+					</IconButton>
+				</Tooltip>
+				<Tooltip title="save block">
+					<IconButton
+						onClick={checkRows}
+						disabled={draftRow !== null || warning !== null}
+						data-testid={`block${index}SaveBtn`}
+					>
+						<SaveOutlined />
+					</IconButton>
+				</Tooltip>
 				{warning !== null ? (
 					<Warning text={warning} action={() => handleEditBlock(null)} close={() => setWarning(null)} />
 				) : null}

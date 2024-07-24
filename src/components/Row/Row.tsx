@@ -34,6 +34,7 @@ export interface RowProps {
 	editingBlock: boolean;
 	draftRow?: number | null;
 	setDraftRow?: (row: number) => void;
+	dragRowsEnabled?: boolean;
 }
 
 /**
@@ -45,6 +46,7 @@ export interface RowProps {
  * @param editingBlock Whether the block is currently being edited.
  * @param draftRow The index of the row that is currently being edited.
  * @param setDraftRow A function to set the index of the row that is currently being edited.
+ * @param dragRowsEnabled Whether the ability to reorder rows is enabled.
  */
 export const Row: FC<RowProps> = ({
 	stitches,
@@ -54,6 +56,7 @@ export const Row: FC<RowProps> = ({
 	editingBlock,
 	draftRow,
 	setDraftRow,
+	dragRowsEnabled,
 }) => {
 	const stitchDatabase = require("../../utils/stitches").stitches;
 	const mode = useSelector((state: any) => state.workspace.mode);
@@ -65,7 +68,6 @@ export const Row: FC<RowProps> = ({
 	const [showStitchMenu, setShowStitchMenu] = useState(false); // toggles the display of the stitch select menu
 	const [selectedStitch, setSelectedStitch] = useState<number | null>(null); // the index of the stitch currently being edited
 	const [warning, setWarning] = useState<string | null>(null);
-	// const [autoCloseStitchMenu, setAutoCloseStitchMenu] = useState(true);
 
 	const theme = useTheme();
 	const dispatch = useDispatch();
@@ -207,6 +209,7 @@ export const Row: FC<RowProps> = ({
 													<EditOutlined />
 												</IconButton>
 											</Grid>
+
 											<Grid item>
 												<IconButton
 													onClick={() => handleDeleteStitch(i)}
@@ -237,7 +240,13 @@ export const Row: FC<RowProps> = ({
 											borderRadius: "5px",
 										}}
 									>
-										<Stitch key={i} index={i} {...stitch} placement={undefined} />
+										<Stitch
+											key={i}
+											index={i}
+											{...stitch}
+											placement={undefined}
+											disableStitchTip={dragRowsEnabled}
+										/>
 									</Grid>
 								</Tooltip>
 							</Grid>
@@ -314,7 +323,6 @@ export const Row: FC<RowProps> = ({
 					flexDirection: "column",
 					flexWrap: "nowrap",
 					alignItems: "center",
-					// maxWidth: "fit-content",
 				}}
 				data-testid={`editingRow${rowIndex}`}
 			>
@@ -398,7 +406,7 @@ export const Row: FC<RowProps> = ({
 											: "transparent",
 										color: dragStitchesEnabled ? theme.palette.primary.light : "default",
 									}}
-									disableRipple={true}
+									disableRipple
 								>
 									<SwapHorizOutlined />
 								</IconButton>
@@ -437,26 +445,31 @@ export const Row: FC<RowProps> = ({
 						display={draftRow !== null ? "none" : undefined}
 						sx={{ gap: 0.5, flexWrap: "nowrap" }}
 					>
-						<IconButton
-							sx={{ color: theme.palette.primary.main }}
-							onClick={() => setDraftRow(rowIndex)}
-							data-testid={`editBtn${rowIndex}`}
-						>
-							<EditOutlined />
-						</IconButton>
-						<IconButton
-							sx={{ color: theme.palette.primary.main, cursor: "grab" }}
-							data-testid={`sortBtn${rowIndex}`}
-							disableRipple
-						>
-							<SwapVertOutlined />
-						</IconButton>
+						{dragRowsEnabled ? (
+							<IconButton
+								sx={{ color: theme.palette.primary.main, cursor: "grab" }}
+								data-testid={`sortBtn${rowIndex}`}
+								disableRipple
+							>
+								<SwapVertOutlined />
+							</IconButton>
+						) : (
+							<Tooltip title={`edit row ${rowIndex + 1}`}>
+								<IconButton
+									sx={{ color: theme.palette.primary.main }}
+									onClick={() => setDraftRow(rowIndex)}
+									data-testid={`editBtn${rowIndex}`}
+								>
+									<EditOutlined />
+								</IconButton>
+							</Tooltip>
+						)}
 					</Grid>
 				</Grid>
 			</Box>
 		);
 	}
 
-	// base state; this row is not being worked or edited
+	// this row is not being worked or edited
 	return row;
 };

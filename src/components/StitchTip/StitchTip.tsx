@@ -6,6 +6,7 @@ interface StitchTipProps {
 	children: React.ReactNode;
 	name: string;
 	description: string;
+	disabled: boolean;
 }
 
 /**
@@ -13,8 +14,9 @@ interface StitchTipProps {
  * @param children The content to be wrapped by the tooltip.
  * @param name The name of the stitch.
  * @param description An explanation of how to work the stitch.
+ * @param disabled Disables displaying the tooltip.
  */
-export const StitchTip: FC<StitchTipProps> = ({ children, name, description }) => {
+export const StitchTip: FC<StitchTipProps> = ({ children, name, description, disabled }) => {
 	const theme = useTheme();
 	const [open, setOpen] = useState(false);
 
@@ -40,7 +42,7 @@ export const StitchTip: FC<StitchTipProps> = ({ children, name, description }) =
 		<Tooltip
 			title={tooltipText}
 			arrow
-			open={mode !== "edit" ? open : false}
+			open={mode !== "edit" && !disabled ? open : false}
 			disableFocusListener={stitchTipMode === "click"}
 			disableHoverListener={stitchTipMode === "click"}
 			disableTouchListener={stitchTipMode === "click"}
