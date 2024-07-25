@@ -1,10 +1,8 @@
-import { Grid, IconButton, Tooltip, useTheme } from "@mui/material";
+import { Grid } from "@mui/material";
 import { FC, useState } from "react";
 import { Block, BlockProps } from "../Block";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { SortableList } from "../Sortable/SortableList";
-import { DeleteOutlined, EditOutlined } from "@mui/icons-material";
-import { deleteBlock } from "../../reducers/projectReducer";
 
 // export interface ProjectProps {}
 
@@ -12,21 +10,10 @@ import { deleteBlock } from "../../reducers/projectReducer";
  * The project; made up of many blocks.
  */
 export const Project: FC<{}> = () => {
-	// const currentRow = useSelector((state: any) => state.projects.currentRow);
 	const mode = useSelector((state: any) => state.workspace.mode);
 	const blocks = useSelector((state: any) => state.projects.project.blocks);
 
-	// const [items, setItems] = useState(blocks);
-
-	// useEffect(() => {
-	// 	setItems(blocks);
-	// }, [blocks]);
-
 	const [draftBlockIndex, setDraftBlockIndex] = useState<number | null>(null); // the index of the block that is being edited
-	const [dragBlocksEnabled, setDragBlocksEnabled] = useState(false);
-
-	const dispatch = useDispatch();
-	const theme = useTheme();
 
 	if (!blocks) return <div>no blocks found</div>;
 
@@ -46,33 +33,6 @@ export const Project: FC<{}> = () => {
 		});
 		return index;
 	};
-
-	/**
-	 * Opens the block editor.
-	 */
-	// const handleEdit = (blockIndex: number) => {
-	// 	setShowBlockEditor(true);
-	// 	setCurrentDraftBlock(blockIndex);
-	// };
-
-	/**
-	 * Adds a new block to the project at either the beginning or end of the project. //=> todo: add feat to add block between already existing blocks
-	 * @param blockName The name of the block to be added.
-	 * @param stitches The stitches for the block to be added.
-	 */
-	// const handleAddNewBlock = (blockName: string, stitches: BlockProps | [[]]) => {
-	// 	dispatch(
-	// 		addBlock({
-	// 			blockName,
-	// 			stitches,
-	// 			blockIndex: currentDraftBlock === 0 ? 0 : blocks.length,
-	// 		}),
-	// 	);
-
-	// 	setShowBlockMenu(false);
-	// 	setShowBlockEditor(!showBlockSearch);
-	// 	setShowBlockSearch(false);
-	// };
 
 	const project = blocks.map((block: BlockProps, i: number) => {
 		// when a specific block is being edited, only show that block

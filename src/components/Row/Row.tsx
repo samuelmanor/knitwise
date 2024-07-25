@@ -245,7 +245,7 @@ export const Row: FC<RowProps> = ({
 											index={i}
 											{...stitch}
 											placement={undefined}
-											disableStitchTip={dragRowsEnabled}
+											disableStitchTip={(mode === "chart" && !highlightRow) || dragRowsEnabled}
 										/>
 									</Grid>
 								</Tooltip>
