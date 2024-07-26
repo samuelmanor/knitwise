@@ -317,6 +317,7 @@ export const Block: FC<BlockProps> = ({
 								}}
 								onClick={() => handleEditBlock(index)}
 								data-testid={`block${index}EditBtn`}
+								disabled={warning !== null}
 							>
 								<EditOutlined />
 							</IconButton>
@@ -332,6 +333,7 @@ export const Block: FC<BlockProps> = ({
 								cursor: "grab",
 							}}
 							disableRipple
+							disabled={project.blocks.length === 1 || warning !== null}
 						>
 							<SwapHorizOutlined />
 						</IconButton>
@@ -365,13 +367,24 @@ export const Block: FC<BlockProps> = ({
 									height: "fit-content",
 									width: "fit-content",
 								}}
-								onClick={() => dispatch(deleteBlock({ blockIndex: index }))}
+								onClick={() => setWarning("this block will be deleted.")}
+								disabled={project.blocks.length === 1 || warning !== null}
 							>
 								<DeleteOutlined />
 							</IconButton>
 						</Tooltip>
 					</Grid>
 				</Grid>
+				{warning !== null ? (
+					<Warning
+						text={warning}
+						action={() => {
+							dispatch(deleteBlock({ blockIndex: index }));
+							setWarning(null);
+						}}
+						close={() => setWarning(null)}
+					/>
+				) : null}
 			</Grid>
 		);
 	}
