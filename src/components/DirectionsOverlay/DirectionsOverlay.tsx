@@ -1,3 +1,4 @@
+import { EastOutlined, WestOutlined } from "@mui/icons-material";
 import { Box, Grid, Tooltip, Typography, useTheme } from "@mui/material";
 import { FC } from "react";
 import { useSelector } from "react-redux";
@@ -23,7 +24,12 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockI
 
 	const showLeftRowMarker = blockIndex === 0 && currentRow % 2 === 0;
 	const showRightRowMarker = blockIndex === blocksTotal - 1 && currentRow % 2 === 1;
-	const rowMarkerLabel = showLeftRowMarker ? "WS →" : "← RS";
+	const rowMarkerLabel = (
+		<Grid container sx={{ gap: 1, userSelect: "none", alignItems: "center" }}>
+			<Grid item>{showLeftRowMarker ? <Typography variant="h3">ws</Typography> : <WestOutlined />}</Grid>
+			<Grid item>{showLeftRowMarker ? <EastOutlined /> : <Typography variant="h3">rs</Typography>}</Grid>
+		</Grid>
+	);
 
 	const theme = useTheme();
 
@@ -134,6 +140,21 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockI
 								enabled: false,
 							},
 						],
+					},
+				}}
+				componentsProps={{
+					tooltip: {
+						sx: {
+							// width: getWidth() * 15,
+							// backgroundColor: theme.palette.primary.main,
+							// color: theme.palette.text.secondary,
+							// p: 1.5,
+							// borderRadius: "5px",
+							// display: show ? "flex" : "none",
+							backgroundColor: theme.palette.primary.main,
+							filter: "none",
+							color: theme.palette.text.secondary,
+						},
 					},
 				}}
 			>

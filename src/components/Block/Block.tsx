@@ -127,7 +127,7 @@ export const Block: FC<BlockProps> = ({
 				sx={{
 					flexDirection: "column-reverse",
 					backgroundColor: theme.palette.background.paper,
-					filter: `drop-shadow(5px 5px 0px ${theme.palette.primary.main})`,
+					// filter: `drop-shadow(5px 5px 0px ${theme.palette.primary.main})`,
 					border: `2px solid ${theme.palette.primary.main}`,
 					p: 0.5,
 					borderTopRightRadius: "10px",
