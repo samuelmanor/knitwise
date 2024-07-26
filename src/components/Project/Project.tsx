@@ -14,6 +14,7 @@ export const Project: FC<{}> = () => {
 	const blocks = useSelector((state: any) => state.projects.project.blocks);
 
 	const [draftBlockIndex, setDraftBlockIndex] = useState<number | null>(null); // the index of the block that is being edited
+	const [dragBlocksEnabled, setDragBlocksEnabled] = useState<boolean>(true); // whether or not blocks can be dragged
 
 	if (!blocks) return <div>no blocks found</div>;
 
@@ -34,7 +35,12 @@ export const Project: FC<{}> = () => {
 		return index;
 	};
 
-	const project = blocks.map((block: BlockProps, i: number) => {
+	/**
+	 * Renders a block.
+	 * @param block The block to render.
+	 * @param i The index of the block.
+	 */
+	const renderBlock = (block: BlockProps, i: number) => {
 		// when a specific block is being edited, only show that block
 		if (mode === "editBlock" && draftBlockIndex !== null && draftBlockIndex !== i) return null;
 
@@ -47,9 +53,10 @@ export const Project: FC<{}> = () => {
 				tallestBlockIndex={getTallestBlock()}
 				draftBlockIndex={draftBlockIndex}
 				setDraftBlockIndex={setDraftBlockIndex}
+				setDragBlocksEnabled={setDragBlocksEnabled}
 			/>
 		);
-	});
+	};
 
 	return (
 		<Grid
@@ -67,26 +74,16 @@ export const Project: FC<{}> = () => {
 				alignItems: "flex-end",
 			}}
 		>
-			{mode === "edit" ? (
+			{mode === "edit" && dragBlocksEnabled ? (
 				<SortableList
 					items={blocks.map((item, i) => ({
 						id: `${i}`,
-						item: (
-							<Block
-								index={i}
-								currentBlockRow={item.currentBlockRow}
-								blockName={item.blockName}
-								stitches={item.stitches}
-								tallestBlockIndex={getTallestBlock()}
-								draftBlockIndex={draftBlockIndex}
-								setDraftBlockIndex={setDraftBlockIndex}
-							/>
-						),
+						item: renderBlock(item, i),
 					}))}
 					direction="horizontal"
 				/>
 			) : (
-				project
+				blocks.map((block, i) => renderBlock(block, i))
 			)}
 		</Grid>
 	);

@@ -27,6 +27,7 @@ export interface BlockProps {
 	tallestBlockIndex?: number;
 	draftBlockIndex?: number | null;
 	setDraftBlockIndex?: (index: number) => void;
+	setDragBlocksEnabled?: (enabled: boolean) => void;
 }
 
 /**
@@ -38,6 +39,7 @@ export interface BlockProps {
  * @param tallestBlockIndex The index of the tallest block in the project - used to calculate padding for individual blocks.
  * @param draftBlockIndex The index of the block that is currently being edited.
  * @param setDraftBlockIndex A function to set the index of the block that is currently being edited.
+ * @param setDragBlocksEnabled A function to enable/disable dragging blocks.
  */
 export const Block: FC<BlockProps> = ({
 	index,
@@ -47,6 +49,7 @@ export const Block: FC<BlockProps> = ({
 	tallestBlockIndex,
 	draftBlockIndex,
 	setDraftBlockIndex,
+	setDragBlocksEnabled,
 }) => {
 	const project = useSelector((state: any) => state.projects.project);
 	const projectRow = useSelector((state: any) => state.projects.projectRow);
@@ -367,7 +370,10 @@ export const Block: FC<BlockProps> = ({
 									height: "fit-content",
 									width: "fit-content",
 								}}
-								onClick={() => setWarning("this block will be deleted.")}
+								onClick={() => {
+									setWarning("this block will be deleted.");
+									setDragBlocksEnabled(false);
+								}}
 								disabled={project.blocks.length === 1 || warning !== null}
 							>
 								<DeleteOutlined />
