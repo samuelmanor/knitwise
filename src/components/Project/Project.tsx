@@ -56,7 +56,7 @@ export const Project: FC<{}> = () => {
 				setDragBlocksEnabled={setDragBlocksEnabled}
 			/>
 		);
-	};
+	}; // todo: make all draggable components render like this
 
 	return (
 		<Grid

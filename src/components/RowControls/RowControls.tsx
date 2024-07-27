@@ -63,9 +63,19 @@ export const RowControls: FC<RowControlsProps> = () => {
 					</IconButton>
 				)}
 
-				<Typography variant="h5" sx={{ color: theme.palette.text.secondary, fontWeight: "bold" }}>
-					{currentRow}
-				</Typography>
+				<Tooltip
+					title={"current row"}
+					placement={"top"}
+					componentsProps={{ tooltip: { sx: { color: theme.palette.primary.main, fontSize: "1.2rem" } } }}
+					PopperProps={{ modifiers: [{ name: "offset", options: { offset: [0, 8] } }] }}
+				>
+					<Typography
+						variant="h5"
+						sx={{ color: theme.palette.text.secondary, fontWeight: "bold", cursor: "default" }}
+					>
+						{currentRow}
+					</Typography>
+				</Tooltip>
 
 				<Tooltip
 					title="next row"
