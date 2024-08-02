@@ -56,7 +56,7 @@ export const Project: FC<{}> = () => {
 				setDragBlocksEnabled={setDragBlocksEnabled}
 			/>
 		);
-	}; // todo: make all draggable components render like this
+	};
 
 	return (
 		<Grid
@@ -70,7 +70,6 @@ export const Project: FC<{}> = () => {
 				pr: mode === "chart" ? 12 : 8,
 				flexWrap: "nowrap",
 				gap: 2,
-				// border: "2px solid green",
 				alignItems: "flex-end",
 			}}
 		>

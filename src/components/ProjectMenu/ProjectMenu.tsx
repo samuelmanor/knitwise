@@ -90,7 +90,6 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 						tooltip: {
 							sx: {
 								color: theme.palette.primary.main,
-								// fontWeight: "bold",
 								fontSize: "1.2rem",
 							},
 						},
@@ -106,11 +105,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 						],
 					}}
 				>
-					<IconButton
-						size="large"
-						sx={{ color: theme.palette.text.secondary, transform: "scale(1.5)" }}
-						disabled={mode === "editBlock"} // tempfix; row edit buttons in block editor show over settings menu
-					>
+					<IconButton size="large" sx={{ color: theme.palette.text.secondary, transform: "scale(1.5)" }}>
 						<SettingsOutlined onClick={() => setOpenSettings(true)} />
 					</IconButton>
 				</Tooltip>
