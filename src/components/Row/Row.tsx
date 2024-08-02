@@ -328,7 +328,7 @@ export const Row: FC<RowProps> = ({
 			>
 				<ClickAwayListener onClickAway={() => setSelectedStitch(null)}>
 					<>
-						<Grid container sx={{ gap: 1, width: "fit-content" }}>
+						<Grid container sx={{ gap: 1.5, width: "fit-content", flexWrap: "nowrap" }}>
 							<Grid item>
 								{dragStitchesEnabled ? (
 									<Grid
@@ -352,20 +352,64 @@ export const Row: FC<RowProps> = ({
 									row
 								)}
 							</Grid>
-							<Grid item>
-								<IconButton
-									onClick={() => setDraftRow(null)}
-									disabled={warning !== null || showStitchMenu}
-									data-testid={`saveRow${rowIndex}`}
+							<Grid item container sx={{ mr: 1, gap: 1 }}>
+								<Tooltip
+									title="save"
+									placement="bottom"
+									componentsProps={{
+										tooltip: {
+											sx: {
+												color: theme.palette.text.secondary,
+											},
+										},
+									}}
+									PopperProps={{
+										modifiers: [
+											{
+												name: "offset",
+												options: {
+													offset: [0, -10],
+												},
+											},
+										],
+									}}
 								>
-									<SaveOutlined />
-								</IconButton>
-								<IconButton
-									onClick={handleDeleteRow}
-									disabled={warning !== null || dragStitchesEnabled || showStitchMenu}
+									<IconButton
+										onClick={() => setDraftRow(null)}
+										disabled={warning !== null || showStitchMenu}
+										data-testid={`saveRow${rowIndex}`}
+									>
+										<SaveOutlined />
+									</IconButton>
+								</Tooltip>
+								<Tooltip
+									title="delete"
+									placement="bottom"
+									componentsProps={{
+										tooltip: {
+											sx: {
+												color: theme.palette.text.secondary,
+											},
+										},
+									}}
+									PopperProps={{
+										modifiers: [
+											{
+												name: "offset",
+												options: {
+													offset: [0, -10],
+												},
+											},
+										],
+									}}
 								>
-									<DeleteOutlined />
-								</IconButton>
+									<IconButton
+										onClick={handleDeleteRow}
+										disabled={warning !== null || dragStitchesEnabled || showStitchMenu}
+									>
+										<DeleteOutlined />
+									</IconButton>
+								</Tooltip>
 							</Grid>
 						</Grid>
 						{warning === null ? null : (
@@ -386,30 +430,77 @@ export const Row: FC<RowProps> = ({
 						{showStitchMenu ? (
 							stitchMenu
 						) : (
-							<Grid container sx={{ width: "fit-content", display: warning !== null ? "none" : "" }}>
-								<IconButton
-									onClick={() => setShowStitchMenu(true)}
-									disabled={dragStitchesEnabled || selectedStitch !== null || warning !== null}
-									data-testId={`addBtn${rowIndex}`}
-								>
-									<AddOutlined />
-								</IconButton>
-								<IconButton
-									onClick={() => {
-										setDragStitchesEnabled(!dragStitchesEnabled);
-										setSelectedStitch(null);
+							<Grid
+								container
+								sx={{ width: "fit-content", display: warning !== null ? "none" : "", pt: 1 }}
+							>
+								<Tooltip
+									title={"add a stitch"}
+									placement="left"
+									componentsProps={{
+										tooltip: {
+											sx: {
+												color: theme.palette.text.secondary,
+											},
+										},
 									}}
-									disabled={selectedStitch !== null || stitches.length < 2 || warning !== null}
-									sx={{
-										backgroundColor: dragStitchesEnabled
-											? theme.palette.primary.main
-											: "transparent",
-										color: dragStitchesEnabled ? theme.palette.primary.light : "default",
+									PopperProps={{
+										modifiers: [
+											{
+												name: "offset",
+												options: {
+													offset: [0, -10],
+												},
+											},
+										],
 									}}
-									disableRipple
 								>
-									<SwapHorizOutlined />
-								</IconButton>
+									<IconButton
+										onClick={() => setShowStitchMenu(true)}
+										disabled={dragStitchesEnabled || selectedStitch !== null || warning !== null}
+										data-testId={`addBtn${rowIndex}`}
+									>
+										<AddOutlined />
+									</IconButton>
+								</Tooltip>
+								<Tooltip
+									title={"rearrange stitches"}
+									placement="right"
+									componentsProps={{
+										tooltip: {
+											sx: {
+												color: theme.palette.text.secondary,
+											},
+										},
+									}}
+									PopperProps={{
+										modifiers: [
+											{
+												name: "offset",
+												options: {
+													offset: [0, -10],
+												},
+											},
+										],
+									}}
+								>
+									<IconButton
+										onClick={() => {
+											setDragStitchesEnabled(!dragStitchesEnabled);
+											setSelectedStitch(null);
+										}}
+										disabled={selectedStitch !== null || stitches.length < 2 || warning !== null}
+										sx={{
+											backgroundColor: dragStitchesEnabled
+												? theme.palette.primary.main
+												: "transparent",
+											color: dragStitchesEnabled ? theme.palette.primary.light : "default",
+										}}
+										disableRipple
+									>
+										<SwapHorizOutlined />
+									</IconButton>
+								</Tooltip>
 							</Grid>
 						)}
 					</>
@@ -460,9 +551,7 @@ export const Row: FC<RowProps> = ({
 								componentsProps={{
 									tooltip: {
 										sx: {
-											backgroundColor: "transparent",
 											color: theme.palette.primary.main,
-											fontSize: "1rem",
 										},
 									},
 								}}
