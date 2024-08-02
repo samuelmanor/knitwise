@@ -110,7 +110,7 @@ export const darkTheme: ThemeOptions = {
 		},
 		text: {
 			primary: "#f6f2df",
-			secondary: "#f6f2df",
+			secondary: "#2a353c",
 		},
 		background: {
 			default:

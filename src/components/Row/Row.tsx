@@ -386,7 +386,7 @@ export const Row: FC<RowProps> = ({
 						{showStitchMenu ? (
 							stitchMenu
 						) : (
-							<Grid container sx={{ width: "fit-content" }}>
+							<Grid container sx={{ width: "fit-content", display: warning !== null ? "none" : "" }}>
 								<IconButton
 									onClick={() => setShowStitchMenu(true)}
 									disabled={dragStitchesEnabled || selectedStitch !== null || warning !== null}

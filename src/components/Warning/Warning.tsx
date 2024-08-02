@@ -21,22 +21,53 @@ export const Warning: FC<WarningProps> = ({ text, setting, updateSetting, action
 		action();
 	};
 	return (
-		<Grid container sx={{ flexDirection: "column", alignItems: "center", width: "fit-content", gap: 0.5, pt: 1 }}>
-			<Grid item>{text}</Grid>
-			<Grid item>are you sure you want to continue?</Grid>
-			<Grid item sx={{ pt: 0.5 }}>
+		<Grid container sx={{ flexDirection: "column", alignItems: "center", width: "fit-content", gap: 0.5, pt: 2 }}>
+			<Typography variant="h4">{text}</Typography>
+			<Typography variant="h4">are you sure you want to continue?</Typography>
+			<Grid item container sx={{ pt: 0.5, justifyContent: "center", gap: 1 }}>
 				<Button
 					onClick={handleConfirmation}
-					// sx={{ border: `2px solid ${theme.palette.primary.main}`, color: theme.palette.primary.main }}
+					sx={{
+						"color": theme.palette.text.primary,
+						"&:hover": {
+							backgroundColor: theme.palette.primary.main,
+						},
+						"&:active": {
+							backgroundColor: theme.palette.primary.dark,
+						},
+					}}
 				>
 					yes
 				</Button>
-				<Button onClick={close}>no</Button>
+				<Button
+					onClick={close}
+					sx={{
+						"color": theme.palette.text.primary,
+						"&:hover": {
+							backgroundColor: theme.palette.primary.main,
+						},
+						"&:active": {
+							backgroundColor: theme.palette.primary.dark,
+						},
+					}}
+				>
+					no
+				</Button>
 			</Grid>
 			{setting !== undefined && updateSetting ? (
 				<Grid container sx={{ alignItems: "center" }}>
-					<Checkbox checked={settingState} onChange={() => setSettingState(!settingState)} />
-					<Typography>don't show this warning again</Typography>
+					<Checkbox
+						checked={settingState}
+						onChange={() => setSettingState(!settingState)}
+						sx={{
+							"& .MuiSvgIcon-root": {
+								color: theme.palette.text.secondary,
+							},
+						}}
+					/>
+					<Typography variant="h4" ml={-1}>
+						don't show this warning again
+					</Typography>
 				</Grid>
 			) : null}
 		</Grid>
