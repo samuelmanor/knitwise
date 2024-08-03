@@ -21,7 +21,17 @@ export const Warning: FC<WarningProps> = ({ text, setting, updateSetting, action
 		action();
 	};
 	return (
-		<Grid container sx={{ flexDirection: "column", alignItems: "center", width: "fit-content", gap: 0.5, pt: 2 }}>
+		<Grid
+			container
+			sx={{
+				flexDirection: "column",
+				alignItems: "center",
+				width: "fit-content",
+				gap: 0.5,
+				pt: 2,
+				color: theme.palette.text.primary,
+			}}
+		>
 			<Typography variant="h4">{text}</Typography>
 			<Typography variant="h4">are you sure you want to continue?</Typography>
 			<Grid item container sx={{ pt: 0.5, justifyContent: "center", gap: 1 }}>
