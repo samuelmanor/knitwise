@@ -1,5 +1,5 @@
 import { IconButton, Grid, Typography, Box, useTheme, Tooltip } from "@mui/material";
-import { FC, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { Row } from "../Row";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -387,8 +387,12 @@ export const Block: FC<BlockProps> = ({
 						action={() => {
 							dispatch(deleteBlock({ blockIndex: index }));
 							setWarning(null);
+							setDragBlocksEnabled(true);
 						}}
-						close={() => setWarning(null)}
+						close={() => {
+							setWarning(null);
+							setDragBlocksEnabled(true);
+						}}
 					/>
 				) : null}
 			</Grid>

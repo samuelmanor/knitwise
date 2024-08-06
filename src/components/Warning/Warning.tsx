@@ -20,6 +20,7 @@ export const Warning: FC<WarningProps> = ({ text, setting, updateSetting, action
 		}
 		action();
 	};
+
 	return (
 		<Grid
 			container
