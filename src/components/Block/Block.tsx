@@ -64,6 +64,12 @@ export const Block: FC<BlockProps> = ({
 	const dispatch = useDispatch();
 	const theme = useTheme();
 
+	useEffect(() => {
+		if (project.blocks.length === 1) {
+			setDragBlocksEnabled(false);
+		}
+	}, [project.blocks.length, setDragBlocksEnabled]);
+
 	/**
 	 * Calculates the padding for the block.
 	 */
@@ -251,6 +257,32 @@ export const Block: FC<BlockProps> = ({
 						</IconButton>
 					</Tooltip>
 					<Tooltip
+						title="delete block"
+						placement="bottom"
+						componentsProps={{
+							tooltip: {
+								sx: {
+									color: theme.palette.primary.main,
+								},
+							},
+						}}
+					>
+						<IconButton
+							sx={{
+								color: theme.palette.primary.main,
+								height: "fit-content",
+								width: "fit-content",
+							}}
+							onClick={() => {
+								setWarning("this block will be deleted.");
+								setDragBlocksEnabled(false);
+							}}
+							disabled={project.blocks.length === 1 || warning !== null}
+						>
+							<DeleteOutlined />
+						</IconButton>
+					</Tooltip>
+					<Tooltip
 						title="save block"
 						placement="bottom"
 						componentsProps={{
@@ -327,23 +359,8 @@ export const Block: FC<BlockProps> = ({
 						</Tooltip>
 					</Grid>
 					<Grid item>
-						<IconButton
-							sx={{
-								color: theme.palette.primary.main,
-								transform: "scale(1.5)",
-								height: "fit-content",
-								width: "fit-content",
-								cursor: "grab",
-							}}
-							disableRipple
-							disabled={project.blocks.length === 1 || warning !== null}
-						>
-							<SwapHorizOutlined />
-						</IconButton>
-					</Grid>
-					<Grid item>
 						<Tooltip
-							title="delete block"
+							title="rearrange blocks"
 							placement="bottom"
 							componentsProps={{
 								tooltip: {
@@ -369,14 +386,12 @@ export const Block: FC<BlockProps> = ({
 									transform: "scale(1.5)",
 									height: "fit-content",
 									width: "fit-content",
+									cursor: "grab",
 								}}
-								onClick={() => {
-									setWarning("this block will be deleted.");
-									setDragBlocksEnabled(false);
-								}}
+								disableRipple
 								disabled={project.blocks.length === 1 || warning !== null}
 							>
-								<DeleteOutlined />
+								<SwapHorizOutlined />
 							</IconButton>
 						</Tooltip>
 					</Grid>
