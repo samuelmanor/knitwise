@@ -251,7 +251,10 @@ export const Block: FC<BlockProps> = ({
 						}}
 					>
 						<IconButton
-							onClick={checkRows}
+							onClick={() => {
+								checkRows();
+								setDragRowsEnabled(false);
+							}}
 							disabled={draftRow !== null || warning !== null}
 							data-testid={`block${index}SaveBtn`}
 							sx={{ color: theme.palette.primary.main }}
