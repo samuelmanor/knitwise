@@ -1,15 +1,8 @@
 import { IconButton, Grid, Typography, Box, useTheme, Tooltip } from "@mui/material";
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useRef, useState } from "react";
 import { Row } from "../Row";
 import { useDispatch, useSelector } from "react-redux";
-import {
-	EditOutlined,
-	DeleteOutlined,
-	SaveOutlined,
-	SwapHorizOutlined,
-	AddOutlined,
-	SwapVertOutlined,
-} from "@mui/icons-material";
+import { EditOutlined, DeleteOutlined, SaveOutlined, AddOutlined, SwapVertOutlined } from "@mui/icons-material";
 import { deleteBlock } from "../../reducers/projectReducer";
 import { StitchProps } from "../Stitch";
 import { setMode } from "../../reducers/workspaceReducer";
@@ -27,7 +20,6 @@ export interface BlockProps {
 	tallestBlockIndex?: number;
 	draftBlockIndex?: number | null;
 	setDraftBlockIndex?: (index: number) => void;
-	setDragBlocksEnabled?: (enabled: boolean) => void;
 }
 
 /**
@@ -39,7 +31,6 @@ export interface BlockProps {
  * @param tallestBlockIndex The index of the tallest block in the project - used to calculate padding for individual blocks.
  * @param draftBlockIndex The index of the block that is currently being edited.
  * @param setDraftBlockIndex A function to set the index of the block that is currently being edited.
- * @param setDragBlocksEnabled A function to enable/disable dragging blocks.
  */
 export const Block: FC<BlockProps> = ({
 	index,
@@ -49,7 +40,6 @@ export const Block: FC<BlockProps> = ({
 	tallestBlockIndex,
 	draftBlockIndex,
 	setDraftBlockIndex,
-	setDragBlocksEnabled,
 }) => {
 	const project = useSelector((state: any) => state.projects.project);
 	const projectRow = useSelector((state: any) => state.projects.projectRow);
@@ -63,12 +53,6 @@ export const Block: FC<BlockProps> = ({
 
 	const dispatch = useDispatch();
 	const theme = useTheme();
-
-	useEffect(() => {
-		if (project.blocks.length === 1) {
-			setDragBlocksEnabled(false);
-		}
-	}, [project.blocks.length, setDragBlocksEnabled]);
 
 	/**
 	 * Calculates the padding for the block.
@@ -133,7 +117,6 @@ export const Block: FC<BlockProps> = ({
 				sx={{
 					flexDirection: "column-reverse",
 					backgroundColor: theme.palette.background.paper,
-					// filter: `drop-shadow(5px 5px 0px ${theme.palette.primary.main})`,
 					border: `2px solid ${theme.palette.primary.main}`,
 					p: 0.5,
 					borderTopRightRadius: "10px",
@@ -257,32 +240,6 @@ export const Block: FC<BlockProps> = ({
 						</IconButton>
 					</Tooltip>
 					<Tooltip
-						title="delete block"
-						placement="bottom"
-						componentsProps={{
-							tooltip: {
-								sx: {
-									color: theme.palette.primary.main,
-								},
-							},
-						}}
-					>
-						<IconButton
-							sx={{
-								color: theme.palette.primary.main,
-								height: "fit-content",
-								width: "fit-content",
-							}}
-							onClick={() => {
-								setWarning("this block will be deleted.");
-								setDragBlocksEnabled(false);
-							}}
-							disabled={project.blocks.length === 1 || warning !== null}
-						>
-							<DeleteOutlined />
-						</IconButton>
-					</Tooltip>
-					<Tooltip
 						title="save block"
 						placement="bottom"
 						componentsProps={{
@@ -311,7 +268,7 @@ export const Block: FC<BlockProps> = ({
 	}
 
 	// edit mode, but no block is being edited
-	if (mode === "edit") {
+	if (mode === "edit" || mode === "dragBlocks") {
 		return (
 			<Grid container sx={{ flexDirection: "column", alignItems: "center" }}>
 				<BlockContainer>
@@ -321,7 +278,7 @@ export const Block: FC<BlockProps> = ({
 					{rows}
 				</BlockContainer>
 				<Grid container sx={{ justifyContent: "center", gap: 3, width: "fit-content" }}>
-					<Grid item>
+					<Grid item display={mode === "dragBlocks" ? "none" : ""}>
 						<Tooltip
 							title="edit block"
 							placement="bottom"
@@ -358,9 +315,9 @@ export const Block: FC<BlockProps> = ({
 							</IconButton>
 						</Tooltip>
 					</Grid>
-					<Grid item>
+					<Grid item display={mode === "dragBlocks" ? "none" : ""}>
 						<Tooltip
-							title="rearrange blocks"
+							title="delete block"
 							placement="bottom"
 							componentsProps={{
 								tooltip: {
@@ -386,12 +343,13 @@ export const Block: FC<BlockProps> = ({
 									transform: "scale(1.5)",
 									height: "fit-content",
 									width: "fit-content",
-									cursor: "grab",
 								}}
-								disableRipple
+								onClick={() => {
+									setWarning("this block will be deleted.");
+								}}
 								disabled={project.blocks.length === 1 || warning !== null}
 							>
-								<SwapHorizOutlined />
+								<DeleteOutlined />
 							</IconButton>
 						</Tooltip>
 					</Grid>
@@ -402,11 +360,9 @@ export const Block: FC<BlockProps> = ({
 						action={() => {
 							dispatch(deleteBlock({ blockIndex: index }));
 							setWarning(null);
-							setDragBlocksEnabled(true);
 						}}
 						close={() => {
 							setWarning(null);
-							setDragBlocksEnabled(true);
 						}}
 					/>
 				) : null}

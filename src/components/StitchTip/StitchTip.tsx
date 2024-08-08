@@ -42,7 +42,7 @@ export const StitchTip: FC<StitchTipProps> = ({ children, name, description, dis
 		<Tooltip
 			title={tooltipText}
 			arrow
-			open={mode !== "edit" && !disabled ? open : false}
+			open={mode !== "edit" && mode !== "dragBlocks" && !disabled ? open : false}
 			disableFocusListener={stitchTipMode === "click"}
 			disableHoverListener={stitchTipMode === "click"}
 			disableTouchListener={stitchTipMode === "click"}

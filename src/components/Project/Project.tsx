@@ -14,7 +14,6 @@ export const Project: FC<{}> = () => {
 	const blocks = useSelector((state: any) => state.projects.project.blocks);
 
 	const [draftBlockIndex, setDraftBlockIndex] = useState<number | null>(null); // the index of the block that is being edited
-	const [dragBlocksEnabled, setDragBlocksEnabled] = useState<boolean>(true); // whether or not blocks can be dragged
 
 	if (!blocks) return <div>no blocks found</div>;
 
@@ -53,7 +52,6 @@ export const Project: FC<{}> = () => {
 				tallestBlockIndex={getTallestBlock()}
 				draftBlockIndex={draftBlockIndex}
 				setDraftBlockIndex={setDraftBlockIndex}
-				setDragBlocksEnabled={setDragBlocksEnabled}
 			/>
 		);
 	};
@@ -73,7 +71,7 @@ export const Project: FC<{}> = () => {
 				alignItems: "flex-end",
 			}}
 		>
-			{mode === "edit" && dragBlocksEnabled ? (
+			{mode === "dragBlocks" ? (
 				<SortableList
 					items={blocks.map((item, i) => ({
 						id: `${i}`,
