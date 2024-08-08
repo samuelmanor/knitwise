@@ -55,38 +55,46 @@ export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type }) => {
 				onChange={handleEditName}
 				variant="standard"
 				helperText={checkInput()}
-				sx={{ input: { cursor: editing ? "text" : "default" } }}
+				sx={{
+					input: {
+						cursor: editing ? "text" : "default",
+						color: type === "block" ? "default" : theme.palette.text.secondary,
+					},
+				}}
 				InputProps={{
-					endAdornment: editing ? (
+					endAdornment: (
 						<Tooltip
-							title="save block name"
-							placement="right"
+							title={`${editing ? "save" : "edit"} ${type} name`}
+							placement={type === "block" ? "right" : "top"}
 							componentsProps={{
 								tooltip: {
 									sx: {
 										color: theme.palette.primary.main,
+										fontSize: "1.2rem",
 									},
 								},
 							}}
-						>
-							<IconButton onClick={handleSave} aria-label={"name-editor-save"}>
-								<SaveOutlined />
-							</IconButton>
-						</Tooltip>
-					) : (
-						<Tooltip
-							title="edit block name"
-							placement="right"
-							componentsProps={{
-								tooltip: {
-									sx: {
-										color: theme.palette.primary.main,
+							PopperProps={{
+								modifiers: [
+									{
+										name: "offset",
+										options: {
+											offset: type === "block" ? [0, 8] : [0, 0],
+										},
 									},
-								},
+								],
 							}}
 						>
-							<IconButton onClick={() => setEditing(true)} aria-label={"name-editor-edit"}>
-								<EditOutlined />
+							<IconButton
+								onClick={() => (editing ? handleSave() : setEditing(true))}
+								size="large"
+								sx={{
+									transform: "scale(1.5)",
+									color:
+										type === "project" ? theme.palette.text.secondary : theme.palette.primary.main,
+								}}
+							>
+								{editing ? <SaveOutlined /> : <EditOutlined />}
 							</IconButton>
 						</Tooltip>
 					),
