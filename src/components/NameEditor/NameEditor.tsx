@@ -1,5 +1,5 @@
 import { EditOutlined, SaveOutlined } from "@mui/icons-material";
-import { ClickAwayListener, IconButton, TextField, Tooltip, useTheme } from "@mui/material";
+import { ClickAwayListener, Grid, IconButton, TextField, Tooltip, useTheme } from "@mui/material";
 import { FC, useState } from "react";
 
 interface NameEditorProps {
@@ -48,66 +48,121 @@ export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type }) => {
 
 	return (
 		<ClickAwayListener onClickAway={handleClickAway}>
-			<TextField
-				data-testid={`name-editor-${type === undefined ? "block" : type}`}
-				inputRef={input => input && editing && input.focus()}
-				value={nameDraft}
-				onChange={handleEditName}
-				variant="standard"
-				helperText={checkInput()}
+			<Grid
+				container
 				sx={{
-					input: {
-						cursor: editing ? "text" : "default",
-						color: type === "block" ? "default" : theme.palette.text.secondary,
-					},
+					alignItems: "center",
+					border: "1px solid red",
+					flexWrap: "nowrap",
 				}}
-				InputProps={{
-					endAdornment: (
-						<Tooltip
-							title={`${editing ? "save" : "edit"} ${type} name`}
-							placement={type === "block" ? "right" : "top"}
-							componentsProps={{
-								tooltip: {
-									sx: {
-										color: theme.palette.primary.main,
-										fontSize: "1.2rem",
+			>
+				<Grid item>
+					<TextField
+						data-testid={`name-editor-${type === undefined ? "block" : type}`}
+						inputRef={input => input && editing && input.focus()}
+						value={nameDraft}
+						onChange={handleEditName}
+						variant="standard"
+						helperText={checkInput()}
+						sx={{
+							input: {
+								cursor: editing ? "text" : "default",
+								color: type === "block" ? "default" : theme.palette.text.secondary,
+								letterSpacing: type === "block" ? "" : "1px",
+								fontWeight: "light",
+								fontSize: type === "block" ? "18px" : "3.75rem",
+								height: "fit-content",
+								p: 0,
+								mb: -1.5,
+								border: "1px solid green",
+								width: "80%",
+							},
+						}}
+						InputProps={{
+							// endAdornment: (
+							// 	<Tooltip
+							// 		title={`${editing ? "save" : "edit"} ${type} name`}
+							// 		placement={type === "block" ? "right" : "top"}
+							// 		componentsProps={{
+							// 			tooltip: {
+							// 				sx: {
+							// 					color: theme.palette.primary.main,
+							// 					fontSize: "1.2rem",
+							// 				},
+							// 			},
+							// 		}}
+							// 		PopperProps={{
+							// 			modifiers: [
+							// 				{
+							// 					name: "offset",
+							// 					options: {
+							// 						offset: type === "block" ? [0, 8] : [0, 0],
+							// 					},
+							// 				},
+							// 			],
+							// 		}}
+							// 	>
+							// 		<IconButton
+							// 			onClick={() => (editing ? handleSave() : setEditing(true))}
+							// 			size="large"
+							// 			sx={{
+							// 				transform: "scale(1.5)",
+							// 				color:
+							// 					type === "project"
+							// 						? theme.palette.text.secondary
+							// 						: theme.palette.primary.main,
+							// 			}}
+							// 		>
+							// 			{editing ? <SaveOutlined /> : <EditOutlined />}
+							// 		</IconButton>
+							// 	</Tooltip>
+							// ),
+							readOnly: !editing,
+							disableUnderline: true,
+							style: {
+								border: "none",
+								borderBottom: type !== "project" ? `2px solid ${theme.palette.primary.main}` : null,
+							},
+						}}
+						FormHelperTextProps={{ sx: { color: theme.palette.text.primary, letterSpacing: "1px" } }}
+					/>
+				</Grid>
+				<Grid item sx={{ border: "1px solid purple" }}>
+					<Tooltip
+						title={`${editing ? "save" : "edit"} ${type} name`}
+						placement={type === "block" ? "right" : "top"}
+						componentsProps={{
+							tooltip: {
+								sx: {
+									color: theme.palette.primary.main,
+									fontSize: "1.2rem",
+								},
+							},
+						}}
+						PopperProps={{
+							modifiers: [
+								{
+									name: "offset",
+									options: {
+										offset: type === "block" ? [0, 8] : [0, 0],
 									},
 								},
-							}}
-							PopperProps={{
-								modifiers: [
-									{
-										name: "offset",
-										options: {
-											offset: type === "block" ? [0, 8] : [0, 0],
-										},
-									},
-								],
+							],
+						}}
+					>
+						<IconButton
+							onClick={() => (editing ? handleSave() : setEditing(true))}
+							size="large"
+							sx={{
+								transform: "scale(1.5)",
+								color: type === "project" ? theme.palette.text.secondary : theme.palette.primary.main,
 							}}
 						>
-							<IconButton
-								onClick={() => (editing ? handleSave() : setEditing(true))}
-								size="large"
-								sx={{
-									transform: "scale(1.5)",
-									color:
-										type === "project" ? theme.palette.text.secondary : theme.palette.primary.main,
-								}}
-							>
-								{editing ? <SaveOutlined /> : <EditOutlined />}
-							</IconButton>
-						</Tooltip>
-					),
-					readOnly: !editing,
-					disableUnderline: true,
-					style: {
-						fontSize: type === "project" ? "40px" : "18px",
-						border: "none",
-						borderBottom: type !== "project" ? `2px solid ${theme.palette.primary.main}` : null,
-					},
-				}}
-				FormHelperTextProps={{ sx: { color: theme.palette.text.primary } }}
-			/>
+							{editing ? <SaveOutlined /> : <EditOutlined />}
+						</IconButton>
+					</Tooltip>
+				</Grid>
+			</Grid>
 		</ClickAwayListener>
 	);
 };
