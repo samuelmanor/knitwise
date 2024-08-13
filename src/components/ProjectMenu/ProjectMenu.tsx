@@ -26,18 +26,19 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 			container
 			sx={{
 				backgroundColor: theme.palette.primary.main,
-				justifyContent: "space-between",
 				pl: 2,
 				pr: 2,
-				alignItems: "center",
 				flexWrap: "nowrap",
+				justifyContent: "space-between",
+				alignItems: "center",
+				minHeight: { xs: "72px", sm: "fit-content" },
 			}}
 		>
 			<Grid
 				item
 				sx={{
 					color: theme.palette.text.secondary,
-					display: "flex",
+					display: { xs: "none", sm: "flex" },
 					flexDirection: "row",
 					alignItems: "center",
 					gap: 1.5,
@@ -46,12 +47,16 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 				{mode === "edit" || mode === "dragBlocks" ? (
 					<NameEditor name={projectName} onSave={name => dispatch(editProjectName(name))} type="project" />
 				) : (
-					<Typography variant="h2" sx={{ letterSpacing: "1px" }}>
+					<Typography variant="h2" sx={{ letterSpacing: "1px", whiteSpace: "nowrap" }}>
 						{projectName}
 					</Typography>
 				)}
 			</Grid>
-			{mode === "chart" ? <RowControls /> : null}
+			{mode === "chart" ? (
+				<Grid item>
+					<RowControls />
+				</Grid>
+			) : null}
 			{mode === "edit" || mode === "dragBlocks" ? (
 				<Grid
 					container

@@ -16,7 +16,7 @@ export const RowControls: FC<RowControlsProps> = () => {
 	const theme = useTheme();
 
 	return (
-		<Grid container sx={{ position: "absolute", justifyContent: "center" }}>
+		<Grid container>
 			<Grid
 				item
 				sx={{
@@ -28,7 +28,7 @@ export const RowControls: FC<RowControlsProps> = () => {
 			>
 				{currentRow !== 1 ? (
 					<Tooltip
-						title="previous row"
+						title="to previous row"
 						placement="top-end"
 						componentsProps={{
 							tooltip: {
@@ -66,7 +66,7 @@ export const RowControls: FC<RowControlsProps> = () => {
 				<Tooltip
 					title={"current row"}
 					placement={"top"}
-					componentsProps={{ tooltip: { sx: { color: theme.palette.primary.main, fontSize: "1.2rem" } } }}
+					componentsProps={{ tooltip: { sx: { color: theme.palette.primary.light, fontSize: "1.2rem" } } }}
 					PopperProps={{ modifiers: [{ name: "offset", options: { offset: [0, 8] } }] }}
 				>
 					<Typography
@@ -78,7 +78,7 @@ export const RowControls: FC<RowControlsProps> = () => {
 				</Tooltip>
 
 				<Tooltip
-					title="next row"
+					title="to next row"
 					placement="top-start"
 					componentsProps={{
 						tooltip: {
