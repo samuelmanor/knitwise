@@ -113,7 +113,7 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockI
 			}}
 			PopperProps={{
 				disablePortal: true,
-				style: { zIndex: 50 },
+				style: { zIndex: 0 },
 				popperOptions: {
 					modifiers: [
 						{
@@ -141,6 +141,7 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockI
 							},
 						],
 					},
+					style: { zIndex: 0 },
 				}}
 				componentsProps={{
 					tooltip: {
