@@ -51,8 +51,8 @@ export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type }) => {
 			<Grid
 				container
 				sx={{
-					alignItems: "center",
-					border: "1px solid red",
+					// alignItems: "center",
+					// border: "1px solid red",
 					flexWrap: "nowrap",
 				}}
 			>
@@ -67,15 +67,18 @@ export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type }) => {
 						sx={{
 							input: {
 								cursor: editing ? "text" : "default",
-								color: type === "block" ? "default" : theme.palette.text.secondary,
-								letterSpacing: type === "block" ? "" : "1px",
+								// color: type === "block" ? "default" : theme.palette.text.secondary,
+								// letterSpacing: type === "block" ? "" : "1px",
 								fontWeight: "light",
-								fontSize: type === "block" ? "18px" : "3.75rem",
+								// fontSize: type === "block" ? "18px" : "3.75rem",
 								height: "fit-content",
 								p: 0,
-								mb: -1.5,
-								border: "1px solid green",
-								width: "80%",
+								// mb: -1.5,
+								// border: "1px solid green",
+								// letterSpacing: "1px",
+								// width: "80%",
+								fontSize: type !== "project" ? "1.5rem" : "3rem",
+								color: type !== "project" ? theme.palette.text.primary : theme.palette.text.secondary,
 							},
 						}}
 						InputProps={{
@@ -127,10 +130,17 @@ export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type }) => {
 						FormHelperTextProps={{ sx: { color: theme.palette.text.primary, letterSpacing: "1px" } }}
 					/>
 				</Grid>
-				<Grid item sx={{ border: "1px solid purple" }}>
+				<Grid
+					item
+					sx={
+						{
+							// border: "1px solid purple"
+						}
+					}
+				>
 					<Tooltip
-						title={`${editing ? "save" : "edit"} ${type} name`}
-						placement={type === "block" ? "right" : "top"}
+						title={`${editing ? "save" : "edit"} ${type !== "project" ? "block" : type} name`}
+						placement={type !== "project" ? "right" : "top"}
 						componentsProps={{
 							tooltip: {
 								sx: {
@@ -152,13 +162,13 @@ export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type }) => {
 					>
 						<IconButton
 							onClick={() => (editing ? handleSave() : setEditing(true))}
-							size="large"
+							// size="large"
 							sx={{
-								transform: "scale(1.5)",
+								// transform: "scale(1.5)",
 								color: type === "project" ? theme.palette.text.secondary : theme.palette.primary.main,
 							}}
 						>
-							{editing ? <SaveOutlined /> : <EditOutlined />}
+							{editing ? <SaveOutlined fontSize="large" /> : <EditOutlined fontSize="large" />}
 						</IconButton>
 					</Tooltip>
 				</Grid>
