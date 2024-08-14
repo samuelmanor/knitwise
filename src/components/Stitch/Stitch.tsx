@@ -61,7 +61,20 @@ export const Stitch: FC<StitchProps> = ({
 				}}
 				data-testid={`stitch${index}${abbreviation}`}
 			>
-				<Typography>{stitchDisplaySetting === "symbol" ? symbol : abbreviation}</Typography>
+				<Typography
+					sx={{
+						fontSize: {
+							xs: "1.3rem",
+							sm: "1.5rem",
+						},
+						whiteSpace: "nowrap",
+						// overflow: "hidden",
+						// textOverflow: "ellipsis",
+						// width: { xs: "fit-content", sm: `${width * 2}rem` },
+					}}
+				>
+					{stitchDisplaySetting === "symbol" ? symbol : abbreviation}
+				</Typography>
 			</Grid>
 		</StitchTip>
 	);

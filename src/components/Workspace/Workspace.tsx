@@ -15,11 +15,26 @@ export const Workspace: FC<WorkspaceProps> = () => {
 	// if (!project) return null;
 
 	return (
-		<>
+		<Grid container>
+			{/* <Grid
+				container
+				sx={{
+					position: "fixed",
+					backgroundColor: theme.palette.primary.main,
+					width: { xs: "80%", sm: "70%" },
+					left: 0,
+					right: 0,
+					margin: "0 auto",
+					flexDirection: "column",
+					alignItems: "center",
+				}}
+			>
+				<Grid item>knitwise</Grid>
+			</Grid> */}
 			<Grid
 				container
 				sx={{
-					border: "2px solid transparent",
+					pt: 2,
 					minHeight: "calc(100vh - 72px)",
 					minWidth: "fit-content",
 					justifyContent: "center",
@@ -32,6 +47,6 @@ export const Workspace: FC<WorkspaceProps> = () => {
 			<Grid container sx={{ position: "fixed", bottom: 0, width: "100%" }}>
 				<ProjectMenu />
 			</Grid>
-		</>
+		</Grid>
 	);
 };

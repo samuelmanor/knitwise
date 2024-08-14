@@ -26,52 +26,54 @@ export const RowControls: FC<RowControlsProps> = () => {
 					gap: 2,
 				}}
 			>
-				{currentRow !== 1 ? (
-					<Tooltip
-						title="to previous row"
-						placement="top-end"
-						componentsProps={{
-							tooltip: {
-								sx: {
-									color: theme.palette.primary.main,
-									fontSize: "1.2rem",
+				<Tooltip
+					title="to previous row"
+					placement="top-end"
+					componentsProps={{
+						tooltip: {
+							sx: {
+								backgroundColor: theme.palette.primary.main,
+								color: theme.palette.text.secondary,
+								fontSize: "1.2rem",
+								borderBottomLeftRadius: 0,
+								borderBottomRightRadius: 0,
+							},
+						},
+					}}
+					PopperProps={{
+						modifiers: [
+							{
+								name: "offset",
+								options: {
+									offset: [0, -4],
 								},
 							},
-						}}
-						PopperProps={{
-							modifiers: [
-								{
-									name: "offset",
-									options: {
-										offset: [0, 1.5],
-									},
-								},
-							],
-						}}
+						],
+					}}
+				>
+					<IconButton
+						onClick={() => dispatch(prevRow())}
+						sx={{ color: theme.palette.text.secondary }}
+						disabled={currentRow === 1}
 					>
-						<IconButton
-							onClick={() => dispatch(prevRow())}
-							sx={{ color: theme.palette.text.secondary }}
-							size="large"
-						>
-							<ArrowBackIosNewOutlined />
-						</IconButton>
-					</Tooltip>
-				) : (
-					<IconButton disabled size="large">
-						<ArrowBackIosNewOutlined />
+						<ArrowBackIosNewOutlined fontSize="large" />
 					</IconButton>
-				)}
-
+				</Tooltip>
 				<Tooltip
 					title={"current row"}
-					placement={"top"}
-					componentsProps={{ tooltip: { sx: { color: theme.palette.primary.light, fontSize: "1.2rem" } } }}
-					PopperProps={{ modifiers: [{ name: "offset", options: { offset: [0, 8] } }] }}
+					placement="bottom"
+					componentsProps={{ tooltip: { sx: { color: theme.palette.text.secondary, fontSize: "1rem" } } }}
+					PopperProps={{
+						modifiers: [{ name: "offset", options: { offset: [0, -23] } }],
+					}}
 				>
 					<Typography
-						variant="h5"
-						sx={{ color: theme.palette.text.secondary, fontWeight: "bold", cursor: "default" }}
+						sx={{
+							color: theme.palette.text.secondary,
+							fontWeight: "bold",
+							cursor: "default",
+							fontSize: "2rem",
+						}}
 					>
 						{currentRow}
 					</Typography>
@@ -83,8 +85,11 @@ export const RowControls: FC<RowControlsProps> = () => {
 					componentsProps={{
 						tooltip: {
 							sx: {
-								color: theme.palette.primary.main,
+								backgroundColor: theme.palette.primary.main,
+								color: theme.palette.text.secondary,
 								fontSize: "1.2rem",
+								borderBottomLeftRadius: 0,
+								borderBottomRightRadius: 0,
 							},
 						},
 					}}
@@ -93,7 +98,7 @@ export const RowControls: FC<RowControlsProps> = () => {
 							{
 								name: "offset",
 								options: {
-									offset: [0, 1.5],
+									offset: [0, -4],
 								},
 							},
 						],
@@ -101,10 +106,11 @@ export const RowControls: FC<RowControlsProps> = () => {
 				>
 					<IconButton
 						onClick={() => dispatch(nextRow())}
-						sx={{ color: theme.palette.text.secondary }}
-						size="large"
+						sx={{
+							color: theme.palette.text.secondary,
+						}}
 					>
-						<ArrowForwardIosOutlined />
+						<ArrowForwardIosOutlined fontSize="large" />
 					</IconButton>
 				</Tooltip>
 			</Grid>

@@ -29,7 +29,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 				pl: 2,
 				pr: 2,
 				flexWrap: "nowrap",
-				justifyContent: "space-between",
+				justifyContent: { xs: "space-around", sm: "space-between" },
 				alignItems: "center",
 				minHeight: { xs: "72px", sm: "fit-content" },
 			}}
@@ -151,8 +151,11 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 					componentsProps={{
 						tooltip: {
 							sx: {
-								color: theme.palette.primary.main,
+								backgroundColor: theme.palette.primary.main,
+								color: theme.palette.text.secondary,
 								fontSize: "1.2rem",
+								borderBottomLeftRadius: 0,
+								borderBottomRightRadius: 0,
 							},
 						},
 					}}
@@ -161,7 +164,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 							{
 								name: "offset",
 								options: {
-									offset: [0, -8],
+									offset: [0, -9],
 								},
 							},
 						],
@@ -169,11 +172,11 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 				>
 					<IconButton
 						size="large"
-						sx={{ color: theme.palette.text.secondary, transform: "scale(1.5)" }}
+						sx={{ color: theme.palette.text.secondary }}
 						onClick={() => dispatch(setMode(mode === "chart" ? "edit" : "chart"))}
 						disabled={mode === "editBlock"}
 					>
-						{mode === "chart" ? <EditOutlined /> : <SaveOutlined />}
+						{mode === "chart" ? <EditOutlined fontSize="large" /> : <SaveOutlined fontSize="large" />}
 					</IconButton>
 				</Tooltip>
 				<Tooltip
@@ -182,8 +185,11 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 					componentsProps={{
 						tooltip: {
 							sx: {
-								color: theme.palette.primary.main,
+								backgroundColor: theme.palette.primary.main,
+								color: theme.palette.text.secondary,
 								fontSize: "1.2rem",
+								borderBottomLeftRadius: 0,
+								borderBottomRightRadius: 0,
 							},
 						},
 					}}
@@ -192,14 +198,18 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 							{
 								name: "offset",
 								options: {
-									offset: [0, -8],
+									offset: [0, -9],
 								},
 							},
 						],
 					}}
 				>
-					<IconButton size="large" sx={{ color: theme.palette.text.secondary, transform: "scale(1.5)" }}>
-						<SettingsOutlined onClick={() => setOpenSettings(true)} />
+					<IconButton
+						size="large"
+						sx={{ color: theme.palette.text.secondary }}
+						onClick={() => setOpenSettings(true)}
+					>
+						<SettingsOutlined fontSize="large" />
 					</IconButton>
 				</Tooltip>
 			</Grid>
