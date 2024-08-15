@@ -60,8 +60,9 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 					container
 					sx={{
 						width: "fit-content",
-						gap: 5,
+						gap: 3,
 						flexWrap: "nowrap",
+						alignItems: "center",
 					}}
 				>
 					<Grid item>
@@ -71,8 +72,11 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 							componentsProps={{
 								tooltip: {
 									sx: {
-										color: theme.palette.primary.main,
+										backgroundColor: theme.palette.primary.main,
+										color: theme.palette.text.secondary,
 										fontSize: "1.2rem",
+										borderBottomLeftRadius: 0,
+										borderBottomRightRadius: 0,
 									},
 								},
 							}}
@@ -81,18 +85,14 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 									{
 										name: "offset",
 										options: {
-											offset: [0, -8],
+											offset: [0, -4],
 										},
 									},
 								],
 							}}
 						>
-							<IconButton
-								size="large"
-								sx={{ color: theme.palette.text.secondary, transform: "scale(1.5)" }}
-								disabled={mode === "dragBlocks"}
-							>
-								<AddOutlined />
+							<IconButton sx={{ color: theme.palette.text.secondary }} disabled={mode === "dragBlocks"}>
+								<AddOutlined fontSize="large" />
 							</IconButton>
 						</Tooltip>
 					</Grid>
@@ -103,8 +103,11 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 							componentsProps={{
 								tooltip: {
 									sx: {
-										color: theme.palette.primary.main,
+										backgroundColor: theme.palette.primary.main,
+										color: theme.palette.text.secondary,
 										fontSize: "1.2rem",
+										borderBottomLeftRadius: 0,
+										borderBottomRightRadius: 0,
 									},
 								},
 							}}
@@ -122,7 +125,6 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 							<IconButton
 								size="large"
 								sx={{
-									transform: "scale(1.5)",
 									backgroundColor: mode === "dragBlocks" ? theme.palette.primary.dark : "transparent",
 									color:
 										mode === "dragBlocks"
@@ -130,9 +132,8 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 											: theme.palette.text.secondary,
 								}}
 								onClick={() => dispatch(setMode(mode === "edit" ? "dragBlocks" : "edit"))}
-								disableRipple
 							>
-								<SwapHorizOutlined />
+								<SwapHorizOutlined fontSize="large" />
 							</IconButton>
 						</Tooltip>
 					</Grid>

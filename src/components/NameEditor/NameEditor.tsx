@@ -96,10 +96,16 @@ export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type, disabled }
 						placement={type === "project" ? "top" : "right"}
 						componentsProps={{
 							tooltip: {
-								sx: {
-									color: theme.palette.primary.main,
-									fontSize: "1.2rem",
-								},
+								sx:
+									type === "project"
+										? {
+												backgroundColor: theme.palette.primary.main,
+												color: theme.palette.text.secondary,
+												fontSize: "1.2rem",
+												borderBottomLeftRadius: 0,
+												borderBottomRightRadius: 0,
+										  }
+										: { color: theme.palette.primary.main, fontSize: "1.2rem" },
 							},
 						}}
 						PopperProps={{
@@ -107,7 +113,7 @@ export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type, disabled }
 								{
 									name: "offset",
 									options: {
-										offset: type === "project" ? [0, 0] : [0, -15],
+										offset: type === "project" ? [0, -5] : [0, -15],
 									},
 								},
 							],
