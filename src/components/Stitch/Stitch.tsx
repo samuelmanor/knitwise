@@ -68,9 +68,6 @@ export const Stitch: FC<StitchProps> = ({
 							sm: "1.5rem",
 						},
 						whiteSpace: "nowrap",
-						// overflow: "hidden",
-						// textOverflow: "ellipsis",
-						// width: { xs: "fit-content", sm: `${width * 2}rem` },
 					}}
 				>
 					{stitchDisplaySetting === "symbol" ? symbol : abbreviation}

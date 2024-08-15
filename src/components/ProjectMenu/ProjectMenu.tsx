@@ -26,8 +26,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 			container
 			sx={{
 				backgroundColor: theme.palette.primary.main,
-				pl: 2,
-				pr: 2,
+				paddingX: 2,
 				flexWrap: "nowrap",
 				justifyContent: { xs: "space-around", sm: "space-between" },
 				alignItems: "center",
@@ -38,7 +37,6 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 				item
 				sx={{
 					color: theme.palette.text.secondary,
-					display: { xs: "none", sm: "flex" },
 					flexDirection: "row",
 					alignItems: "center",
 					gap: 1.5,
@@ -63,11 +61,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 					sx={{
 						width: "fit-content",
 						gap: 5,
-						position: "absolute",
-						left: 0,
-						right: 0,
-						ml: "auto",
-						mr: "auto",
+						flexWrap: "nowrap",
 					}}
 				>
 					<Grid item>
@@ -144,6 +138,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 					</Grid>
 				</Grid>
 			) : null}
+
 			<Grid item sx={{ display: "flex", gap: 3 }}>
 				<Tooltip
 					title={mode === "chart" ? "edit project" : "save project"}

@@ -64,7 +64,7 @@ export const Project: FC<{}> = () => {
 				width: "fit-content",
 				height: "fit-content",
 				mt: 2,
-				mb: { xs: 5, sm: 10 },
+				mb: mode === "edit" ? 14 : 10,
 				flexWrap: "nowrap",
 				gap: 2,
 				alignItems: "flex-end",

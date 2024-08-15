@@ -17,8 +17,8 @@ export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type }) => {
 	const checkInput = () => {
 		if (nameDraft.length === 0) {
 			return "name must be at least 1 character long";
-		} else if (nameDraft.length > 50) {
-			return "name must be less than 50 characters long";
+		} else if (nameDraft.length > 30) {
+			return "name must be less than 30 characters long";
 		} else {
 			return "";
 		}
@@ -27,7 +27,7 @@ export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type }) => {
 	const handleSave = () => {
 		if (checkInput().length > 0) {
 			console.log("NameEditor: handleSave: invalid input");
-			// add warning box
+			// todo: add warning box
 			return;
 		}
 		onSave(nameDraft);
@@ -51,9 +51,10 @@ export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type }) => {
 			<Grid
 				container
 				sx={{
-					// alignItems: "center",
-					// border: "1px solid red",
+					alignItems: "center",
 					flexWrap: "nowrap",
+					justifyContent: "space-between",
+					maxWidth: "40vw",
 				}}
 			>
 				<Grid item>
@@ -67,59 +68,16 @@ export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type }) => {
 						sx={{
 							input: {
 								cursor: editing ? "text" : "default",
-								// color: type === "block" ? "default" : theme.palette.text.secondary,
-								// letterSpacing: type === "block" ? "" : "1px",
-								fontWeight: "light",
-								// fontSize: type === "block" ? "18px" : "3.75rem",
 								height: "fit-content",
 								p: 0,
-								// mb: -1.5,
-								// border: "1px solid green",
-								// letterSpacing: "1px",
-								// width: "80%",
-								fontSize: type !== "project" ? "1.5rem" : "3rem",
+								fontSize: type !== "project" ? "1.5rem" : "3.8rem",
 								color: type !== "project" ? theme.palette.text.primary : theme.palette.text.secondary,
+								fontWeight: type === "project" ? "light" : "default",
+								mb: type === "project" ? "-14px" : 0,
+								textOverflow: "ellipsis",
 							},
 						}}
 						InputProps={{
-							// endAdornment: (
-							// 	<Tooltip
-							// 		title={`${editing ? "save" : "edit"} ${type} name`}
-							// 		placement={type === "block" ? "right" : "top"}
-							// 		componentsProps={{
-							// 			tooltip: {
-							// 				sx: {
-							// 					color: theme.palette.primary.main,
-							// 					fontSize: "1.2rem",
-							// 				},
-							// 			},
-							// 		}}
-							// 		PopperProps={{
-							// 			modifiers: [
-							// 				{
-							// 					name: "offset",
-							// 					options: {
-							// 						offset: type === "block" ? [0, 8] : [0, 0],
-							// 					},
-							// 				},
-							// 			],
-							// 		}}
-							// 	>
-							// 		<IconButton
-							// 			onClick={() => (editing ? handleSave() : setEditing(true))}
-							// 			size="large"
-							// 			sx={{
-							// 				transform: "scale(1.5)",
-							// 				color:
-							// 					type === "project"
-							// 						? theme.palette.text.secondary
-							// 						: theme.palette.primary.main,
-							// 			}}
-							// 		>
-							// 			{editing ? <SaveOutlined /> : <EditOutlined />}
-							// 		</IconButton>
-							// 	</Tooltip>
-							// ),
 							readOnly: !editing,
 							disableUnderline: true,
 							style: {
@@ -130,14 +88,7 @@ export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type }) => {
 						FormHelperTextProps={{ sx: { color: theme.palette.text.primary, letterSpacing: "1px" } }}
 					/>
 				</Grid>
-				<Grid
-					item
-					sx={
-						{
-							// border: "1px solid purple"
-						}
-					}
-				>
+				<Grid item>
 					<Tooltip
 						title={`${editing ? "save" : "edit"} ${type !== "project" ? "block" : type} name`}
 						placement={type !== "project" ? "right" : "top"}
@@ -162,9 +113,7 @@ export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type }) => {
 					>
 						<IconButton
 							onClick={() => (editing ? handleSave() : setEditing(true))}
-							// size="large"
 							sx={{
-								// transform: "scale(1.5)",
 								color: type === "project" ? theme.palette.text.secondary : theme.palette.primary.main,
 							}}
 						>
