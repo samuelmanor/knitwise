@@ -92,7 +92,7 @@ export const Row: FC<RowProps> = ({
 			total += stitch.width;
 		});
 
-		return stitchDisplaySetting === "symbol" ? total * 20 : total * 32; // abbreviations need more space than symbols
+		return stitchDisplaySetting === "symbol" ? total * 24 : total * 36; // abbreviations need more space than symbols
 		// todo: make this more dynamic
 	};
 
@@ -555,13 +555,23 @@ export const Row: FC<RowProps> = ({
 										},
 									},
 								}}
+								PopperProps={{
+									modifiers: [
+										{
+											name: "offset",
+											options: {
+												offset: [0, -12],
+											},
+										},
+									],
+								}}
 							>
 								<IconButton
 									sx={{ color: theme.palette.primary.main }}
 									onClick={() => setDraftRow(rowIndex)}
 									data-testid={`editBtn${rowIndex}`}
 								>
-									<EditOutlined />
+									<EditOutlined fontSize="large" />
 								</IconButton>
 							</Tooltip>
 						)}

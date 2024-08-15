@@ -6,9 +6,10 @@ interface NameEditorProps {
 	name: string;
 	onSave: (name: string) => void;
 	type?: "block" | "project";
+	disabled?: boolean;
 }
 
-export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type }) => {
+export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type, disabled }) => {
 	const [editing, setEditing] = useState(false);
 	const [nameDraft, setNameDraft] = useState(name);
 
@@ -116,6 +117,7 @@ export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type }) => {
 							sx={{
 								color: type === "project" ? theme.palette.text.secondary : theme.palette.primary.main,
 							}}
+							disabled={disabled}
 						>
 							{editing ? <SaveOutlined fontSize="large" /> : <EditOutlined fontSize="large" />}
 						</IconButton>

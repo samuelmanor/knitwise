@@ -152,8 +152,21 @@ export const Block: FC<BlockProps> = ({
 				<NameEditor
 					name={blockName}
 					onSave={name => dispatch(editBlockName({ blockName: name, blockIndex: index }))}
+					disabled={warning !== null || dragRowsEnabled}
 				/>
-				<Grid item sx={{ display: "flex", flexDirection: "column-reverse", gap: 1 }}>
+				<Grid
+					item
+					sx={{
+						display: "flex",
+						flexDirection: "column-reverse",
+						gap: 1,
+						p: 1,
+						border: dragRowsEnabled ? `1rem solid ${theme.palette.primary.light}` : "none",
+						borderImage: dragRowsEnabled
+							? `repeating-linear-gradient(45deg, ${theme.palette.primary.light}, ${theme.palette.primary.light} 5px, ${theme.palette.primary.main} 6px, ${theme.palette.primary.main} 15px, ${theme.palette.primary.light} 16px, ${theme.palette.primary.light} 20px) 20/1rem`
+							: "none",
+					}}
+				>
 					{dragRowsEnabled ? (
 						<SortableList
 							items={stitches.map((item, i) => ({
@@ -206,6 +219,16 @@ export const Block: FC<BlockProps> = ({
 								},
 							},
 						}}
+						PopperProps={{
+							modifiers: [
+								{
+									name: "offset",
+									options: {
+										offset: [0, -10],
+									},
+								},
+							],
+						}}
 					>
 						<IconButton
 							onClick={() => handleAddRow(stitches.length + 1)}
@@ -213,7 +236,7 @@ export const Block: FC<BlockProps> = ({
 							data-testid={`block${index}AddRowBtn`}
 							sx={{ color: theme.palette.primary.main }}
 						>
-							<AddOutlined />
+							<AddOutlined fontSize="large" />
 						</IconButton>
 					</Tooltip>
 					<Tooltip
@@ -226,6 +249,16 @@ export const Block: FC<BlockProps> = ({
 								},
 							},
 						}}
+						PopperProps={{
+							modifiers: [
+								{
+									name: "offset",
+									options: {
+										offset: [0, -10],
+									},
+								},
+							],
+						}}
 					>
 						<IconButton
 							onClick={() => setDragRowsEnabled(!dragRowsEnabled)}
@@ -236,7 +269,7 @@ export const Block: FC<BlockProps> = ({
 							disableRipple
 							disabled={draftRow !== null || warning !== null || stitches.length < 2}
 						>
-							<SwapVertOutlined />
+							<SwapVertOutlined fontSize="large" />
 						</IconButton>
 					</Tooltip>
 					<Tooltip
@@ -249,6 +282,16 @@ export const Block: FC<BlockProps> = ({
 								},
 							},
 						}}
+						PopperProps={{
+							modifiers: [
+								{
+									name: "offset",
+									options: {
+										offset: [0, -10],
+									},
+								},
+							],
+						}}
 					>
 						<IconButton
 							onClick={() => {
@@ -259,7 +302,7 @@ export const Block: FC<BlockProps> = ({
 							data-testid={`block${index}SaveBtn`}
 							sx={{ color: theme.palette.primary.main }}
 						>
-							<SaveOutlined />
+							<SaveOutlined fontSize="large" />
 						</IconButton>
 					</Tooltip>
 				</Grid>

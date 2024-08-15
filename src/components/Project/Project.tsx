@@ -12,7 +12,6 @@ import { SortableList } from "../Sortable/SortableList";
 export const Project: FC<{}> = () => {
 	const mode = useSelector((state: any) => state.workspace.mode);
 	const blocks = useSelector((state: any) => state.projects.project.blocks);
-	const currentRow = useSelector((state: any) => state.projects.currentRow);
 
 	const [draftBlockIndex, setDraftBlockIndex] = useState<number | null>(null); // the index of the block that is being edited
 
@@ -68,8 +67,7 @@ export const Project: FC<{}> = () => {
 				flexWrap: "nowrap",
 				gap: 2,
 				alignItems: "flex-end",
-				pl: currentRow % 2 === 0 ? 12 : 2,
-				pr: currentRow % 2 === 0 ? 2 : 12,
+				paddingX: mode === "edit" || mode === "editBlock" ? 2 : 12,
 			}}
 		>
 			{mode === "dragBlocks" ? (
