@@ -338,6 +338,9 @@ export const Row: FC<RowProps> = ({
 											backgroundColor: theme.palette.background.paper,
 											borderRadius: "5px",
 											justifyContent: "space-between",
+											border: `1rem solid ${theme.palette.primary.light}`,
+											borderImage: `repeating-linear-gradient(45deg, ${theme.palette.primary.light}, ${theme.palette.primary.light} 5px, ${theme.palette.primary.main} 6px, ${theme.palette.primary.main} 15px, ${theme.palette.primary.light} 16px, ${theme.palette.primary.light} 20px) 20/1rem`,
+											paddingX: 1,
 										}}
 									>
 										<SortableList
@@ -375,7 +378,11 @@ export const Row: FC<RowProps> = ({
 									}}
 								>
 									<IconButton
-										onClick={() => setDraftRow(null)}
+										onClick={() => {
+											setDraftRow(null);
+											setSelectedStitch(null);
+											setDragStitchesEnabled(false);
+										}}
 										disabled={warning !== null || showStitchMenu}
 										data-testid={`saveRow${rowIndex}`}
 									>
@@ -427,6 +434,11 @@ export const Row: FC<RowProps> = ({
 								}
 							/>
 						)}
+						<Typography>
+							{dragStitchesEnabled
+								? "click and drag stitches to reorder them!"
+								: "click a stitch to edit or delete it!"}
+						</Typography>
 						{showStitchMenu ? (
 							stitchMenu
 						) : (
