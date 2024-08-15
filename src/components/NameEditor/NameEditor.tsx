@@ -52,10 +52,11 @@ export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type, disabled }
 			<Grid
 				container
 				sx={{
-					alignItems: "center",
+					alignItems: type === "project" ? "center" : "flex-end",
 					flexWrap: "nowrap",
 					justifyContent: "space-between",
-					maxWidth: "40vw",
+					maxWidth: "500px",
+					width: type === "project" ? "50vw" : "70%",
 				}}
 			>
 				<Grid item>
@@ -71,11 +72,11 @@ export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type, disabled }
 								cursor: editing ? "text" : "default",
 								height: "fit-content",
 								p: 0,
-								fontSize: type !== "project" ? "1.5rem" : "3.8rem",
-								color: type !== "project" ? theme.palette.text.primary : theme.palette.text.secondary,
+								textOverflow: "ellipsis",
+								fontSize: type === "project" ? "3.8rem" : "1.5rem",
+								color: type === "project" ? theme.palette.text.secondary : theme.palette.text.primary,
 								fontWeight: type === "project" ? "light" : "default",
 								mb: type === "project" ? "-14px" : 0,
-								textOverflow: "ellipsis",
 							},
 						}}
 						InputProps={{
@@ -92,7 +93,7 @@ export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type, disabled }
 				<Grid item>
 					<Tooltip
 						title={`${editing ? "save" : "edit"} ${type !== "project" ? "block" : type} name`}
-						placement={type !== "project" ? "right" : "top"}
+						placement={type === "project" ? "top" : "right"}
 						componentsProps={{
 							tooltip: {
 								sx: {
@@ -106,10 +107,26 @@ export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type, disabled }
 								{
 									name: "offset",
 									options: {
-										offset: type === "block" ? [0, 8] : [0, 0],
+										offset: type === "project" ? [0, 0] : [0, -15],
 									},
 								},
 							],
+							disablePortal: true,
+							popperOptions: {
+								modifiers: [
+									{
+										name: "preventOverflow",
+										options: {
+											altAxis: true,
+											rootBoundary: "window",
+										},
+									},
+									{
+										name: "flip",
+										enabled: false,
+									},
+								],
+							},
 						}}
 					>
 						<IconButton
