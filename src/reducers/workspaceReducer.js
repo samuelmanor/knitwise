@@ -14,7 +14,7 @@ const workspaceSlice = createSlice({
 			stitchTipMode: "hover", // | "click"
 			directionsOverlayMode: "simple", // | "detailed" | "none"
 			showDeleteRowConfirmation: true, // | "false"
-			// showDeleteBlockConfirmation: true,
+			showDeleteBlockConfirmation: true, // | "false"
 			autoCloseStitchMenu: true, // | "false"
 		},
 	},

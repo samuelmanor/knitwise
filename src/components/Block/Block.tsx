@@ -11,6 +11,7 @@ import { addBlockRow } from "../../reducers/projectReducer";
 import { NameEditor } from "../NameEditor";
 import { editBlockName } from "../../reducers/projectReducer";
 import { Warning } from "../Warning";
+import { changeSetting } from "../../reducers/workspaceReducer";
 
 export interface BlockProps {
 	index: number;
@@ -44,6 +45,9 @@ export const Block: FC<BlockProps> = ({
 	const project = useSelector((state: any) => state.projects.project);
 	const projectRow = useSelector((state: any) => state.projects.projectRow);
 	const mode = useSelector((state: any) => state.workspace.mode);
+	const showDeleteBlockConfirmation = useSelector(
+		(state: any) => state.workspace.settings.showDeleteBlockConfirmation,
+	);
 
 	const [draftRow, setDraftRow] = useState<number | null>(null);
 	const [dragRowsEnabled, setDragRowsEnabled] = useState(false);
@@ -427,7 +431,9 @@ export const Block: FC<BlockProps> = ({
 									color: theme.palette.primary.main,
 								}}
 								onClick={() => {
-									setWarning("this block will be deleted.");
+									showDeleteBlockConfirmation
+										? setWarning("this block will be deleted.")
+										: dispatch(deleteBlock({ blockIndex: index }));
 								}}
 								disabled={project.blocks.length === 1 || warning !== null}
 							>
@@ -446,6 +452,10 @@ export const Block: FC<BlockProps> = ({
 						close={() => {
 							setWarning(null);
 						}}
+						setting={showDeleteBlockConfirmation}
+						updateSetting={() =>
+							dispatch(changeSetting({ setting: "showDeleteBlockConfirmation", value: false }))
+						}
 					/>
 				) : null}
 			</Grid>

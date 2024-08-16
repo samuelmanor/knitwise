@@ -9,11 +9,22 @@ interface WarningProps {
 	close: () => void;
 }
 
+/**
+ * A warning dialog that asks the user to confirm an action.
+ * @param text The text to display in the warning.
+ * @param setting Whether or not to show a checkbox to disable the warning in the future.
+ * @param updateSetting The function to update the setting.
+ * @param action The function to run if the user confirms the action.
+ * @param close The function to run if the user cancels the action.
+ */
 export const Warning: FC<WarningProps> = ({ text, setting, updateSetting, action, close }) => {
 	const [settingState, setSettingState] = useState(!setting);
 
 	const theme = useTheme();
 
+	/**
+	 * Handles the confirmation of the warning.
+	 */
 	const handleConfirmation = () => {
 		if (setting !== undefined && updateSetting && settingState === true) {
 			updateSetting();
