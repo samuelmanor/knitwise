@@ -1,4 +1,3 @@
-// handles all top-level things like the list of projects and the current project('s id)
 import { createSlice } from "@reduxjs/toolkit";
 import { testProject } from "../utils/testProject";
 
@@ -13,9 +12,9 @@ const workspaceSlice = createSlice({
 			stitchDisplay: "symbol", // | "abbreviation"
 			stitchTipMode: "hover", // | "click"
 			directionsOverlayMode: "simple", // | "detailed" | "none"
-			showDeleteRowConfirmation: true, // | "false"
-			showDeleteBlockConfirmation: true, // | "false"
-			autoCloseStitchMenu: true, // | "false"
+			showDeleteRowConfirmation: true,
+			showDeleteBlockConfirmation: true,
+			autoCloseStitchMenu: true,
 		},
 	},
 	reducers: {

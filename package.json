@@ -61,6 +61,7 @@
 		"@storybook/react": "^7.5.3",
 		"@storybook/react-vite": "^7.4.1",
 		"@storybook/react-webpack5": "^7.5.3",
+		"@babel/plugin-proposal-private-property-in-object": "^7.16.7",
 		"babel-plugin-named-exports-order": "^0.0.2",
 		"eslint-plugin-storybook": "^0.6.15",
 		"json-loader": "^0.5.7",
