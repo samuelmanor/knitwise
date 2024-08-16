@@ -39,12 +39,13 @@ export const Project: FC<{}> = () => {
 	 * @param block The block to render.
 	 * @param i The index of the block.
 	 */
-	const renderBlock = (block: BlockProps, i: number) => {
+	const renderBlock = (block: BlockProps, i: number, key: string) => {
 		// when a specific block is being edited, only show that block
 		if (mode === "editBlock" && draftBlockIndex !== null && draftBlockIndex !== i) return null;
 
 		return (
 			<Block
+				key={key}
 				index={i}
 				currentBlockRow={block.currentBlockRow}
 				blockName={block.blockName}
@@ -74,12 +75,13 @@ export const Project: FC<{}> = () => {
 				<SortableList
 					items={blocks.map((item, i) => ({
 						id: `${i}`,
-						item: renderBlock(item, i),
+						item: renderBlock(item, i, `block${i}`),
+						key: i,
 					}))}
 					direction="horizontal"
 				/>
 			) : (
-				blocks.map((block, i) => renderBlock(block, i))
+				blocks.map((block, i) => renderBlock(block, i, `block${i}`))
 			)}
 		</Grid>
 	);

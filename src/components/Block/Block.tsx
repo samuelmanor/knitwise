@@ -124,9 +124,8 @@ export const Block: FC<BlockProps> = ({
 	 */
 	const rows = stitches.map((row, i) => {
 		return (
-			<Box ref={i === 0 ? baseRowRef : null}>
+			<Box ref={i === 0 ? baseRowRef : null} key={`row${index}${i}container`}>
 				<Row
-					key={`row${blockName}${i}`}
 					stitches={row}
 					highlightRow={currentBlockRow - 1 === i}
 					editingBlock={draftBlockIndex === index}
@@ -210,6 +209,7 @@ export const Block: FC<BlockProps> = ({
 								id: i + 1,
 								item: (
 									<Row
+										key={`row${index}${i}`}
 										stitches={item}
 										editingBlock={true}
 										rowIndex={i}
@@ -226,6 +226,7 @@ export const Block: FC<BlockProps> = ({
 						stitches.map((row, i) => {
 							return (
 								<Row
+									key={`row${index}${i}`}
 									stitches={stitches[i]}
 									editingBlock={true}
 									rowIndex={i}

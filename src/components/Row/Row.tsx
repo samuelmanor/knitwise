@@ -186,6 +186,7 @@ export const Row: FC<RowProps> = ({
 									justifyContent: "center",
 									alignItems: "center",
 								}}
+								key={`stitch${blockIndex}${rowIndex}${i}`}
 							>
 								<Tooltip
 									componentsProps={{
@@ -273,6 +274,7 @@ export const Row: FC<RowProps> = ({
 									? handleAddStitch(stitchDatabase[stitch])
 									: handleEditStitch(stitchDatabase[stitch], selectedStitch)
 							}
+							key={i}
 						>
 							<Stitch {...stitchDatabase[stitch]} placement={undefined} />
 						</Grid>
