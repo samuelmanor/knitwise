@@ -36,14 +36,10 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 	 * Changes the mode between "chart" and "edit", and scrolls to the bottom of the page to show edit controls, if necessary.
 	 */
 	const changeMode = () => {
-		if (mode === "chart") {
-			dispatch(setMode("edit"));
-			setTimeout(() => {
-				window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-			}, 10);
-		} else {
-			dispatch(setMode("chart"));
-		}
+		dispatch(setMode(mode === "chart" ? "edit" : "chart"));
+		setTimeout(() => {
+			window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+		}, 10);
 	};
 
 	return (

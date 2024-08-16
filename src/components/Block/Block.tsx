@@ -82,9 +82,19 @@ export const Block: FC<BlockProps> = ({
 	/**
 	 * Sets the block to edit mode.
 	 */
-	const handleEditBlock = (index: number | null) => {
-		setDraftBlockIndex(index);
-		dispatch(setMode(index === null ? "edit" : "editBlock"));
+	const handleEditBlock = (i: number | null) => {
+		setDraftBlockIndex(i);
+		dispatch(setMode(i === null ? "edit" : "editBlock"));
+
+		setTimeout(() => {
+			const editedBlock = document.getElementById(`block${index}`);
+			if (editedBlock) {
+				window.scrollTo({
+					top: document.body.scrollHeight,
+					left: editedBlock.offsetLeft - window.innerWidth / 2 + editedBlock.clientWidth / 2,
+				});
+			}
+		}, 10);
 	};
 
 	/**
@@ -140,6 +150,7 @@ export const Block: FC<BlockProps> = ({
 					mb: baseRowRef.current && mode !== "edit" ? handlePadding() : "5px",
 					width: "fit-content",
 				}}
+				id={`block${index}`}
 			>
 				{children}
 			</Grid>
@@ -150,12 +161,18 @@ export const Block: FC<BlockProps> = ({
 	if (mode === "chart") {
 		return (
 			<BlockContainer>
-				<Grid container sx={{ justifyContent: "center" }}>
+				<Grid container sx={{ justifyContent: "center", paddingX: 2, whiteSpace: "nowrap" }}>
 					<Typography variant="h5" sx={{ color: theme.palette.text.primary }}>
 						{blockName}
 					</Typography>
 				</Grid>
-				{stitches.length === 1 && stitches[0].length === 0 ? <div>no stitches yet!</div> : rows}
+				{stitches.length === 1 && stitches[0].length === 0 ? (
+					<Grid container sx={{ justifyContent: "center", width: "fit-content" }}>
+						<Typography variant="h4">no stitches yet!</Typography>
+					</Grid>
+				) : (
+					rows
+				)}
 			</BlockContainer>
 		);
 	}
