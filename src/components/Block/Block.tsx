@@ -101,17 +101,18 @@ export const Block: FC<BlockProps> = ({
 	 * Checks the rows of the block for empty rows or width errors, and sets a warning if necessary.
 	 */
 	const checkRows = () => {
-		let error = false;
 		stitches.forEach((row, i) => {
+			// check for empty rows
 			if (row.length === 0) {
 				setWarning("one or more rows are empty.");
-				error = true;
+			}
+
+			// check for rows with different numbers of stitches
+			if (i === 0) return; // skip the first row
+			if (row.length !== stitches[i - 1].length) {
+				setWarning(`row ${i + 1} has a different number of stitches than the previous row.`);
 			}
 		});
-
-		if (!error) {
-			handleEditBlock(null);
-		}
 	};
 
 	/**
@@ -326,10 +327,7 @@ export const Block: FC<BlockProps> = ({
 						}}
 					>
 						<IconButton
-							onClick={() => {
-								checkRows();
-								setDragRowsEnabled(false);
-							}}
+							onClick={checkRows}
 							disabled={draftRow !== null || warning !== null}
 							data-testid={`block${index}SaveBtn`}
 							sx={{ color: theme.palette.primary.main }}
@@ -366,7 +364,6 @@ export const Block: FC<BlockProps> = ({
 						</Typography>
 					</Grid>
 					{rows}
-					{/* <div onClick={() => console.log(`block${index}`)}>penis</div> */}
 				</BlockContainer>
 				<Grid container sx={{ justifyContent: "center", gap: 3, width: "fit-content", flexWrap: "nowrap" }}>
 					<Grid item display={mode === "dragBlocks" ? "none" : ""}>
