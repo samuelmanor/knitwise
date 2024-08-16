@@ -72,15 +72,24 @@ export const Block: FC<BlockProps> = ({
 		}
 	};
 
+	/**
+	 * Adds a new row to the block.
+	 */
 	const handleAddRow = (rowIndex: number) => {
 		dispatch(addBlockRow({ blockIndex: index, rowIndex }));
 	};
 
+	/**
+	 * Sets the block to edit mode.
+	 */
 	const handleEditBlock = (index: number | null) => {
 		setDraftBlockIndex(index);
 		dispatch(setMode(index === null ? "edit" : "editBlock"));
 	};
 
+	/**
+	 * Checks the rows of the block for empty rows or width errors, and sets a warning if necessary.
+	 */
 	const checkRows = () => {
 		let error = false;
 		stitches.forEach((row, i) => {
@@ -95,6 +104,9 @@ export const Block: FC<BlockProps> = ({
 		}
 	};
 
+	/**
+	 * Renders the rows of the block.
+	 */
 	const rows = stitches.map((row, i) => {
 		return (
 			<Box ref={i === 0 ? baseRowRef : null}>
@@ -110,6 +122,9 @@ export const Block: FC<BlockProps> = ({
 		);
 	});
 
+	/**
+	 * Standard container for blocks.
+	 */
 	const BlockContainer = ({ children }) => {
 		return (
 			<Grid
@@ -140,7 +155,7 @@ export const Block: FC<BlockProps> = ({
 						{blockName}
 					</Typography>
 				</Grid>
-				{rows}
+				{stitches.length === 1 && stitches[0].length === 0 ? <div>no stitches yet!</div> : rows}
 			</BlockContainer>
 		);
 	}
@@ -334,7 +349,7 @@ export const Block: FC<BlockProps> = ({
 						</Typography>
 					</Grid>
 					{rows}
-					<div onClick={() => console.log(`block${index}`)}>penis</div>
+					{/* <div onClick={() => console.log(`block${index}`)}>penis</div> */}
 				</BlockContainer>
 				<Grid container sx={{ justifyContent: "center", gap: 3, width: "fit-content", flexWrap: "nowrap" }}>
 					<Grid item display={mode === "dragBlocks" ? "none" : ""}>
