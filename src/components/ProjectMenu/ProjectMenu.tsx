@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AddOutlined, EditOutlined, SaveOutlined, SettingsOutlined, SwapHorizOutlined } from "@mui/icons-material";
 import { SettingsMenu } from "../SettingsMenu/";
 import { setMode } from "../../reducers/workspaceReducer";
-import { editProjectName } from "../../reducers/projectReducer";
+import { editProjectName, addBlock } from "../../reducers/projectReducer";
 import { RowControls } from "../RowControls";
 import { NameEditor } from "../NameEditor";
 
@@ -20,6 +20,31 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 
 	const dispatch = useDispatch();
 	const theme = useTheme();
+
+	/**
+	 * Adds a new block to the project and scrolls to it.
+	 */
+	const handleAddBlock = () => {
+		dispatch(addBlock({ blockName: "new block", stitches: [[]] }));
+
+		setTimeout(() => {
+			window.scrollTo({ left: 100000, behavior: "smooth" });
+		}, 10);
+	};
+
+	/**
+	 * Changes the mode between "chart" and "edit", and scrolls to the bottom of the page to show edit controls, if necessary.
+	 */
+	const changeMode = () => {
+		if (mode === "chart") {
+			dispatch(setMode("edit"));
+			setTimeout(() => {
+				window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+			}, 10);
+		} else {
+			dispatch(setMode("chart"));
+		}
+	};
 
 	return (
 		<Grid
@@ -91,7 +116,12 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 								],
 							}}
 						>
-							<IconButton sx={{ color: theme.palette.text.secondary }} disabled={mode === "dragBlocks"}>
+							<IconButton
+								sx={{ color: theme.palette.text.secondary }}
+								disabled={mode === "dragBlocks"}
+								// onClick={() => dispatch(addBlock({ blockName: "new block", stitches: [[]] }))}
+								onClick={handleAddBlock}
+							>
 								<AddOutlined fontSize="large" />
 							</IconButton>
 						</Tooltip>
@@ -139,7 +169,6 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 					</Grid>
 				</Grid>
 			) : null}
-
 			<Grid item sx={{ display: "flex", gap: 3 }}>
 				<Tooltip
 					title={mode === "chart" ? "edit project" : "save project"}
@@ -169,7 +198,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 					<IconButton
 						size="large"
 						sx={{ color: theme.palette.text.secondary }}
-						onClick={() => dispatch(setMode(mode === "chart" ? "edit" : "chart"))}
+						onClick={changeMode}
 						disabled={mode === "editBlock"}
 					>
 						{mode === "chart" ? <EditOutlined fontSize="large" /> : <SaveOutlined fontSize="large" />}

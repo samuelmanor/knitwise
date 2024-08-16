@@ -307,7 +307,14 @@ export const Block: FC<BlockProps> = ({
 					</Tooltip>
 				</Grid>
 				{warning !== null ? (
-					<Warning text={warning} action={() => handleEditBlock(null)} close={() => setWarning(null)} />
+					<Warning
+						text={warning}
+						action={() => {
+							handleEditBlock(null);
+							setWarning(null);
+						}}
+						close={() => setWarning(null)}
+					/>
 				) : null}
 			</Grid>
 		);
@@ -319,11 +326,17 @@ export const Block: FC<BlockProps> = ({
 			<Grid container sx={{ flexDirection: "column", alignItems: "center" }}>
 				<BlockContainer>
 					<Grid container sx={{ justifyContent: "center" }}>
-						{blockName}
+						<Typography
+							variant="h5"
+							sx={{ color: theme.palette.text.primary, whiteSpace: "nowrap", paddingX: 2 }}
+						>
+							{blockName}
+						</Typography>
 					</Grid>
 					{rows}
+					<div onClick={() => console.log(`block${index}`)}>penis</div>
 				</BlockContainer>
-				<Grid container sx={{ justifyContent: "center", gap: 3, width: "fit-content" }}>
+				<Grid container sx={{ justifyContent: "center", gap: 3, width: "fit-content", flexWrap: "nowrap" }}>
 					<Grid item display={mode === "dragBlocks" ? "none" : ""}>
 						<Tooltip
 							title="edit block"
@@ -340,7 +353,7 @@ export const Block: FC<BlockProps> = ({
 									{
 										name: "offset",
 										options: {
-											offset: [0, -10],
+											offset: [0, -15],
 										},
 									},
 								],
@@ -349,15 +362,12 @@ export const Block: FC<BlockProps> = ({
 							<IconButton
 								sx={{
 									color: theme.palette.primary.main,
-									transform: "scale(1.5)",
-									height: "fit-content",
-									width: "fit-content",
 								}}
 								onClick={() => handleEditBlock(index)}
 								data-testid={`block${index}EditBtn`}
 								disabled={warning !== null}
 							>
-								<EditOutlined />
+								<EditOutlined fontSize="large" />
 							</IconButton>
 						</Tooltip>
 					</Grid>
@@ -377,7 +387,7 @@ export const Block: FC<BlockProps> = ({
 									{
 										name: "offset",
 										options: {
-											offset: [0, -10],
+											offset: [0, -15],
 										},
 									},
 								],
@@ -386,16 +396,13 @@ export const Block: FC<BlockProps> = ({
 							<IconButton
 								sx={{
 									color: theme.palette.primary.main,
-									transform: "scale(1.5)",
-									height: "fit-content",
-									width: "fit-content",
 								}}
 								onClick={() => {
 									setWarning("this block will be deleted.");
 								}}
 								disabled={project.blocks.length === 1 || warning !== null}
 							>
-								<DeleteOutlined />
+								<DeleteOutlined fontSize="large" />
 							</IconButton>
 						</Tooltip>
 					</Grid>

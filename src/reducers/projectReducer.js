@@ -49,16 +49,14 @@ const projectSlice = createSlice({
 				blockName: action.payload.blockName,
 				stitches: action.payload.stitches,
 				currentBlockRow: 1,
+				blockIndex: state.project.blocks.length,
 			};
 
 			const newState = {
 				...state,
 				project: {
 					...state.project,
-					blocks:
-						action.payload.blockIndex === 0
-							? [newBlock, ...state.project.blocks]
-							: [...state.project.blocks, newBlock],
+					blocks: [...state.project.blocks, newBlock],
 				},
 			};
 			return newState;

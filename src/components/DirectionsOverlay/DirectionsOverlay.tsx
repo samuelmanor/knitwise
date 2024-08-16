@@ -1,5 +1,5 @@
 import { EastOutlined, WestOutlined } from "@mui/icons-material";
-import { Box, Grid, Tooltip, Typography, useTheme } from "@mui/material";
+import { Grid, Tooltip, Typography, useTheme } from "@mui/material";
 import { FC } from "react";
 import { useSelector } from "react-redux";
 
@@ -32,6 +32,9 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockI
 	);
 
 	const theme = useTheme();
+
+	// hide the overlay if the row is empty
+	if (row === null || row === undefined || project.blocks[blockIndex].stitches[rowIndex].length === 0) return null;
 
 	/**
 	 * Calculates the width of the component based on the combined width of the stitches in the row.
