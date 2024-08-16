@@ -61,7 +61,7 @@ export const Block: FC<BlockProps> = ({
 	/**
 	 * Calculates the padding for the block.
 	 */
-	const handlePadding = () => {
+	const moveBlock = () => {
 		const firstRow = projectRow === 1 && currentBlockRow === 1;
 		if (index === tallestBlockIndex || firstRow) {
 			// on the first row, all blocks are aligned
@@ -69,10 +69,10 @@ export const Block: FC<BlockProps> = ({
 		} else {
 			// a block's position is relative to the current row of both the tallest block and the current block
 			const tallestBlockPosition =
-				project.blocks[tallestBlockIndex].currentBlockRow * baseRowRef.current.clientHeight;
-			const currentBlockPosition = currentBlockRow * baseRowRef.current.clientHeight;
+				project.blocks[tallestBlockIndex].currentBlockRow * baseRowRef.current.offsetHeight;
+			const currentBlockPosition = currentBlockRow * baseRowRef.current.offsetHeight;
 
-			return `${tallestBlockPosition - currentBlockPosition + 5}px`;
+			return `${tallestBlockPosition - currentBlockPosition + 10}px`;
 		}
 	};
 
@@ -152,7 +152,7 @@ export const Block: FC<BlockProps> = ({
 					borderTopRightRadius: "10px",
 					borderTopLeftRadius: "10px",
 					maxHeight: "100%",
-					mb: baseRowRef.current && mode !== "edit" ? handlePadding() : "5px",
+					mb: baseRowRef.current && mode !== "edit" ? moveBlock() : "5px",
 					width: "fit-content",
 				}}
 				id={`block${index}`}

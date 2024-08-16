@@ -35,11 +35,11 @@ export const Workspace: FC<WorkspaceProps> = () => {
 				container
 				sx={{
 					pt: 2,
-					minHeight: "calc(100vh - 72px)",
 					minWidth: "fit-content",
 					justifyContent: "center",
 					alignItems: "end",
 					backgroundImage: theme.palette.background.default,
+					overflowY: "hidden",
 				}}
 			>
 				<Project />
