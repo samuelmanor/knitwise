@@ -2,6 +2,7 @@ import { FC } from "react";
 import { Grid, useTheme } from "@mui/material";
 import { Project } from "../Project";
 import { ProjectMenu } from "../ProjectMenu";
+import { useSelector } from "react-redux";
 
 interface WorkspaceProps {}
 
@@ -9,10 +10,14 @@ interface WorkspaceProps {}
  * The workspace; where the project is rendered.
  */
 export const Workspace: FC<WorkspaceProps> = () => {
+	const project = useSelector((state: any) => state.projects.project);
+
 	const theme = useTheme();
 
 	// make no project found component?
 	// if (!project) return null;
+
+	if (!project) return <Grid container>no project found! do tutorial // upload project</Grid>;
 
 	return (
 		<Grid container>
@@ -39,7 +44,7 @@ export const Workspace: FC<WorkspaceProps> = () => {
 					justifyContent: "center",
 					alignItems: "end",
 					backgroundImage: theme.palette.background.default,
-					overflowY: "hidden",
+					minHeight: "calc(100vh - 72px)",
 				}}
 			>
 				<Project />

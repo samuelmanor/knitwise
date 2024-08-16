@@ -105,18 +105,32 @@ export const Block: FC<BlockProps> = ({
 	 * Checks the rows of the block for empty rows or width errors, and sets a warning if necessary.
 	 */
 	const checkRows = () => {
+		const firstRowWidth = stitches[0].reduce((a, b) => a + b.width, 0);
+		let errorRows = [];
+
 		stitches.forEach((row, i) => {
 			// check for empty rows
 			if (row.length === 0) {
 				setWarning("one or more rows are empty.");
 			}
 
-			// check for rows with different numbers of stitches
-			if (i === 0) return; // skip the first row
-			if (row.length !== stitches[i - 1].length) {
-				setWarning(`row ${i + 1} has a different number of stitches than the previous row.`);
+			// check for rows with a number of stitches that is different from the first row
+			let currentRowWidth = 0;
+			row.forEach(stitch => {
+				currentRowWidth += stitch.width;
+			});
+			if (currentRowWidth !== firstRowWidth && i !== 0) {
+				errorRows.push(i + 1);
 			}
 		});
+
+		if (errorRows.length > 0) {
+			if (errorRows.length > 1) {
+				setWarning(`rows ${errorRows.join(" and ")} have a different number of stitches than the first row.`);
+			} else {
+				setWarning(`row ${errorRows.join("")} has a different number of stitches than the first row.`);
+			}
+		}
 	};
 
 	/**
