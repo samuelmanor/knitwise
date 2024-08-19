@@ -139,9 +139,12 @@ export const Row: FC<RowProps> = ({
 	 * Warns the user that the row will be deleted, or deletes the row if the warning was toggled off.
 	 */
 	const handleDeleteRow = () => {
-		showDeleteRowConfirmation
-			? setWarning("this row will be deleted.")
-			: dispatch(removeBlockRow({ blockIndex, rowIndex }));
+		if (showDeleteRowConfirmation) {
+			setWarning("this row will be deleted.");
+		} else {
+			dispatch(removeBlockRow({ blockIndex, rowIndex }));
+			setDraftRow(null);
+		}
 	};
 
 	/**
@@ -436,7 +439,7 @@ export const Row: FC<RowProps> = ({
 								}
 							/>
 						)}
-						<Typography>
+						<Typography display={draftRow !== null ? "none" : ""}>
 							{dragStitchesEnabled
 								? "click and drag stitches to reorder them!"
 								: "click a stitch to edit or delete it!"}
