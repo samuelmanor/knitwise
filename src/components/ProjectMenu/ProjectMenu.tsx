@@ -1,7 +1,7 @@
 import { FC, useState } from "react";
 import {
+	Button,
 	ClickAwayListener,
-	Collapse,
 	Drawer,
 	Fade,
 	Grid,
@@ -12,15 +12,7 @@ import {
 	useTheme,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import {
-	AddOutlined,
-	CopyAllOutlined,
-	CropPortraitOutlined,
-	EditOutlined,
-	SaveOutlined,
-	SettingsOutlined,
-	SwapHorizOutlined,
-} from "@mui/icons-material";
+import { AddOutlined, EditOutlined, SaveOutlined, SettingsOutlined, SwapHorizOutlined } from "@mui/icons-material";
 import { SettingsMenu } from "../SettingsMenu/";
 import { setMode } from "../../reducers/workspaceReducer";
 import { editProjectName, addBlock } from "../../reducers/projectReducer";
@@ -49,6 +41,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 	 */
 	const handleAddBlock = () => {
 		dispatch(addBlock({ blockName: "new block", stitches: [[]] }));
+		setShowNewBlockDialog(false);
 
 		setTimeout(() => {
 			window.scrollTo({ left: 100000, behavior: "smooth" });
@@ -137,7 +130,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 				</Tooltip>
 				<Popper id="newBlockDialog" open={showNewBlockDialog} anchorEl={dialogAnchor}>
 					<ClickAwayListener onClickAway={() => setShowNewBlockDialog(false)}>
-						<Collapse in={showNewBlockDialog}>
+						<Fade in={showNewBlockDialog}>
 							<Grid
 								container
 								sx={{
@@ -145,44 +138,28 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 									paddingY: 2,
 									flexDirection: "row",
 									color: theme.palette.text.secondary,
-									justifyContent: "space-around",
+									justifyContent: "center",
 									borderTopLeftRadius: "5px",
 									borderTopRightRadius: "5px",
 								}}
 							>
-								<Grid
-									item
-									container
+								<Button
 									sx={{
-										width: "35%",
-										textAlign: "center",
-										alignItems: "center",
-										gap: 0.5,
-										flexDirection: "column",
+										color: theme.palette.text.secondary,
+										borderRadius: "5px",
+										width: "40%",
 									}}
+									onClick={handleAddBlock}
 								>
-									<CropPortraitOutlined fontSize="large" />
 									<Typography variant="h4">add empty block</Typography>
-								</Grid>
-								<Grid
-									item
-									container
-									sx={{
-										width: "35%",
-										textAlign: "center",
-										alignItems: "center",
-										gap: 0.5,
-										flexDirection: "column",
-									}}
-								>
-									<CopyAllOutlined fontSize="large" />
+								</Button>
+								<Button sx={{ color: theme.palette.text.secondary, borderRadius: "5px", width: "40%" }}>
 									<Typography variant="h4">add from saved blocks</Typography>
-								</Grid>
+								</Button>
 							</Grid>
-						</Collapse>
+						</Fade>
 					</ClickAwayListener>
 				</Popper>
-
 				<Tooltip
 					title="rearrange blocks"
 					placement="top"
