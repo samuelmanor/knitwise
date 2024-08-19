@@ -1,5 +1,6 @@
 import {
 	Button,
+	Checkbox,
 	FormControl,
 	FormControlLabel,
 	Grid,
@@ -227,6 +228,53 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 								/>
 							</RadioGroup>
 						</FormControl>
+					</Grid>
+					<Grid item>
+						<Typography variant="h3">destructive action warnings</Typography>
+						<Typography variant="h4">show warning pop-ups when:</Typography>
+						<FormControlLabel
+							control={
+								<Checkbox
+									checked={userSettings.showDeleteRowConfirmation}
+									onChange={() =>
+										dispatch(
+											changeSetting({
+												setting: "showDeleteRowConfirmation",
+												value: !userSettings.showDeleteRowConfirmation,
+											}),
+										)
+									}
+									sx={{
+										"& .MuiSvgIcon-root": {
+											color: theme.palette.text.secondary,
+										},
+										"ml": 1,
+									}}
+								/>
+							}
+							label="deleting a row"
+						/>
+						<FormControlLabel
+							control={
+								<Checkbox
+									checked={userSettings.showDeleteBlockConfirmation}
+									onChange={() =>
+										dispatch(
+											changeSetting({
+												setting: "showDeleteBlockConfirmation",
+												value: !userSettings.showDeleteBlockConfirmation,
+											}),
+										)
+									}
+									sx={{
+										"& .MuiSvgIcon-root": {
+											color: theme.palette.text.secondary,
+										},
+									}}
+								/>
+							}
+							label="deleting a block"
+						/>
 					</Grid>
 					<Grid container sx={{ display: "flex", gap: 4 }}>
 						<Grid item>
