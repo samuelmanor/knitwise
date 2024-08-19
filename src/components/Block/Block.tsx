@@ -374,7 +374,20 @@ export const Block: FC<BlockProps> = ({
 	// edit mode, but no block is being edited
 	if (mode === "edit" || mode === "dragBlocks") {
 		return (
-			<Grid container sx={{ flexDirection: "column", alignItems: "center" }}>
+			<Grid
+				container
+				sx={{
+					flexDirection: "column",
+					alignItems: "center",
+					border: warning !== null ? `1rem solid ${theme.palette.primary.light}` : "none",
+					borderImage:
+						warning !== null
+							? `repeating-linear-gradient(45deg, ${theme.palette.primary.light}, ${theme.palette.primary.light} 5px, ${theme.palette.primary.main} 6px, ${theme.palette.primary.main} 15px, ${theme.palette.primary.light} 16px, ${theme.palette.primary.light} 20px) 20/1rem`
+							: "none",
+					p: warning !== null ? 1 : 0,
+					mb: warning !== null ? 7 : 0,
+				}}
+			>
 				<BlockContainer>
 					<Grid container sx={{ justifyContent: "center" }}>
 						<Typography
@@ -412,10 +425,10 @@ export const Block: FC<BlockProps> = ({
 							<IconButton
 								sx={{
 									color: theme.palette.primary.main,
+									display: warning !== null ? "none" : "",
 								}}
 								onClick={() => handleEditBlock(index)}
 								data-testid={`block${index}EditBtn`}
-								disabled={warning !== null}
 							>
 								<EditOutlined fontSize="large" />
 							</IconButton>
@@ -446,13 +459,14 @@ export const Block: FC<BlockProps> = ({
 							<IconButton
 								sx={{
 									color: theme.palette.primary.main,
+									display: warning !== null ? "none" : "",
 								}}
 								onClick={() => {
 									showDeleteBlockConfirmation
 										? setWarning("this block will be deleted.")
 										: dispatch(deleteBlock({ blockIndex: index }));
 								}}
-								disabled={project.blocks.length === 1 || warning !== null}
+								disabled={project.blocks.length === 1}
 							>
 								<DeleteOutlined fontSize="large" />
 							</IconButton>

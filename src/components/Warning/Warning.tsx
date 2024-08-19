@@ -46,18 +46,18 @@ export const Warning: FC<WarningProps> = ({ text, setting, updateSetting, action
 		>
 			<Typography variant="h4">{text}</Typography>
 			<Typography variant="h4">are you sure you want to continue?</Typography>
-			<Grid item container sx={{ pt: 0.5, justifyContent: "center", gap: 1 }}>
+			<Grid item container sx={{ pt: 0.5, justifyContent: "center", gap: 2 }}>
 				<Button
 					onClick={handleConfirmation}
 					sx={{
 						"color": theme.palette.text.primary,
+						"border": `2px solid ${theme.palette.primary.main}`,
 						"&:hover": {
 							backgroundColor: theme.palette.primary.main,
-						},
-						"&:active": {
-							backgroundColor: theme.palette.primary.dark,
+							color: theme.palette.text.secondary,
 						},
 					}}
+					size="small"
 				>
 					yes
 				</Button>
@@ -65,31 +65,29 @@ export const Warning: FC<WarningProps> = ({ text, setting, updateSetting, action
 					onClick={close}
 					sx={{
 						"color": theme.palette.text.primary,
+						"border": `2px solid ${theme.palette.primary.main}`,
 						"&:hover": {
 							backgroundColor: theme.palette.primary.main,
-						},
-						"&:active": {
-							backgroundColor: theme.palette.primary.dark,
+							color: theme.palette.text.secondary,
 						},
 					}}
+					size="small"
 				>
 					no
 				</Button>
 			</Grid>
 			{setting !== undefined && updateSetting ? (
-				<Grid container sx={{ alignItems: "center" }}>
+				<Grid container sx={{ alignItems: "center", flexWrap: "nowrap", width: "fit-content" }}>
 					<Checkbox
 						checked={settingState}
 						onChange={() => setSettingState(!settingState)}
 						sx={{
 							"& .MuiSvgIcon-root": {
-								color: theme.palette.text.secondary,
+								color: theme.palette.text.primary,
 							},
 						}}
 					/>
-					<Typography variant="h4" ml={-1}>
-						don't show this warning again
-					</Typography>
+					<Typography sx={{ fontSize: "0.8rem", ml: -0.5 }}>don't show this warning again</Typography>
 				</Grid>
 			) : null}
 		</Grid>
