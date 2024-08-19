@@ -126,10 +126,12 @@ export const Block: FC<BlockProps> = ({
 
 		if (errorRows.length > 0) {
 			if (errorRows.length > 1) {
-				setWarning(`rows ${errorRows.join(" and ")} have a different number of stitches than the first row.`);
+				setWarning(`rows ${errorRows.join(", ")} have a different number of stitches than the first row.`);
 			} else {
 				setWarning(`row ${errorRows.join("")} has a different number of stitches than the first row.`);
 			}
+		} else {
+			handleEditBlock(null);
 		}
 	};
 

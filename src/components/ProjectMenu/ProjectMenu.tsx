@@ -1,12 +1,32 @@
 import { FC, useState } from "react";
-import { Drawer, Grid, IconButton, Tooltip, Typography, useTheme } from "@mui/material";
+import {
+	ClickAwayListener,
+	Collapse,
+	Drawer,
+	Fade,
+	Grid,
+	IconButton,
+	Popper,
+	Tooltip,
+	Typography,
+	useTheme,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { AddOutlined, EditOutlined, SaveOutlined, SettingsOutlined, SwapHorizOutlined } from "@mui/icons-material";
+import {
+	AddOutlined,
+	CopyAllOutlined,
+	CropPortraitOutlined,
+	EditOutlined,
+	SaveOutlined,
+	SettingsOutlined,
+	SwapHorizOutlined,
+} from "@mui/icons-material";
 import { SettingsMenu } from "../SettingsMenu/";
 import { setMode } from "../../reducers/workspaceReducer";
 import { editProjectName, addBlock } from "../../reducers/projectReducer";
 import { RowControls } from "../RowControls";
 import { NameEditor } from "../NameEditor";
+import { SavedBlocks } from "../SavedBlocks";
 
 interface ProjectMenuProps {}
 
@@ -16,7 +36,10 @@ interface ProjectMenuProps {}
 export const ProjectMenu: FC<ProjectMenuProps> = () => {
 	const projectName = useSelector((state: any) => state.projects.name);
 	const mode = useSelector((state: any) => state.workspace.mode);
+
 	const [openSettings, setOpenSettings] = useState(false);
+	const [showNewBlockDialog, setShowNewBlockDialog] = useState(false);
+	const [dialogAnchor, setDialogAnchor] = useState<HTMLButtonElement | null>(null);
 
 	const dispatch = useDispatch();
 	const theme = useTheme();
@@ -76,96 +99,128 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 					<RowControls />
 				</Grid>
 			) : null}
-			{mode === "edit" || mode === "dragBlocks" ? (
-				<Grid
-					container
-					sx={{
-						width: "fit-content",
-						gap: 3,
-						flexWrap: "nowrap",
-						alignItems: "center",
+			<Grid item sx={{ display: "flex", gap: 3, alignItems: "center" }}>
+				<Tooltip
+					title={<div style={{ display: showNewBlockDialog ? "none" : "inherit" }}>add block</div>}
+					componentsProps={{
+						tooltip: {
+							sx: {
+								backgroundColor: theme.palette.primary.main,
+								color: theme.palette.text.secondary,
+								fontSize: "1.2rem",
+								borderBottomLeftRadius: 0,
+								borderBottomRightRadius: 0,
+							},
+						},
+					}}
+					PopperProps={{
+						modifiers: [
+							{
+								name: "offset",
+								options: {
+									offset: [0, showNewBlockDialog ? -20 : -8],
+								},
+							},
+						],
 					}}
 				>
-					<Grid item>
-						<Tooltip
-							title="add block"
-							placement="top"
-							componentsProps={{
-								tooltip: {
-									sx: {
-										backgroundColor: theme.palette.primary.main,
-										color: theme.palette.text.secondary,
-										fontSize: "1.2rem",
-										borderBottomLeftRadius: 0,
-										borderBottomRightRadius: 0,
-									},
-								},
-							}}
-							PopperProps={{
-								modifiers: [
-									{
-										name: "offset",
-										options: {
-											offset: [0, -4],
-										},
-									},
-								],
-							}}
-						>
-							<IconButton
-								sx={{ color: theme.palette.text.secondary }}
-								disabled={mode === "dragBlocks"}
-								// onClick={() => dispatch(addBlock({ blockName: "new block", stitches: [[]] }))}
-								onClick={handleAddBlock}
-							>
-								<AddOutlined fontSize="large" />
-							</IconButton>
-						</Tooltip>
-					</Grid>
-					<Grid item>
-						<Tooltip
-							title="rearrange blocks"
-							placement="top"
-							componentsProps={{
-								tooltip: {
-									sx: {
-										backgroundColor: theme.palette.primary.main,
-										color: theme.palette.text.secondary,
-										fontSize: "1.2rem",
-										borderBottomLeftRadius: 0,
-										borderBottomRightRadius: 0,
-									},
-								},
-							}}
-							PopperProps={{
-								modifiers: [
-									{
-										name: "offset",
-										options: {
-											offset: [0, -8],
-										},
-									},
-								],
-							}}
-						>
-							<IconButton
-								size="large"
+					<IconButton
+						aria-describedby="newBlockDialog"
+						onClick={e => {
+							setShowNewBlockDialog(true);
+							setDialogAnchor(e.currentTarget);
+						}}
+						sx={{ color: theme.palette.text.secondary, display: mode === "edit" ? "flex" : "none" }}
+					>
+						<AddOutlined fontSize="large" />
+					</IconButton>
+				</Tooltip>
+				<Popper id="newBlockDialog" open={showNewBlockDialog} anchorEl={dialogAnchor}>
+					<ClickAwayListener onClickAway={() => setShowNewBlockDialog(false)}>
+						<Collapse in={showNewBlockDialog}>
+							<Grid
+								container
 								sx={{
-									backgroundColor: mode === "dragBlocks" ? theme.palette.primary.dark : "transparent",
-									color:
-										mode === "dragBlocks"
-											? theme.palette.text.secondary
-											: theme.palette.text.secondary,
+									backgroundColor: theme.palette.primary.main,
+									paddingY: 2,
+									flexDirection: "row",
+									color: theme.palette.text.secondary,
+									justifyContent: "space-around",
+									borderTopLeftRadius: "5px",
+									borderTopRightRadius: "5px",
 								}}
-								onClick={() => dispatch(setMode(mode === "edit" ? "dragBlocks" : "edit"))}
 							>
-								<SwapHorizOutlined fontSize="large" />
-							</IconButton>
-						</Tooltip>
-					</Grid>
-				</Grid>
-			) : null}
-			<Grid item sx={{ display: "flex", gap: 3 }}>
+								<Grid
+									item
+									container
+									sx={{
+										width: "35%",
+										textAlign: "center",
+										alignItems: "center",
+										gap: 0.5,
+										flexDirection: "column",
+									}}
+								>
+									<CropPortraitOutlined fontSize="large" />
+									<Typography variant="h4">add empty block</Typography>
+								</Grid>
+								<Grid
+									item
+									container
+									sx={{
+										width: "35%",
+										textAlign: "center",
+										alignItems: "center",
+										gap: 0.5,
+										flexDirection: "column",
+									}}
+								>
+									<CopyAllOutlined fontSize="large" />
+									<Typography variant="h4">add from saved blocks</Typography>
+								</Grid>
+							</Grid>
+						</Collapse>
+					</ClickAwayListener>
+				</Popper>
+
+				<Tooltip
+					title="rearrange blocks"
+					placement="top"
+					componentsProps={{
+						tooltip: {
+							sx: {
+								backgroundColor: theme.palette.primary.main,
+								color: theme.palette.text.secondary,
+								fontSize: "1.2rem",
+								borderBottomLeftRadius: 0,
+								borderBottomRightRadius: 0,
+							},
+						},
+					}}
+					PopperProps={{
+						modifiers: [
+							{
+								name: "offset",
+								options: {
+									offset: [0, -8],
+								},
+							},
+						],
+					}}
+				>
+					<IconButton
+						size="large"
+						sx={{
+							backgroundColor: mode === "dragBlocks" ? theme.palette.primary.dark : "transparent",
+							color: mode === "dragBlocks" ? theme.palette.text.secondary : theme.palette.text.secondary,
+							display: mode === "edit" ? "flex" : "none",
+						}}
+						onClick={() => dispatch(setMode(mode === "edit" ? "dragBlocks" : "edit"))}
+						disabled={showNewBlockDialog}
+					>
+						<SwapHorizOutlined fontSize="large" />
+					</IconButton>
+				</Tooltip>
 				<Tooltip
 					title={mode === "chart" ? "edit project" : "save project"}
 					placement="top"
@@ -195,7 +250,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 						size="large"
 						sx={{ color: theme.palette.text.secondary }}
 						onClick={changeMode}
-						disabled={mode === "editBlock"}
+						disabled={mode === "editBlock" || showNewBlockDialog}
 					>
 						{mode === "chart" ? <EditOutlined fontSize="large" /> : <SaveOutlined fontSize="large" />}
 					</IconButton>
@@ -229,6 +284,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 						size="large"
 						sx={{ color: theme.palette.text.secondary }}
 						onClick={() => setOpenSettings(true)}
+						disabled={showNewBlockDialog}
 					>
 						<SettingsOutlined fontSize="large" />
 					</IconButton>

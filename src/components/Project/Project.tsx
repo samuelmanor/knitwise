@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Grid, useTheme } from "@mui/material";
 import { FC, useState } from "react";
 import { Block, BlockProps } from "../Block";
 import { useSelector } from "react-redux";
@@ -14,6 +14,8 @@ export const Project: FC<{}> = () => {
 	const blocks = useSelector((state: any) => state.projects.project.blocks);
 
 	const [draftBlockIndex, setDraftBlockIndex] = useState<number | null>(null); // the index of the block that is being edited
+
+	const theme = useTheme();
 
 	if (!blocks) return <div>no blocks found</div>;
 
@@ -68,7 +70,13 @@ export const Project: FC<{}> = () => {
 				flexWrap: "nowrap",
 				gap: 2,
 				alignItems: "flex-end",
-				paddingX: mode === "edit" || mode === "editBlock" ? 2 : 12,
+				paddingX: mode === "chart" ? 12 : 2,
+				paddingY: mode === "dragBlocks" ? 1 : 0,
+				border: mode === "dragBlocks" ? `1rem solid ${theme.palette.primary.light}` : "none",
+				borderImage:
+					mode === "dragBlocks"
+						? `repeating-linear-gradient(45deg, ${theme.palette.primary.light}, ${theme.palette.primary.light} 5px, ${theme.palette.primary.main} 6px, ${theme.palette.primary.main} 15px, ${theme.palette.primary.light} 16px, ${theme.palette.primary.light} 20px) 20/1rem`
+						: "none",
 			}}
 		>
 			{mode === "dragBlocks" ? (
