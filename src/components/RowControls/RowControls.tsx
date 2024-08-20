@@ -53,7 +53,7 @@ export const RowControls: FC<RowControlsProps> = () => {
 				>
 					<IconButton
 						onClick={() => dispatch(prevRow())}
-						sx={{ color: theme.palette.text.secondary }}
+						sx={{ color: theme.palette.text.secondary, transform: "rotate(270deg)" }}
 						disabled={currentRow === 1}
 					>
 						<ArrowBackIosNewOutlined fontSize="large" />
@@ -108,6 +108,7 @@ export const RowControls: FC<RowControlsProps> = () => {
 						onClick={() => dispatch(nextRow())}
 						sx={{
 							color: theme.palette.text.secondary,
+							transform: "rotate(270deg)",
 						}}
 					>
 						<ArrowForwardIosOutlined fontSize="large" />
