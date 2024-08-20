@@ -59,6 +59,23 @@ export const Block: FC<BlockProps> = ({
 	const theme = useTheme();
 
 	/**
+	 * Scrolls to the center of the selected block.
+	 */
+	const scrollToBlock = () => {
+		if (baseRowRef) {
+			setTimeout(() => {
+				window.scrollTo({
+					top: document.body.scrollHeight,
+				});
+				window.scrollTo({
+					left: baseRowRef.current.offsetLeft - window.innerWidth / 2 + baseRowRef.current.clientWidth / 2,
+					behavior: "smooth",
+				});
+			}, 10);
+		}
+	};
+
+	/**
 	 * Calculates the padding for the block.
 	 */
 	const moveBlock = () => {
@@ -89,16 +106,19 @@ export const Block: FC<BlockProps> = ({
 	const handleEditBlock = (i: number | null) => {
 		setDraftBlockIndex(i);
 		dispatch(setMode(i === null ? "edit" : "editBlock"));
+		scrollToBlock();
+	};
 
-		setTimeout(() => {
-			const editedBlock = document.getElementById(`block${index}`);
-			if (editedBlock) {
-				window.scrollTo({
-					top: document.body.scrollHeight,
-					left: editedBlock.offsetLeft - window.innerWidth / 2 + editedBlock.clientWidth / 2,
-				});
-			}
-		}, 10);
+	/**
+	 * Displays a warning if enabled, otherwise deletes the block.
+	 */
+	const handleDeleteBlock = () => {
+		if (showDeleteBlockConfirmation) {
+			setWarning("this block will be deleted.");
+			scrollToBlock();
+		} else {
+			dispatch(deleteBlock({ blockIndex: index }));
+		}
 	};
 
 	/**
@@ -461,11 +481,7 @@ export const Block: FC<BlockProps> = ({
 									color: theme.palette.primary.main,
 									display: warning !== null ? "none" : "",
 								}}
-								onClick={() => {
-									showDeleteBlockConfirmation
-										? setWarning("this block will be deleted.")
-										: dispatch(deleteBlock({ blockIndex: index }));
-								}}
+								onClick={handleDeleteBlock}
 								disabled={project.blocks.length === 1}
 							>
 								<DeleteOutlined fontSize="large" />
