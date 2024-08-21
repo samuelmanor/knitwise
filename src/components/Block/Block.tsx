@@ -15,7 +15,7 @@ import { changeSetting } from "../../reducers/workspaceReducer";
 
 export interface BlockProps {
 	index: number;
-	currentBlockRow: number;
+	currentBlockRow?: number;
 	stitches: StitchProps[][];
 	blockName: string;
 	tallestBlockIndex?: number;
@@ -214,6 +214,16 @@ export const Block: FC<BlockProps> = ({
 					rows
 				)}
 			</BlockContainer>
+		);
+	}
+
+	if (currentBlockRow === null || currentBlockRow === undefined) {
+		return (
+			<Grid container>
+				<Tooltip title={rows}>
+					<Typography>{blockName}</Typography>
+				</Tooltip>
+			</Grid>
 		);
 	}
 

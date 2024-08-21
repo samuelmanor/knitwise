@@ -6,6 +6,7 @@ import {
 	Fade,
 	Grid,
 	IconButton,
+	Modal,
 	Popper,
 	Tooltip,
 	Typography,
@@ -31,6 +32,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 
 	const [openSettings, setOpenSettings] = useState(false);
 	const [showNewBlockDialog, setShowNewBlockDialog] = useState(false);
+	const [showSavedBlocks, setShowSavedBlocks] = useState(false);
 	const [dialogAnchor, setDialogAnchor] = useState<HTMLButtonElement | null>(null);
 
 	const dispatch = useDispatch();
@@ -153,7 +155,13 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 								>
 									<Typography variant="h4">add empty block</Typography>
 								</Button>
-								<Button sx={{ color: theme.palette.text.secondary, borderRadius: "5px", width: "40%" }}>
+								<Button
+									sx={{ color: theme.palette.text.secondary, borderRadius: "5px", width: "40%" }}
+									onClick={() => {
+										setShowNewBlockDialog(false);
+										setShowSavedBlocks(true);
+									}}
+								>
 									<Typography variant="h4">add from saved blocks</Typography>
 								</Button>
 							</Grid>
@@ -267,6 +275,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 					</IconButton>
 				</Tooltip>
 			</Grid>
+			<SavedBlocks show={showSavedBlocks} close={() => setShowSavedBlocks(false)} />
 			<Drawer anchor="bottom" open={openSettings} onClose={() => setOpenSettings(false)}>
 				<SettingsMenu closeSettingsMenu={() => setOpenSettings(false)} />
 			</Drawer>
