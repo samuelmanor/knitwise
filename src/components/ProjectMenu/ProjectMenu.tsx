@@ -1,22 +1,10 @@
 import { FC, useState } from "react";
-import {
-	Button,
-	ClickAwayListener,
-	Drawer,
-	Fade,
-	Grid,
-	IconButton,
-	Modal,
-	Popper,
-	Tooltip,
-	Typography,
-	useTheme,
-} from "@mui/material";
+import { Drawer, Grid, IconButton, Tooltip, Typography, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { AddOutlined, EditOutlined, SaveOutlined, SettingsOutlined, SwapHorizOutlined } from "@mui/icons-material";
+import { EditOutlined, SaveOutlined, SettingsOutlined, SwapHorizOutlined } from "@mui/icons-material";
 import { SettingsMenu } from "../SettingsMenu/";
 import { setMode } from "../../reducers/workspaceReducer";
-import { editProjectName, addBlock } from "../../reducers/projectReducer";
+import { editProjectName } from "../../reducers/projectReducer";
 import { RowControls } from "../RowControls";
 import { NameEditor } from "../NameEditor";
 import { AddBlock } from "../AddBlock";
@@ -31,24 +19,9 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 	const mode = useSelector((state: any) => state.workspace.mode);
 
 	const [openSettings, setOpenSettings] = useState(false);
-	const [showNewBlockDialog, setShowNewBlockDialog] = useState(false);
-	const [showSavedBlocks, setShowSavedBlocks] = useState(false);
-	const [dialogAnchor, setDialogAnchor] = useState<HTMLButtonElement | null>(null);
 
 	const dispatch = useDispatch();
 	const theme = useTheme();
-
-	/**
-	 * Adds a new block to the project and scrolls to it.
-	 */
-	const handleAddBlock = () => {
-		dispatch(addBlock({ blockName: "new block", stitches: [[]] }));
-		setShowNewBlockDialog(false);
-
-		setTimeout(() => {
-			window.scrollTo({ left: 100000, behavior: "smooth" });
-		}, 10);
-	};
 
 	/**
 	 * Changes the mode between "chart" and "edit", and scrolls to the bottom of the page to show edit controls, if necessary.
@@ -95,79 +68,6 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 				</Grid>
 			) : null}
 			<Grid item sx={{ display: "flex", gap: 3, alignItems: "center" }}>
-				{/* <Tooltip
-					title={<div style={{ display: showNewBlockDialog ? "none" : "inherit" }}>add block</div>}
-					componentsProps={{
-						tooltip: {
-							sx: {
-								backgroundColor: theme.palette.primary.main,
-								color: theme.palette.text.secondary,
-								fontSize: "1.2rem",
-								borderBottomLeftRadius: 0,
-								borderBottomRightRadius: 0,
-							},
-						},
-					}}
-					PopperProps={{
-						modifiers: [
-							{
-								name: "offset",
-								options: {
-									offset: [0, showNewBlockDialog ? -20 : -8],
-								},
-							},
-						],
-					}}
-				>
-					<IconButton
-						aria-describedby="newBlockDialog"
-						onClick={e => {
-							setShowNewBlockDialog(true);
-							setDialogAnchor(e.currentTarget);
-						}}
-						sx={{ color: theme.palette.text.secondary, display: mode === "edit" ? "flex" : "none" }}
-					>
-						<AddOutlined fontSize="large" />
-					</IconButton>
-				</Tooltip>
-				<Popper id="newBlockDialog" open={showNewBlockDialog} anchorEl={dialogAnchor}>
-					<ClickAwayListener onClickAway={() => setShowNewBlockDialog(false)}>
-						<Fade in={showNewBlockDialog}>
-							<Grid
-								container
-								sx={{
-									backgroundColor: theme.palette.primary.main,
-									paddingY: 2,
-									flexDirection: "row",
-									color: theme.palette.text.secondary,
-									justifyContent: "center",
-									borderTopLeftRadius: "5px",
-									borderTopRightRadius: "5px",
-								}}
-							>
-								<Button
-									sx={{
-										color: theme.palette.text.secondary,
-										borderRadius: "5px",
-										width: "40%",
-									}}
-									onClick={handleAddBlock}
-								>
-									<Typography variant="h4">add empty block</Typography>
-								</Button>
-								<Button
-									sx={{ color: theme.palette.text.secondary, borderRadius: "5px", width: "40%" }}
-									onClick={() => {
-										setShowNewBlockDialog(false);
-										setShowSavedBlocks(true);
-									}}
-								>
-									<Typography variant="h4">copy existing block</Typography>
-								</Button>
-							</Grid>
-						</Fade>
-					</ClickAwayListener>
-				</Popper> */}
 				<AddBlock />
 				<Tooltip
 					title="rearrange blocks"
@@ -202,7 +102,6 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 							display: mode === "edit" ? "flex" : "none",
 						}}
 						onClick={() => dispatch(setMode(mode === "edit" ? "dragBlocks" : "edit"))}
-						disabled={showNewBlockDialog}
 					>
 						<SwapHorizOutlined fontSize="large" />
 					</IconButton>
@@ -236,7 +135,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 						size="large"
 						sx={{ color: theme.palette.text.secondary }}
 						onClick={changeMode}
-						disabled={mode === "editBlock" || showNewBlockDialog}
+						disabled={mode === "editBlock"}
 					>
 						{mode === "chart" ? <EditOutlined fontSize="large" /> : <SaveOutlined fontSize="large" />}
 					</IconButton>
@@ -270,7 +169,6 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 						size="large"
 						sx={{ color: theme.palette.text.secondary }}
 						onClick={() => setOpenSettings(true)}
-						disabled={showNewBlockDialog}
 					>
 						<SettingsOutlined fontSize="large" />
 					</IconButton>

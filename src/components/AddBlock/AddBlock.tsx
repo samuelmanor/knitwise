@@ -40,6 +40,7 @@ export const AddBlock: FC<SavedBlocksProps> = () => {
 		setShowUniqueBlocks(false);
 		setShowNewBlockDialog(false);
 		dispatch(addBlock(block === null ? { blockName: "new block", stitches: [[]] } : block));
+
 		setTimeout(() => {
 			window.scrollTo({ left: 100000, behavior: "smooth" });
 		}, 10);
@@ -79,6 +80,14 @@ export const AddBlock: FC<SavedBlocksProps> = () => {
 							</Grid>
 						))}
 					</Grid>
+					<Button
+						onClick={() => {
+							setShowUniqueBlocks(false);
+							setShowUniqueBlocks(false);
+						}}
+					>
+						cancel
+					</Button>
 				</Grid>
 			</Modal>
 			<Popper placement="top" open={showNewBlockDialog} anchorEl={dialogAnchor}>
