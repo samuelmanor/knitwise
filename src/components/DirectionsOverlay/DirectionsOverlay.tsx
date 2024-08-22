@@ -149,12 +149,6 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockI
 				componentsProps={{
 					tooltip: {
 						sx: {
-							// width: getWidth() * 15,
-							// backgroundColor: theme.palette.primary.main,
-							// color: theme.palette.text.secondary,
-							// p: 1.5,
-							// borderRadius: "5px",
-							// display: show ? "flex" : "none",
 							backgroundColor: theme.palette.primary.main,
 							filter: "none",
 							color: theme.palette.text.secondary,
