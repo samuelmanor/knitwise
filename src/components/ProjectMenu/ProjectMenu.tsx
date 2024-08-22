@@ -19,7 +19,7 @@ import { setMode } from "../../reducers/workspaceReducer";
 import { editProjectName, addBlock } from "../../reducers/projectReducer";
 import { RowControls } from "../RowControls";
 import { NameEditor } from "../NameEditor";
-import { SavedBlocks } from "../SavedBlocks";
+import { AddBlock } from "../AddBlock";
 
 interface ProjectMenuProps {}
 
@@ -95,7 +95,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 				</Grid>
 			) : null}
 			<Grid item sx={{ display: "flex", gap: 3, alignItems: "center" }}>
-				<Tooltip
+				{/* <Tooltip
 					title={<div style={{ display: showNewBlockDialog ? "none" : "inherit" }}>add block</div>}
 					componentsProps={{
 						tooltip: {
@@ -162,12 +162,13 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 										setShowSavedBlocks(true);
 									}}
 								>
-									<Typography variant="h4">add from saved blocks</Typography>
+									<Typography variant="h4">copy existing block</Typography>
 								</Button>
 							</Grid>
 						</Fade>
 					</ClickAwayListener>
-				</Popper>
+				</Popper> */}
+				<AddBlock />
 				<Tooltip
 					title="rearrange blocks"
 					placement="top"
@@ -275,7 +276,6 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 					</IconButton>
 				</Tooltip>
 			</Grid>
-			<SavedBlocks show={showSavedBlocks} close={() => setShowSavedBlocks(false)} />
 			<Drawer anchor="bottom" open={openSettings} onClose={() => setOpenSettings(false)}>
 				<SettingsMenu closeSettingsMenu={() => setOpenSettings(false)} />
 			</Drawer>

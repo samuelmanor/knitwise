@@ -3,12 +3,12 @@ import { Meta, StoryObj } from "@storybook/react";
 import { expect } from "@storybook/jest";
 import { within } from "@storybook/testing-library";
 
-import { SavedBlocks } from "./SavedBlocks";
+import { AddBlock } from "./AddBlock";
 
 // More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-const meta: Meta<typeof SavedBlocks> = {
-	title: "SavedBlocks",
-	component: SavedBlocks,
+const meta: Meta<typeof AddBlock> = {
+	title: "AddBlock",
+	component: AddBlock,
 	parameters: {
 		// Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
 		layout: "centered",
@@ -22,16 +22,16 @@ const meta: Meta<typeof SavedBlocks> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof SavedBlocks>;
+type Story = StoryObj<typeof AddBlock>;
 
 // More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Primary: Story = {
 	play: async ({ canvasElement }) => {
 		const canvas = within(canvasElement);
-		const element = canvas.getByText(/SavedBlocks/i);
+		const element = canvas.getByText(/AddBlock/i);
 		expect(element).toBeTruthy();
 	},
 	args: {
-		// label: "SavedBlocks",
+		// label: "AddBlock",
 	},
 };

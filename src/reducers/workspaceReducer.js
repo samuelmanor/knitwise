@@ -6,7 +6,7 @@ const workspaceSlice = createSlice({
 	initialState: {
 		project: testProject,
 		mode: "chart", // "edit" | "editBlock"
-		savedBlocks: [testProject.blocks[1], testProject.blocks[2]],
+		// savedBlocks: [testProject.blocks[1], testProject.blocks[2]],
 		settings: {
 			theme: "system", // | "light" | "dark"
 			stitchDisplay: "symbol", // | "abbreviation"

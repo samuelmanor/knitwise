@@ -101,12 +101,17 @@ export const Block: FC<BlockProps> = ({
 	};
 
 	/**
-	 * Sets the block to edit mode.
+	 * Opens or closes the block editor.
 	 */
 	const handleEditBlock = (i: number | null) => {
 		setDraftBlockIndex(i);
-		dispatch(setMode(i === null ? "edit" : "editBlock"));
-		scrollToBlock();
+
+		if (i === null) {
+			dispatch(setMode("edit"));
+			scrollToBlock();
+		} else {
+			dispatch(setMode("editBlock"));
+		}
 	};
 
 	/**
