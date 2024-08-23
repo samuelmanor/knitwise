@@ -473,6 +473,18 @@ export const testProject = {
 	// 		],
 	// 	},
 	// ],
+	projectName: "test project 1",
+	currentProjectRow: 1,
+	mode: "chart",
+	settings: {
+		theme: "system",
+		stitchDisplay: "symbol",
+		stitchTipMode: "hover",
+		directionsOverlayMode: "simple",
+		showDeleteRowConfirmation: true,
+		showDeleteBlockConfirmation: true,
+		autoCloseStitchMenu: true,
+	},
 	blocks: [
 		// {
 		// 	currentBlockRow: 1,

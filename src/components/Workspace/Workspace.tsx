@@ -3,6 +3,8 @@ import { Grid, useTheme } from "@mui/material";
 import { Project } from "../Project";
 import { ProjectMenu } from "../ProjectMenu";
 import { useSelector } from "react-redux";
+import { saveState } from "../../utils/localStorage";
+import { testProject } from "../../utils/testProject";
 
 interface WorkspaceProps {}
 
@@ -36,6 +38,7 @@ export const Workspace: FC<WorkspaceProps> = () => {
 			>
 				<Grid item>knitwise</Grid>
 			</Grid> */}
+			<div onClick={() => saveState(testProject)}>penis</div>
 			<Grid
 				container
 				sx={{

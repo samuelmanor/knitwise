@@ -1,13 +1,25 @@
 // handles things just within a single project like the current row and all the blocks
 import { createSlice } from "@reduxjs/toolkit";
-import { testProject } from "../utils/testProject";
 
 const projectSlice = createSlice({
 	name: "project",
 	initialState: {
-		projectName: "test project 1",
+		// projectName: "test project 1",
+		// currentProjectRow: 1,
+		// blocks: testProject.blocks,
+		// mode: "chart", // "edit" | "editBlock"
+		// settings: {
+		// 	theme: "system", // | "light" | "dark"
+		// 	stitchDisplay: "symbol", // | "abbreviation"
+		// 	stitchTipMode: "hover", // | "click"
+		// 	directionsOverlayMode: "simple", // | "detailed" | "none"
+		// 	showDeleteRowConfirmation: true,
+		// 	showDeleteBlockConfirmation: true,
+		// 	autoCloseStitchMenu: true,
+		// },
+		projectName: "",
 		currentProjectRow: 1,
-		blocks: testProject.blocks,
+		blocks: [],
 		mode: "chart", // "edit" | "editBlock"
 		settings: {
 			theme: "system", // | "light" | "dark"
@@ -22,7 +34,12 @@ const projectSlice = createSlice({
 	reducers: {
 		initializeProject(state, action) {
 			return {
-				project: action.payload.project,
+				...state,
+				projectName: action.payload.projectName,
+				blocks: action.payload.blocks,
+				currentProjectRow: action.payload.currentProjectRow,
+				mode: action.payload.mode,
+				settings: action.payload.settings,
 			};
 		},
 		setMode(state, action) {
@@ -35,35 +52,29 @@ const projectSlice = createSlice({
 		editProjectName(state, action) {
 			return {
 				...state,
-				name: action.payload,
+				projectName: action.payload,
 			};
 		},
 		editBlockName(state, action) {
 			return {
 				...state,
-				project: {
-					...state.project,
-					blocks: state.project.blocks.map((block, index) => {
-						if (index === action.payload.blockIndex) {
-							const newBlock = {
-								...block,
-								blockName: action.payload.blockName,
-							};
-							return newBlock;
-						} else {
-							return block;
-						}
-					}),
-				},
+				blocks: state.blocks.map((block, index) => {
+					if (index === action.payload.blockIndex) {
+						const newBlock = {
+							...block,
+							blockName: action.payload.blockName,
+						};
+						return newBlock;
+					} else {
+						return block;
+					}
+				}),
 			};
 		},
 		reorderBlocks(state, action) {
 			return {
 				...state,
-				project: {
-					...state.project,
-					blocks: action.payload,
-				},
+				blocks: action.payload,
 			};
 		},
 		addBlock(state, action) {
@@ -71,25 +82,19 @@ const projectSlice = createSlice({
 				blockName: action.payload.blockName,
 				stitches: action.payload.stitches,
 				currentBlockRow: 1,
-				blockIndex: state.project.blocks.length,
+				blockIndex: state.blocks.length,
 			};
 
 			const newState = {
 				...state,
-				project: {
-					...state.project,
-					blocks: [...state.project.blocks, newBlock],
-				},
+				blocks: [...state.blocks, newBlock],
 			};
 			return newState;
 		},
 		deleteBlock(state, action) {
 			return {
 				...state,
-				project: {
-					...state.project,
-					blocks: state.project.blocks.filter((block, index) => index !== action.payload.blockIndex),
-				},
+				blocks: state.blocks.filter((block, index) => index !== action.payload.blockIndex),
 			};
 		},
 		updateBlockRowPosition(state, action) {
@@ -115,107 +120,91 @@ const projectSlice = createSlice({
 
 			return {
 				...state,
-				project: {
-					...state.project,
-					blocks: state.project.blocks.map(block => {
-						return {
-							...block,
-							currentBlockRow: calculateNextPosition(block.stitches.length, block.currentBlockRow),
-						};
-					}),
-				},
+				blocks: state.blocks.map(block => {
+					return {
+						...block,
+						currentBlockRow: calculateNextPosition(block.stitches.length, block.currentBlockRow),
+					};
+				}),
 			};
 		},
 		updateBlockRowStitches(state, action) {
 			return {
 				...state,
-				project: {
-					...state.project,
-					blocks: state.project.blocks.map((block, index) => {
-						if (index === action.payload.blockIndex) {
-							const newBlock = {
-								...block,
-								stitches: block.stitches.map((row, rowIndex) => {
-									if (rowIndex === action.payload.rowIndex) {
-										return action.payload.stitches;
-									} else {
-										return row;
-									}
-								}),
-							};
-							return newBlock;
-						} else {
-							return block;
-						}
-					}),
-				},
+				blocks: state.blocks.map((block, index) => {
+					if (index === action.payload.blockIndex) {
+						const newBlock = {
+							...block,
+							stitches: block.stitches.map((row, rowIndex) => {
+								if (rowIndex === action.payload.rowIndex) {
+									return action.payload.stitches;
+								} else {
+									return row;
+								}
+							}),
+						};
+						return newBlock;
+					} else {
+						return block;
+					}
+				}),
 			};
 		},
 		addBlockRow(state, action) {
 			return {
 				...state,
-				project: {
-					...state.project,
-					blocks: state.project.blocks.map((block, index) => {
-						if (index === action.payload.blockIndex) {
-							return {
-								...block,
-								stitches: [
-									...block.stitches.slice(0, action.payload.rowIndex + 1),
-									[],
-									...block.stitches.slice(action.payload.rowIndex + 1),
-								],
-							};
-						} else {
-							return block;
-						}
-					}),
-				},
+				blocks: state.blocks.map((block, index) => {
+					if (index === action.payload.blockIndex) {
+						return {
+							...block,
+							stitches: [
+								...block.stitches.slice(0, action.payload.rowIndex + 1),
+								[],
+								...block.stitches.slice(action.payload.rowIndex + 1),
+							],
+						};
+					} else {
+						return block;
+					}
+				}),
 			};
 		},
 		removeBlockRow(state, action) {
 			return {
 				...state,
-				project: {
-					...state.project,
-					blocks: state.project.blocks.map((block, index) => {
-						if (index === action.payload.blockIndex) {
-							return {
-								...block,
-								stitches: block.stitches.filter(
-									(row, rowIndex) => rowIndex !== action.payload.rowIndex,
-								),
-							};
-						} else {
-							return block;
-						}
-					}),
-				},
+				blocks: state.blocks.map((block, index) => {
+					if (index === action.payload.blockIndex) {
+						return {
+							...block,
+							stitches: block.stitches.filter((row, rowIndex) => rowIndex !== action.payload.rowIndex),
+						};
+					} else {
+						return block;
+					}
+				}),
 			};
 		},
 		reorderRows(state, action) {
 			return {
 				...state,
-				project: {
-					...state.project,
-					blocks: state.project.blocks.map((block, index) => {
-						if (index === action.payload.blockIndex) {
-							return {
-								...block,
-								stitches: action.payload.stitches,
-							};
-						} else {
-							return block;
-						}
-					}),
-				},
+				blocks: state.blocks.map((block, index) => {
+					if (index === action.payload.blockIndex) {
+						return {
+							...block,
+							stitches: action.payload.stitches,
+						};
+					} else {
+						return block;
+					}
+				}),
 			};
 		},
 		resetRows(state) {
-			state.project.blocks.forEach(block => {
-				block.currentBlockRow = 1;
-			});
-			state.currentRow = 1;
+			// state.blocks.forEach(block => {
+			// 	block.currentBlockRow = 1;
+			// });
+			// state.currentRow = 1;
+			console.log("test");
 		},
 		toNextRow(state) {
 			state.currentRow++;
