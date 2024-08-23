@@ -10,8 +10,8 @@ import { SortableList } from "../Sortable/SortableList";
  * The project; made up of many blocks.
  */
 export const Project: FC<{}> = () => {
-	const mode = useSelector((state: any) => state.workspace.mode);
-	const blocks = useSelector((state: any) => state.projects.project.blocks);
+	const mode = useSelector((state: any) => state.project.mode);
+	const blocks = useSelector((state: any) => state.project.blocks);
 
 	const [draftBlockIndex, setDraftBlockIndex] = useState<number | null>(null); // the index of the block that is being edited
 

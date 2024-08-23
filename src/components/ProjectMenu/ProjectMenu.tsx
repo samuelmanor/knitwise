@@ -3,8 +3,7 @@ import { Drawer, Grid, IconButton, Tooltip, Typography, useTheme } from "@mui/ma
 import { useDispatch, useSelector } from "react-redux";
 import { EditOutlined, SaveOutlined, SettingsOutlined, SwapHorizOutlined } from "@mui/icons-material";
 import { SettingsMenu } from "../SettingsMenu/";
-import { setMode } from "../../reducers/workspaceReducer";
-import { editProjectName } from "../../reducers/projectReducer";
+import { setMode, editProjectName } from "../../reducers/projectReducer";
 import { RowControls } from "../RowControls";
 import { NameEditor } from "../NameEditor";
 import { AddBlock } from "../AddBlock";
@@ -15,8 +14,8 @@ interface ProjectMenuProps {}
  * The menu that displays the project name and provides access to project settings, editing, and row navigation.
  */
 export const ProjectMenu: FC<ProjectMenuProps> = () => {
-	const projectName = useSelector((state: any) => state.projects.name);
-	const mode = useSelector((state: any) => state.workspace.mode);
+	const projectName = useSelector((state: any) => state.project.projectName);
+	const mode = useSelector((state: any) => state.project.mode);
 
 	const [openSettings, setOpenSettings] = useState(false);
 

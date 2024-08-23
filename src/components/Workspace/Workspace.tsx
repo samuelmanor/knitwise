@@ -10,7 +10,7 @@ interface WorkspaceProps {}
  * The workspace; where the project is rendered.
  */
 export const Workspace: FC<WorkspaceProps> = () => {
-	const project = useSelector((state: any) => state.projects.project);
+	const project = useSelector((state: any) => state.project.blocks);
 
 	const theme = useTheme();
 

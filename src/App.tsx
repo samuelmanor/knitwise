@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { lightTheme, darkTheme } from "./theme";
 
 function App() {
-	const themeSetting = useSelector((state: any) => state.workspace.settings.theme);
+	const themeSetting = useSelector((state: any) => state.project.settings.theme);
 	const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 
 	const theme = React.useMemo(() => {

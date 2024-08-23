@@ -20,8 +20,8 @@ export const StitchTip: FC<StitchTipProps> = ({ children, name, description, dis
 	const theme = useTheme();
 	const [open, setOpen] = useState(false);
 
-	const stitchTipMode = useSelector((state: any) => state.workspace.settings.stitchTipMode);
-	const mode = useSelector((state: any) => state.workspace.mode);
+	const stitchTipMode = useSelector((state: any) => state.project.settings.stitchTipMode);
+	const mode = useSelector((state: any) => state.project.mode);
 
 	const tooltipText = (
 		<Grid container direction="column" padding="4px" color={theme.palette.text.secondary}>

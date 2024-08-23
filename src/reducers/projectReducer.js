@@ -5,11 +5,33 @@ import { testProject } from "../utils/testProject";
 const projectSlice = createSlice({
 	name: "project",
 	initialState: {
-		name: "test project 1",
-		project: testProject,
-		currentRow: 1,
+		projectName: "test project 1",
+		currentProjectRow: 1,
+		blocks: testProject.blocks,
+		mode: "chart", // "edit" | "editBlock"
+		settings: {
+			theme: "system", // | "light" | "dark"
+			stitchDisplay: "symbol", // | "abbreviation"
+			stitchTipMode: "hover", // | "click"
+			directionsOverlayMode: "simple", // | "detailed" | "none"
+			showDeleteRowConfirmation: true,
+			showDeleteBlockConfirmation: true,
+			autoCloseStitchMenu: true,
+		},
 	},
 	reducers: {
+		initializeProject(state, action) {
+			return {
+				project: action.payload.project,
+			};
+		},
+		setMode(state, action) {
+			state.mode = action.payload;
+		},
+		changeSetting(state, action) {
+			state.settings[action.payload.setting] = action.payload.value;
+		},
+		// save to browser storage
 		editProjectName(state, action) {
 			return {
 				...state,
@@ -205,6 +227,9 @@ const projectSlice = createSlice({
 });
 
 export const {
+	initializeProject,
+	setMode,
+	changeSetting,
 	editProjectName,
 	editBlockName,
 	reorderBlocks,

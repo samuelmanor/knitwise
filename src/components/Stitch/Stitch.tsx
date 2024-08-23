@@ -40,7 +40,7 @@ export const Stitch: FC<StitchProps> = ({
 	index,
 	disableStitchTip,
 }) => {
-	const stitchDisplaySetting = useSelector((state: any) => state.workspace.settings.stitchDisplay);
+	const stitchDisplaySetting = useSelector((state: any) => state.project.settings.stitchDisplay);
 
 	const theme = useTheme();
 

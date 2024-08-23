@@ -10,7 +10,7 @@ interface RowControlsProps {}
  * Contains the controls for navigating from row to row, and the current row number.
  */
 export const RowControls: FC<RowControlsProps> = () => {
-	const currentRow = useSelector((state: any) => state.projects.currentRow);
+	const currentRow = useSelector((state: any) => state.project.currentProjectRow);
 
 	const dispatch = useDispatch();
 	const theme = useTheme();

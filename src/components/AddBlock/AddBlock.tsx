@@ -20,8 +20,8 @@ import { AddOutlined } from "@mui/icons-material";
 interface SavedBlocksProps {}
 
 export const AddBlock: FC<SavedBlocksProps> = () => {
-	const mode = useSelector((state: any) => state.workspace.mode);
-	const existingBlocks = useSelector((state: any) => state.projects.project.blocks);
+	const mode = useSelector((state: any) => state.project.mode);
+	const existingBlocks = useSelector((state: any) => state.project.blocks);
 	const uniqueBlocks = existingBlocks.filter((block: BlockProps, i: number) => {
 		return existingBlocks.findIndex((b: BlockProps) => b.blockName === block.blockName) === i;
 	});

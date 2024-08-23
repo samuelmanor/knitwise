@@ -5,16 +5,16 @@ import workspaceReducer from "./workspaceReducer";
 
 const testConfigureStore = configureStore({
 	reducer: {
-		workspace: workspaceReducer,
-		projects: projectReducer,
+		// workspace: workspaceReducer,
+		project: projectReducer,
 	},
 });
 
 export const usePreloadedState = preloadedState => {
 	return configureStore({
 		reducer: {
-			workspace: workspaceReducer,
-			projects: projectReducer,
+			// workspace: workspaceReducer,
+			project: projectReducer,
 		},
 		preloadedState,
 	});

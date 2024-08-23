@@ -21,8 +21,7 @@ import {
 	SwapHorizOutlined,
 	SwapVertOutlined,
 } from "@mui/icons-material";
-import { removeBlockRow, updateRow } from "../../reducers/projectReducer";
-import { changeSetting } from "../../reducers/workspaceReducer";
+import { removeBlockRow, updateRow, changeSetting } from "../../reducers/projectReducer";
 import { SortableList } from "../Sortable/SortableList";
 import { Warning } from "../Warning";
 
@@ -59,10 +58,10 @@ export const Row: FC<RowProps> = ({
 	dragRowsEnabled,
 }) => {
 	const stitchDatabase = require("../../utils/stitches").stitches;
-	const mode = useSelector((state: any) => state.workspace.mode);
-	const stitchDisplaySetting = useSelector((state: any) => state.workspace.settings.stitchDisplay);
-	const showDeleteRowConfirmation = useSelector((state: any) => state.workspace.settings.showDeleteRowConfirmation);
-	const autoCloseStitchMenu = useSelector((state: any) => state.workspace.settings.autoCloseStitchMenu);
+	const mode = useSelector((state: any) => state.project.mode);
+	const stitchDisplaySetting = useSelector((state: any) => state.project.settings.stitchDisplay);
+	const showDeleteRowConfirmation = useSelector((state: any) => state.project.settings.showDeleteRowConfirmation);
+	const autoCloseStitchMenu = useSelector((state: any) => state.project.settings.autoCloseStitchMenu);
 
 	const [dragStitchesEnabled, setDragStitchesEnabled] = useState(false); // toggles the ability to reorder stitches
 	const [showStitchMenu, setShowStitchMenu] = useState(false); // toggles the display of the stitch select menu

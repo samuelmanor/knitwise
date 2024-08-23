@@ -2,8 +2,8 @@
 import { testBlocks } from "./testBlocks";
 
 export const testProject = {
-	projectName: "test project 1",
-	currentProjectRow: 1,
+	// projectName: "test project 1",
+	// currentProjectRow: 1,
 	// blocks: [
 	// 	{
 	// 		currentBlockRow: 1,

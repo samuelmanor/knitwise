@@ -16,11 +16,11 @@ interface DirectionsOverlayProps {
  * @param row The row of stitches to be rendered.
  */
 export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockIndex, row }) => {
-	const project = useSelector((state: any) => state.projects.project);
-	const blocksTotal = useSelector((state: any) => state.projects.project.blocks.length);
-	const currentRow = useSelector((state: any) => state.projects.currentRow);
-	const mode = useSelector((state: any) => state.workspace.settings.directionsOverlayMode);
-	const show = useSelector((state: any) => state.workspace.mode === "chart");
+	const project = useSelector((state: any) => state.project);
+	const blocksTotal = useSelector((state: any) => state.project.blocks.length);
+	const currentRow = useSelector((state: any) => state.project.currentProjectRow);
+	const mode = useSelector((state: any) => state.project.settings.directionsOverlayMode);
+	const show = useSelector((state: any) => state.project.mode === "chart");
 
 	const showLeftRowMarker = blockIndex === 0 && currentRow % 2 === 0;
 	const showRightRowMarker = blockIndex === blocksTotal - 1 && currentRow % 2 === 1;

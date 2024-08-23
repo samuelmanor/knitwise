@@ -10,10 +10,9 @@ import {
 	Typography,
 	useTheme,
 } from "@mui/material";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { changeSetting } from "../../reducers/workspaceReducer";
-import { resetRows } from "../../reducers/projectReducer.js";
+import { resetRows, changeSetting } from "../../reducers/projectReducer";
 import { SaveOutlined } from "@mui/icons-material";
 
 interface SettingsMenuProps {
@@ -21,7 +20,7 @@ interface SettingsMenuProps {
 }
 
 export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
-	const userSettings = useSelector((state: any) => state.workspace.settings);
+	const userSettings = useSelector((state: any) => state.project.settings);
 	const [showResetRowCountWarning, setShowResetRowCountWarning] = useState(false);
 	const [showResetProjectWarning, setShowResetProjectWarning] = useState(false);
 
@@ -42,6 +41,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 
 	/**
 	 * Warns the user that some parts of the project will be reset.
+	 * todo: refactor this to use warning component
 	 */
 	const resetWarning = (
 		<Grid
