@@ -130,34 +130,36 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockI
 				},
 			}}
 		>
-			<Tooltip
-				title={rowMarkerLabel}
-				open={showLeftRowMarker || showRightRowMarker}
-				placement={showLeftRowMarker ? "left" : "right"}
-				PopperProps={{
-					disablePortal: true,
-					popperOptions: {
-						modifiers: [
-							{
-								name: "flip",
-								enabled: false,
-							},
-						],
-					},
-					style: { zIndex: 0 },
-				}}
-				componentsProps={{
-					tooltip: {
-						sx: {
-							backgroundColor: theme.palette.primary.main,
-							filter: "none",
-							color: theme.palette.text.secondary,
+			<>
+				<Tooltip
+					title={rowMarkerLabel}
+					open={showLeftRowMarker || showRightRowMarker}
+					placement={showLeftRowMarker ? "left" : "right"}
+					PopperProps={{
+						disablePortal: true,
+						popperOptions: {
+							modifiers: [
+								{
+									name: "flip",
+									enabled: false,
+								},
+							],
 						},
-					},
-				}}
-			>
-				<Grid container>{row}</Grid>
-			</Tooltip>
+						style: { zIndex: 0 },
+					}}
+					componentsProps={{
+						tooltip: {
+							sx: {
+								backgroundColor: theme.palette.primary.main,
+								filter: "none",
+								color: theme.palette.text.secondary,
+							},
+						},
+					}}
+				>
+					<Grid container>{row}</Grid>
+				</Tooltip>
+			</>
 		</Tooltip>
 	);
 };

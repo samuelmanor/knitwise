@@ -2,11 +2,11 @@ import "./App.css";
 import { Workspace } from "./components/Workspace";
 import { createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/material";
-import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { lightTheme, darkTheme } from "./theme";
 import { loadState, saveState } from "./utils/localStorage";
 import { initializeProject } from "./reducers/projectReducer";
+import { useEffect, useMemo } from "react";
 
 function App() {
 	const themeSetting = useSelector((state: any) => state.project.settings.theme);
@@ -19,10 +19,10 @@ function App() {
 	/**
 	 * Load the saved state from local storage when the app is first opened.
 	 */
-	React.useEffect(() => {
+	useEffect(() => {
 		const savedState = loadState();
 		if (savedState) {
-			dispatch(initializeProject(savedState));
+			dispatch(initializeProject({ ...savedState, mode: "chart" }));
 			console.log("Loaded saved state from local storage.");
 			console.log(savedState);
 		}
@@ -31,11 +31,11 @@ function App() {
 	/**
 	 * Save the project state to local storage whenever it changes.
 	 */
-	React.useEffect(() => {
+	useEffect(() => {
 		saveState(data);
 	}, [data]);
 
-	const theme = React.useMemo(() => {
+	const theme = useMemo(() => {
 		if (themeSetting === "system") {
 			return createTheme(systemTheme === "dark" ? darkTheme : lightTheme);
 		} else {

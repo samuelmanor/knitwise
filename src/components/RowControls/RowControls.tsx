@@ -51,13 +51,15 @@ export const RowControls: FC<RowControlsProps> = () => {
 						],
 					}}
 				>
-					<IconButton
-						onClick={() => dispatch(prevRow())}
-						sx={{ color: theme.palette.text.secondary, transform: "rotate(270deg)" }}
-						disabled={currentRow === 1}
-					>
-						<ArrowBackIosNewOutlined fontSize="large" />
-					</IconButton>
+					<>
+						<IconButton
+							onClick={() => dispatch(prevRow())}
+							sx={{ color: theme.palette.text.secondary, transform: "rotate(270deg)" }}
+							disabled={currentRow === 1}
+						>
+							<ArrowBackIosNewOutlined fontSize="large" />
+						</IconButton>
+					</>
 				</Tooltip>
 				<Tooltip
 					title={"current row"}
@@ -78,7 +80,6 @@ export const RowControls: FC<RowControlsProps> = () => {
 						{currentRow}
 					</Typography>
 				</Tooltip>
-
 				<Tooltip
 					title="to next row"
 					placement="top-start"

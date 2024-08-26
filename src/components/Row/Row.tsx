@@ -474,7 +474,6 @@ export const Row: FC<RowProps> = ({
 									<IconButton
 										onClick={() => setShowStitchMenu(true)}
 										disabled={dragStitchesEnabled || selectedStitch !== null || warning !== null}
-										data-testId={`addBtn${rowIndex}`}
 									>
 										<AddOutlined />
 									</IconButton>
