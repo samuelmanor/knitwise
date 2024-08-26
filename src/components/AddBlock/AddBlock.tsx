@@ -102,67 +102,65 @@ export const AddBlock: FC<SavedBlocksProps> = () => {
 	return (
 		<>
 			<Modal open={showUniqueBlocks}>
-				<ClickAwayListener onClickAway={closeAll}>
-					<Grid
-						container
+				<Grid
+					container
+					sx={{
+						position: "absolute",
+						top: "50%",
+						left: "50%",
+						backgroundColor: theme.palette.primary.dark,
+						width: "fit-content",
+						transform: "translate(-50%, -50%)",
+						padding: 2,
+						borderRadius: "5px",
+						flexDirection: "column",
+						justifyContent: "center",
+					}}
+				>
+					<Typography variant="h3" sx={{ color: theme.palette.text.secondary, mb: 1.5 }}>
+						choose block to copy
+					</Typography>
+					<Typography variant="h3" sx={{ fontSize: "1rem", color: theme.palette.text.secondary }}>
+						your blocks
+					</Typography>
+					{renderUniqueBlocks(userBlocks)}
+					<Typography variant="h3" sx={{ fontSize: "1rem", color: theme.palette.text.secondary, mt: 1 }}>
+						example blocks
+					</Typography>
+					<Grid container sx={{ flexWrap: "nowrap", color: theme.palette.text.secondary }}>
+						<Typography sx={{ fontSize: "0.8rem", ml: 1, mb: 0.5 }}>panels from</Typography>
+						<Link href="https://www.ravelry.com/patterns/library/the-handsome-chris-pullover">
+							<Typography
+								sx={{
+									fontSize: "0.8rem",
+									ml: 0.5,
+									color: theme.palette.text.secondary,
+									textDecoration: "underline",
+								}}
+							>
+								caryn s.'s "handsome chris pullover"
+							</Typography>
+						</Link>
+					</Grid>
+					{renderUniqueBlocks(testProject.blocks)}
+					<Button
+						onClick={closeAll}
 						sx={{
-							position: "absolute",
-							top: "50%",
-							left: "50%",
-							backgroundColor: theme.palette.primary.dark,
-							width: "fit-content",
-							transform: "translate(-50%, -50%)",
-							padding: 2,
-							borderRadius: "5px",
-							flexDirection: "column",
-							justifyContent: "center",
+							"color": theme.palette.text.secondary,
+							"border": `2px solid ${theme.palette.text.secondary}`,
+							"&:hover": {
+								backgroundColor: theme.palette.text.secondary,
+								color: theme.palette.primary.dark,
+							},
+							"left": "50%",
+							"transform": "translateX(-50%)",
+							"width": "fit-content",
+							"mt": 1,
 						}}
 					>
-						<Typography variant="h3" sx={{ color: theme.palette.text.secondary, mb: 1.5 }}>
-							choose block to copy
-						</Typography>
-						<Typography variant="h3" sx={{ fontSize: "1rem", color: theme.palette.text.secondary }}>
-							your blocks
-						</Typography>
-						{renderUniqueBlocks(userBlocks)}
-						<Typography variant="h3" sx={{ fontSize: "1rem", color: theme.palette.text.secondary, mt: 1 }}>
-							example blocks
-						</Typography>
-						<Grid container sx={{ flexWrap: "nowrap", color: theme.palette.text.secondary }}>
-							<Typography sx={{ fontSize: "0.8rem", ml: 1, mb: 0.5 }}>panels from</Typography>
-							<Link href="https://www.ravelry.com/patterns/library/the-handsome-chris-pullover">
-								<Typography
-									sx={{
-										fontSize: "0.8rem",
-										ml: 0.5,
-										color: theme.palette.text.secondary,
-										textDecoration: "underline",
-									}}
-								>
-									caryn s.'s "handsome chris pullover"
-								</Typography>
-							</Link>
-						</Grid>
-						{renderUniqueBlocks(testProject.blocks)}
-						<Button
-							onClick={closeAll}
-							sx={{
-								"color": theme.palette.text.secondary,
-								"border": `2px solid ${theme.palette.text.secondary}`,
-								"&:hover": {
-									backgroundColor: theme.palette.text.secondary,
-									color: theme.palette.primary.dark,
-								},
-								"left": "50%",
-								"transform": "translateX(-50%)",
-								"width": "fit-content",
-								"mt": 1,
-							}}
-						>
-							cancel
-						</Button>
-					</Grid>
-				</ClickAwayListener>
+						cancel
+					</Button>
+				</Grid>
 			</Modal>
 			<Popper placement="top" open={showNewBlockDialog && !showUniqueBlocks} anchorEl={dialogAnchor}>
 				<ClickAwayListener onClickAway={closeAll}>
