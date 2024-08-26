@@ -10,7 +10,7 @@ import { NameEditor } from "../NameEditor";
 import { Warning } from "../Warning";
 
 export interface BlockProps {
-	index: number;
+	index?: number;
 	currentBlockRow?: number;
 	stitches: StitchProps[][];
 	blockName: string;

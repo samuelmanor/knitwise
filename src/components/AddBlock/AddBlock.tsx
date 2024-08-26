@@ -1,10 +1,10 @@
 import {
-	Box,
 	Button,
 	ClickAwayListener,
 	Fade,
 	Grid,
 	IconButton,
+	Link,
 	Modal,
 	Popper,
 	Tooltip,
@@ -16,15 +16,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { BlockProps } from "../Block";
 import { addBlock } from "../../reducers/projectReducer";
 import { AddOutlined } from "@mui/icons-material";
+import { testProject } from "../../utils/testProject";
 
 interface SavedBlocksProps {}
 
+/**
+ * The button/popper/modal that allows the user to add a new block to the project.
+ */
 export const AddBlock: FC<SavedBlocksProps> = () => {
 	const mode = useSelector((state: any) => state.project.mode);
-	const existingBlocks = useSelector((state: any) => state.project.blocks);
-	const uniqueBlocks = existingBlocks.filter((block: BlockProps, i: number) => {
-		return existingBlocks.findIndex((b: BlockProps) => b.blockName === block.blockName) === i;
-	});
+	const userBlocks = useSelector((state: any) => state.project.blocks);
 
 	const [showNewBlockDialog, setShowNewBlockDialog] = useState(false);
 	const [showUniqueBlocks, setShowUniqueBlocks] = useState(false);
@@ -54,44 +55,117 @@ export const AddBlock: FC<SavedBlocksProps> = () => {
 		setShowNewBlockDialog(!showNewBlockDialog);
 	};
 
+	/**
+	 * Closes all open dialogs.
+	 */
+	const closeAll = () => {
+		setShowNewBlockDialog(false);
+		setShowUniqueBlocks(false);
+	};
+
+	/**
+	 * Filters out duplicate blocks.
+	 */
+	const renderUniqueBlocks = (blocks: BlockProps[]) => {
+		const uniqueBlocks = blocks.filter((block: BlockProps, i: number) => {
+			return blocks.findIndex((b: BlockProps) => b.blockName === block.blockName) === i;
+		});
+
+		return (
+			<Grid
+				container
+				sx={{
+					gap: 1,
+					justifyContent: "space-evenly",
+					mb: 1.5,
+				}}
+			>
+				{uniqueBlocks.map((block, i) => (
+					<Grid
+						item
+						onClick={() => handleAddBlock(block)}
+						key={i}
+						sx={{
+							backgroundColor: theme.palette.background.paper,
+							p: 1,
+							borderRadius: "5px",
+							cursor: "pointer",
+						}}
+					>
+						{block.blockName}
+					</Grid>
+				))}
+			</Grid>
+		);
+	};
+
 	return (
 		<>
 			<Modal open={showUniqueBlocks}>
-				<Grid
-					container
-					sx={{
-						position: "absolute",
-						top: "50%",
-						left: "50%",
-						backgroundColor: theme.palette.primary.dark,
-						width: "fit-content",
-						transform: "translate(-50%, -50%)",
-						padding: 1,
-						borderRadius: "5px",
-					}}
-				>
-					<Typography variant="h3" sx={{ color: theme.palette.text.secondary }}>
-						choose block to copy
-					</Typography>
-					<Grid container sx={{ gap: 1, ml: 1 }} onClick={() => console.log(uniqueBlocks)}>
-						{uniqueBlocks.map((block, i) => (
-							<Grid item onClick={() => handleAddBlock(block)} key={i}>
-								{block.blockName}
-							</Grid>
-						))}
-					</Grid>
-					<Button
-						onClick={() => {
-							setShowUniqueBlocks(false);
-							setShowUniqueBlocks(false);
+				<ClickAwayListener onClickAway={closeAll}>
+					<Grid
+						container
+						sx={{
+							position: "absolute",
+							top: "50%",
+							left: "50%",
+							backgroundColor: theme.palette.primary.dark,
+							width: "fit-content",
+							transform: "translate(-50%, -50%)",
+							padding: 2,
+							borderRadius: "5px",
+							flexDirection: "column",
+							justifyContent: "center",
 						}}
 					>
-						cancel
-					</Button>
-				</Grid>
+						<Typography variant="h3" sx={{ color: theme.palette.text.secondary, mb: 1.5 }}>
+							choose block to copy
+						</Typography>
+						<Typography variant="h3" sx={{ fontSize: "1rem", color: theme.palette.text.secondary }}>
+							your blocks
+						</Typography>
+						{renderUniqueBlocks(userBlocks)}
+						<Typography variant="h3" sx={{ fontSize: "1rem", color: theme.palette.text.secondary, mt: 1 }}>
+							example blocks
+						</Typography>
+						<Grid container sx={{ flexWrap: "nowrap", color: theme.palette.text.secondary }}>
+							<Typography sx={{ fontSize: "0.8rem", ml: 1, mb: 0.5 }}>panels from</Typography>
+							<Link href="https://www.ravelry.com/patterns/library/the-handsome-chris-pullover">
+								<Typography
+									sx={{
+										fontSize: "0.8rem",
+										ml: 0.5,
+										color: theme.palette.text.secondary,
+										textDecoration: "underline",
+									}}
+								>
+									caryn s.'s "handsome chris pullover"
+								</Typography>
+							</Link>
+						</Grid>
+						{renderUniqueBlocks(testProject.blocks)}
+						<Button
+							onClick={closeAll}
+							sx={{
+								"color": theme.palette.text.secondary,
+								"border": `2px solid ${theme.palette.text.secondary}`,
+								"&:hover": {
+									backgroundColor: theme.palette.text.secondary,
+									color: theme.palette.primary.dark,
+								},
+								"left": "50%",
+								"transform": "translateX(-50%)",
+								"width": "fit-content",
+								"mt": 1,
+							}}
+						>
+							cancel
+						</Button>
+					</Grid>
+				</ClickAwayListener>
 			</Modal>
-			<Popper placement="top" open={showNewBlockDialog} anchorEl={dialogAnchor}>
-				<ClickAwayListener onClickAway={() => setShowNewBlockDialog(false)}>
+			<Popper placement="top" open={showNewBlockDialog && !showUniqueBlocks} anchorEl={dialogAnchor}>
+				<ClickAwayListener onClickAway={closeAll}>
 					<Fade in={showNewBlockDialog}>
 						<Grid
 							container

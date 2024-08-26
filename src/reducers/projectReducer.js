@@ -82,7 +82,6 @@ const projectSlice = createSlice({
 				blockName: action.payload.blockName,
 				stitches: action.payload.stitches,
 				currentBlockRow: 1,
-				blockIndex: state.blocks.length,
 			};
 
 			const newState = {

@@ -33,7 +33,6 @@ function App() {
 	 */
 	React.useEffect(() => {
 		saveState(data);
-		console.log(data);
 	}, [data]);
 
 	const theme = React.useMemo(() => {
