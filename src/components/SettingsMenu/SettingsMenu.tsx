@@ -36,11 +36,13 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 	const handleResetRowCount = () => {
 		dispatch(resetRows());
 		setShowResetRowCountWarning(false);
+		closeSettingsMenu();
 	};
 
 	const handleResetProject = () => {
 		dispatch(resetProject());
 		setShowResetProjectWarning(false);
+		closeSettingsMenu();
 	};
 
 	/**

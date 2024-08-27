@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Grid, useTheme } from "@mui/material";
+import { Button, Grid, Typography, useTheme } from "@mui/material";
 import { Project } from "../Project";
 import { ProjectMenu } from "../ProjectMenu";
 import { useSelector } from "react-redux";
@@ -12,14 +12,19 @@ interface WorkspaceProps {}
  * The workspace; where the project is rendered.
  */
 export const Workspace: FC<WorkspaceProps> = () => {
-	const project = useSelector((state: any) => state.project.blocks);
+	const blocks = useSelector((state: any) => state.project.blocks);
+	const showTutorial = useSelector((state: any) => state.project.settings.showTutorial);
 
 	const theme = useTheme();
 
 	// make no project found component?
 	// if (!project) return null;
 
-	if (!project) return <Grid container>no project found! do tutorial // upload project</Grid>;
+	// if (!project) return <Grid container>no project found! do tutorial // upload project</Grid>;
+
+	// if no project, show tutorial
+	// if (project.blocks.length === 0) return "this project is empty!";
+	// else, show project
 
 	return (
 		<Grid container>
@@ -38,7 +43,31 @@ export const Workspace: FC<WorkspaceProps> = () => {
 			>
 				<Grid item>knitwise</Grid>
 			</Grid> */}
-			<div onClick={() => saveState(testProject)}>penis</div>
+			<div onClick={() => saveState(testProject)}>set example</div>
+			<div
+				onClick={() =>
+					saveState({
+						projectName: "test project 1",
+						currentProjectRow: 1,
+						mode: "chart",
+						settings: {
+							theme: "system",
+							stitchDisplay: "symbol",
+							stitchTipMode: "hover",
+							directionsOverlayMode: "simple",
+							showDeleteRowConfirmation: true,
+							showDeleteBlockConfirmation: true,
+							autoCloseStitchMenu: true,
+							showTutorial: true,
+						},
+						blocks: [],
+					})
+				}
+			>
+				set blank w/ tutorial
+			</div>
+			<div onClick={() => console.log(blocks)}>log</div>
+			<Grid container>tutorial</Grid>
 			<Grid
 				container
 				sx={{

@@ -16,6 +16,7 @@ interface ProjectMenuProps {}
 export const ProjectMenu: FC<ProjectMenuProps> = () => {
 	const projectName = useSelector((state: any) => state.project.projectName);
 	const mode = useSelector((state: any) => state.project.mode);
+	const blocks = useSelector((state: any) => state.project.blocks);
 
 	const [openSettings, setOpenSettings] = useState(false);
 
@@ -62,7 +63,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 				)}
 			</Grid>
 			{mode === "chart" ? (
-				<Grid item>
+				<Grid item display={blocks.length === 0 ? "none" : ""}>
 					<RowControls />
 				</Grid>
 			) : null}

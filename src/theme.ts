@@ -3,6 +3,11 @@ import { ThemeOptions } from "@mui/material";
 const componentOverrides: ThemeOptions["components"] = {
 	MuiTypography: {
 		styleOverrides: {
+			h1: {
+				letterSpacing: "3px",
+				fontFamily: "Paytone One",
+				fontSize: "8rem",
+			},
 			h2: {
 				// used for project name and settings menu title
 				letterSpacing: "1px",
