@@ -206,10 +206,10 @@ const projectSlice = createSlice({
 			console.log("test");
 		},
 		toNextRow(state) {
-			state.currentRow++;
+			state.currentProjectRow++;
 		},
 		toPrevRow(state) {
-			state.currentRow--;
+			state.currentProjectRow--;
 		},
 	},
 });
