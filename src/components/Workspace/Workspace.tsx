@@ -5,6 +5,7 @@ import { ProjectMenu } from "../ProjectMenu";
 import { useSelector } from "react-redux";
 import { saveState } from "../../utils/localStorage";
 import { testProject } from "../../utils/testProject";
+import { Tutorial } from "../Tutorial";
 
 interface WorkspaceProps {}
 
@@ -68,22 +69,28 @@ export const Workspace: FC<WorkspaceProps> = () => {
 			</div>
 			<div onClick={() => console.log(blocks)}>log</div>
 			<Grid container>tutorial</Grid>
-			<Grid
-				container
-				sx={{
-					pt: 2,
-					minWidth: "fit-content",
-					justifyContent: "center",
-					alignItems: "end",
-					backgroundImage: theme.palette.background.default,
-					minHeight: "calc(100vh - 72px)",
-				}}
-			>
-				<Project />
-			</Grid>
-			<Grid container sx={{ position: "fixed", bottom: 0, width: "100%" }}>
-				<ProjectMenu />
-			</Grid>
+			{showTutorial && blocks.length === 0 ? (
+				<Tutorial />
+			) : (
+				<>
+					<Grid
+						container
+						sx={{
+							pt: 2,
+							minWidth: "fit-content",
+							justifyContent: "center",
+							alignItems: "end",
+							backgroundImage: theme.palette.background.default,
+							minHeight: "calc(100vh - 72px)",
+						}}
+					>
+						<Project />
+					</Grid>
+					<Grid container sx={{ position: "fixed", bottom: 0, width: "100%" }}>
+						<ProjectMenu />
+					</Grid>
+				</>
+			)}
 		</Grid>
 	);
 };
