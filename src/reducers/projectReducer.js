@@ -199,11 +199,16 @@ const projectSlice = createSlice({
 			};
 		},
 		resetRows(state) {
-			// state.blocks.forEach(block => {
-			// 	block.currentBlockRow = 1;
-			// });
-			// state.currentRow = 1;
+			state.blocks.forEach(block => {
+				block.currentBlockRow = 1;
+			});
+			state.currentRow = 1;
 			console.log("test");
+		},
+		resetProject(state) {
+			state.blocks = [];
+			state.currentProjectRow = 1;
+			state.projectName = "new project";
 		},
 		toNextRow(state) {
 			state.currentProjectRow++;
@@ -231,6 +236,7 @@ export const {
 	toNextRow,
 	toPrevRow,
 	resetRows,
+	resetProject,
 } = projectSlice.actions;
 
 export const nextRow = () => {

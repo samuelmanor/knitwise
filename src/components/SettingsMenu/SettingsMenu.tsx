@@ -10,15 +10,19 @@ import {
 	Typography,
 	useTheme,
 } from "@mui/material";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { resetRows, changeSetting } from "../../reducers/projectReducer";
+import { resetRows, changeSetting, resetProject } from "../../reducers/projectReducer";
 import { SaveOutlined } from "@mui/icons-material";
 
 interface SettingsMenuProps {
 	closeSettingsMenu: () => void;
 }
 
+/**
+ * The menu that allows the user to change various settings for the project.
+ * @param closeSettingsMenu A function to close the settings menu.
+ */
 export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 	const userSettings = useSelector((state: any) => state.project.settings);
 	const [showResetRowCountWarning, setShowResetRowCountWarning] = useState(false);
@@ -35,13 +39,12 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 	};
 
 	const handleResetProject = () => {
-		// dispatch(resetProject());
+		dispatch(resetProject());
 		setShowResetProjectWarning(false);
 	};
 
 	/**
 	 * Warns the user that some parts of the project will be reset.
-	 * todo: refactor this to use warning component
 	 */
 	const resetWarning = (
 		<Grid
@@ -105,7 +108,6 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 					</Typography>
 					<IconButton
 						onClick={closeSettingsMenu}
-						// should also save user settings to cookies
 						sx={{
 							color: theme.palette.text.secondary,
 							p: 2,
