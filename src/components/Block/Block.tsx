@@ -196,6 +196,33 @@ export const Block: FC<BlockProps> = ({
 		);
 	};
 
+	// a preview of the block; used in the add block menu
+	if (currentBlockRow === null || currentBlockRow === undefined) {
+		return (
+			<Grid
+				container
+				sx={{
+					"backgroundColor": theme.palette.text.secondary,
+					"width": "fit-content",
+					"p": 1,
+					"borderRadius": "5px",
+					"cursor": "pointer",
+					"border": "2px solid transparent",
+					"justifyContent": "center",
+					"&:hover": {
+						backgroundColor: theme.palette.primary.dark,
+						color: theme.palette.text.secondary,
+						border: `2px solid ${theme.palette.text.secondary}`,
+					},
+				}}
+			>
+				<Typography variant="h4" sx={{ p: 0 }}>
+					{blockName}
+				</Typography>
+			</Grid>
+		);
+	}
+
 	// chart mode
 	if (mode === "chart") {
 		return (
@@ -213,16 +240,6 @@ export const Block: FC<BlockProps> = ({
 					rows
 				)}
 			</BlockContainer>
-		);
-	}
-
-	if (currentBlockRow === null || currentBlockRow === undefined) {
-		return (
-			<Grid container>
-				<Tooltip title={rows}>
-					<Typography>{blockName}</Typography>
-				</Tooltip>
-			</Grid>
 		);
 	}
 

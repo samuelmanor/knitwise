@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BlockProps } from "../Block";
+import { Block, BlockProps } from "../Block";
 import { addBlock } from "../../reducers/projectReducer";
 import { AddOutlined } from "@mui/icons-material";
 import { testProject } from "../../utils/testProject";
@@ -64,7 +64,8 @@ export const AddBlock: FC<SavedBlocksProps> = () => {
 	};
 
 	/**
-	 * Filters out duplicate blocks.
+	 * Renders a list of unique blocks to choose from.
+	 * @param blocks The blocks to render.
 	 */
 	const renderUniqueBlocks = (blocks: BlockProps[]) => {
 		const uniqueBlocks = blocks.filter((block: BlockProps, i: number) => {
@@ -76,23 +77,20 @@ export const AddBlock: FC<SavedBlocksProps> = () => {
 				container
 				sx={{
 					gap: 1,
-					justifyContent: "space-evenly",
 					mb: 1.5,
+					flexDirection: "row",
+					justifyContent: "space-evenly",
 				}}
 			>
 				{uniqueBlocks.map((block, i) => (
-					<Grid
-						item
-						onClick={() => handleAddBlock(block)}
-						key={i}
-						sx={{
-							backgroundColor: theme.palette.background.paper,
-							p: 1,
-							borderRadius: "5px",
-							cursor: "pointer",
-						}}
-					>
-						{block.blockName}
+					<Grid item key={i} onClick={() => handleAddBlock(block)}>
+						<Block
+							index={i}
+							currentBlockRow={null}
+							stitches={block.stitches}
+							blockName={block.blockName}
+							key={i}
+						/>
 					</Grid>
 				))}
 			</Grid>
@@ -109,7 +107,7 @@ export const AddBlock: FC<SavedBlocksProps> = () => {
 						top: "50%",
 						left: "50%",
 						backgroundColor: theme.palette.primary.dark,
-						width: "fit-content",
+						width: "500px",
 						transform: "translate(-50%, -50%)",
 						padding: 2,
 						borderRadius: "5px",
@@ -117,22 +115,22 @@ export const AddBlock: FC<SavedBlocksProps> = () => {
 						justifyContent: "center",
 					}}
 				>
-					<Typography variant="h3" sx={{ color: theme.palette.text.secondary, mb: 1.5 }}>
+					<Typography variant="h3" sx={{ color: theme.palette.text.secondary, mb: 1.5, fontSize: "2rem" }}>
 						choose block to copy
 					</Typography>
-					<Typography variant="h3" sx={{ fontSize: "1rem", color: theme.palette.text.secondary }}>
+					<Typography variant="h3" sx={{ fontSize: "1.5rem", color: theme.palette.text.secondary }}>
 						your blocks
 					</Typography>
 					{renderUniqueBlocks(userBlocks)}
-					<Typography variant="h3" sx={{ fontSize: "1rem", color: theme.palette.text.secondary, mt: 1 }}>
+					<Typography variant="h3" sx={{ fontSize: "1.5rem", color: theme.palette.text.secondary, mt: 1 }}>
 						example blocks
 					</Typography>
 					<Grid container sx={{ flexWrap: "nowrap", color: theme.palette.text.secondary }}>
-						<Typography sx={{ fontSize: "0.8rem", ml: 1, mb: 0.5 }}>panels from</Typography>
+						<Typography sx={{ fontSize: "1rem", ml: 1, mb: 0.5 }}>panels from</Typography>
 						<Link href="https://www.ravelry.com/patterns/library/the-handsome-chris-pullover">
 							<Typography
 								sx={{
-									fontSize: "0.8rem",
+									fontSize: "1rem",
 									ml: 0.5,
 									color: theme.palette.text.secondary,
 									textDecoration: "underline",
