@@ -174,6 +174,7 @@ export const Row: FC<RowProps> = ({
 				minWidth: calcWidth(),
 				flexWrap: "nowrap",
 				justifyContent: "space-between",
+				height: "55px",
 			}}
 			data-testid={`row${rowIndex}`}
 		>

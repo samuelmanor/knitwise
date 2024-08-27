@@ -1,5 +1,5 @@
 import { IconButton, Grid, Typography, Box, useTheme, Tooltip } from "@mui/material";
-import { FC, useRef, useState } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { Row } from "../Row";
 import { useDispatch, useSelector } from "react-redux";
 import { EditOutlined, DeleteOutlined, SaveOutlined, AddOutlined, SwapVertOutlined } from "@mui/icons-material";
@@ -76,16 +76,23 @@ export const Block: FC<BlockProps> = ({
 		const firstRow = projectRow === 1 && currentBlockRow === 1;
 		if (index === tallestBlockIndex || firstRow) {
 			// on the first row, all blocks are aligned
-			return "5px";
+			return 0;
 		} else {
 			// a block's position is relative to the current row of both the tallest block and the current block
 			const tallestBlockPosition =
 				project.blocks[tallestBlockIndex].currentBlockRow * baseRowRef.current.offsetHeight;
 			const currentBlockPosition = currentBlockRow * baseRowRef.current.offsetHeight;
 
-			return `${tallestBlockPosition - currentBlockPosition + 10}px`;
+			return `${tallestBlockPosition - currentBlockPosition}px`;
 		}
 	};
+
+	useEffect(() => {
+		if (mode === "chart") {
+			const block = document.getElementById(`block${index}`);
+			block?.setAttribute("style", `margin-bottom: ${moveBlock()}`);
+		}
+	}, [project.currentProjectRow, mode]);
 
 	/**
 	 * Adds a new row to the block.
@@ -186,7 +193,7 @@ export const Block: FC<BlockProps> = ({
 					borderTopRightRadius: "10px",
 					borderTopLeftRadius: "10px",
 					maxHeight: "100%",
-					mb: baseRowRef.current && mode !== "edit" ? moveBlock() : "5px",
+					// mb: baseRowRef.current && mode !== "edit" ? moveBlock() : "5px",
 					width: "fit-content",
 				}}
 				id={`block${index}`}
@@ -227,7 +234,7 @@ export const Block: FC<BlockProps> = ({
 	if (mode === "chart") {
 		return (
 			<BlockContainer>
-				<Grid container sx={{ justifyContent: "center", paddingX: 2, whiteSpace: "nowrap" }}>
+				<Grid container sx={{ justifyContent: "center", paddingX: 2, whiteSpace: "nowrap", height: "35px" }}>
 					<Typography variant="h5" sx={{ color: theme.palette.text.primary }}>
 						{blockName}
 					</Typography>
