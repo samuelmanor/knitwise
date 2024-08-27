@@ -68,7 +68,7 @@ export const Workspace: FC<WorkspaceProps> = () => {
 				set blank w/ tutorial
 			</div>
 			<div onClick={() => console.log(blocks)}>log</div>
-			<Grid container>tutorial</Grid>
+
 			{showTutorial && blocks.length === 0 ? (
 				<Tutorial />
 			) : (
@@ -91,6 +91,9 @@ export const Workspace: FC<WorkspaceProps> = () => {
 					</Grid>
 				</>
 			)}
+			<Grid container id="tutorialtest">
+				tutorial
+			</Grid>
 		</Grid>
 	);
 };
