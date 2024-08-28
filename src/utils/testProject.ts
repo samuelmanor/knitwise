@@ -484,8 +484,9 @@ export const testProject = {
 		showDeleteRowConfirmation: true,
 		showDeleteBlockConfirmation: true,
 		autoCloseStitchMenu: true,
+		showTutorial: false,
+		showWelcome: false,
 	},
-	showTutorial: false,
 	blocks: [
 		// {
 		// 	currentBlockRow: 1,

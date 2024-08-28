@@ -29,7 +29,8 @@ const projectSlice = createSlice({
 			showDeleteRowConfirmation: true,
 			showDeleteBlockConfirmation: true,
 			autoCloseStitchMenu: true,
-			showTutorial: true,
+			showTutorial: false,
+			showWelcome: true,
 		},
 	},
 	reducers: {

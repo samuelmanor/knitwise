@@ -6,7 +6,7 @@ const componentOverrides: ThemeOptions["components"] = {
 			h1: {
 				letterSpacing: "3px",
 				fontFamily: "Paytone One",
-				fontSize: "8rem",
+				fontSize: "3rem",
 			},
 			h2: {
 				// used for project name and settings menu title

@@ -1,24 +1,24 @@
-import { Grid, Popper, useTheme } from "@mui/material";
+import { Grid, Popper, Tooltip, useTheme } from "@mui/material";
 import { FC, useEffect, useState } from "react";
 
 interface TutorialProps {}
-
-const steps = [
-	{
-		target: null,
-		content: <div>one</div>,
-	},
-	{
-		target: "tutorialtest",
-		content: <div>two</div>,
-	},
-];
 
 export const Tutorial: FC<TutorialProps> = () => {
 	const [step, setStep] = useState(0);
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
 	const theme = useTheme();
+
+	const steps = [
+		{
+			target: "tutorialtest",
+			content: <div>one</div>,
+		},
+		{
+			target: "tutorialtest",
+			content: <div>two</div>,
+		},
+	];
 
 	// attaches the popper to the element the tutorial is explaining
 	useEffect(() => {
