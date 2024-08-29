@@ -136,6 +136,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 						sx={{ color: theme.palette.text.secondary }}
 						onClick={changeMode}
 						disabled={mode === "editBlock"}
+						id="edit-save-button"
 					>
 						{mode === "chart" ? <EditOutlined fontSize="large" /> : <SaveOutlined fontSize="large" />}
 					</IconButton>

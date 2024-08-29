@@ -7,7 +7,7 @@ import { saveState } from "../../utils/localStorage";
 import { testProject } from "../../utils/testProject";
 import { Tutorial } from "../Tutorial";
 import { QuestionMarkOutlined } from "@mui/icons-material";
-import { changeSetting } from "../../reducers/projectReducer";
+import { changeSetting, initializeProject } from "../../reducers/projectReducer";
 
 interface WorkspaceProps {}
 
@@ -32,6 +32,17 @@ export const Workspace: FC<WorkspaceProps> = () => {
 	// if no project, show tutorial
 	// if (project.blocks.length === 0) return "this project is empty!";
 	// else, show project
+
+	const startTutorial = () => {
+		dispatch(
+			initializeProject({
+				...testProject,
+				settings: { ...testProject.settings, showTutorial: true, showWelcome: false },
+			}),
+		);
+		// dispatch(changeSetting("showTutorial", true));
+		// dispatch(changeSetting("showWelcome", false));
+	};
 
 	return (
 		<Grid container>
@@ -77,8 +88,8 @@ export const Workspace: FC<WorkspaceProps> = () => {
 						knitwise
 					</Typography>
 				</Grid>
-				<Grid item sx={{ opacity: showWelcome ? 0 : 1 }}>
-					<IconButton sx={{ color: theme.palette.text.secondary }}>
+				<Grid item sx={{ opacity: showWelcome || showTutorial ? 0 : 1 }}>
+					<IconButton sx={{ color: theme.palette.text.secondary }} disabled={showTutorial || showWelcome}>
 						<QuestionMarkOutlined fontSize="large" />
 					</IconButton>
 					{/* <IconButton sx={{ color: theme.palette.text.secondary }} onClick={() => setShowInfo(!showInfo)}>
@@ -135,28 +146,7 @@ export const Workspace: FC<WorkspaceProps> = () => {
 				set blank w/ welcome
 			</div>
 			<div onClick={() => console.log(blocks, "showWelcome", showWelcome, "showTutorial", showTutorial)}>log</div>
-			{/* {showTutorial && blocks.length === 0 ? (
-				<Tutorial />
-			) : (
-				<>
-					<Grid
-						container
-						sx={{
-							pt: 2,
-							minWidth: "fit-content",
-							justifyContent: "center",
-							alignItems: "end",
-							backgroundImage: theme.palette.background.default,
-							minHeight: "calc(100vh - 72px)",
-						}}
-					>
-						<Project />
-					</Grid>
-					<Grid container sx={{ position: "fixed", bottom: 0, width: "100%" }}>
-						<ProjectMenu />
-					</Grid>
-				</>
-			)} */}
+
 			{showWelcome ? (
 				<Grid
 					container
@@ -256,10 +246,7 @@ export const Workspace: FC<WorkspaceProps> = () => {
 										border: `2px solid ${theme.palette.text.secondary}`,
 									},
 								}}
-								onClick={() => {
-									dispatch(changeSetting("showTutorial", true));
-									dispatch(changeSetting("showWelcome", false));
-								}}
+								onClick={startTutorial}
 							>
 								start tutorial
 							</Button>
@@ -267,8 +254,7 @@ export const Workspace: FC<WorkspaceProps> = () => {
 					</Grid>
 				</Grid>
 			) : null}
-			{showTutorial ? <Tutorial /> : null}
-			{showWelcome === false && showTutorial === false ? (
+			{showWelcome === false ? (
 				<>
 					<Grid
 						container
@@ -288,9 +274,7 @@ export const Workspace: FC<WorkspaceProps> = () => {
 					</Grid>
 				</>
 			) : null}
-			<Grid container id="tutorialtest">
-				tutorial
-			</Grid>
+			{showTutorial ? <Tutorial /> : null}
 		</Grid>
 	);
 };

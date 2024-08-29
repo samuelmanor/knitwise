@@ -76,6 +76,7 @@ export const RowControls: FC<RowControlsProps> = () => {
 							cursor: "default",
 							fontSize: "2rem",
 						}}
+						id="row-control-number"
 					>
 						{currentRow}
 					</Typography>
