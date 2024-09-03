@@ -99,6 +99,7 @@ export const Block: FC<BlockProps> = ({
 	 */
 	const handleAddRow = (rowIndex: number) => {
 		dispatch(addBlockRow({ blockIndex: index, rowIndex }));
+		setDraftRow(rowIndex);
 	};
 
 	/**

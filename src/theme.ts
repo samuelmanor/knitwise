@@ -93,6 +93,7 @@ export const lightTheme: ThemeOptions = {
 		text: {
 			primary: "#2a353c", // darker blue
 			secondary: "#f6f2df", // light tan color -> contrast text for background
+			disabled: "#435560",
 		},
 		background: {
 			// default: "#f6f2df", // light tan color
