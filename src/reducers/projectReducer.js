@@ -152,7 +152,6 @@ const projectSlice = createSlice({
 			};
 		},
 		removeEmptyBlockRows(state, action) {
-			console.log(action.payload.blockIndex);
 			return {
 				...state,
 				blocks: state.blocks.map((block, index) => {

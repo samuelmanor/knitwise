@@ -179,8 +179,8 @@ export const Row: FC<RowProps> = ({
 			data-testid={`row${rowIndex}`}
 		>
 			{stitches.length === 0 ? (
-				<Grid container sx={{ width: "400px" }}>
-					<Typography variant="h4" sx={{ p: 0 }}>
+				<Grid container sx={{ width: "400px", justifyContent: "center", alignItems: "center" }}>
+					<Typography variant="h4" sx={{ p: 0, textAlign: "center" }}>
 						this row doesn't have stitches yet!
 					</Typography>
 				</Grid>

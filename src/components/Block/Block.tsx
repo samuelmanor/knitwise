@@ -255,13 +255,7 @@ export const Block: FC<BlockProps> = ({
 						{blockName}
 					</Typography>
 				</Grid>
-				{stitches.length === 1 && stitches[0].length === 0 ? (
-					<Grid container sx={{ justifyContent: "center", width: "fit-content" }}>
-						<Typography variant="h4">no stitches yet!</Typography>
-					</Grid>
-				) : (
-					rows
-				)}
+				{rows}
 			</BlockContainer>
 		);
 	}
