@@ -3,7 +3,14 @@ import { FC, useEffect, useRef, useState } from "react";
 import { Row } from "../Row";
 import { useDispatch, useSelector } from "react-redux";
 import { EditOutlined, DeleteOutlined, SaveOutlined, AddOutlined, SwapVertOutlined } from "@mui/icons-material";
-import { deleteBlock, setMode, addBlockRow, editBlockName, changeSetting } from "../../reducers/projectReducer";
+import {
+	deleteBlock,
+	setMode,
+	addBlockRow,
+	editBlockName,
+	changeSetting,
+	removeEmptyBlockRows,
+} from "../../reducers/projectReducer";
 import { StitchProps } from "../Stitch";
 import { SortableList } from "../Sortable/SortableList";
 import { NameEditor } from "../NameEditor";
@@ -74,7 +81,8 @@ export const Block: FC<BlockProps> = ({
 	 */
 	const moveBlock = () => {
 		const firstRow = projectRow === 1 && currentBlockRow === 1;
-		if (index === tallestBlockIndex || firstRow) {
+
+		if (index === tallestBlockIndex || firstRow || baseRowRef.current === null) {
 			// on the first row, all blocks are aligned
 			return 0;
 		} else {
@@ -92,14 +100,13 @@ export const Block: FC<BlockProps> = ({
 			const block = document.getElementById(`block${index}`);
 			block?.setAttribute("style", `margin-bottom: ${moveBlock()}`);
 		}
-	}, [project.currentProjectRow, mode]);
+	}, [project.currentProjectRow, mode, index, moveBlock]);
 
 	/**
 	 * Adds a new row to the block.
 	 */
 	const handleAddRow = (rowIndex: number) => {
 		dispatch(addBlockRow({ blockIndex: index, rowIndex }));
-		setDraftRow(rowIndex);
 	};
 
 	/**
@@ -136,11 +143,10 @@ export const Block: FC<BlockProps> = ({
 		let errorRows = [];
 
 		stitches.forEach((row, i) => {
-			// check for empty rows
+			// skip empty rows; removeEmptyBlockRows will handle these
 			if (row.length === 0) {
-				setWarning("one or more rows are empty.");
+				return;
 			}
-
 			// check for rows with a number of stitches that is different from the first row
 			let currentRowWidth = 0;
 			row.forEach(stitch => {
@@ -160,6 +166,15 @@ export const Block: FC<BlockProps> = ({
 		} else {
 			handleEditBlock(null);
 		}
+	};
+
+	/**
+	 * Removes empty rows from the block and checks the rows for errors.
+	 */
+	const handleSaveBlock = () => {
+		setDragRowsEnabled(false);
+		dispatch(removeEmptyBlockRows({ blockIndex: index }));
+		checkRows();
 	};
 
 	/**
@@ -308,13 +323,18 @@ export const Block: FC<BlockProps> = ({
 						})
 					)}
 				</Grid>
-				{dragRowsEnabled ? <Typography>click and drag rows to reorder them!</Typography> : null}
+				{dragRowsEnabled ? (
+					<Grid container sx={{ justifyContent: "center", pt: 1 }}>
+						<Typography variant="h4">click and drag rows to reorder them!</Typography>
+					</Grid>
+				) : null}
 				<Grid
 					container
 					sx={{
 						justifyContent: "center",
 						gap: 3,
 						mt: 2,
+						display: warning !== null ? "none" : "",
 					}}
 				>
 					<Tooltip
@@ -402,7 +422,7 @@ export const Block: FC<BlockProps> = ({
 						}}
 					>
 						<IconButton
-							onClick={checkRows}
+							onClick={handleSaveBlock}
 							disabled={draftRow !== null || warning !== null}
 							data-testid={`block${index}SaveBtn`}
 							sx={{ color: theme.palette.primary.main }}
@@ -411,16 +431,18 @@ export const Block: FC<BlockProps> = ({
 						</IconButton>
 					</Tooltip>
 				</Grid>
-				{warning !== null ? (
-					<Warning
-						text={warning}
-						action={() => {
-							handleEditBlock(null);
-							setWarning(null);
-						}}
-						close={() => setWarning(null)}
-					/>
-				) : null}
+				<Grid container sx={{ justifyContent: "center" }}>
+					{warning !== null ? (
+						<Warning
+							text={warning}
+							action={() => {
+								handleEditBlock(null);
+								setWarning(null);
+							}}
+							close={() => setWarning(null)}
+						/>
+					) : null}
+				</Grid>
 			</Grid>
 		);
 	}

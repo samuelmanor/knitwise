@@ -151,6 +151,22 @@ const projectSlice = createSlice({
 				}),
 			};
 		},
+		removeEmptyBlockRows(state, action) {
+			console.log(action.payload.blockIndex);
+			return {
+				...state,
+				blocks: state.blocks.map((block, index) => {
+					if (index === action.payload.blockIndex) {
+						return {
+							...block,
+							stitches: block.stitches.filter(row => row.length > 0),
+						};
+					} else {
+						return block;
+					}
+				}),
+			};
+		},
 		addBlockRow(state, action) {
 			return {
 				...state,
@@ -232,6 +248,7 @@ export const {
 	deleteBlock,
 	updateBlockRowPosition,
 	updateBlockRowStitches,
+	removeEmptyBlockRows,
 	addBlockRow,
 	removeBlockRow,
 	reorderRows,
