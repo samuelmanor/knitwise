@@ -291,7 +291,7 @@ export const Row: FC<RowProps> = ({
 					);
 				})}
 			</Grid>
-			<Grid container sx={{ justifyContent: "space-between", paddingX: 2, paddingY: 1, alignItems: "center" }}>
+			<Grid container sx={{ justifyContent: "center", paddingX: 2, paddingY: 1, alignItems: "center" }}>
 				<Grid
 					item
 					container
@@ -389,7 +389,13 @@ export const Row: FC<RowProps> = ({
 							</Grid>
 							<Grid item container sx={{ mr: 1, gap: 1, width: "fit-content" }}>
 								<Tooltip
-									title="save"
+									title={
+										<Grid sx={{ textAlign: "center" }}>
+											save
+											<br />
+											row
+										</Grid>
+									}
 									placement="bottom"
 									componentsProps={{
 										tooltip: {
@@ -409,7 +415,7 @@ export const Row: FC<RowProps> = ({
 										],
 									}}
 								>
-									<>
+									<span>
 										<IconButton
 											onClick={() => {
 												setDraftRow(null);
@@ -421,10 +427,16 @@ export const Row: FC<RowProps> = ({
 										>
 											<SaveOutlined />
 										</IconButton>
-									</>
+									</span>
 								</Tooltip>
 								<Tooltip
-									title="delete"
+									title={
+										<Grid sx={{ textAlign: "center" }}>
+											delete
+											<br />
+											row
+										</Grid>
+									}
 									placement="bottom"
 									componentsProps={{
 										tooltip: {
@@ -444,14 +456,14 @@ export const Row: FC<RowProps> = ({
 										],
 									}}
 								>
-									<>
+									<span>
 										<IconButton
 											onClick={handleDeleteRow}
 											disabled={warning !== null || dragStitchesEnabled || showStitchMenu}
 										>
 											<DeleteOutlined />
 										</IconButton>
-									</>
+									</span>
 								</Tooltip>
 							</Grid>
 						</Grid>
@@ -503,7 +515,7 @@ export const Row: FC<RowProps> = ({
 										],
 									}}
 								>
-									<>
+									<span>
 										<IconButton
 											onClick={() => setShowStitchMenu(true)}
 											disabled={
@@ -512,7 +524,7 @@ export const Row: FC<RowProps> = ({
 										>
 											<AddOutlined />
 										</IconButton>
-									</>
+									</span>
 								</Tooltip>
 								<Tooltip
 									title={"rearrange stitches"}
@@ -535,7 +547,7 @@ export const Row: FC<RowProps> = ({
 										],
 									}}
 								>
-									<>
+									<span>
 										<IconButton
 											onClick={() => {
 												setDragStitchesEnabled(!dragStitchesEnabled);
@@ -554,7 +566,7 @@ export const Row: FC<RowProps> = ({
 										>
 											<SwapHorizOutlined />
 										</IconButton>
-									</>
+									</span>
 								</Tooltip>
 							</Grid>
 						)}
