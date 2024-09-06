@@ -1,13 +1,12 @@
 import { FC, useState } from "react";
-import { Button, Grid, IconButton, Typography, useTheme } from "@mui/material";
+import { Button, Grid, Typography, useTheme } from "@mui/material";
 import { Project } from "../Project";
 import { ProjectMenu } from "../ProjectMenu";
 import { useDispatch, useSelector } from "react-redux";
 import { saveState } from "../../utils/localStorage";
 import { testProject } from "../../utils/testProject";
 import { Tutorial } from "../Tutorial";
-import { InfoOutlined } from "@mui/icons-material";
-import { changeSetting, initializeProject } from "../../reducers/projectReducer";
+import { initializeProject } from "../../reducers/projectReducer";
 
 interface WorkspaceProps {}
 
@@ -18,8 +17,6 @@ export const Workspace: FC<WorkspaceProps> = () => {
 	const blocks = useSelector((state: any) => state.project.blocks);
 	const showTutorial = useSelector((state: any) => state.project.settings.showTutorial);
 	const showWelcome = useSelector((state: any) => state.project.settings.showWelcome);
-
-	const [showInfo, setShowInfo] = useState(false);
 
 	const theme = useTheme();
 	const dispatch = useDispatch();
