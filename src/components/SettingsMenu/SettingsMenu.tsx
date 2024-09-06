@@ -7,13 +7,14 @@ import {
 	IconButton,
 	Radio,
 	RadioGroup,
+	Tooltip,
 	Typography,
 	useTheme,
 } from "@mui/material";
 import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { resetRows, changeSetting, resetProject } from "../../reducers/projectReducer";
-import { SaveOutlined } from "@mui/icons-material";
+import { ArrowOutwardOutlined, SaveOutlined } from "@mui/icons-material";
 
 interface SettingsMenuProps {
 	closeSettingsMenu: () => void;
@@ -99,26 +100,28 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 			sx={{
 				backgroundColor: theme.palette.primary.main,
 				color: theme.palette.text.secondary,
-				p: 2,
+				pb: 1.5,
 				justifyContent: "center",
+				flexWrap: "nowrap",
+				gap: 2,
 			}}
 		>
-			<Grid container sx={{ width: "50%" }}>
-				<Grid container sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+			<Grid container sx={{ width: "600px" }}>
+				<Grid container sx={{ display: "flex", alignItems: "center" }}>
 					<Typography variant="h2" sx={{ mb: 1 }}>
 						settings
 					</Typography>
-					<IconButton
-						onClick={closeSettingsMenu}
-						sx={{
-							color: theme.palette.text.secondary,
-							p: 2,
-							width: "fit-content",
-							height: "fit-content",
-						}}
-					>
-						<SaveOutlined sx={{ transform: "scale(2)" }} />
-					</IconButton>
+					<Tooltip title="save" placement="right">
+						<IconButton
+							onClick={closeSettingsMenu}
+							sx={{
+								color: theme.palette.text.secondary,
+								ml: 2,
+							}}
+						>
+							<SaveOutlined fontSize="large" />
+						</IconButton>
+					</Tooltip>
 				</Grid>
 				{disableSettings ? resetWarning : null}
 				<Grid container flexDirection={"column"} paddingLeft="20px">
@@ -316,6 +319,68 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 							</Button>
 						</Grid>
 					</Grid>
+				</Grid>
+			</Grid>
+			<Grid
+				container
+				sx={{
+					width: "fit-content",
+					justifyContent: "center",
+					alignItems: "center",
+					flexDirection: "column",
+					gap: 5,
+					paddingX: 1,
+				}}
+			>
+				<Grid
+					container
+					sx={{
+						alignItems: "center",
+						gap: 0.5,
+						width: "fit-content",
+					}}
+				>
+					<Typography variant="h4" sx={{ color: theme.palette.text.secondary }}>
+						check out
+					</Typography>
+					<Typography
+						variant="h4"
+						sx={{
+							backgroundColor: theme.palette.text.secondary,
+							color: theme.palette.primary.dark,
+							// fontWeight: "bold",
+							paddingY: 0.5,
+							paddingX: 1,
+							borderRadius: "5px",
+							alignItems: "center",
+							display: "flex",
+							cursor: "pointer",
+						}}
+					>
+						my github
+						<ArrowOutwardOutlined fontSize="small" />
+					</Typography>
+				</Grid>
+				<Grid container sx={{ flexDirection: "column", alignItems: "center", gap: 1 }}>
+					<Typography variant="h4" sx={{ textAlign: "center", width: "200px", p: 0 }}>
+						if you enjoy knitwise, please consider buying me a coffee:
+					</Typography>
+					<Typography
+						variant="h4"
+						sx={{
+							backgroundColor: theme.palette.text.secondary,
+							color: theme.palette.primary.dark,
+							paddingY: 0.5,
+							paddingX: 1,
+							borderRadius: "5px",
+							alignItems: "center",
+							display: "flex",
+							cursor: "pointer",
+							width: "fit-content",
+						}}
+					>
+						ko.fi
+					</Typography>
 				</Grid>
 			</Grid>
 		</Grid>

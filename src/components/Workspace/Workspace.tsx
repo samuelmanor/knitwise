@@ -8,7 +8,6 @@ import { testProject } from "../../utils/testProject";
 import { Tutorial } from "../Tutorial";
 import { InfoOutlined } from "@mui/icons-material";
 import { changeSetting, initializeProject } from "../../reducers/projectReducer";
-import { Info } from "../Info";
 
 interface WorkspaceProps {}
 
