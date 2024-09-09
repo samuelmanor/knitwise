@@ -521,6 +521,7 @@ export const Row: FC<RowProps> = ({
 											disabled={
 												dragStitchesEnabled || selectedStitch !== null || warning !== null
 											}
+											data-testid={`addBtn${rowIndex}`}
 										>
 											<AddOutlined />
 										</IconButton>

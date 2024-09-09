@@ -145,6 +145,7 @@ export const Workspace: FC<WorkspaceProps> = () => {
 				set blank w/ welcome
 			</div>
 			<div onClick={() => console.log(blocks, "showWelcome", showWelcome, "showTutorial", showTutorial)}>log</div>
+			<div onClick={() => console.log(testProject)}>test</div>
 
 			{showWelcome ? (
 				<Grid

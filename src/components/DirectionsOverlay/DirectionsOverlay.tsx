@@ -33,9 +33,6 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockI
 
 	const theme = useTheme();
 
-	// hide the overlay if the row is empty
-	if (row === null || row === undefined || project.blocks[blockIndex].stitches[rowIndex].length === 0) return null;
-
 	/**
 	 * Calculates the width of the component based on the combined width of the stitches in the row.
 	 */

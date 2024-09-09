@@ -3,8 +3,11 @@ import { expect } from "@storybook/jest";
 import { userEvent, within } from "@storybook/testing-library";
 import { Row } from "./Row";
 import { Provider } from "react-redux";
-import store from "./../../reducers/store";
 import { testProject } from "../../utils/testProject";
+import { usePreloadedState } from "../../reducers/store";
+import { ThemeProvider } from "@emotion/react";
+import { lightTheme } from "../../theme";
+import { createTheme } from "@mui/material";
 
 const meta: Meta<typeof Row> = {
 	title: "Row",
@@ -15,9 +18,15 @@ const meta: Meta<typeof Row> = {
 	tags: ["autodocs"],
 	decorators: [
 		Story => (
-			<Provider store={store}>
-				<Story />
-			</Provider>
+			<ThemeProvider theme={createTheme(lightTheme)}>
+				<Provider
+					store={usePreloadedState({
+						project: testProject,
+					})}
+				>
+					<Story />
+				</Provider>
+			</ThemeProvider>
 		),
 	],
 };
@@ -27,10 +36,27 @@ type Story = StoryObj<typeof Row>;
 
 export const Primary: Story = {
 	// this row is not being worked or edited
-	play: async ({ canvasElement }) => {
+	play: async ({ canvasElement, step }) => {
 		const canvas = within(canvasElement);
 		const element = canvas.getByTestId(/row0/i);
 		expect(element).toBeTruthy();
+
+		await step("row is not highlighted", async () => {
+			expect(element).not.toHaveStyle("background-color: rgb(148, 168, 179)");
+		});
+
+		await step("directions overlay is not visible", async () => {
+			const directionsOverlay = canvas.queryByTestId(/directionsOverlay0/i);
+			expect(directionsOverlay).toBeNull();
+		});
+
+		await step("edit buttons are not visible", async () => {
+			const editButton = canvas.queryByTestId(/editBtn0/i);
+			expect(editButton).toBeNull();
+
+			const sortButton = canvas.queryByTestId(/sortBtn0/i);
+			expect(sortButton).toBeNull();
+		});
 	},
 	args: {
 		stitches: testProject.blocks[0].stitches[0],
@@ -51,12 +77,16 @@ export const BeingWorked: Story = {
 		expect(element).toBeTruthy();
 
 		await step("row is highlighted", async () => {
-			expect(element).toHaveStyle("background-color: rgb(66, 165, 245)");
+			expect(element).toHaveStyle("background-color: rgb(148, 168, 179)");
 		});
 
-		await step("directions overlay is visible", async () => {
-			const directionsOverlay = canvas.getByTestId(/directionsOverlay0/i);
-			expect(directionsOverlay).toBeTruthy();
+		await step("stitch tips are visible", async () => {
+			const purlStitch = canvas.getByTestId(/stitch0p/i);
+			expect(purlStitch).toBeTruthy();
+
+			await userEvent.hover(purlStitch);
+			const purlTip = canvas.getByText(/purl/i);
+			expect(purlTip).toBeVisible();
 		});
 	},
 	args: {
@@ -77,12 +107,18 @@ export const EditingBlock: Story = {
 		const element = canvas.getByTestId(/row0/i);
 		expect(element).toBeTruthy();
 
-		await step("edit buttons are visible", async () => {
+		await step("edit button is visible", async () => {
 			const editButton = canvas.getByTestId(/editBtn0/i);
 			expect(editButton).toBeTruthy();
+		});
 
-			const sortButton = canvas.getByTestId(/sortBtn0/i);
-			expect(sortButton).toBeTruthy();
+		await step("stitch tips are not visible", async () => {
+			const purlStitch = canvas.getByTestId(/stitch0p/i);
+			expect(purlStitch).toBeTruthy();
+
+			await userEvent.hover(purlStitch);
+			const purlTip = canvas.queryByText(/purl/i);
+			expect(purlTip).toBeNull();
 		});
 	},
 	args: {
@@ -103,18 +139,22 @@ export const EditingRow: Story = {
 		const element = canvas.getByTestId(/editingRow0/i);
 		expect(element).toBeTruthy();
 
-		await step("open stitch menu", async () => {
+		await step("stitch menu can be opened", async () => {
 			const addButton = canvas.getByTestId(/addBtn0/i);
+			expect(addButton).toBeVisible();
+
 			await userEvent.click(addButton);
 			const stitchMenu = canvas.getByTestId(/stitchSelect0/i);
-			expect(stitchMenu).toBeTruthy();
+			expect(stitchMenu).toBeVisible();
 		});
 
-		await step("add a stitch", async () => {
-			await userEvent.click(canvas.getByText(/-!/i));
-			const saveButton = canvas.getByTestId(/saveRow0/i);
-			expect(saveButton).toBeVisible();
-			expect(canvas.queryByTestId(/stitchSelect0/i)).toBeNull();
+		await step("a stitch can be added", async () => {
+			const knitStitch = canvas.getByText("*");
+			await userEvent.click(knitStitch);
+
+			// stitch menu should close after a stitch is selected
+			const stitchMenu = canvas.queryByTestId(/stitchSelect0/i);
+			expect(stitchMenu).toBeNull();
 		});
 	},
 	args: {
