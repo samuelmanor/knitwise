@@ -263,7 +263,7 @@ export const Block: FC<BlockProps> = ({
 	// this block is being edited
 	if (mode === "editBlock" && draftBlockIndex === index) {
 		return (
-			<Grid container sx={{ flexDirection: "column", pb: 4 }}>
+			<Grid container sx={{ flexDirection: "column", pb: 4 }} data-testid={`block${index}EditBlock`}>
 				<NameEditor
 					name={blockName}
 					onSave={name => dispatch(editBlockName({ blockName: name, blockIndex: index }))}
@@ -533,6 +533,7 @@ export const Block: FC<BlockProps> = ({
 								}}
 								onClick={handleDeleteBlock}
 								disabled={project.blocks.length === 1}
+								data-testid={`block${index}DeleteBtn`}
 							>
 								<DeleteOutlined fontSize="large" />
 							</IconButton>
