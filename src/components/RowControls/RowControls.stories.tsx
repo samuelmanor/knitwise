@@ -1,37 +1,67 @@
 import { Meta, StoryObj } from "@storybook/react";
 
 import { expect } from "@storybook/jest";
-import { within } from "@storybook/testing-library";
-
+import { userEvent, within } from "@storybook/testing-library";
 import { RowControls } from "./RowControls";
+import { usePreloadedState } from "../../reducers/store";
+import { createTheme, ThemeProvider } from "@mui/material";
+import { darkTheme } from "../../theme";
+import { Provider } from "react-redux";
+import { testProject } from "../../utils/testProject";
 
-// More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof RowControls> = {
 	title: "RowControls",
 	component: RowControls,
 	parameters: {
-		// Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
 		layout: "centered",
 	},
-	// This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
 	tags: ["autodocs"],
-	// More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-	argTypes: {
-		backgroundColor: { control: "color" },
-	},
+	decorators: [
+		Story => (
+			<ThemeProvider theme={createTheme(darkTheme)}>
+				<Provider
+					store={usePreloadedState({
+						project: testProject,
+					})}
+				>
+					<Story />
+				</Provider>
+			</ThemeProvider>
+		),
+	],
 };
 
 export default meta;
 type Story = StoryObj<typeof RowControls>;
 
-// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
 export const Primary: Story = {
-	play: async ({ canvasElement }) => {
+	play: async ({ canvasElement, step }) => {
 		const canvas = within(canvasElement);
-		const element = canvas.getByText(/RowControls/i);
+		const element = canvas.getByTestId(/RowControls/i);
 		expect(element).toBeTruthy();
-	},
-	args: {
-		label: "RowControls",
+
+		await step("next row button moves to next row", async () => {
+			const currentRow = canvas.getByTestId(/currentRowNumber/i);
+			expect(currentRow).toBeTruthy();
+			expect(currentRow.textContent).toBe("1");
+
+			const nextRowBtn = canvas.getByTestId(/nextRowButton/i);
+			expect(nextRowBtn).toBeTruthy();
+			await userEvent.click(nextRowBtn);
+
+			expect(currentRow.textContent).toBe("2");
+		});
+
+		await step("previous row button moves to previous row", async () => {
+			const currentRow = canvas.getByTestId(/currentRowNumber/i);
+			expect(currentRow).toBeTruthy();
+			expect(currentRow.textContent).toBe("2");
+
+			const previousRowBtn = canvas.getByTestId(/previousRowButton/i);
+			expect(previousRowBtn).toBeTruthy();
+			await userEvent.click(previousRowBtn);
+
+			expect(currentRow.textContent).toBe("1");
+		});
 	},
 };

@@ -16,7 +16,7 @@ export const RowControls: FC<RowControlsProps> = () => {
 	const theme = useTheme();
 
 	return (
-		<Grid container>
+		<Grid container data-testid={"RowControls"}>
 			<Grid
 				item
 				sx={{
@@ -56,6 +56,7 @@ export const RowControls: FC<RowControlsProps> = () => {
 							onClick={() => dispatch(prevRow())}
 							sx={{ color: theme.palette.text.secondary, transform: "rotate(270deg)" }}
 							disabled={currentRow === 1}
+							data-testid="previousRowButton"
 						>
 							<ArrowBackIosNewOutlined fontSize="large" />
 						</IconButton>
@@ -77,6 +78,7 @@ export const RowControls: FC<RowControlsProps> = () => {
 							fontSize: "2rem",
 						}}
 						id="row-control-number"
+						data-testid="currentRowNumber"
 					>
 						{currentRow}
 					</Typography>
@@ -112,6 +114,7 @@ export const RowControls: FC<RowControlsProps> = () => {
 							color: theme.palette.text.secondary,
 							transform: "rotate(270deg)",
 						}}
+						data-testid="nextRowButton"
 					>
 						<ArrowForwardIosOutlined fontSize="large" />
 					</IconButton>
