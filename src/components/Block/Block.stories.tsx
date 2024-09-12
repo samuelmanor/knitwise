@@ -33,7 +33,7 @@ const meta: Meta<typeof Block> = {
 export default meta;
 type Story = StoryObj<typeof Block>;
 
-export const Primary: Story = {
+export const ChartMode: Story = {
 	// this block is not being edited
 	play: async ({ canvasElement, step }) => {
 		const canvas = within(canvasElement);
@@ -66,7 +66,7 @@ export const Primary: Story = {
 	},
 };
 
-export const EditMode: Story = {
+export const EditProjectMode: Story = {
 	// app is in edit mode, this specific block is not being edited
 	play: async ({ canvasElement, step }) => {
 		const canvas = within(canvasElement);
@@ -179,7 +179,7 @@ export const EditingBlock: Story = {
 	],
 };
 
-export const BlockPreview: Story = {
+export const Preview: Story = {
 	// used to preview a block before adding it to the project
 	play: async ({ canvasElement, step }) => {
 		const canvas = within(canvasElement);
