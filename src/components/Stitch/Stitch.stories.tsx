@@ -5,8 +5,11 @@ import { within } from "@storybook/testing-library";
 
 import { Stitch } from "./Stitch";
 import { Provider } from "react-redux";
-import store from "./../../reducers/store";
 import { stitches } from "../../utils/stitches";
+import { usePreloadedState } from "../../reducers/store";
+import { createTheme, ThemeProvider } from "@mui/material";
+import { lightTheme } from "../../theme";
+import { testProject } from "../../utils/testProject";
 
 const meta: Meta<typeof Stitch> = {
 	title: "Stitch",
@@ -17,9 +20,15 @@ const meta: Meta<typeof Stitch> = {
 	tags: ["autodocs"],
 	decorators: [
 		Story => (
-			<Provider store={store}>
-				<Story />
-			</Provider>
+			<ThemeProvider theme={createTheme(lightTheme)}>
+				<Provider
+					store={usePreloadedState({
+						project: testProject,
+					})}
+				>
+					<Story />
+				</Provider>
+			</ThemeProvider>
 		),
 	],
 };
