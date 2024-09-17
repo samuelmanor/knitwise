@@ -21,9 +21,10 @@ import {
 	SwapHorizOutlined,
 	SwapVertOutlined,
 } from "@mui/icons-material";
-import { removeBlockRow, updateRow, changeSetting } from "../../reducers/projectReducer";
+import { removeBlockRow, updateRow, changeSetting, updateBlockRowStitches } from "../../reducers/projectReducer";
 import { SortableList } from "../Sortable/SortableList";
 import { Warning } from "../Warning";
+import { SortableItemProps } from "../Sortable/SortableItem";
 
 export interface RowProps {
 	stitches: StitchProps[];
@@ -158,6 +159,21 @@ export const Row: FC<RowProps> = ({
 		}
 
 		setShowStitchMenu(false);
+	};
+
+	/**
+	 * Reorders the stitches in the row.
+	 * @param stitches The reordered stitches, received from the SortableList.
+	 */
+	const handleReorderStitches = (stitches: SortableItemProps[]) => {
+		const reorderedStitches = stitches.map(item => item.item.props);
+		dispatch(
+			updateBlockRowStitches({
+				stitches: reorderedStitches,
+				blockIndex,
+				rowIndex,
+			}),
+		);
 	};
 
 	/**
@@ -381,6 +397,7 @@ export const Row: FC<RowProps> = ({
 												item: <Stitch {...item} placement={{ rowIndex, blockIndex }} />,
 											}))}
 											direction="horizontal"
+											onSortEnd={stitches => handleReorderStitches(stitches)}
 										/>
 									</Grid>
 								) : (

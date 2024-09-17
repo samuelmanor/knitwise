@@ -1,8 +1,10 @@
 import { Grid, useTheme } from "@mui/material";
 import { FC, useState } from "react";
 import { Block, BlockProps } from "../Block";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { SortableList } from "../Sortable/SortableList";
+import { SortableItemProps } from "../Sortable/SortableItem";
+import { reorderBlocks } from "../../reducers/projectReducer";
 
 // export interface ProjectProps {}
 
@@ -15,6 +17,7 @@ export const Project: FC<{}> = () => {
 
 	const [draftBlockIndex, setDraftBlockIndex] = useState<number | null>(null); // the index of the block that is being edited
 
+	const dispatch = useDispatch();
 	const theme = useTheme();
 
 	if (!blocks) return <div>no blocks found</div>;
@@ -34,6 +37,24 @@ export const Project: FC<{}> = () => {
 			}
 		});
 		return index;
+	};
+
+	/**
+	 * Handles the reordering of blocks.
+	 * @param reorderedBlocks The reordered blocks, received from the SortableList.
+	 */
+	const handleReorderBlocks = (reorderedBlocks: SortableItemProps[]) => {
+		dispatch(
+			reorderBlocks(
+				reorderedBlocks.map(item => {
+					return {
+						currentBlockRow: item.item.props.currentBlockRow,
+						stitches: item.item.props.stitches,
+						blockName: item.item.props.blockName,
+					};
+				}),
+			),
+		);
 	};
 
 	/**
@@ -87,6 +108,7 @@ export const Project: FC<{}> = () => {
 						key: i,
 					}))}
 					direction="horizontal"
+					onSortEnd={blocks => handleReorderBlocks(blocks)}
 				/>
 			) : (
 				blocks.map((block, i) => renderBlock(block, i, `block${i}`))

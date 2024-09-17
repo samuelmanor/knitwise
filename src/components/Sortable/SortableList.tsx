@@ -7,8 +7,6 @@ import {
 } from "@dnd-kit/sortable";
 import { SortableItem, SortableItemProps } from "./SortableItem";
 import { DndContext, MouseSensor, closestCenter, useSensor, useSensors } from "@dnd-kit/core";
-import { reorderBlocks, reorderRows, updateBlockRowStitches } from "../../reducers/projectReducer";
-import { useDispatch } from "react-redux";
 
 interface SortableListProps {
 	items: SortableItemProps[];
@@ -20,10 +18,9 @@ interface SortableListProps {
  * Creates a container for items which can be sorted via drag and drop.
  * @param items The items to be rendered.
  * @param direction The direction in which the items should be displayed.
+ * @param onSortEnd Callback function to be called when sorting ends, with the new order of items.
  */
-export const SortableList: FC<SortableListProps> = ({ items, direction }) => {
-	const dispatch = useDispatch();
-
+export const SortableList: FC<SortableListProps> = ({ items, direction, onSortEnd }) => {
 	/**
 	 * Initializes the sensors for drag and drop functionality.
 	 */
@@ -34,19 +31,6 @@ export const SortableList: FC<SortableListProps> = ({ items, direction }) => {
 			},
 		}),
 	);
-
-	/**
-	 * Determines the type of item being sorted.
-	 */
-	const itemType = (): "block" | "row" | "stitch" => {
-		if (items[0].item.props.hasOwnProperty("currentBlockRow")) {
-			return "block";
-		} else if (items[0].item.props.hasOwnProperty("rowIndex")) {
-			return "row";
-		} else if (items[0].item.props.hasOwnProperty("abbreviation")) {
-			return "stitch";
-		}
-	};
 
 	/**
 	 * Reorders the blocks to match the new positions.
@@ -60,39 +44,14 @@ export const SortableList: FC<SortableListProps> = ({ items, direction }) => {
 		// cancel if dragging back to original position
 		if (active.id === over.id) return;
 
-		// reorder blocks to match new positions
-		const reorderedItems = arrayMove(
-			items,
-			items.findIndex(item => item.id === active.id),
-			items.findIndex(item => item.id === over.id),
+		// reorder blocks to match new positions and call onSortEnd callback
+		onSortEnd(
+			arrayMove(
+				items,
+				items.findIndex(item => item.id === active.id),
+				items.findIndex(item => item.id === over.id),
+			),
 		);
-
-		// extract the relevant props from the items and update the store
-		if (itemType() === "block") {
-			dispatch(
-				reorderBlocks(
-					reorderedItems.map(item => {
-						return {
-							currentBlockRow: item.item.props.currentBlockRow,
-							stitches: item.item.props.stitches,
-							blockName: item.item.props.blockName,
-						};
-					}),
-				),
-			);
-		} else if (itemType() === "row") {
-			const stitches = reorderedItems.map(item => item.item.props.stitches);
-			dispatch(reorderRows({ stitches, blockIndex: reorderedItems[0].item.props.blockIndex }));
-		} else if (itemType() === "stitch") {
-			const stitches = reorderedItems.map(item => item.item.props);
-			dispatch(
-				updateBlockRowStitches({
-					stitches,
-					blockIndex: reorderedItems[0].item.props.placement.blockIndex,
-					rowIndex: reorderedItems[0].item.props.placement.rowIndex,
-				}),
-			);
-		}
 	};
 
 	return (

@@ -15,6 +15,8 @@ import { StitchProps } from "../Stitch";
 import { SortableList } from "../Sortable/SortableList";
 import { NameEditor } from "../NameEditor";
 import { Warning } from "../Warning";
+import { reorderRows } from "../../reducers/projectReducer";
+import { SortableItemProps } from "../Sortable/SortableItem";
 
 export interface BlockProps {
 	index?: number;
@@ -178,6 +180,15 @@ export const Block: FC<BlockProps> = ({
 	};
 
 	/**
+	 * Reorders the rows of the block.
+	 * @param rows The reordered rows, received from the SortableList.
+	 */
+	const handleReorderRows = (rows: SortableItemProps[]) => {
+		const reorderedRows = rows.map(item => item.item.props.stitches);
+		dispatch(reorderRows({ blockIndex: index, stitches: reorderedRows }));
+	};
+
+	/**
 	 * Renders the rows of the block.
 	 */
 	const rows = stitches.map((row, i) => {
@@ -300,6 +311,7 @@ export const Block: FC<BlockProps> = ({
 								),
 							}))}
 							direction="vertical"
+							onSortEnd={rows => handleReorderRows(rows)}
 						/>
 					) : (
 						stitches.map((row, i) => {
