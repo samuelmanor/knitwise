@@ -13,17 +13,20 @@ import { useDispatch } from "react-redux";
 interface SortableListProps {
 	items: SortableItemProps[];
 	direction: "horizontal" | "vertical";
+	onSortEnd?: (items: SortableItemProps[]) => void;
 }
 
 /**
  * Creates a container for items which can be sorted via drag and drop.
  * @param items The items to be rendered.
  * @param direction The direction in which the items should be displayed.
- * @param itemType The type of item being sorted.
  */
 export const SortableList: FC<SortableListProps> = ({ items, direction }) => {
 	const dispatch = useDispatch();
 
+	/**
+	 * Initializes the sensors for drag and drop functionality.
+	 */
 	const sensors = useSensors(
 		useSensor(MouseSensor, {
 			activationConstraint: {
@@ -35,7 +38,7 @@ export const SortableList: FC<SortableListProps> = ({ items, direction }) => {
 	/**
 	 * Determines the type of item being sorted.
 	 */
-	const testItemType = (): "block" | "row" | "stitch" => {
+	const itemType = (): "block" | "row" | "stitch" => {
 		if (items[0].item.props.hasOwnProperty("currentBlockRow")) {
 			return "block";
 		} else if (items[0].item.props.hasOwnProperty("rowIndex")) {
@@ -51,7 +54,7 @@ export const SortableList: FC<SortableListProps> = ({ items, direction }) => {
 	const handleDragEnd = event => {
 		const { active, over } = event;
 
-		// cancel if no active or over
+		// cancel if invalid drop
 		if (!over) return;
 
 		// cancel if dragging back to original position
@@ -65,7 +68,7 @@ export const SortableList: FC<SortableListProps> = ({ items, direction }) => {
 		);
 
 		// extract the relevant props from the items and update the store
-		if (testItemType() === "block") {
+		if (itemType() === "block") {
 			dispatch(
 				reorderBlocks(
 					reorderedItems.map(item => {
@@ -77,10 +80,10 @@ export const SortableList: FC<SortableListProps> = ({ items, direction }) => {
 					}),
 				),
 			);
-		} else if (testItemType() === "row") {
+		} else if (itemType() === "row") {
 			const stitches = reorderedItems.map(item => item.item.props.stitches);
 			dispatch(reorderRows({ stitches, blockIndex: reorderedItems[0].item.props.blockIndex }));
-		} else if (testItemType() === "stitch") {
+		} else if (itemType() === "stitch") {
 			const stitches = reorderedItems.map(item => item.item.props);
 			dispatch(
 				updateBlockRowStitches({
