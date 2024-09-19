@@ -64,14 +64,6 @@ export const Workspace: FC<WorkspaceProps> = () => {
 					display: showWelcome ? "none" : "",
 				}}
 			>
-				{/* <Grid item sx={{ opacity: 0 }}> */}
-				{/* <IconButton>
-						<InfoOutlined fontSize="large" />
-					</IconButton> */}
-				{/* <IconButton disabled>
-						<InfoOutlined fontSize="large" />
-					</IconButton> */}
-				{/* </Grid> */}
 				<Grid item>
 					<Typography
 						variant="h1"
@@ -79,23 +71,12 @@ export const Workspace: FC<WorkspaceProps> = () => {
 							color: theme.palette.text.secondary,
 							userSelect: "none",
 							cursor: "default",
-							// fontSize: showWelcome ? "7rem" : "3rem",
 						}}
 					>
 						knitwise
 					</Typography>
 				</Grid>
-				{/* <Grid item sx={{ opacity: showWelcome || showTutorial ? 0 : 1 }}> */}
-				{/* <IconButton sx={{ color: theme.palette.text.secondary }} onClick={() => setShowInfo(!showInfo)}>
-						<InfoOutlined fontSize="large" />
-					</IconButton> */}
-				{/* <IconButton sx={{ color: theme.palette.text.secondary }} onClick={() => setShowInfo(!showInfo)}>
-						<InfoOutlined fontSize="large" />
-					</IconButton> */}
-				{/* </Grid> */}
 			</Grid>
-
-			{/* <Info show={showInfo} close={() => setShowInfo(false)} /> */}
 
 			<div onClick={() => saveState(testProject)}>set example</div>
 			<div
