@@ -20,8 +20,6 @@ export const Welcome: FC<WelcomeProps> = () => {
 				settings: { ...testProject.settings, showTutorial: true, showWelcome: false },
 			}),
 		);
-		// dispatch(changeSetting("showTutorial", true));
-		// dispatch(changeSetting("showWelcome", false));
 	};
 
 	return (
