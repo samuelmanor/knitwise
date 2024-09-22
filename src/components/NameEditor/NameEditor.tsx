@@ -141,6 +141,7 @@ export const NameEditor: FC<NameEditorProps> = ({ name, onSave, type, disabled }
 								color: type === "project" ? theme.palette.text.secondary : theme.palette.primary.main,
 							}}
 							disabled={disabled}
+							data-testid={`name-editor-${editing ? "save" : "edit"}-btn`}
 						>
 							{editing ? <SaveOutlined fontSize="large" /> : <EditOutlined fontSize="large" />}
 						</IconButton>
