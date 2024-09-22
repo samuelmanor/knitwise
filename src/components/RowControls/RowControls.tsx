@@ -16,7 +16,7 @@ export const RowControls: FC<RowControlsProps> = () => {
 	const theme = useTheme();
 
 	return (
-		<Grid container data-testid={"RowControls"}>
+		<Grid container data-testid={"row-controls"}>
 			<Grid
 				item
 				sx={{

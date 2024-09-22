@@ -223,7 +223,7 @@ export const AddBlock: FC<SavedBlocksProps> = () => {
 					<IconButton
 						sx={{ display: mode === "edit" ? "flex" : "none", color: theme.palette.text.secondary }}
 						onClick={e => handleClick(e)}
-						data-testid="addBlockButton"
+						data-testid="add-block-btn"
 					>
 						<AddOutlined fontSize="large" />
 					</IconButton>

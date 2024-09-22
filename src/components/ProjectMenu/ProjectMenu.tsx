@@ -44,6 +44,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 				alignItems: "center",
 				minHeight: { xs: "72px", sm: "fit-content" },
 			}}
+			data-testid="project-menu"
 		>
 			<Grid
 				item
@@ -101,6 +102,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 							color: mode === "dragBlocks" ? theme.palette.text.secondary : theme.palette.text.secondary,
 							display: mode === "edit" ? "flex" : "none",
 						}}
+						data-testid="rearrange-blocks-btn"
 						onClick={() => dispatch(setMode(mode === "edit" ? "dragBlocks" : "edit"))}
 					>
 						<SwapHorizOutlined fontSize="large" />
@@ -137,6 +139,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 						onClick={changeMode}
 						disabled={mode === "editBlock"}
 						id="edit-save-button"
+						data-testid="edit-save-btn"
 					>
 						{mode === "chart" ? <EditOutlined fontSize="large" /> : <SaveOutlined fontSize="large" />}
 					</IconButton>
@@ -170,6 +173,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 						size="large"
 						sx={{ color: theme.palette.text.secondary }}
 						onClick={() => setOpenSettings(true)}
+						data-testid="settings-button"
 					>
 						<SettingsOutlined fontSize="large" />
 					</IconButton>

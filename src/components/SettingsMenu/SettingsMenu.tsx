@@ -5,6 +5,7 @@ import {
 	FormControlLabel,
 	Grid,
 	IconButton,
+	Link,
 	Radio,
 	RadioGroup,
 	Tooltip,
@@ -105,6 +106,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 				flexWrap: "nowrap",
 				gap: 2,
 			}}
+			data-testid="settings-menu"
 		>
 			<Grid container sx={{ width: "600px" }}>
 				<Grid container sx={{ display: "flex", alignItems: "center" }}>
@@ -348,7 +350,6 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 						sx={{
 							backgroundColor: theme.palette.text.secondary,
 							color: theme.palette.primary.dark,
-							// fontWeight: "bold",
 							paddingY: 0.5,
 							paddingX: 1,
 							borderRadius: "5px",
@@ -357,11 +358,11 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 							cursor: "pointer",
 						}}
 					>
-						my github
+						<Link href="https://github.com/samuelmanor">my github</Link>
 						<ArrowOutwardOutlined fontSize="small" />
 					</Typography>
 				</Grid>
-				<Grid container sx={{ flexDirection: "column", alignItems: "center", gap: 1 }}>
+				{/* <Grid container sx={{ flexDirection: "column", alignItems: "center", gap: 1 }}>
 					<Typography variant="h4" sx={{ textAlign: "center", width: "200px", p: 0 }}>
 						if you enjoy knitwise, please consider buying me a coffee:
 					</Typography>
@@ -381,7 +382,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 					>
 						ko.fi
 					</Typography>
-				</Grid>
+				</Grid> */}
 			</Grid>
 		</Grid>
 	);
