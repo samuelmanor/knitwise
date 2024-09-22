@@ -18,14 +18,14 @@ import { resetRows, changeSetting, resetProject } from "../../reducers/projectRe
 import { ArrowOutwardOutlined, SaveOutlined } from "@mui/icons-material";
 
 interface SettingsMenuProps {
-	closeSettingsMenu: () => void;
+	close: () => void;
 }
 
 /**
  * The menu that allows the user to change various settings for the project.
  * @param closeSettingsMenu A function to close the settings menu.
  */
-export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
+export const SettingsMenu: FC<SettingsMenuProps> = ({ close }) => {
 	const userSettings = useSelector((state: any) => state.project.settings);
 	const [showResetRowCountWarning, setShowResetRowCountWarning] = useState(false);
 	const [showResetProjectWarning, setShowResetProjectWarning] = useState(false);
@@ -35,16 +35,22 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 	const dispatch = useDispatch();
 	const theme = useTheme();
 
+	/**
+	 * Resets the row count for the project and closes the settings menu.
+	 */
 	const handleResetRowCount = () => {
 		dispatch(resetRows());
 		setShowResetRowCountWarning(false);
-		closeSettingsMenu();
+		close();
 	};
 
+	/**
+	 * Resets the project and closes the settings menu.
+	 */
 	const handleResetProject = () => {
 		dispatch(resetProject());
 		setShowResetProjectWarning(false);
-		closeSettingsMenu();
+		close();
 	};
 
 	/**
@@ -66,6 +72,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 				transform: "translate(-50%, -50%)",
 				backgroundColor: theme.palette.error.main,
 			}}
+			data-testid="reset-warning-dialog"
 		>
 			<Typography variant="h3">warning</Typography>
 			<Typography variant="h4">are you sure?</Typography>
@@ -115,7 +122,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 					</Typography>
 					<Tooltip title="save" placement="right">
 						<IconButton
-							onClick={closeSettingsMenu}
+							onClick={close}
 							sx={{
 								color: theme.palette.text.secondary,
 								ml: 2,
@@ -131,6 +138,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 						<Typography variant="h3">theme</Typography>
 						<FormControl disabled={disableSettings}>
 							<RadioGroup
+								name="theme"
 								row
 								onChange={e => dispatch(changeSetting({ setting: "theme", value: e.target.value }))}
 							>
@@ -261,6 +269,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 									}}
 								/>
 							}
+							disabled={disableSettings}
 							label="deleting a row"
 						/>
 						<FormControlLabel
@@ -282,6 +291,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 									}}
 								/>
 							}
+							disabled={disableSettings}
 							label="deleting a block"
 						/>
 					</Grid>
@@ -299,6 +309,7 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ closeSettingsMenu }) => {
 								}}
 								onClick={() => setShowResetRowCountWarning(true)}
 								disabled={showResetRowCountWarning || showResetProjectWarning}
+								data-testid="reset-row-count-btn"
 							>
 								reset row count
 							</Button>

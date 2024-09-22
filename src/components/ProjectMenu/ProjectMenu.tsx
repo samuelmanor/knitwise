@@ -180,7 +180,7 @@ export const ProjectMenu: FC<ProjectMenuProps> = () => {
 				</Tooltip>
 			</Grid>
 			<Drawer anchor="bottom" open={openSettings} onClose={() => setOpenSettings(false)}>
-				<SettingsMenu closeSettingsMenu={() => setOpenSettings(false)} />
+				<SettingsMenu close={() => setOpenSettings(false)} />
 			</Drawer>
 		</Grid>
 	);
