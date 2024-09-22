@@ -181,6 +181,7 @@ export const AddBlock: FC<SavedBlocksProps> = () => {
 									width: "40%",
 								}}
 								onClick={() => handleAddBlock(null)}
+								name="addEmptyBlock"
 							>
 								<Typography variant="h4">add empty block</Typography>
 							</Button>
@@ -222,6 +223,7 @@ export const AddBlock: FC<SavedBlocksProps> = () => {
 					<IconButton
 						sx={{ display: mode === "edit" ? "flex" : "none", color: theme.palette.text.secondary }}
 						onClick={e => handleClick(e)}
+						data-testid="addBlockButton"
 					>
 						<AddOutlined fontSize="large" />
 					</IconButton>

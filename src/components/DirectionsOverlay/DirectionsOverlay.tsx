@@ -6,7 +6,8 @@ import { useSelector } from "react-redux";
 interface DirectionsOverlayProps {
 	rowIndex: number;
 	blockIndex: number;
-	row: React.ReactNode;
+	// row: React.ReactNode;
+	children: React.ReactNode;
 }
 
 /**
@@ -15,7 +16,7 @@ interface DirectionsOverlayProps {
  * @param blockIndex The index of the block that the row is in.
  * @param row The row of stitches to be rendered.
  */
-export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockIndex, row }) => {
+export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockIndex, children }) => {
 	const project = useSelector((state: any) => state.project);
 	const blocksTotal = useSelector((state: any) => state.project.blocks.length);
 	const currentRow = useSelector((state: any) => state.project.currentProjectRow);
@@ -82,23 +83,11 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockI
 
 	return (
 		<Tooltip
-			data-testid={`directionsOverlay${rowIndex}`}
 			open={mode !== "none"}
 			placement="top"
 			disableFocusListener
 			disableHoverListener
 			disableTouchListener
-			describeChild={false}
-			title={
-				<Grid container>
-					<Grid item>
-						<Typography variant="h3">row {rowIndex + 1}</Typography>
-					</Grid>
-					<Grid item>
-						<Typography variant="h4">{getDirections()}</Typography>
-					</Grid>
-				</Grid>
-			}
 			componentsProps={{
 				tooltip: {
 					sx: {
@@ -126,8 +115,18 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockI
 					],
 				},
 			}}
+			title={
+				<Grid container>
+					<Grid item>
+						<Typography variant="h3">row {rowIndex + 1}</Typography>
+					</Grid>
+					<Grid item>
+						<Typography variant="h4">{getDirections()}</Typography>
+					</Grid>
+				</Grid>
+			}
 		>
-			<>
+			<span>
 				<Tooltip
 					title={rowMarkerLabel}
 					open={showLeftRowMarker || showRightRowMarker}
@@ -154,9 +153,9 @@ export const DirectionsOverlay: FC<DirectionsOverlayProps> = ({ rowIndex, blockI
 						},
 					}}
 				>
-					<Grid container>{row}</Grid>
+					<span>{children}</span>
 				</Tooltip>
-			</>
+			</span>
 		</Tooltip>
 	);
 };

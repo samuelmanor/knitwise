@@ -352,7 +352,12 @@ export const Row: FC<RowProps> = ({
 
 	// this row is being worked in the chart
 	if (mode === "chart" && highlightRow) {
-		return <DirectionsOverlay rowIndex={rowIndex} blockIndex={blockIndex} row={row} />;
+		// return <DirectionsOverlay rowIndex={rowIndex} blockIndex={blockIndex} row={row} />;
+		return (
+			<DirectionsOverlay rowIndex={rowIndex} blockIndex={blockIndex}>
+				{row}
+			</DirectionsOverlay>
+		);
 	}
 
 	// this row is being edited
