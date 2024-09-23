@@ -86,6 +86,7 @@ export const Warning: FC<WarningProps> = ({ text, setting, updateSetting, action
 								color: theme.palette.text.primary,
 							},
 						}}
+						data-testid="warning-checkbox"
 					/>
 					<Typography sx={{ fontSize: "0.8rem", ml: -0.5 }}>don't show this warning again</Typography>
 				</Grid>
