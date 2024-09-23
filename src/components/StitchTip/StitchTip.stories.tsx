@@ -1,40 +1,98 @@
 import { Meta, StoryObj } from "@storybook/react";
-
 import { expect } from "@storybook/jest";
-import { within } from "@storybook/testing-library";
-
+import { userEvent, within } from "@storybook/testing-library";
 import { StitchTip } from "./StitchTip";
+import { createTheme, ThemeProvider } from "@mui/material";
+import { lightTheme } from "../../theme";
+import store from "./../../reducers/store";
+import { Provider } from "react-redux";
+import { stitches } from "../../utils/stitches";
+import { usePreloadedState } from "../../reducers/store";
 
-// More on how to set up stories at: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 const meta: Meta<typeof StitchTip> = {
 	title: "StitchTip",
 	component: StitchTip,
 	parameters: {
-		// Optional parameter to center the component in the Canvas. More info: https://storybook.js.org/docs/react/configure/story-layout
 		layout: "centered",
 	},
-	// This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/react/writing-docs/autodocs
 	tags: ["autodocs"],
-	// More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-	argTypes: {
-		// backgroundColor: { control: 'color' },
-	},
+	decorators: [
+		Story => (
+			<ThemeProvider theme={createTheme(lightTheme)}>
+				<Provider store={store}>
+					<Story />
+				</Provider>
+			</ThemeProvider>
+		),
+	],
 };
 
 export default meta;
 type Story = StoryObj<typeof StitchTip>;
 
-// More on writing stories with args: https://storybook.js.org/docs/react/writing-stories/args
-export const Primary: Story = {
-	play: async ({ canvasElement }) => {
+export const onHover: Story = {
+	play: async ({ canvasElement, step }) => {
 		const canvas = within(canvasElement);
-		const element = canvas.getByText(/StitchTip/i);
-		expect(element).toBeTruthy();
+
+		await step("appears when hovering over stitch", async () => {
+			const stitch = canvas.getByText("\\*");
+			expect(stitch).toBeTruthy();
+
+			await userEvent.hover(stitch);
+
+			const tip = canvas.getByTestId("stitch-tip");
+			expect(tip).toBeTruthy();
+
+			await userEvent.unhover(stitch);
+
+			expect(tip).not.toBeInTheDocument();
+		});
 	},
 	args: {
-		// label: 'StitchTip',
-		name: "test name",
-		description: "test description",
-		children: <div>test</div>,
+		name: stitches._1x1lpc.name,
+		description: stitches._1x1lpc.description,
+		children: <>\*</>,
 	},
+};
+
+export const onClick: Story = {
+	play: async ({ canvasElement, step }) => {
+		const canvas = within(canvasElement);
+
+		await step("appears when clicking on stitch", async () => {
+			const stitch = canvas.getByText("\\*");
+			expect(stitch).toBeTruthy();
+
+			await userEvent.click(stitch);
+
+			const tip = canvas.getByTestId("stitch-tip");
+			expect(tip).toBeTruthy();
+
+			await userEvent.unhover(stitch);
+
+			expect(tip).not.toBeInTheDocument();
+		});
+	},
+	args: {
+		name: stitches._1x1lpc.name,
+		description: stitches._1x1lpc.description,
+		children: <>\*</>,
+	},
+	decorators: [
+		Story => (
+			<ThemeProvider theme={createTheme(lightTheme)}>
+				<Provider
+					store={usePreloadedState({
+						project: {
+							settings: {
+								stitchTipMode: "click",
+							},
+						},
+					})}
+				>
+					<Story />
+				</Provider>
+			</ThemeProvider>
+		),
+	],
 };

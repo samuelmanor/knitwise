@@ -63,7 +63,7 @@ export const StitchTip: FC<StitchTipProps> = ({ children, name, description, dis
 				},
 			}}
 			PopperProps={{ style: { zIndex: 1 } }}
-			data-testid={`stitchTip-${name}`}
+			data-testid="stitch-tip"
 		>
 			<Grid container onClick={() => (stitchTipMode === "click" ? setOpen(!open) : null)}>
 				{children}
