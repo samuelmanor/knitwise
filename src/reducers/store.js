@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import projectReducer from "./projectReducer";
-import workspaceReducer from "./workspaceReducer";
+// import workspaceReducer from "./workspaceReducer";
 
 const testConfigureStore = configureStore({
 	reducer: {
@@ -21,23 +21,3 @@ export const usePreloadedState = preloadedState => {
 };
 
 export default testConfigureStore;
-
-// decorators: [
-// 	Story => (
-// 		<Provider
-// 			store={usePreloadedState({
-// 				workspace: {
-// 					mode: "chart",
-// 					settings: {
-// 						theme: "light",
-// 						stitchDisplay: "symbol",
-// 						stitchTipMode: "hover",
-// 						directionsOverlayMode: "simple",
-// 					},
-// 				},
-// 			})}
-// 		>
-// 			<Story />
-// 		</Provider>
-// 	),
-// ],

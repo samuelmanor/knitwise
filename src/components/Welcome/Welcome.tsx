@@ -1,5 +1,5 @@
-import { Button, Grid, Typography, useTheme } from "@mui/material";
-import { FC } from "react";
+import { Grid, Typography, useTheme } from "@mui/material";
+import { FC, useEffect } from "react";
 import { initializeProject } from "../../reducers/projectReducer";
 import { useDispatch } from "react-redux";
 import { testProject } from "../../utils/testProject";
@@ -13,6 +13,9 @@ export const Welcome: FC<WelcomeProps> = () => {
 	const theme = useTheme();
 	const dispatch = useDispatch();
 
+	/**
+	 * Starts the tutorial.
+	 */
 	const startTutorial = () => {
 		dispatch(
 			initializeProject({
@@ -21,6 +24,29 @@ export const Welcome: FC<WelcomeProps> = () => {
 			}),
 		);
 	};
+
+	/**
+	 * On file upload, reads the project file and initializes the project with it.
+	 */
+	useEffect(() => {
+		const input = document.getElementById("project-file-upload") as HTMLInputElement;
+		input.addEventListener("change", e => {
+			// read the file
+			const reader = new FileReader();
+			reader.onload = function (e) {
+				// turn the file into a JSON object
+				const project = JSON.parse(e.target.result as string);
+
+				dispatch(
+					initializeProject({
+						...project,
+						settings: { ...project.settings, showWelcome: false, showTutorial: false },
+					}),
+				);
+			};
+			reader.readAsText((e.target as HTMLInputElement).files[0]);
+		});
+	}, []);
 
 	return (
 		<Grid
@@ -63,21 +89,28 @@ export const Welcome: FC<WelcomeProps> = () => {
 						already have a project file? <br />
 						continue where you left off
 					</Typography>
-					<Button
-						sx={{
-							"backgroundColor": theme.palette.text.secondary,
-							"color": theme.palette.primary.main,
-							"border": "2px solid transparent",
-							"fontSize": "1rem",
-							"&:hover": {
-								backgroundColor: theme.palette.primary.main,
-								color: theme.palette.text.secondary,
-								border: `2px solid ${theme.palette.text.secondary}`,
-							},
-						}}
-					>
-						upload project
-					</Button>
+					<label htmlFor="project-file-upload">
+						<Typography
+							sx={{
+								"p": 1,
+								"cursor": "pointer",
+								"backgroundColor": theme.palette.text.secondary,
+								"color": theme.palette.primary.main,
+								"border": "2px solid transparent",
+								"borderRadius": "5px",
+								"fontSize": "1rem",
+								"fontWeight": "bold",
+								"&:hover": {
+									backgroundColor: theme.palette.primary.main,
+									color: theme.palette.text.secondary,
+									border: `2px solid ${theme.palette.text.secondary}`,
+								},
+							}}
+						>
+							upload project
+						</Typography>
+					</label>
+					<input type="file" style={{ display: "none" }} id="project-file-upload" accept=".json" />
 				</Grid>
 				<Grid item sx={{ display: "flex", alignItems: "center" }}>
 					<Typography sx={{ color: theme.palette.text.secondary, fontSize: "1rem" }} variant="h4">
@@ -106,22 +139,26 @@ export const Welcome: FC<WelcomeProps> = () => {
 						new to knitwise? <br />
 						learn how to use it
 					</Typography>
-					<Button
+					<Typography
+						onClick={startTutorial}
 						sx={{
+							"p": 1,
+							"cursor": "pointer",
 							"backgroundColor": theme.palette.text.secondary,
 							"color": theme.palette.primary.main,
 							"border": "2px solid transparent",
+							"borderRadius": "5px",
 							"fontSize": "1rem",
+							"fontWeight": "bold",
 							"&:hover": {
 								backgroundColor: theme.palette.primary.main,
 								color: theme.palette.text.secondary,
 								border: `2px solid ${theme.palette.text.secondary}`,
 							},
 						}}
-						onClick={startTutorial}
 					>
 						start tutorial
-					</Button>
+					</Typography>
 				</Grid>
 			</Grid>
 		</Grid>

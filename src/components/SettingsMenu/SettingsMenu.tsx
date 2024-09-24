@@ -15,7 +15,7 @@ import {
 import { FC, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { resetRows, changeSetting, resetProject } from "../../reducers/projectReducer";
-import { ArrowOutwardOutlined, SaveOutlined } from "@mui/icons-material";
+import { ArrowOutwardOutlined, FileDownloadOutlined, SaveOutlined } from "@mui/icons-material";
 
 interface SettingsMenuProps {
 	close: () => void;
@@ -26,6 +26,7 @@ interface SettingsMenuProps {
  * @param closeSettingsMenu A function to close the settings menu.
  */
 export const SettingsMenu: FC<SettingsMenuProps> = ({ close }) => {
+	const project = useSelector((state: any) => state.project);
 	const userSettings = useSelector((state: any) => state.project.settings);
 	const [showResetRowCountWarning, setShowResetRowCountWarning] = useState(false);
 	const [showResetProjectWarning, setShowResetProjectWarning] = useState(false);
@@ -51,6 +52,15 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ close }) => {
 		dispatch(resetProject());
 		setShowResetProjectWarning(false);
 		close();
+	};
+
+	const downloadProject = () => {
+		const element = document.createElement("a");
+		const file = new Blob([JSON.stringify(project)], { type: "text/plain" });
+		element.href = URL.createObjectURL(file);
+		element.download = "knitwise-project.json";
+		document.body.appendChild(element); // Required for this to work in FireFox
+		element.click();
 	};
 
 	/**
@@ -116,11 +126,31 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ close }) => {
 			data-testid="settings-menu"
 		>
 			<Grid container sx={{ width: "600px" }}>
-				<Grid container sx={{ display: "flex", alignItems: "center" }}>
-					<Typography variant="h2" sx={{ mb: 1 }}>
+				<Grid container sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+					<Typography variant="h2" sx={{ mb: 1, mr: 3 }}>
 						settings
 					</Typography>
-					<Tooltip title="save" placement="right">
+					<Tooltip
+						title="save"
+						placement="bottom"
+						componentsProps={{
+							tooltip: {
+								sx: {
+									color: theme.palette.text.secondary,
+								},
+							},
+						}}
+						PopperProps={{
+							modifiers: [
+								{
+									name: "offset",
+									options: {
+										offset: [0, -10],
+									},
+								},
+							],
+						}}
+					>
 						<IconButton
 							onClick={close}
 							sx={{
@@ -131,6 +161,9 @@ export const SettingsMenu: FC<SettingsMenuProps> = ({ close }) => {
 							<SaveOutlined fontSize="large" />
 						</IconButton>
 					</Tooltip>
+					<IconButton onClick={downloadProject}>
+						<FileDownloadOutlined fontSize="large" />
+					</IconButton>
 				</Grid>
 				{disableSettings ? resetWarning : null}
 				<Grid container flexDirection={"column"} paddingLeft="20px">
